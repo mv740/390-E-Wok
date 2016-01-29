@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Musée des Ondes Emile Berliner</string>
+    <string name="welcome_message">Welcome to the virtual guide for the Musée des Ondes Emile Berliner.</string>
+</resources>

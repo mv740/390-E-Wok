@@ -1,0 +1,90 @@
+{
+  "node": [
+    {
+      "type": "PointOfInterest",
+      "id": 1,
+      "iBeacon_id": 12345,
+      "name": "testName",
+      "description": "test description",
+      "video": "video/test",
+      "audio": "audio/test",
+      "picture": "picture/test",
+      "floor": 1,
+      "room": 210,
+      "tags": [
+        "testTags1",
+        "testTags2",
+        "testTags3"
+      ],
+      "coordinate": {
+        "x": 20,
+        "y": 40
+      },
+      "edge": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "type": "PointOfInterest",
+      "id": 1,
+      "iBeacon_id": 12345,
+      "name": "testName",
+      "description": "test description",
+      "video": "video/test",
+      "audio": "audio/test",
+      "picture": "picture/test",
+      "floor": 1,
+      "room": 210,
+      "tags": [
+        "testTags1",
+        "testTags2",
+        "testTags3"
+      ],
+      "coordinate": {
+        "x": 20,
+        "y": 40
+      },
+      "edge": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "type": "Node",
+      "id": 1,
+      "floor": 1,
+      "coordinate": {
+        "x": 20,
+        "y": 40
+      },
+      "edge": [
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "edge": [
+    {
+      "id": 1,
+      "weight": 10,
+      "node": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    }
+  ],
+  "storyline": [
+    {
+      "name" : "StoryTest",
+      "description" : "descripion 12345456",
+      "ids": [1,2,3,10]
+    }
+  ]
+}

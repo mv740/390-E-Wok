@@ -4,4 +4,7 @@
     <string name="free_exploration">Free Exploration</string>
     <string name="storyline">Storyline</string>
     <string name="settings">Settings</string>
+    <string name="language_title">Language</string>
+    <string name="english_radio">English</string>
+    <string name="french_radio">French</string>
 </resources>

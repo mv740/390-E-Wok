@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Musée des Ondes Emile Berliner</string>
     <string name="welcome_message">Bienvenue sur le guide virtuel pour le Musée des Ondes Emile Berliner.</string>
+    <string name="free_exploration">Exploration libre</string>
+    <string name="storyline">Scénario</string>
+    <string name="settings">Paramètres</string>
 </resources>

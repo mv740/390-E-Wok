@@ -24,7 +24,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Free Exploration"
+        android:text="@string/free_exploration"
         android:id="@+id/button"
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
@@ -33,7 +33,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Storyline"
+        android:text="@string/storyline"
         android:id="@+id/button2"
         android:layout_below="@+id/button"
         android:layout_centerHorizontal="true" />
@@ -41,7 +41,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Settings"
+        android:text="@string/settings"
         android:id="@+id/button3"
         android:layout_below="@+id/button2"
         android:layout_centerHorizontal="true" />

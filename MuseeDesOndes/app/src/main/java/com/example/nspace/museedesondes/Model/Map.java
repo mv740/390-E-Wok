@@ -5,8 +5,6 @@ import android.app.Activity;
 import com.example.nspace.museedesondes.Utility.JsonHelper;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 

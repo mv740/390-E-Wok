@@ -42,6 +42,8 @@ public class Settings extends AppCompatActivity {
                                 break;
                         }
 
+                        Intent startLauncher = new Intent(Settings.this, MainActivity.class);
+                        startActivity(startLauncher);
                     }
                 }
         );
@@ -53,7 +55,6 @@ public class Settings extends AppCompatActivity {
         Configuration conf = res.getConfiguration();
         conf.locale = myLocale;
         res.updateConfiguration(conf, dm);
-        recreate();
     }
 
 }

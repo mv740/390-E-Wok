@@ -60,6 +60,15 @@ public class PointOfInterest extends Node {
     }
 
     public String getDescription() {
+
+//        Locale currentLocale = getResources().getConfiguration().locale;
+//        String currentLanguage = currentLocale.getLanguage();
+//        if(currentLanguage.equals("en_US")) {
+//            return englishDescription;
+//        } else if (currentLanguage.equals("fr")) {
+//            return frenchDescription;
+//        }
+
         return description;
     }
 

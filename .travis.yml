@@ -30,3 +30,6 @@ script:
   - android list target
   # now run the tests
   - ./gradlew connectedCheck
+  
+notifications:
+  slack: concordiasoen:c16eHobtMSKrpgLOKCYM9pUY

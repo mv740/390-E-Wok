@@ -1,6 +1,5 @@
 package com.example.nspace.museedesondes;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -9,6 +8,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioGroup;
 
 import java.util.Locale;
 
@@ -25,30 +25,26 @@ public class Settings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        final RadioGroup language_radios = (RadioGroup) findViewById(R.id.language_radios);
+        final Button ok_button = (Button) findViewById(R.id.ok_button);
 
-
-        //set english language
-        final Button english_button = (Button) findViewById(R.id.english_button);
-        english_button.setOnClickListener(
+        //set english or french language
+        ok_button.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View view) {
-                        setLocale("en_US");
+                        int languageID = language_radios.getCheckedRadioButtonId();
+                        switch(languageID) {
+                            case R.id.english_button :
+                                setLocale("en_US");
+                                break;
+                            case R.id.french_button:
+                                setLocale("fr");
+                                break;
+                        }
+
                     }
                 }
         );
-
-
-        //set french language
-        final Button french_button = (Button) findViewById(R.id.french_button);
-        french_button.setOnClickListener(
-                new Button.OnClickListener() {
-                    public void onClick(View view) {
-                        setLocale("fr");
-                    }
-                }
-        );
-
-
     }
     public void setLocale(String lang) {
         myLocale = new Locale(lang);
@@ -57,9 +53,7 @@ public class Settings extends AppCompatActivity {
         Configuration conf = res.getConfiguration();
         conf.locale = myLocale;
         res.updateConfiguration(conf, dm);
-        Intent refresh = new Intent(this, Settings.class);
-        startActivity(refresh);
-        finish();
+        recreate();
     }
 
 }

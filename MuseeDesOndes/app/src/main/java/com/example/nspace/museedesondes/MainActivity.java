@@ -38,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        Locale current = getResources().getConfiguration().locale;
-        if(!currentLanguage.equals(current.getLanguage())) {
+        Locale currentLocale = getResources().getConfiguration().locale;
+        if(!currentLanguage.equals(currentLocale.getLanguage())) {
             recreate();
         };
     }

@@ -12,7 +12,7 @@
     <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/radioGroup"
+        android:id="@+id/language_radios"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="24dp">
@@ -23,7 +23,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/language_title"
             android:id="@+id/textView2"
-            android:layout_above="@+id/radioGroup"
+            android:layout_above="@+id/language_radios"
             android:layout_alignParentStart="true" />
 
         <RadioButton
@@ -39,6 +39,13 @@
             android:layout_height="wrap_content"
             android:text="@string/french_radio"
             android:id="@+id/french_button" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="70dp"
+            android:layout_height="36dp"
+            android:text="@string/ok_button"
+            android:id="@+id/ok_button" />
 
     </RadioGroup>
 

@@ -1,7 +1,6 @@
 package com.example.nspace.museedesondes.Utility;
 
 import android.app.Activity;
-
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -26,5 +25,4 @@ public class JsonHelper {
         }
         return json;
     }
-
 }

@@ -17,16 +17,14 @@ public class Node {
     private int id;
     private int floor;
     private ArrayList edge;
-    private int coordinate_X;
-    private int coordinate_Y;
+    private Coordinate coordinate;
 
-    public Node(@JsonProperty("id") int id, @JsonProperty("floor")int floor, @JsonProperty("edge") ArrayList edge, @JsonProperty("coordinate.x") int coordinate_X, @JsonProperty("coordinate.y")int coordinate_Y) {
+    public Node(@JsonProperty("id") int id, @JsonProperty("floor")int floor, @JsonProperty("edge") ArrayList edge, @JsonProperty("coordinate") Coordinate coordinate) {
 
         this.id = id;
         this.floor = floor;
         this.edge = edge;
-        this.coordinate_X = coordinate_X;
-        this.coordinate_Y = coordinate_Y;
+        this.coordinate = coordinate;
     }
 
     public int getId() {
@@ -41,12 +39,8 @@ public class Node {
         return edge;
     }
 
-    public int getCoordinate_X() {
-        return coordinate_X;
-    }
-
-    public int getCoordinate_Y() {
-        return coordinate_Y;
+    public Coordinate getCoordinate() {
+        return coordinate;
     }
 
     @Override
@@ -55,8 +49,7 @@ public class Node {
                 "id=" + id +
                 ", floor=" + floor +
                 ", edge=" + edge +
-                ", coordinate_X=" + coordinate_X +
-                ", coordinate_Y=" + coordinate_Y +
+                ", coordinate=" + coordinate +
                 '}';
     }
 }

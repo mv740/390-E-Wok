@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by michal on 1/30/2016.
@@ -36,11 +37,19 @@ public class MapTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
 
     public void testGetNodes() throws Exception {
-
         Map map = Map.getInstance(activity);
         assertNotNull("error map is null", map);
         assertFalse("error : map is containing zero nodes", map.getNodes().isEmpty());
+    }
 
+    public void testGetPointOfInterests() throws Exception {
+        Map map = Map.getInstance(activity);
+        assertNotNull("error map is null", map);
+        assertFalse("error : map is containing zero nodes", map.getNodes().isEmpty());
+        if(!Map.getInstance(activity).getPointOfInterest().isEmpty())
+        {
+            assertEquals(PointOfInterest.class,map.getPointOfInterest().get(0).getClass());
+        }
     }
 
     public void testGetEdges() throws Exception {

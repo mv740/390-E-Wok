@@ -3,37 +3,51 @@
     {
       "type": "PointOfInterest",
       "id": 1,
-      "iBeacon_id": 12345,
-      "name": "testName",
-      "description": "test description",
-      "video": "video/test",
-      "audio": "audio/test",
-      "picture": "picture/test",
-      "floor": 1,
-      "room": 210,
-      "tags": [
-        "testTags1",
-        "testTags2",
-        "testTags3"
-      ],
-      "coordinate": {
-        "x": 20,
-        "y": 40
+      "iBeacon": {
+        "beacon_uuid": "test_uuid",
+        "beacon_major": 1111,
+        "beacon_minor": 2222
       },
-      "edge": [
-        1,
-        2,
-        3
-      ]
-    },
-    {
-      "type": "PointOfInterest",
-      "id": 1,
-      "iBeacon_id": 12345,
-      "name": "testName",
-      "description": "test description",
-      "video": "video/test",
-      "audio": "audio/test",
+      "name": [
+        {
+          "language": "FR",
+          "data": "mon nom"
+        },
+        {
+          "language": "EN",
+          "data": "my name"
+        }
+      ],
+      "description": [
+        {
+          "language": "FR",
+          "data": "Veuillez lire cette description"
+        },
+        {
+          "language": "EN",
+          "data": "Please read this description"
+        }
+      ],
+      "video": [
+        {
+          "language": "FR",
+          "data": "video/FR/test.mp4"
+        },
+        {
+          "language": "EN",
+          "data": "video/EN/test.mp4"
+        }
+      ],
+      "audio": [
+        {
+          "language": "FR",
+          "data": "audio/FR/test.mp4"
+        },
+        {
+          "language": "EN",
+          "data": "audio/EN/test.mp4"
+        }
+      ],
       "picture": "picture/test",
       "floor": 1,
       "room": 210,
@@ -43,8 +57,8 @@
         "testTags3"
       ],
       "coordinate": {
-        "x": 20,
-        "y": 40
+        "x": 20.0,
+        "y": 40.0
       },
       "edge": [
         1,
@@ -82,9 +96,33 @@
   ],
   "storyline": [
     {
-      "name" : "StoryTest",
-      "description" : "descripion 12345456",
-      "ids": [1,2,3,10]
+      "id": 12,
+      "name": [
+        {
+          "language": "FR",
+          "data": "histoire test"
+        },
+        {
+          "language": "EN",
+          "data": "Storyline test"
+        }
+      ],
+      "description": [
+        {
+          "language": "FR",
+          "data": "Veuillez lire cette hitoire"
+        },
+        {
+          "language": "EN",
+          "data": "Please read this storyline"
+        }
+      ],
+      "nodeIds": [
+        1,
+        2,
+        3,
+        10
+      ]
     }
   ]
 }

@@ -52,6 +52,13 @@ public class MapTest extends ActivityInstrumentationTestCase2<MainActivity> {
         }
     }
 
+    public void testSearchNodeById() throws Exception {
+        Map map = Map.getInstance(activity);
+        assertNotNull("error map is null", map);
+        assertFalse("error : map is containing zero nodes", map.getNodes().isEmpty());
+        assertEquals(1,map.searchNodeById(1).getId());
+    }
+
     public void testGetEdges() throws Exception {
         Map map = Map.getInstance(activity);
         assertNotNull("error map is null", map);

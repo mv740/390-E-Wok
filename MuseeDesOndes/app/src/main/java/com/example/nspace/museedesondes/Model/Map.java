@@ -5,7 +5,6 @@ import android.app.Activity;
 import com.example.nspace.museedesondes.Utility.JsonHelper;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -16,9 +15,7 @@ public class Map {
     private ArrayList<Node> nodes;
     private ArrayList<Edge> edges;
     private ArrayList<Storyline> storylines;
-
     private ArrayList<PointOfInterest> pointOfInterests;
-
 
     private static Map instance = null;
 
@@ -65,6 +62,48 @@ public class Map {
             }
         }
     }
+
+    public PointOfInterest searchPoiById(int id)
+    {
+        for(PointOfInterest poi : pointOfInterests)
+        {
+            if(poi.getId() == id)
+            {
+                return poi;
+            }
+        }
+        return null;
+    }
+
+    public Node searchNodeById(int id){
+
+        for(Node node : nodes)
+        {
+            if(node.getId() == id)
+            {
+                return node;
+            }
+        }
+        return  null;
+    }
+
+    public Edge searchEdgeById(int id){
+
+        for(Edge edge : edges)
+        {
+            if(edge.getId() == id)
+            {
+                return edge;
+            }
+        }
+        return  null;
+    }
+
+    public ArrayList getEdgesOfNodeById(int id)
+    {
+        return searchNodeById(id).getEdge();
+    }
+
 
     public ArrayList<PointOfInterest> getPointOfInterest() {
         return pointOfInterests;

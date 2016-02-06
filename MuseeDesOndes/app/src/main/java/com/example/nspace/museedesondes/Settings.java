@@ -9,15 +9,13 @@ import android.widget.RadioGroup;
 
 import com.example.nspace.museedesondes.Model.Preferences;
 
-import java.util.Locale;
+
 
 public class Settings extends AppCompatActivity {
 
     /**
      * Created by sebastian on 2/02/2016.
      */
-
-    Locale myLocale;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +40,13 @@ public class Settings extends AppCompatActivity {
                                 langSelected = "fr";
                                 break;
                         }
-                        
-                        Preferences.setLocale(langSelected);
-                        Preferences.savePreferences(langSelected);
+
+                        //skip if no radio buttons were selected
+                        if(languageID != -1) {
+                            Preferences.setLocale(langSelected);
+                            Preferences.savePreferences(langSelected);
+                        }
+
                         Intent startLauncher = new Intent(Settings.this, MainActivity.class);
                         startActivity(startLauncher);
                     }

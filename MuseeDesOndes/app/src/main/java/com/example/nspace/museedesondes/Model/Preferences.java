@@ -1,14 +1,10 @@
 package com.example.nspace.museedesondes.Model;
 
-import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
-
-import com.example.nspace.museedesondes.MainActivity;
 
 import java.util.Locale;
 
@@ -17,8 +13,10 @@ import java.util.Locale;
  */
 public class Preferences {
 
+    public final static String DEFAULT_LANG = "en_US";
+
     public static Context appContext;
-    public static String appLanguage;
+    public static String savedLang;
 
     public static void setAppContext(Context context) {
        appContext = context;
@@ -27,7 +25,7 @@ public class Preferences {
     public static void savePreferences(String appLanguage) {
         SharedPreferences sharedPrefs = appContext.getApplicationContext().getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPrefs.edit();
-        editor.putString("appLanguage", appLanguage);
+        editor.putString("savedLang", appLanguage);
         editor.commit();
     }
 
@@ -40,8 +38,18 @@ public class Preferences {
         res.updateConfiguration(conf, dm);
     }
 
-    public static void loadLanguagePreferences() {
-        SharedPreferences sharedPrefs = appContext.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        appLanguage = sharedPrefs.getString("appLanguage", appLanguage);
+    public static void loadLanguagePreference() {
+
+        //load saved language preference
+        SharedPreferences sharedPrefs = appContext.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        savedLang = sharedPrefs.getString("savedLang", DEFAULT_LANG);
+
+        //verify saved preference matches current language
+        Locale currentLocale = appContext.getResources().getConfiguration().locale;
+        String currentLanguage = currentLocale.getLanguage();
+
+        if(!currentLanguage.equals(savedLang)) {
+            setLocale(savedLang);
+        }
     }
 }

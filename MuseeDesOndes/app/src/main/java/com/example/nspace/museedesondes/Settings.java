@@ -42,9 +42,9 @@ public class Settings extends AppCompatActivity {
                                 langSelected = "fr";
                                 break;
                         }
-
+                        
                         Preferences.setLocale(langSelected);
-                        //Preferences.savePreferences(langSelected);
+                        Preferences.savePreferences(langSelected);
                         Intent startLauncher = new Intent(Settings.this, MainActivity.class);
                         startActivity(startLauncher);
                     }

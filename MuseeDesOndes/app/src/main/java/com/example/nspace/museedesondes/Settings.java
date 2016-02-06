@@ -1,14 +1,13 @@
 package com.example.nspace.museedesondes;
 
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioGroup;
+
+import com.example.nspace.museedesondes.Model.Preferences;
 
 import java.util.Locale;
 
@@ -33,28 +32,23 @@ public class Settings extends AppCompatActivity {
                 new Button.OnClickListener() {
                     public void onClick(View view) {
                         int languageID = language_radios.getCheckedRadioButtonId();
+                        String langSelected = null;
+
                         switch(languageID) {
                             case R.id.english_button :
-                                setLocale("en_US");
+                                langSelected = "en_US";
                                 break;
                             case R.id.french_button:
-                                setLocale("fr");
+                                langSelected = "fr";
                                 break;
                         }
 
+                        Preferences.setLocale(langSelected);
+                        //Preferences.savePreferences(langSelected);
                         Intent startLauncher = new Intent(Settings.this, MainActivity.class);
                         startActivity(startLauncher);
                     }
                 }
         );
     }
-    public void setLocale(String lang) {
-        myLocale = new Locale(lang);
-        Resources res = getResources();
-        DisplayMetrics dm = res.getDisplayMetrics();
-        Configuration conf = res.getConfiguration();
-        conf.locale = myLocale;
-        res.updateConfiguration(conf, dm);
-    }
-
 }

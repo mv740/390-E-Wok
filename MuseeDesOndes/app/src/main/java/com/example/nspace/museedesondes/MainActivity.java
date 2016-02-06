@@ -40,6 +40,17 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
+
+
+        final Button exploration_button = (Button) findViewById(R.id.exploration_button);
+        exploration_button.setOnClickListener(
+                new Button.OnClickListener(){
+                    public void onClick(View v){
+                        Intent  startMap = new Intent(MainActivity.this, MapActivity.class);
+                        startActivity(startMap);
+                    }
+                }
+        );
     }
 
 

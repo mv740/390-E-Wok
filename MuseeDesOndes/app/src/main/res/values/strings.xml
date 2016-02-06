@@ -8,4 +8,5 @@
     <string name="english_radio">English</string>
     <string name="french_radio">French</string>
     <string name="ok_button">OK</string>
+    <string name="title_activity_map">Map</string>
 </resources>

@@ -11,7 +11,8 @@ import java.util.ArrayList;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
-        @JsonSubTypes.Type(value=PointOfInterest.class, name="PointOfInterest")
+        @JsonSubTypes.Type(value=PointOfInterest.class, name="PointOfInterest"),
+        @JsonSubTypes.Type(value=BuildingPoint.class, name="BuildingPoint")
 })
 public class Node {
     private int id;
@@ -41,15 +42,5 @@ public class Node {
 
     public Coordinate getCoordinate() {
         return coordinate;
-    }
-
-    @Override
-    public String toString() {
-        return "Node{" +
-                "id=" + id +
-                ", floor=" + floor +
-                ", edge=" + edge +
-                ", coordinate=" + coordinate +
-                '}';
     }
 }

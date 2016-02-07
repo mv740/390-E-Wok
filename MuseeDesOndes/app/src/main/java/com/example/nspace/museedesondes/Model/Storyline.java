@@ -19,6 +19,8 @@ public class Storyline {
         this.name = name;
         this.description = description;
         IdList = idList;
+
+
     }
 
     public int getId() {
@@ -35,14 +37,5 @@ public class Storyline {
 
     public ArrayList getIdList() {
         return IdList;
-    }
-
-    @Override
-    public String toString() {
-        return "Storyline{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", IdList=" + IdList +
-                '}';
     }
 }

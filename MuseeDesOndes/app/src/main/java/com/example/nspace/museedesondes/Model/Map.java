@@ -1,6 +1,7 @@
 package com.example.nspace.museedesondes.Model;
 
 import android.app.Activity;
+import android.content.Context;
 
 import com.example.nspace.museedesondes.Utility.JsonHelper;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -31,7 +32,7 @@ public class Map {
         this.pointOfInterests = new ArrayList<>();
     }
 
-    public static Map getInstance(Activity activity) {
+    public static Map getInstance(Context activity) {
         if (instance == null) {
             String mapSource = JsonHelper.loadJSON("map.json", activity);
             System.out.println(mapSource);

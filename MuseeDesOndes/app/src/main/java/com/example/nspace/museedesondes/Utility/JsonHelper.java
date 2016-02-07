@@ -1,6 +1,8 @@
 package com.example.nspace.museedesondes.Utility;
 
 import android.app.Activity;
+import android.content.Context;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -9,7 +11,7 @@ import java.io.InputStream;
  */
 public class JsonHelper {
 
-    public static String loadJSON(String filename, Activity activity) {
+    public static String loadJSON(String filename, Context activity) {
         String json = null;
         try {
 

@@ -10,21 +10,21 @@
       },
       "name": [
         {
-          "language": "FR",
+          "language": "fr",
           "data": "mon nom"
         },
         {
-          "language": "EN",
+          "language": "en_us",
           "data": "my name"
         }
       ],
       "description": [
         {
-          "language": "FR",
+          "language": "fr",
           "data": "Veuillez lire cette description"
         },
         {
-          "language": "EN",
+          "language": "en_us",
           "data": "Please read this description"
         }
       ],
@@ -57,8 +57,8 @@
         "testTags3"
       ],
       "coordinate": {
-        "x": 20.0,
-        "y": 40.0
+        "x": 0.001,
+        "y": 0.0
       },
       "edge": [
         1,

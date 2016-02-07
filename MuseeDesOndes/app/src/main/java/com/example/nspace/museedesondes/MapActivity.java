@@ -74,7 +74,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
 
         //// TODO: 2/7/2016 refactor this in a proper fuction
-        PointOfInterest pointOfInterest = information.getPointOfInterest().get(0);
+        PointOfInterest pointOfInterest = information.getPointOfInterests().get(0);
 
         String title = "error";
         String snippet = "error";

@@ -23,12 +23,8 @@ public class Language {
         return language;
     }
 
-
-    @Override
-    public String toString() {
-        return "Language{" +
-                "language='" + language + '\'' +
-                ", data='" + data + '\'' +
-                '}';
+    public String getData() {
+        return data;
     }
+
 }

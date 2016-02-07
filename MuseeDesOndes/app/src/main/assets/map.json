@@ -79,6 +79,21 @@
         2,
         3
       ]
+    },
+    {
+      "type": "BuildingPoint",
+      "locationType": "ENTRANCE",
+      "id": 3,
+      "floor": 2,
+      "coordinate": {
+        "x": 20.0,
+        "y": 40.5
+      },
+      "edge": [
+        1,
+        2,
+        3
+      ]
     }
   ],
   "edge": [

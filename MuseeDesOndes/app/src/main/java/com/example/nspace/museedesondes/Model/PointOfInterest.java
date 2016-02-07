@@ -85,19 +85,4 @@ public class PointOfInterest extends Node {
     public ArrayList<String> getTags() {
         return tags;
     }
-
-
-    @Override
-    public String toString() {
-        return "PointOfInterest{" +
-                "ibeacon=" + ibeacon +
-                ", name=" + name +
-                ", description=" + description +
-                ", video='" + video + '\'' +
-                ", audio='" + audio + '\'' +
-                ", picture='" + picture + '\'' +
-                ", room='" + room + '\'' +
-                ", tags=" + tags +
-                '}';
-    }
 }

@@ -24,18 +24,9 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/free_exploration"
-        android:id="@+id/exploration_button"
+        android:text="@string/begin_tour_button_text"
+        android:id="@+id/begin_tour_button"
         android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/storyline"
-        android:id="@+id/storyline_button"
-        android:layout_below="@+id/exploration_button"
         android:layout_centerHorizontal="true" />
 
     <Button
@@ -43,8 +34,8 @@
         android:layout_height="wrap_content"
         android:text="@string/settings"
         android:id="@+id/settings_button"
-        android:layout_below="@+id/storyline_button"
-        android:layout_centerHorizontal="true" />
+        android:layout_above="@+id/button4"
+        android:layout_alignEnd="@+id/begin_tour_button" />
 
 
     <ImageView
@@ -61,8 +52,9 @@
         android:layout_height="wrap_content"
         android:text="Beacon Test"
         android:id="@+id/button4"
-        android:layout_below="@+id/settings_button"
-        android:layout_centerHorizontal="true" /><![CDATA[
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/begin_tour_button"
+        android:layout_marginBottom="27dp" /><![CDATA[
 
     EditText
         android:layout_width="wrap_content"

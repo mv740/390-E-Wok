@@ -2,10 +2,11 @@
     <string name="app_name">Musée des Ondes Emile Berliner</string>
     <string name="welcome_message">Bienvenue sur le guide virtuel pour le Musée des Ondes Emile Berliner.</string>
     <string name="free_exploration">Exploration libre</string>
-    <string name="storyline">Scénario</string>
     <string name="settings">Préférence</string>
     <string name="language_title">Langue</string>
     <string name="french_radio">Français</string>
     <string name="english_radio">Anglais</string>
     <string name="ok_button">OK</string>
+    <string name="storyline_activity">SCÉNARIO</string>
+    <string name="begin_tour_button_text">Débuter la visit</string>
 </resources>

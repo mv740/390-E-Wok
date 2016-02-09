@@ -10,24 +10,18 @@
     tools:context="com.example.nspace.museedesondes.MainActivity"
     android:background="#ffffff">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="@string/welcome_message"
-        android:id="@+id/textView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:typeface="normal" />
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/begin_tour_button_text"
+        android:text="BEGIN TOUR"
         android:id="@+id/begin_tour_button"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true" />
+        android:background="@drawable/round_button"
+        android:height="200dp"
+        android:width="200dp"
+        android:layout_above="@+id/settings_button"
+        android:layout_centerHorizontal="true"
+        android:textColor="#ffffff"
+        android:textSize="20dp" />
 
     <Button
         android:layout_width="wrap_content"

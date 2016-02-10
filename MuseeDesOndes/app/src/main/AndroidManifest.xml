@@ -40,7 +40,7 @@
         <activity
             android:name=".MapActivity"
             android:label="@string/title_activity_map" />
-        <activity android:name=".StorylineActivity"></activity>
+        <activity android:name=".StoryLineActivity"></activity>
     </application>
 
 </manifest>

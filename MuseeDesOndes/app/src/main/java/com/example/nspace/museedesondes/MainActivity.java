@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void beginTourOnClick(View view) {
-        Intent  startStorylines = new Intent(MainActivity.this, StorylineActivity.class);
+        Intent  startStorylines = new Intent(MainActivity.this, StoryLineActivity.class);
         startActivity(startStorylines);
     }
 

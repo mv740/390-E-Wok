@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * Created by michal on 1/28/2016.
@@ -12,7 +11,7 @@ import java.util.Objects;
 @JsonTypeName("PointOfInterest")
 public class PointOfInterest extends Node {
 
-    private Ibeacon ibeacon;
+    private BeaconInformation beaconInformation;
     private ArrayList<Language> name;
     private ArrayList<Language> description;
     private ArrayList<Language> video;
@@ -25,7 +24,7 @@ public class PointOfInterest extends Node {
                            @JsonProperty("floor") int floor,
                            @JsonProperty("edge") ArrayList edge,
                            @JsonProperty("coordinate") Coordinate coordinate,
-                           @JsonProperty("iBeacon") Ibeacon ibeacon,
+                           @JsonProperty("beaconInformation") BeaconInformation beaconInformation,
                            @JsonProperty("name") ArrayList<Language> name,
                            @JsonProperty("description") ArrayList<Language> description,
                            @JsonProperty("video") ArrayList<Language> video,
@@ -34,7 +33,7 @@ public class PointOfInterest extends Node {
                            @JsonProperty("room") String room,
                            @JsonProperty("tags") ArrayList<String> tags) {
         super(id, floor, edge, coordinate);
-        this.ibeacon = ibeacon ;
+        this.beaconInformation = beaconInformation;
         this.name = name;
         this.description = description;
         this.video = video;
@@ -45,8 +44,8 @@ public class PointOfInterest extends Node {
     }
 
 
-    public Ibeacon getIbeacon() {
-        return ibeacon;
+    public BeaconInformation getBeaconInformation() {
+        return beaconInformation;
     }
 
     public ArrayList<Language> getName() {

@@ -3,10 +3,10 @@
     {
       "type": "PointOfInterest",
       "id": 1,
-      "iBeacon": {
-        "beacon_uuid": "test_uuid",
-        "beacon_major": 1111,
-        "beacon_minor": 2222
+      "beaconInformation": {
+        "UUID": "test_uuid",
+        "major": 1111,
+        "minor": 2222
       },
       "name": [
         {
@@ -103,14 +103,11 @@
       "weight": 10,
       "node": [
         1,
-        2,
-        3,
-        4,
-        5
+        2
       ]
     }
   ],
-  "storyline": [
+  "storyLines": [
     {
       "id": 12,
       "name": [

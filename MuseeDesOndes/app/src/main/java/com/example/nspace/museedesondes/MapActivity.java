@@ -20,6 +20,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 
 public class MapActivity extends ActionBarActivity implements OnMapReadyCallback, NavigationDrawerFragment.NavigationDrawerCallbacks{
@@ -46,6 +47,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
        bringButtonsToFront();
+
     }
 
     private void bringButtonsToFront(){

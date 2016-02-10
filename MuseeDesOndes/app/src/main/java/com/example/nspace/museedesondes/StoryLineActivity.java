@@ -13,7 +13,7 @@ import com.example.nspace.museedesondes.Utility.CustomStoryList;
 
 import java.util.Locale;
 
-public class StorylineActivity extends AppCompatActivity {
+public class StoryLineActivity extends AppCompatActivity {
 
 
 
@@ -39,7 +39,7 @@ public class StorylineActivity extends AppCompatActivity {
                 R.drawable.placeholder_tree_icon,
         };
 
-        CustomStoryList adapter = new CustomStoryList(StorylineActivity.this, titles, imageId);
+        CustomStoryList adapter = new CustomStoryList(StoryLineActivity.this, titles, imageId);
         list = (ListView)findViewById(R.id.storylineList);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -58,7 +58,7 @@ public class StorylineActivity extends AppCompatActivity {
         exploration_button.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
-                        Intent startMap = new Intent(StorylineActivity.this, MapActivity.class);
+                        Intent startMap = new Intent(StoryLineActivity.this, MapActivity.class);
                         startActivity(startMap);
                     }
                 }

@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 import com.example.nspace.museedesondes.Model.Preferences;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     /**
      * Created by sebastian on 2/02/2016.
@@ -66,8 +66,5 @@ public class MainActivity extends AppCompatActivity {
         Intent startSettings = new Intent(MainActivity.this, Settings.class);
         startActivity(startSettings);
     }
-
-
-
 
 }

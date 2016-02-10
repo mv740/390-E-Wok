@@ -1,9 +1,96 @@
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:map="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/map"
-    android:name="com.google.android.gms.maps.SupportMapFragment"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    map:mapType="none"
-    tools:context=".MapActivity" />
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:id="@+id/drawer_layout"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    tools:context=".MapActivity">
+
+    <RelativeLayout android:id="@+id/mapContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:id="@+id/hamburger"
+            android:text="HAM"
+            android:background="@drawable/round_button"
+            android:height="60dp"
+            android:width="60dp"
+            android:textColor="#ffffff"
+            android:textSize="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:onClick="onHamClick"/>
+
+        <Button
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:text="FLO"
+            android:id="@+id/floor_button"
+            android:background="@drawable/round_button"
+            android:height="60dp"
+            android:width="60dp"
+            android:textColor="#ffffff"
+            android:textSize="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="right|top"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
+
+        <Button
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:text="SEA"
+            android:id="@+id/search_button"
+            android:background="@drawable/round_button"
+            android:height="60dp"
+            android:width="60dp"
+            android:textColor="#ffffff"
+            android:textSize="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="right|top"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@+id/floor_button" />
+
+
+
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:map="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            map:mapType="none"
+            tools:context=".MapActivity"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
+
+    <!--    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:map="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/fullscreen_img"
+            android:name="com.example.nspace.museedesondes.FullscreenImgViewFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".MapActivity"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />-->
+
+
+    </RelativeLayout>
+
+    <fragment android:id="@+id/navigation_drawer"
+        android:layout_width="220dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:name="com.example.nspace.museedesondes.NavigationDrawerFragment"
+        tools:layout="@layout/fragment_navigation_drawer" />
+
+</android.support.v4.widget.DrawerLayout>
+

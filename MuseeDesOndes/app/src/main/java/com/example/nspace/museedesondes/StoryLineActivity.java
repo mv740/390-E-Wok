@@ -4,13 +4,17 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.example.nspace.museedesondes.Utility.CustomStoryList;
 
 import java.util.Locale;
 
 public class StorylineActivity extends AppCompatActivity {
+
 
 
     @Override
@@ -22,26 +26,33 @@ public class StorylineActivity extends AppCompatActivity {
         Locale currentLocale = getResources().getConfiguration().locale;
         String currentLanguage = currentLocale.getLanguage();
 
-        //todo: fetch storyline array from Map
+        //todo: fetch storyline title/description/image array from Map and put into arrays based on currentLanguage
+        ListView list;
+        String[] titles = {
+                "RCA Throughout history",
+                "Nippers the Dog",
+                "Gramaphone Stuff",
+        } ;
+        Integer[] imageId = {
+                R.drawable.placeholder_home_icon,
+                R.drawable.placeholder_panda_icon,
+                R.drawable.placeholder_tree_icon,
+        };
 
-        //array of options --> array adapter --> listView
-        //list view : {views: storyline_items.xml}
+        CustomStoryList adapter = new CustomStoryList(StorylineActivity.this, titles, imageId);
+        list = (ListView)findViewById(R.id.storylineList);
+        list.setAdapter(adapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-        //todo display "special buttons" with image, title, decription? for each storyline
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
 
-//        for(Storyline storyline: storylineList) {
-//            Button button = new Button(this);
-//
-//            if(currentLanguage.equals("en_US")) {
-//                button.setText("DYNAMIC: " + storyline.getName().get(0).getData());
-//            } else if(currentLanguage.equals("fr")) {
-//                button.setText("DYNAMIC: " + storyline.getName().get(1).getData());
-//            }
-//
-//        }
+                //todo: replace with start map activity addExtra() passing storyline ID
+                //Toast.makeText(StorylineActivity.this, "You Clicked at " + titles[+position], Toast.LENGTH_SHORT).show();
 
-
-
+            }
+        });
 
         final Button exploration_button = (Button) findViewById(R.id.exploration_button);
         exploration_button.setOnClickListener(

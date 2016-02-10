@@ -5,6 +5,8 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.nspace.museedesondes.Model.Language;
 import com.example.nspace.museedesondes.Model.Map;
@@ -42,6 +44,21 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+       bringButtonsToFront();
+    }
+
+    private void bringButtonsToFront(){
+        Button ham = (Button) findViewById(R.id.hamburger);
+        Button search = (Button) findViewById(R.id.search_button);
+        Button floor = (Button) findViewById(R.id.floor_button);
+        ham.bringToFront();
+        search.bringToFront();
+        floor.bringToFront();
+    }
+
+    public void onHamClick(View v){
+        mNavigationDrawerFragment.toggleDrawer(this);
     }
 
 

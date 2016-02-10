@@ -6,8 +6,8 @@
         android:layout_height="match_parent">
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:text="@string/begin_tour_button_text"
             android:id="@+id/begin_tour_button"
             android:background="@drawable/round_button"
@@ -24,9 +24,9 @@
             android:layout_height="wrap_content"
             android:text="@string/settings"
             android:id="@+id/settings_button"
-            android:layout_above="@+id/button4"
-            android:layout_alignEnd="@+id/begin_tour_button"
-            android:onClick="settingsOnClick"/>
+            android:onClick="settingsOnClick"
+            android:layout_alignTop="@+id/button4"
+            android:layout_alignEnd="@+id/begin_tour_button" />
 
         <Button
             android:layout_width="wrap_content"

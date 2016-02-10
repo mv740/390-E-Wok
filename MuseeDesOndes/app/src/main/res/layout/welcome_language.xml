@@ -21,9 +21,9 @@
             android:layout_height="wrap_content"
             android:text="ENGLISH"
             android:id="@+id/button2"
-            android:layout_below="@+id/button"
-            android:layout_marginTop="66dp"
-            android:layout_alignEnd="@+id/button"
+            android:layout_marginTop="20dp"
             android:background="#FFE33C3C"
-            android:onClick="changeLanguageOnClickEn"/>
+            android:onClick="changeLanguageOnClickEn"
+            android:layout_below="@+id/button"
+            android:layout_alignStart="@+id/button" />
 </RelativeLayout>

@@ -24,9 +24,9 @@
             android:layout_height="wrap_content"
             android:text="@string/settings"
             android:id="@+id/settings_button"
-            android:layout_above="@+id/button4"
-            android:layout_alignEnd="@+id/begin_tour_button"
-            android:onClick="settingsOnClick"/>
+            android:onClick="settingsOnClick"
+            android:layout_alignTop="@+id/button4"
+            android:layout_toEndOf="@+id/begin_tour_button" />
 
         <Button
             android:layout_width="wrap_content"

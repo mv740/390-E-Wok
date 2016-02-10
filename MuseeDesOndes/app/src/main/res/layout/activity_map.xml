@@ -82,6 +82,46 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true" />-->
 
+        <com.sothree.slidinguppanel.SlidingUpPanelLayout
+            android:id="@+id/sliding_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Main Content"
+                android:textSize="16sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="280dp"
+                android:gravity="center|top"
+                android:textSize="16sp"
+                android:background="#FFE33C3C">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="top|center"
+                    android:text="poi title"
+                    android:id="@+id/poi_title"
+                    android:textSize="20dp" />
+
+                <Button
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="play"
+                    android:id="@+id/play_button"
+                    android:layout_marginTop="20dp"
+                    android:background="#FFFFFFFF"
+                    android:layout_below="@+id/poi_title"/>
+
+                </RelativeLayout>
+        </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+
 
     </RelativeLayout>
 

@@ -1,6 +1,7 @@
 package com.example.nspace.museedesondes;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
 import android.support.v7.app.ActionBar;
@@ -125,11 +126,11 @@ public class NavigationDrawerFragment extends Fragment {
                 case 0:
                     return;
                 case 1:
-
-                    break;
+                    return;
                 case 2:
-
-                    break;
+                    Intent startSettings = new Intent(parent.getContext(), Settings.class);
+                    startActivity(startSettings);
+                    return;
                 case 3:
                     return;
                 default:

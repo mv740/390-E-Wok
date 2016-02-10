@@ -47,8 +47,7 @@ public class Settings extends AppCompatActivity {
                             Preferences.savePreferences(langSelected);
                         }
 
-                        Intent startLauncher = new Intent(Settings.this, MainActivity.class);
-                        startActivity(startLauncher);
+                        finish();
                     }
                 }
         );

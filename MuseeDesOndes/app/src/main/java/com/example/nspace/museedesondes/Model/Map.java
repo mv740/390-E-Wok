@@ -17,7 +17,7 @@ public class Map {
     private ArrayList<Edge> edges;
     private ArrayList<Storyline> storylines;
     private ArrayList<PointOfInterest> pointOfInterests;
-    private ArrayList<BuildingPoint> buildingPoints;
+    private ArrayList<ServicePoint> servicePoints;
 
     private static Map instance = null;
 
@@ -31,7 +31,7 @@ public class Map {
         this.edges = edges;
         this.storylines = storylines;
         this.pointOfInterests = new ArrayList<>();
-        this.buildingPoints = new ArrayList<>();
+        this.servicePoints = new ArrayList<>();
     }
 
     public static Map getInstance(Context context) {
@@ -61,8 +61,8 @@ public class Map {
         for (Node node : instance.getNodes()) {
             if (node instanceof PointOfInterest) {
                 instance.pointOfInterests.add((PointOfInterest) node);
-            } else if (node instanceof BuildingPoint) {
-                instance.buildingPoints.add((BuildingPoint) node);
+            } else if (node instanceof ServicePoint) {
+                instance.servicePoints.add((ServicePoint) node);
             }
         }
     }
@@ -76,10 +76,10 @@ public class Map {
         return null;
     }
 
-    public BuildingPoint searchBuildingPointById(int id) {
-        for (BuildingPoint buildingPoint : buildingPoints) {
-            if (buildingPoint.getId() == id) {
-                return buildingPoint;
+    public ServicePoint searchBuildingPointById(int id) {
+        for (ServicePoint servicePoint : servicePoints) {
+            if (servicePoint.getId() == id) {
+                return servicePoint;
             }
         }
         return null;
@@ -122,7 +122,7 @@ public class Map {
         return pointOfInterests;
     }
 
-    public ArrayList<BuildingPoint> getBuildingPoints() {
-        return buildingPoints;
+    public ArrayList<ServicePoint> getServicePoints() {
+        return servicePoints;
     }
 }

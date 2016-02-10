@@ -12,7 +12,8 @@ import java.util.ArrayList;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value=PointOfInterest.class, name="PointOfInterest"),
-        @JsonSubTypes.Type(value=BuildingPoint.class, name="BuildingPoint")
+        @JsonSubTypes.Type(value=ServicePoint.class, name="ServicePoint"),
+        @JsonSubTypes.Type(value=TransitionPoint.class, name="TransitionPoint")
 })
 public class Node {
     private int id;

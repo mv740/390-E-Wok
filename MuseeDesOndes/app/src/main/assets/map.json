@@ -67,13 +67,14 @@
       ]
     },
     {
-      "type": "Node",
+      "type": "TransitionPoint",
       "id": 1,
       "floor": 1,
       "coordinate": {
         "x": 20,
         "y": 40
       },
+      "transitionType" : "CORRIDOR",
       "edge": [
         1,
         2,
@@ -81,7 +82,7 @@
       ]
     },
     {
-      "type": "BuildingPoint",
+      "type": "ServicePoint",
       "locationType": "ENTRANCE",
       "id": 3,
       "floor": 2,

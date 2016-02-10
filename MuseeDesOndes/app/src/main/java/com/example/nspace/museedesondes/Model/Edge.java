@@ -13,7 +13,7 @@ public class Edge {
     private int weight;
     private ArrayList<Node> node;
 
-    public Edge(@JsonProperty("id")int id,@JsonProperty("weight") int weight, @JsonProperty("node")ArrayList node) {
+    public Edge(@JsonProperty("id")int id,@JsonProperty("weight") int weight, @JsonProperty("node")ArrayList<Node> node) {
         this.id = id;
         this.weight = weight;
         this.node = node;

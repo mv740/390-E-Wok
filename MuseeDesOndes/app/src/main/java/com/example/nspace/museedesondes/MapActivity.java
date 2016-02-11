@@ -1,15 +1,11 @@
 package com.example.nspace.museedesondes;
 
 
-import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import com.example.nspace.museedesondes.Model.Language;
 import com.example.nspace.museedesondes.Model.Map;
-import com.example.nspace.museedesondes.Model.Node;
 import com.example.nspace.museedesondes.Model.PointOfInterest;
-import com.example.nspace.museedesondes.Model.ServicePoint;
-import com.example.nspace.museedesondes.Model.TransitionPoint;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -19,8 +15,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import java.util.ArrayList;
 
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -80,19 +74,18 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
 
         //// TODO: 2/7/2016 refactor this in a proper fuction
-        PointOfInterest pointOfInterest1 = information.getPointOfInterests().get(0);
-        ServicePoint transitionPoint = information.getServicePoints().get(0);
+        PointOfInterest pointOfInterest = information.getPointOfInterests().get(0);
 
         String title = "error";
         String snippet = "error";
-        for(Language language : pointOfInterest1.getName())
+        for(Language language : pointOfInterest.getName())
         {
             if(getApplicationContext().getResources().getConfiguration().locale.getLanguage().equals(language.getLanguage()))
             {
                 title = language.getData();
             }
         }
-        for(Language language : pointOfInterest1.getDescription())
+        for(Language language : pointOfInterest.getDescription())
         {
             if(getApplicationContext().getResources().getConfiguration().locale.getLanguage().equals(language.getLanguage()))
             {
@@ -103,21 +96,12 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
         //single marker with value from json
         MarkerOptions node = new MarkerOptions();
-        node.position(new LatLng(pointOfInterest1.getCoordinate().getX(), pointOfInterest1.getCoordinate().getY()));
+        node.position(new LatLng(pointOfInterest.getCoordinate().getX(), pointOfInterest.getCoordinate().getY()));
         node.title(title);
         node.snippet(snippet);
         node.icon((BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
         mMap.addMarker(node);
 
-        MarkerOptions serviceNode = new MarkerOptions();
-        serviceNode.position(new LatLng(transitionPoint.getCoordinate().getX(), transitionPoint.getCoordinate().getY()));
-        serviceNode.title(title);
-        serviceNode.snippet(snippet);
-        serviceNode.icon((BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-        mMap.addMarker(serviceNode);
-    }
 
-    public void tracePath() {
-        
     }
 }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:myapp="http://schemas.android.com/tools">
+
+    <item
+        android:id="@+id/one"
+        android:icon="@drawable/ic_drawer"
+        android:title="1"
+        myapp:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/two"
+        android:icon="@drawable/common_plus_signin_btn_icon_light"
+        android:title="2"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/three"
+        android:icon="@android:drawable/ic_menu_more"
+        android:title="3" />
+
+    <item
+        android:id="@+id/four"
+        android:icon="@drawable/ic_drawer"
+        android:title="4" />
+
+
+    <item
+        android:id="@+id/five"
+        android:icon="@android:drawable/ic_dialog_info"
+        android:title="5" />
+
+</menu>

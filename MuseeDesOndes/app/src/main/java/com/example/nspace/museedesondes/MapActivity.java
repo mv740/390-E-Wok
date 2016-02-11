@@ -11,12 +11,14 @@ import android.widget.Button;
 import com.example.nspace.museedesondes.Model.Language;
 import com.example.nspace.museedesondes.Model.Map;
 import com.example.nspace.museedesondes.Model.PointOfInterest;
+import com.example.nspace.museedesondes.Utility.ViewMap;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.GroundOverlay;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -96,13 +98,14 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(center, 14));
         mMap.clear();
 
-        BitmapDescriptor image = BitmapDescriptorFactory.fromResource(R.drawable.floor_1_rca_march2011_1);
 
 
-        GroundOverlayOptions customMap = new GroundOverlayOptions()
-                .image(image)
-                .position(custom, 5520f, 10704f).anchor(0, 0);
-        mMap.addGroundOverlay(customMap);
+        //load map and then switch floor to 5
+        GroundOverlay groundOverlay = ViewMap.loadDefaultFloor(mMap, custom);
+        //need to implement a list view
+        ViewMap.switchFloor(groundOverlay, 5);
+
+
 
 
         //// TODO: 2/7/2016 refactor this in a proper fuction

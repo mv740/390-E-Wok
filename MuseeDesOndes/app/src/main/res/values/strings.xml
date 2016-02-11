@@ -10,4 +10,14 @@
     <string name="title_activity_map">Map</string>
     <string name="storyline_activity">STORYLINES</string>
     <string name="begin_tour_button_text">BEGIN TOUR</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string-array name="drawer_ele">
+        <item>Exhibits</item>
+        <item>Storylines</item>
+        <item>Profile</item>
+        <item>Find exit</item>
+    </string-array>
 </resources>

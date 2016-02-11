@@ -1,23 +1,18 @@
 package com.example.nspace.museedesondes;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import com.example.nspace.museedesondes.Model.Preferences;
 
-import java.util.Locale;
 
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     /**
      * Created by sebastian on 2/02/2016.
@@ -71,8 +66,5 @@ public class MainActivity extends AppCompatActivity {
         Intent startSettings = new Intent(MainActivity.this, Settings.class);
         startActivity(startSettings);
     }
-
-
-
 
 }

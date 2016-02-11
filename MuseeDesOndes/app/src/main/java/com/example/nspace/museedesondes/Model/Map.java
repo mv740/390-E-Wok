@@ -15,23 +15,25 @@ import java.util.ArrayList;
 public class Map {
     private ArrayList<Node> nodes;
     private ArrayList<Edge> edges;
-    private ArrayList<Storyline> storylines;
+    private ArrayList<StoryLine> storyLines;
     private ArrayList<PointOfInterest> pointOfInterests;
     private ArrayList<ServicePoint> servicePoints;
+    private ArrayList<TransitionPoint> transitionPoints;
 
     private static Map instance = null;
 
-    private Map(@JsonProperty("node") ArrayList<Node> nodes, @JsonProperty("edge") ArrayList<Edge> edges, @JsonProperty("storyline") ArrayList<Storyline> storylines) {
+    private Map(@JsonProperty("node") ArrayList<Node> nodes, @JsonProperty("edge") ArrayList<Edge> edges, @JsonProperty("storyLines") ArrayList<StoryLine> storyLines) {
 
         //load json
         //create nodes
         //create edges
-        //create Storyline
+        //create StoryLine
         this.nodes = nodes;
         this.edges = edges;
-        this.storylines = storylines;
+        this.storyLines = storyLines;
         this.pointOfInterests = new ArrayList<>();
         this.servicePoints = new ArrayList<>();
+        this.transitionPoints = new ArrayList<>();
     }
 
     public static Map getInstance(Context context) {
@@ -63,6 +65,9 @@ public class Map {
                 instance.pointOfInterests.add((PointOfInterest) node);
             } else if (node instanceof ServicePoint) {
                 instance.servicePoints.add((ServicePoint) node);
+            } else if( node instanceof TransitionPoint)
+            {
+                instance.transitionPoints.add((TransitionPoint)node);
             }
         }
     }
@@ -76,7 +81,7 @@ public class Map {
         return null;
     }
 
-    public ServicePoint searchBuildingPointById(int id) {
+    public ServicePoint searchServicePointById(int id) {
         for (ServicePoint servicePoint : servicePoints) {
             if (servicePoint.getId() == id) {
                 return servicePoint;
@@ -105,6 +110,8 @@ public class Map {
         return null;
     }
 
+
+
     public ArrayList getEdgesOfNodeById(int id) {
         return searchNodeById(id).getEdge();
     }
@@ -114,8 +121,8 @@ public class Map {
         return edges;
     }
 
-    public ArrayList<Storyline> getStorylines() {
-        return storylines;
+    public ArrayList<StoryLine> getStoryLines() {
+        return storyLines;
     }
 
     public ArrayList<PointOfInterest> getPointOfInterests() {
@@ -124,5 +131,9 @@ public class Map {
 
     public ArrayList<ServicePoint> getServicePoints() {
         return servicePoints;
+    }
+
+    public ArrayList<TransitionPoint> getTransitionPoints() {
+        return transitionPoints;
     }
 }

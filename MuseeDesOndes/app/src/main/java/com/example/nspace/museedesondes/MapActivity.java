@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -14,6 +15,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import com.example.nspace.museedesondes.Model.Language;
 import com.example.nspace.museedesondes.Model.Map;
@@ -28,11 +31,15 @@ import com.google.android.gms.maps.model.GroundOverlay;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
 
 public class MapActivity extends ActionBarActivity implements OnMapReadyCallback, NavigationDrawerFragment.NavigationDrawerCallbacks{
 
     private GoogleMap mMap;
     private NavigationDrawerFragment mNavigationDrawerFragment;
+    private GroundOverlay groundOverlay;
     public static Drawable imgToSendToFullscreenImgActivity;
 
     @Override
@@ -55,12 +62,61 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
        bringButtonsToFront();
 
+
+
     }
 
     private void bringButtonsToFront(){
         Button ham = (Button) findViewById(R.id.hamburger);
         Button search = (Button) findViewById(R.id.search_button);
-        Button floor = (Button) findViewById(R.id.floor_button);
+        final Button floor = (Button) findViewById(R.id.floor_button);
+
+        //floor menu ... not sure if it is the best way,  listview of button or menu with a icon that will similar to  our floor button
+        floor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Creating the instance of PopupMenu
+                PopupMenu popup = new PopupMenu(MapActivity.this, floor);
+
+                //PopupMenu with icons  http://stackoverflow.com/questions/15454995/popupmenu-with-icons
+//                try {
+//                    Field field = popup.getClass().getDeclaredField("mPopup");
+//                    field.setAccessible(true);
+//                    Object menuPopupHelper = field.get(popup);
+//                    Class<?> cls = Class.forName("com.android.internal.view.menu.MenuPopupHelper");
+//                    Method method = cls.getDeclaredMethod("setForceShowIcon", new Class[]{boolean.class});
+//                    method.setAccessible(true);
+//                    method.invoke(menuPopupHelper, new Object[]{true});
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+
+
+                //Inflating the Popup using xml file
+                popup.getMenuInflater()
+                        .inflate(R.menu.floor, popup.getMenu());
+
+
+                //registering popup with OnMenuItemClickListener
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        CharSequence id = item.getTitle();
+
+                        ViewMap.switchFloor(groundOverlay, Integer.parseInt(id.toString()));
+                        Toast.makeText(
+                                MapActivity.this,
+                                "You Clicked : " + item.getTitle() + " id: " + item.getItemId(),
+                                Toast.LENGTH_SHORT
+                        ).show();
+                        return true;
+                    }
+                });
+
+                popup.show(); //showing popup menu
+            }
+        });
+
+
         ham.bringToFront();
         search.bringToFront();
         floor.bringToFront();
@@ -107,9 +163,10 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
 
         //load map and then switch floor to 5
-        GroundOverlay groundOverlay = ViewMap.loadDefaultFloor(mMap, custom);
+       // GroundOverlay groundOverlay = ViewMap.loadDefaultFloor(mMap, custom);
+        groundOverlay = ViewMap.loadDefaultFloor(mMap, custom);
         //need to implement a list view
-        ViewMap.switchFloor(groundOverlay, 5);
+        //ViewMap.switchFloor(groundOverlay, 5);
 
 
 

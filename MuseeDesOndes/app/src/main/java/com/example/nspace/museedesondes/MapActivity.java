@@ -1,12 +1,19 @@
 package com.example.nspace.museedesondes;
 
 
-import android.support.v4.app.FragmentActivity;
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.example.nspace.museedesondes.Model.Language;
 import com.example.nspace.museedesondes.Model.Map;
@@ -16,19 +23,17 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.GroundOverlay;
-import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 
 public class MapActivity extends ActionBarActivity implements OnMapReadyCallback, NavigationDrawerFragment.NavigationDrawerCallbacks{
 
     private GoogleMap mMap;
     private NavigationDrawerFragment mNavigationDrawerFragment;
+    public static Drawable imgToSendToFullscreenImgActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +64,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         ham.bringToFront();
         search.bringToFront();
         floor.bringToFront();
+
     }
 
     public void onHamClick(View v){
@@ -143,6 +149,14 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     @Override
     public void onNavigationDrawerItemSelected(int position) {
 
+    }
+
+    //HANDLERS ************
+
+    public void poiImgOnClick(View v){
+        imgToSendToFullscreenImgActivity = ((ImageView)v).getDrawable();
+        Intent fullscreenImgActivity = new Intent(MapActivity.this, FullscreenImgActivity.class);
+        startActivity(fullscreenImgActivity);
     }
 
 

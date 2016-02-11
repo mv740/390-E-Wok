@@ -37,18 +37,19 @@ android:background="#FFE33C3C">
         android:layout_height="match_parent"
         android:layout_marginRight="10dp">
         <ImageView
-            android:layout_width="300dp"
+            android:layout_width="260dp"
             android:layout_height="160dp"
-            android:background="@drawable/museum_ex_2"/>
+            android:src="@drawable/museum_ex_1"
+            android:onClick="poiImgOnClick"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <ImageView
-            android:layout_width="300dp"
+            android:layout_width="260dp"
             android:layout_height="160dp"
-            android:background="@drawable/museum_ex_2"/>
+            android:src="@drawable/museum_ex_2"/>
     </LinearLayout>
 
 </LinearLayout>

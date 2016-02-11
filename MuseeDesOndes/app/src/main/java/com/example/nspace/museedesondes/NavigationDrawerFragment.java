@@ -62,7 +62,6 @@ public class NavigationDrawerFragment extends Fragment {
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
     private ListView mDrawerList;
-    public static Context drawerContext;
     private boolean drawerGoingToOpen = true;
 
     public NavigationDrawerFragment() {
@@ -104,7 +103,6 @@ public class NavigationDrawerFragment extends Fragment {
                 selectItem(position);
             }
         });
-        drawerContext = getActivity().getBaseContext();
         String[] drawer_ele = getResources().getStringArray(R.array.drawer_ele);
         ArrayAdapter adapter = new ArrayAdapter<String>(this.getContext(), R.layout.fragment_navigation_item, drawer_ele);
         mDrawerListView.setAdapter(adapter);

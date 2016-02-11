@@ -3,6 +3,7 @@
     android:layout_width="match_parent" android:layout_height="match_parent"
     tools:context=".MapActivity">
 
+
     <com.sothree.slidinguppanel.SlidingUpPanelLayout
         android:id="@+id/sliding_layout"
         android:layout_width="match_parent"
@@ -75,18 +76,9 @@
                 map:mapType="none"
                 tools:context=".MapActivity"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true" />
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true" />
 
-            <!--    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:map="http://schemas.android.com/apk/res-auto"
-                    xmlns:tools="http://schemas.android.com/tools"
-                    android:id="@+id/fullscreen_img"
-                    android:name="com.example.nspace.museedesondes.FullscreenImgViewFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:context=".MapActivity"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true" />-->
 
 
 

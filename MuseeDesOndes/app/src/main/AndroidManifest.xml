@@ -43,6 +43,8 @@
             android:label="@string/title_activity_map"
             />
         <activity android:name=".StoryLineActivity"></activity>
+        <activity android:name=".FullscreenImgActivity"
+            android:screenOrientation="landscape"></activity>
     </application>
 
 </manifest>

@@ -28,6 +28,7 @@ dependencies {
         mavenCentral()
     }
     compile 'com.github.clans:fab:1.6.2'
+    compile 'com.github.bluejamesbond:textjustify-android:2.1.1'
     compile 'com.sothree.slidinguppanel:library:3.2.1'
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'

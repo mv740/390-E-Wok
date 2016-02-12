@@ -2,6 +2,7 @@ package com.example.nspace.museedesondes;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -32,10 +33,11 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.GroundOverlay;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-
+import com.google.android.gms.maps.model.Polyline;
 
 public class MapActivity extends ActionBarActivity implements OnMapReadyCallback, NavigationDrawerFragment.NavigationDrawerCallbacks{
 
@@ -155,6 +157,14 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         node.snippet(snippet);
         node.icon((BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
         mMap.addMarker(node);
+
+        // This is a testing point. TO BE REMOVED Harrison Ianatchkov Feb 12, 2016
+        MarkerOptions anotherOne = new MarkerOptions();
+        anotherOne.position(new LatLng(0.001, 0.01));
+        anotherOne.title("Waguan");
+        anotherOne.snippet(snippet);
+        anotherOne.icon((BitmapDescriptorFactory.defaultMarker((BitmapDescriptorFactory.HUE_AZURE))));
+        mMap.addMarker(anotherOne);
 
 
     }

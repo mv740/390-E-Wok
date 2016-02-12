@@ -1,14 +1,23 @@
 package com.example.nspace.museedesondes.Model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 /**
  * Created by michal on 2/11/2016.
  */
+@JsonTypeName("Audio")
 public class Audio extends ExhibitionContent {
     private String filePath;
     private int durationInSeconds;
     private String encoding;
 
-    public Audio(String id, String title, String language, String filePath, int durationInSeconds, String encoding) {
+    public Audio(@JsonProperty("id") String id,
+                 @JsonProperty("title") String title,
+                 @JsonProperty("language")String language,
+                 @JsonProperty("filePath")String filePath,
+                 @JsonProperty("durationInSeconds")int durationInSeconds,
+                 @JsonProperty("encoding")String encoding) {
         super(id, title, language);
         this.filePath = filePath;
         this.durationInSeconds = durationInSeconds;

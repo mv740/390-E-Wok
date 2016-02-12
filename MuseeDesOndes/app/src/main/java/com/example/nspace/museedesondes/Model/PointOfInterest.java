@@ -14,9 +14,10 @@ public class PointOfInterest extends Node {
     private BeaconInformation beaconInformation;
     private ArrayList<Language> name;
     private ArrayList<Language> description;
-    private ArrayList<Language> video;
-    private ArrayList<Language> audio;
-    private String picture;
+    private ArrayList<Video> video;
+    private ArrayList<Audio> audio;
+    private ArrayList<Image> images;
+    private ArrayList<QRCode> qrCodes;
     private String room;
     private ArrayList<String> tags;
 
@@ -27,9 +28,10 @@ public class PointOfInterest extends Node {
                            @JsonProperty("beaconInformation") BeaconInformation beaconInformation,
                            @JsonProperty("name") ArrayList<Language> name,
                            @JsonProperty("description") ArrayList<Language> description,
-                           @JsonProperty("video") ArrayList<Language> video,
-                           @JsonProperty("audio") ArrayList<Language> audio,
-                           @JsonProperty("picture") String picture,
+                           @JsonProperty("video") ArrayList video,
+                           @JsonProperty("audio") ArrayList audio,
+                           @JsonProperty("image") ArrayList images,
+                           @JsonProperty("qrcode") ArrayList qrCodes,
                            @JsonProperty("room") String room,
                            @JsonProperty("tags") ArrayList<String> tags) {
         super(id, floor, edge, coordinate);
@@ -38,7 +40,7 @@ public class PointOfInterest extends Node {
         this.description = description;
         this.video = video;
         this.audio = audio;
-        this.picture = picture;
+        this.images = images;
         this.room = room;
         this.tags = tags;
     }
@@ -65,16 +67,16 @@ public class PointOfInterest extends Node {
         return description;
     }
 
-    public ArrayList<Language> getVideo() {
+    public ArrayList<Video> getVideo() {
         return video;
     }
 
-    public ArrayList<Language> getAudio() {
+    public ArrayList<Audio> getAudio() {
         return audio;
     }
 
-    public String getPicture() {
-        return picture;
+    public ArrayList<Image> getImages() {
+        return images;
     }
 
     public String getRoom() {

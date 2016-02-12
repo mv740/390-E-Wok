@@ -2,6 +2,7 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:ext="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="500dp"
@@ -92,19 +93,14 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toStartOf="@+id/play_button"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sit amet ipsum ultrices, elementum tellus non, sagittis dolor. Ut odio sem, venenatis non varius non, vulputate ut tortor. Nulla ullamcorper nulla sed magna gravida, sit amet varius ipsum malesuada. Cras consectetur, mi vitae maximus efficitur, erat mi viverra mi, tristique pretium est lorem vel ipsum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Integer eu efficitur arcu. Donec ultricies feugiat libero, vel egestas ex. Suspendisse at est nunc."
-            android:id="@+id/textView4"
-            android:layout_below="@+id/play_button"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:textAlignment="textStart"
-            android:layout_marginTop="10dp" />
+        <com.bluejamesbond.text.DocumentView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            ext:documentView_text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sit amet ipsum ultrices, elementum tellus non, sagittis dolor. Ut odio sem, venenatis non varius non, vulputate ut tortor. Nulla ullamcorper nulla sed magna gravida, sit amet varius ipsum malesuada. Cras consectetur, mi vitae maximus efficitur, erat mi viverra mi, tristique pretium est lorem vel ipsum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Integer eu efficitur arcu. Donec ultricies feugiat libero, vel egestas ex. Suspendisse at Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sit amet ipsum ultrices, elementum tellus non, sagittis dolor. Ut odio sem, venenatis non varius non, vulputate ut tortor. Nulla ullamcorper nulla sed magna gravida, sit amet varius "
+            ext:documentView_textAlignment="justified"
+            ext:documentView_textSize="20dp"
+            ext:documentView_textColor="@android:color/white"
+            ></com.bluejamesbond.text.DocumentView>
     </ScrollView>
 
 </RelativeLayout>

@@ -13,27 +13,33 @@ import com.example.nspace.museedesondes.R;
 /**
  * Created by NSPACE on 2016-02-09.
  */
+
 public class CustomStoryList extends ArrayAdapter<String> {
 
     private final Activity context;
-    private final String[] web;
+    private final String[] title;
+    private final String[] description;
     private final Integer[] imageId;
     public CustomStoryList(Activity context,
-                      String[] web, Integer[] imageId) {
+                           String[] web, String[] description, Integer[] imageId) {
         super(context, R.layout.storyline_item_layout, web);
         this.context = context;
-        this.web = web;
+        this.title = web;
+        this.description = description;
         this.imageId = imageId;
     }
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView= inflater.inflate(R.layout.storyline_item_layout, null, true);
+
         TextView txtTitle = (TextView) rowView.findViewById(R.id.txt);
-
+        TextView descriptField = (TextView) rowView.findViewById(R.id.description);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.img);
-        txtTitle.setText(web[position]);
 
+
+        txtTitle.setText(title[position]);
+        descriptField.setText(description[position]);
         imageView.setImageResource(imageId[position]);
         return rowView;
     }

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 @JsonTypeName("ServicePoint")
 public class ServicePoint extends Node{
 
-    private ServiceType serviceType;
+    private Label serviceType;
 
     public ServicePoint(@JsonProperty("id") int id,
                         @JsonProperty("floor") int floor,
@@ -20,10 +20,10 @@ public class ServicePoint extends Node{
                         @JsonProperty("locationType") String serviceType) {
         super(id, floor, edge, coordinate);
 
-        this.serviceType = ServiceType.getEnum(serviceType);
+        this.serviceType = Label.getEnum(serviceType);
     }
 
-    public ServiceType getServiceType() {
+    public Label getServiceType() {
         return serviceType;
     }
 }

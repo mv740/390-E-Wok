@@ -22,6 +22,8 @@ import com.example.nspace.museedesondes.Model.Language;
 import com.example.nspace.museedesondes.Model.Map;
 import com.example.nspace.museedesondes.Model.PointOfInterest;
 import com.example.nspace.museedesondes.Utility.ViewMap;
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -67,55 +69,9 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     }
 
     private void bringButtonsToFront(){
-        Button ham = (Button) findViewById(R.id.hamburger);
-        Button search = (Button) findViewById(R.id.search_button);
-        final Button floor = (Button) findViewById(R.id.floor_button);
-
-        //floor menu ... not sure if it is the best way,  listview of button or menu with a icon that will similar to  our floor button
-        floor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Creating the instance of PopupMenu
-                PopupMenu popup = new PopupMenu(MapActivity.this, floor);
-
-                //PopupMenu with icons  http://stackoverflow.com/questions/15454995/popupmenu-with-icons
-//                try {
-//                    Field field = popup.getClass().getDeclaredField("mPopup");
-//                    field.setAccessible(true);
-//                    Object menuPopupHelper = field.get(popup);
-//                    Class<?> cls = Class.forName("com.android.internal.view.menu.MenuPopupHelper");
-//                    Method method = cls.getDeclaredMethod("setForceShowIcon", new Class[]{boolean.class});
-//                    method.setAccessible(true);
-//                    method.invoke(menuPopupHelper, new Object[]{true});
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-
-
-                //Inflating the Popup using xml file
-                popup.getMenuInflater()
-                        .inflate(R.menu.floor, popup.getMenu());
-
-
-                //registering popup with OnMenuItemClickListener
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-                        CharSequence id = item.getTitle();
-
-                        ViewMap.switchFloor(groundOverlay, Integer.parseInt(id.toString()));
-                        Toast.makeText(
-                                MapActivity.this,
-                                "You Clicked : " + item.getTitle() + " id: " + item.getItemId(),
-                                Toast.LENGTH_SHORT
-                        ).show();
-                        return true;
-                    }
-                });
-
-                popup.show(); //showing popup menu
-            }
-        });
-
+        FloatingActionButton ham = (FloatingActionButton) findViewById(R.id.hamburger);
+        FloatingActionButton search = (FloatingActionButton) findViewById(R.id.search_button);
+        FloatingActionMenu floor = (FloatingActionMenu) findViewById(R.id.floor_button);
 
         ham.bringToFront();
         search.bringToFront();
@@ -214,6 +170,25 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         imgToSendToFullscreenImgActivity = ((ImageView)v).getDrawable();
         Intent fullscreenImgActivity = new Intent(MapActivity.this, FullscreenImgActivity.class);
         startActivity(fullscreenImgActivity);
+    }
+
+    public void floorButton1OnClick(View v){
+        changeFloor(1);
+    }
+    public void floorButton2OnClick(View v){
+        changeFloor(2);
+    }
+    public void floorButton3OnClick(View v){
+        changeFloor(3);
+    }
+    public void floorButton4OnClick(View v){
+        changeFloor(4);
+    }
+
+    public void changeFloor(int floor){
+        ViewMap.switchFloor(groundOverlay, floor);
+        FloatingActionMenu floorButton = (FloatingActionMenu) findViewById(R.id.floor_button);
+        floorButton.toggle(true);
     }
 
 

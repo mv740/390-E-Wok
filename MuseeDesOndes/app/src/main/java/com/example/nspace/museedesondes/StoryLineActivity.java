@@ -5,9 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.nspace.museedesondes.Utility.CustomStoryList;
 
@@ -29,17 +27,27 @@ public class StoryLineActivity extends AppCompatActivity {
         //todo: fetch storyline title/description/image array from Map and put into arrays based on currentLanguage
         ListView list;
         String[] titles = {
+                "Free Exploration",
                 "RCA Throughout history",
                 "Nippers the Dog",
                 "Gramaphone Stuff",
         } ;
+
+        String[] description = {
+                "Explore all of the exhbits in the museum in any order.",
+                "Before the publication of the First Folio in 1623, nineteen of the thirty-seven plays in Shakespeare's canon had appeared in quarto format. ",
+                "With the exception of Othello (1622), all of the quartos were published prior to the date of Shakespeare's retirement from the theatre in about 1611",
+                "Here you will find the complete text of Shakespeare's plays, based primarily on the First Folio, and a variety of helpful resources, including extensive explanatory notes, character analysis."
+        } ;
+
         Integer[] imageId = {
+                R.drawable.free_exploration,
                 R.drawable.placeholder_home_icon,
                 R.drawable.placeholder_panda_icon,
                 R.drawable.placeholder_tree_icon,
         };
 
-        CustomStoryList adapter = new CustomStoryList(StoryLineActivity.this, titles, imageId);
+        CustomStoryList adapter = new CustomStoryList(StoryLineActivity.this, titles, description, imageId);
         list = (ListView)findViewById(R.id.storylineList);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -47,21 +55,15 @@ public class StoryLineActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-
-                //todo: replace with start map activity addExtra() passing storyline ID
-                //Toast.makeText(StorylineActivity.this, "You Clicked at " + titles[+position], Toast.LENGTH_SHORT).show();
-
+                if (position == 0) {
+                    Intent startMap = new Intent(StoryLineActivity.this, MapActivity.class);
+                    startActivity(startMap);
+                } else {
+                    //todo: addExtra() passing storyline ID
+                    Intent startMap = new Intent(StoryLineActivity.this, MapActivity.class);
+                    startActivity(startMap);
+                }
             }
         });
-
-        final Button exploration_button = (Button) findViewById(R.id.exploration_button);
-        exploration_button.setOnClickListener(
-                new Button.OnClickListener() {
-                    public void onClick(View v) {
-                        Intent startMap = new Intent(StoryLineActivity.this, MapActivity.class);
-                        startActivity(startMap);
-                    }
-                }
-        );
     }
 }

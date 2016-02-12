@@ -11,7 +11,7 @@ import java.util.ArrayList;
 @JsonTypeName("TransitionPoint")
 public class TransitionPoint extends Node {
 
-    private TransitionType type;
+    private Label type;
 
     public TransitionPoint(@JsonProperty("id") int id,
                            @JsonProperty("floor") int floor,
@@ -19,9 +19,9 @@ public class TransitionPoint extends Node {
                            @JsonProperty("coordinate") Coordinate coordinate,
                            @JsonProperty("transitionType") String transitionType) {
         super(id, floor, edge, coordinate);
-        this.type = TransitionType.getEnum(transitionType);
+        this.type = Label.getEnum(transitionType);
     }
-    public TransitionType getType() {
+    public Label getType() {
         return type;
     }
 }

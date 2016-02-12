@@ -1,23 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-android:orientation="vertical"
-android:layout_width="match_parent"
-android:layout_height="500dp"
-android:gravity="center|top"
-android:textSize="10dp"
-android:background="#FFE33C3C">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="500dp"
+    android:gravity="center|top"
+    android:textSize="10dp"
+    android:background="#FFE33C3C">
 
 <TextView
     android:layout_width="match_parent"
     android:layout_height="70dp"
-    android:gravity="center"
+    android:layout_marginLeft="10dp"
+    android:gravity="left|center"
     android:text="POI TITLE"
     android:id="@+id/poi_title"
     android:textSize="30dp"
     android:layout_alignParentTop="true"
     android:layout_alignParentStart="true" />
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/get_directions_button"
+        android:src="@drawable/location_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        fab:fab_colorNormal="#FFFFFFFF"
+        fab:fab_colorPressed="#FFFE7070"
+        fab:fab_colorRipple="#FFFE7070"
+        fab:menu_shadowColor="#444"
+        android:layout_alignEnd="@+id/scrollView" />
 
     <HorizontalScrollView
         android:layout_width="fill_parent"
@@ -37,7 +50,7 @@ android:background="#FFE33C3C">
         android:layout_height="match_parent"
         android:layout_marginRight="10dp">
         <ImageView
-            android:layout_width="260dp"
+            android:layout_width="240dp"
             android:layout_height="160dp"
             android:src="@drawable/museum_ex_1"
             android:onClick="poiImgOnClick"/>
@@ -47,7 +60,7 @@ android:background="#FFE33C3C">
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <ImageView
-            android:layout_width="260dp"
+            android:layout_width="240dp"
             android:layout_height="160dp"
             android:src="@drawable/museum_ex_2"/>
     </LinearLayout>
@@ -58,11 +71,10 @@ android:background="#FFE33C3C">
     </HorizontalScrollView>
 
     <Button
-    android:layout_width="150dp"
-    android:layout_height="wrap_content"
-    android:text="play"
+    android:layout_width="50dp"
+    android:layout_height="50dp"
+    android:background="@drawable/play_icon"
     android:id="@+id/play_button"
-    android:background="#FFFFFFFF"
         android:layout_below="@+id/horizontalScrollView"
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp"
@@ -76,11 +88,14 @@ android:background="#FFE33C3C">
         android:layout_below="@+id/play_button"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true" >
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/play_button"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sit amet ipsum ultrices, elementum tellus non, sagittis dolor. Ut odio sem, venenatis non varius non, vulputate ut tortor. Nulla ullamcorper nulla sed magna gravida, sit amet varius ipsum malesuada. Cras consectetur, mi vitae maximus efficitur, erat mi viverra mi, tristique pretium est lorem vel ipsum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Integer eu efficitur arcu. Donec ultricies feugiat libero, vel egestas ex. Suspendisse at est nunc."
             android:id="@+id/textView4"
@@ -88,7 +103,7 @@ android:background="#FFE33C3C">
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:textAlignment="center"
+            android:textAlignment="textStart"
             android:layout_marginTop="10dp" />
     </ScrollView>
 

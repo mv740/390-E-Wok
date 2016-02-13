@@ -30,25 +30,69 @@
       ],
       "video": [
         {
+          "id": "test_id",
+          "title": "video_titre",
           "language": "FR",
-          "data": "video/FR/test.mp4"
+          "filePath": "video/FR/test.mp4",
+          "durationInSeconds": 30,
+          "resolution": 720,
+          "encoding": "H.265/MPEG-H"
         },
         {
+          "id": "test_id",
+          "title": "video_title",
           "language": "EN",
-          "data": "video/EN/test.mp4"
+          "filePath": "video/EN/test.mp4",
+          "durationInSeconds": 60,
+          "resolution": 480,
+          "encoding": "H.264/MPEG-4"
         }
       ],
       "audio": [
         {
+          "id": "test_id",
+          "title": "audio_titre",
           "language": "FR",
-          "data": "audio/FR/test.mp4"
+          "filePath": "audio/FR/test_1.mp3",
+          "encoding": "mp3"
         },
         {
+          "id": "test_id",
+          "title": "audio_title",
           "language": "EN",
-          "data": "audio/EN/test.mp4"
+          "filePath": "audio/EN/test_1.mp3",
+          "encoding": "mp3"
         }
       ],
-      "picture": "picture/test",
+      "image": [
+        {
+          "id": "test_id",
+          "title": "test_title",
+          "language": "EN",
+          "filePath": "picture/test_image1.png",
+          "width": "10",
+          "height": "20"
+        },
+        {
+          "id": "test_id",
+          "title": "test_titre",
+          "language": "FR",
+          "filePath": "picture/test_image2.png",
+          "width": "10",
+          "height": "20"
+        }
+      ],
+      "qrcode": [
+        {
+          "id": "test_id_qr",
+          "title": "test_titre_qr",
+          "language": "FR",
+          "encodingString": "encoding",
+          "artifactTitle": "test_title",
+          "artifactDescription": "test_description",
+          "artifactImagePath": "artifactImage/test_image1.png"
+        }
+      ],
       "floor": 1,
       "room": 210,
       "tags": [
@@ -74,7 +118,7 @@
         "x": 20,
         "y": 40
       },
-      "transitionType" : "CORRIDOR",
+      "transitionType": "CORRIDOR",
       "edge": [
         1,
         2,

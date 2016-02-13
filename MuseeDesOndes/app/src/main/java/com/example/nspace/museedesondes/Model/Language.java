@@ -8,7 +8,7 @@ import java.util.Enumeration;
 /**
  * Created by michal on 2/3/2016.
  */
-@JsonTypeName("language")
+@JsonTypeName("Language")
 public class Language {
 
     private String language;

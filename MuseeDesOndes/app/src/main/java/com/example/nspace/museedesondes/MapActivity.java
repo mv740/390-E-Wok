@@ -44,6 +44,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private GroundOverlay groundOverlay;
+    private Map information;
     public static Drawable imgToSendToFullscreenImgActivity;
 
     @Override
@@ -97,7 +98,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Map information = Map.getInstance(getApplicationContext());
+        information = Map.getInstance(getApplicationContext());
 
         mMap = googleMap;
         mMap.setBuildingsEnabled(true);
@@ -122,7 +123,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
         //load map and then switch floor to 5
        // GroundOverlay groundOverlay = ViewMap.loadDefaultFloor(mMap, custom);
-        groundOverlay = ViewMap.loadDefaultFloor(mMap, custom);
+        groundOverlay = ViewMap.loadDefaultFloor(mMap, custom, information.getFloorPlans(), getApplicationContext());
         //need to implement a list view
         //ViewMap.switchFloor(groundOverlay, 5);
 
@@ -188,7 +189,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     }
 
     public void changeFloor(int floor){
-        ViewMap.switchFloor(groundOverlay, floor);
+        ViewMap.switchFloor(groundOverlay, floor, information.getFloorPlans(), getApplicationContext() );
         FloatingActionMenu floorButton = (FloatingActionMenu) findViewById(R.id.floor_button);
         floorButton.toggle(true);
     }

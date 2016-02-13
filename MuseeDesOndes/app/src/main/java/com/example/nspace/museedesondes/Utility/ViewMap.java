@@ -1,5 +1,9 @@
 package com.example.nspace.museedesondes.Utility;
 
+import android.content.Context;
+import android.content.res.Resources;
+
+import com.example.nspace.museedesondes.Model.FloorPlan;
 import com.example.nspace.museedesondes.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -8,51 +12,44 @@ import com.google.android.gms.maps.model.GroundOverlay;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+
 /**
  * Created by michal on 2/10/2016.
  */
 public class ViewMap {
 
-    public static GroundOverlay loadDefaultFloor(GoogleMap googleMap, LatLng position)
+
+    public static GroundOverlay loadDefaultFloor(GoogleMap googleMap, LatLng position,ArrayList<FloorPlan> floorPlans, Context context  )
     {
-        int imageRessource;
+        Resources resources = context.getResources();
+        final int resourceID = resources.getIdentifier(floorPlans.get(0).getImagePath(),"drawable",context.getPackageName());
 
-
-        BitmapDescriptor image = BitmapDescriptorFactory.fromResource(R.drawable.floor_1_rca_march2011_1);
+        BitmapDescriptor image = BitmapDescriptorFactory.fromResource(resourceID);
 
 
         GroundOverlayOptions customMap = new GroundOverlayOptions()
                 .image(image)
                 .position(position, 5520f, 10704f).anchor(0, 0);
-        GroundOverlay groundOverlay = googleMap.addGroundOverlay(customMap);
 
-        return groundOverlay;
+        return googleMap.addGroundOverlay(customMap);
 
     }
 
     /**
      * @param groundOverlay pass the same groundOverlay from defaultFloorMethod; this keep all image customisation
      * @param floorID floor number
+     * @param floorPlans
      */
-    public static void switchFloor(GroundOverlay groundOverlay, int floorID)
+    public static void switchFloor(GroundOverlay groundOverlay, int floorID, ArrayList<FloorPlan> floorPlans, Context context)
     {
-        int ressource = 1;
+        //http://stackoverflow.com/questions/16369814/how-to-access-the-drawable-resources-by-name-in-android
+        int index = floorID-1; //Todo if floor object aren't in order then we will need to loop to find the correct one by id
 
-        switch (floorID)
-        {
-            case 1: ressource = R.drawable.floor_1_rca_march2011_1;
-                break;
-            case 2: ressource = R.drawable.floor_2_rca_march2011_1;
-                break;
-            case 3: ressource = R.drawable.floor_3_rca_march2011_1;
-                break;
-            case 4: ressource = R.drawable.floor_4_rca_march2011_1;
-                break;
-            case 5: ressource = R.drawable.floor_5_rca_march2011_1;
-                break;
-        }
+        Resources resources = context.getResources();
+        final int resourceID = resources.getIdentifier(floorPlans.get(index).getImagePath(),"drawable",context.getPackageName());
 
-        groundOverlay.setImage(BitmapDescriptorFactory.fromResource(ressource));
+        groundOverlay.setImage(BitmapDescriptorFactory.fromResource(resourceID));
     }
 
 

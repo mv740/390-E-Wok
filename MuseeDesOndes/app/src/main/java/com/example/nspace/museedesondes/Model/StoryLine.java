@@ -11,7 +11,7 @@ public class StoryLine {
 
     private int id;
     private ArrayList<Text> text;
-    private String imagePath;
+    private ArrayList<Image> images;
     private int walkingTimeInMinutes;
     private int floorsCovered;
     private ArrayList<Integer> IdList; // used only to get reference node
@@ -19,13 +19,13 @@ public class StoryLine {
 
     public StoryLine(@JsonProperty("id") int id,
                      @JsonProperty("text") ArrayList<Text> text,
-                     @JsonProperty("imagePath") String imagePath,
+                     @JsonProperty("image") ArrayList<Image> images,
                      @JsonProperty("walkingTimeInMinutes") int walkingTimeInMinutes,
                      @JsonProperty("floorsCovered") int floorsCovered,
                      @JsonProperty("nodeIds") ArrayList<Integer> idList) {
         this.id = id;
         this.text = text;
-        this.imagePath = imagePath;
+        this.images = images;
         this.walkingTimeInMinutes = walkingTimeInMinutes;
         this.floorsCovered = floorsCovered;
         this.IdList = idList;
@@ -41,8 +41,8 @@ public class StoryLine {
         return text;
     }
 
-    public String getImagePath() {
-        return imagePath;
+    public ArrayList<Image> getImages() {
+        return images;
     }
 
     public int getWalkingTimeInMinutes() {

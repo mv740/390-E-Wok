@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.nspace.museedesondes.Model.Map;
 import com.example.nspace.museedesondes.Utility.CustomStoryList;
 
 import java.util.Locale;
@@ -17,11 +18,14 @@ public class StoryLineActivity extends AppCompatActivity {
     String[] titles;
     String[] description;
     Integer[] imageId;
+    Map information;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story_line);
+
+        information = Map.getInstance(getApplicationContext());
 
         Locale currentLocale = getResources().getConfiguration().locale;
         String currentLanguage = currentLocale.getLanguage();

@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 @JsonTypeName("Node")
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value=PointOfInterest.class, name="PointOfInterest"),
         @JsonSubTypes.Type(value=ServicePoint.class, name="ServicePoint"),

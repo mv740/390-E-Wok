@@ -17,7 +17,7 @@ public class Video extends ExhibitionContent{
     public Video(@JsonProperty("id") String id,
                  @JsonProperty("title") String title,
                  @JsonProperty("language")String language,
-                 @JsonProperty("language")String filePath,
+                 @JsonProperty("filePath")String filePath,
                  @JsonProperty("durationInSeconds")int durationInSeconds,
                  @JsonProperty("resolution")int resolution,
                  @JsonProperty("encoding")String encoding) {

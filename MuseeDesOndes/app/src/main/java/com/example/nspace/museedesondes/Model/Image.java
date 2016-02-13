@@ -11,18 +11,18 @@ public class Image extends ExhibitionContent {
 
     private String filePath;
     private int width;
-    private int heigth;
+    private int height;
 
     public Image(@JsonProperty("id") String id,
                  @JsonProperty("title") String title,
                  @JsonProperty("language")String language,
                  @JsonProperty("filePath")String filePath,
                  @JsonProperty("width")int width,
-                 @JsonProperty("heigth")int heigth) {
+                 @JsonProperty("height")int height) {
         super(id, title, language);
         this.filePath = filePath;
         this.width = width;
-        this.heigth = heigth;
+        this.height = height;
     }
 
     public String getFilePath() {
@@ -33,7 +33,7 @@ public class Image extends ExhibitionContent {
         return width;
     }
 
-    public int getHeigth() {
-        return heigth;
+    public int getHeight() {
+        return height;
     }
 }

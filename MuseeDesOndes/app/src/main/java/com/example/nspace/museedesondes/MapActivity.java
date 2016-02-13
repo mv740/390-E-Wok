@@ -3,6 +3,7 @@ package com.example.nspace.museedesondes;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -140,11 +141,11 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
                 title = language.getData();
             }
         }
-        for(Text language : pointOfInterest.getText())
+        for(Text text : pointOfInterest.getText())
         {
-            if(getApplicationContext().getResources().getConfiguration().locale.getLanguage().equals(language.getLanguage()))
+            if(getApplicationContext().getResources().getConfiguration().locale.getLanguage().equals(text.getLanguage()))
             {
-                snippet = language.getContent();
+                snippet = String.valueOf(text.getContent());
             }
         }
 

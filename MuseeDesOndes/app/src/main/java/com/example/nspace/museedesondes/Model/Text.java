@@ -2,6 +2,7 @@ package com.example.nspace.museedesondes.Model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * Created by michal on 2/11/2016.
@@ -21,4 +22,6 @@ public class Text extends ExhibitionContent{
     public String getContent() {
         return content;
     }
+
+
 }

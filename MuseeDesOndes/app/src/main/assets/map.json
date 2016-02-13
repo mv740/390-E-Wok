@@ -1,7 +1,7 @@
 {
   "node": [
     {
-      "type": "PointOfInterest",
+      "@type": "PointOfInterest",
       "id": 1,
       "beaconInformation": {
         "UUID": "test_uuid",
@@ -20,12 +20,14 @@
       ],
       "text": [
         {
+          "@type":"Text",
           "id": "test_id",
           "title": "test_titre",
           "language": "fr",
           "htmlContent": "Veuillez lire cette description"
         },
         {
+          "@type":"Text",
           "id": "test_id",
           "title": "test_titre",
           "language": "en_us",
@@ -34,6 +36,7 @@
       ],
       "video": [
         {
+          "@type":"Video",
           "id": "test_id",
           "title": "video_titre",
           "language": "FR",
@@ -43,6 +46,7 @@
           "encoding": "H.265/MPEG-H"
         },
         {
+          "@type":"Video",
           "id": "test_id",
           "title": "video_title",
           "language": "EN",
@@ -54,6 +58,7 @@
       ],
       "audio": [
         {
+          "@type":"Audio",
           "id": "test_id",
           "title": "audio_titre",
           "language": "FR",
@@ -61,6 +66,7 @@
           "encoding": "mp3"
         },
         {
+          "@type":"Audio",
           "id": "test_id",
           "title": "audio_title",
           "language": "EN",
@@ -70,6 +76,7 @@
       ],
       "image": [
         {
+          "@type":"Image",
           "id": "test_id",
           "title": "test_title",
           "language": "EN",
@@ -78,6 +85,7 @@
           "height": "20"
         },
         {
+          "@type":"Image",
           "id": "test_id",
           "title": "test_titre",
           "language": "FR",
@@ -88,6 +96,7 @@
       ],
       "qrcode": [
         {
+          "@type":"QRCode",
           "id": "test_id_qr",
           "title": "test_titre_qr",
           "language": "FR",
@@ -120,7 +129,7 @@
       ]
     },
     {
-      "type": "TransitionPoint",
+      "@type": "TransitionPoint",
       "id": 1,
       "floorPlan": {
         "floorId": "1",
@@ -140,7 +149,7 @@
       ]
     },
     {
-      "type": "ServicePoint",
+      "@type": "ServicePoint",
       "locationType": "ENTRANCE",
       "id": 3,
       "floorPlan": {

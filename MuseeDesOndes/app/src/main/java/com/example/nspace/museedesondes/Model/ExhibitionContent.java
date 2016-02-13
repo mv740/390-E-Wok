@@ -9,12 +9,13 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  * Created by michal on 2/11/2016.
  */
 @JsonTypeName("ExhibitionContent")
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value=Audio.class, name="Audio"),
         @JsonSubTypes.Type(value=Video.class, name="Video"),
         @JsonSubTypes.Type(value=Image.class, name="Image"),
-        @JsonSubTypes.Type(value=QRCode.class, name="QRCode")
+        @JsonSubTypes.Type(value=QRCode.class, name="QRCode"),
+        @JsonSubTypes.Type(value=Text.class, name="Text")
 })
 public class ExhibitionContent {
     private String id;

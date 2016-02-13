@@ -1,7 +1,10 @@
 package com.example.nspace.museedesondes.Model;
 
+import android.app.LauncherActivity;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.util.ArrayList;
 
@@ -27,11 +30,11 @@ public class PointOfInterest extends Node {
                            @JsonProperty("coordinate") Coordinate coordinate,
                            @JsonProperty("beaconInformation") BeaconInformation beaconInformation,
                            @JsonProperty("name") ArrayList<Language> name,
-                           @JsonProperty("text") ArrayList text,
-                           @JsonProperty("video") ArrayList video,
-                           @JsonProperty("audio") ArrayList audio,
-                           @JsonProperty("image") ArrayList images,
-                           @JsonProperty("qrcode") ArrayList qrCodes,
+                           @JsonProperty("text") ArrayList<Text> text,
+                           @JsonProperty("video") ArrayList<Video> video,
+                           @JsonProperty("audio") ArrayList<Audio> audio,
+                           @JsonProperty("image") ArrayList<Image> images,
+                           @JsonProperty("qrcode") ArrayList<QRCode> qrCodes,
                            @JsonProperty("room") String room,
                            @JsonProperty("tags") ArrayList<String> tags) {
         super(id, floor, edge, coordinate);
@@ -41,6 +44,7 @@ public class PointOfInterest extends Node {
         this.video = video;
         this.audio = audio;
         this.images = images;
+        this.qrCodes = qrCodes;
         this.room = room;
         this.tags = tags;
     }
@@ -85,5 +89,9 @@ public class PointOfInterest extends Node {
 
     public ArrayList<String> getTags() {
         return tags;
+    }
+
+    public ArrayList<QRCode> getQrCodes() {
+        return qrCodes;
     }
 }

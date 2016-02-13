@@ -13,7 +13,7 @@ public class PointOfInterest extends Node {
 
     private BeaconInformation beaconInformation;
     private ArrayList<Language> name;
-    private ArrayList<Language> description;
+    private ArrayList<Text> text;
     private ArrayList<Video> video;
     private ArrayList<Audio> audio;
     private ArrayList<Image> images;
@@ -22,12 +22,12 @@ public class PointOfInterest extends Node {
     private ArrayList<String> tags;
 
     public PointOfInterest(@JsonProperty("id") int id,
-                           @JsonProperty("floor") int floor,
+                           @JsonProperty("floorPlan") FloorPlan floor,
                            @JsonProperty("edge") ArrayList edge,
                            @JsonProperty("coordinate") Coordinate coordinate,
                            @JsonProperty("beaconInformation") BeaconInformation beaconInformation,
                            @JsonProperty("name") ArrayList<Language> name,
-                           @JsonProperty("description") ArrayList<Language> description,
+                           @JsonProperty("text") ArrayList text,
                            @JsonProperty("video") ArrayList video,
                            @JsonProperty("audio") ArrayList audio,
                            @JsonProperty("image") ArrayList images,
@@ -37,7 +37,7 @@ public class PointOfInterest extends Node {
         super(id, floor, edge, coordinate);
         this.beaconInformation = beaconInformation;
         this.name = name;
-        this.description = description;
+        this.text = text;
         this.video = video;
         this.audio = audio;
         this.images = images;
@@ -54,7 +54,7 @@ public class PointOfInterest extends Node {
         return name;
     }
 
-    public ArrayList<Language> getDescription() {
+    public ArrayList<Text> getText() {
 
 //        Locale currentLocale = getResources().getConfiguration().locale;
 //        String currentLanguage = currentLocale.getLanguage();
@@ -64,7 +64,7 @@ public class PointOfInterest extends Node {
 //            return frenchDescription;
 //        }
 
-        return description;
+        return text;
     }
 
     public ArrayList<Video> getVideo() {

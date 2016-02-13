@@ -14,7 +14,7 @@ public class TransitionPoint extends Node {
     private Label type;
 
     public TransitionPoint(@JsonProperty("id") int id,
-                           @JsonProperty("floor") int floor,
+                           @JsonProperty("floorPlan") FloorPlan floor,
                            @JsonProperty("edge") ArrayList edge,
                            @JsonProperty("coordinate") Coordinate coordinate,
                            @JsonProperty("transitionType") String transitionType) {

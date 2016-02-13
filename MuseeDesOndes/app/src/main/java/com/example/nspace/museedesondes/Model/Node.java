@@ -17,14 +17,14 @@ import java.util.ArrayList;
 })
 public class Node {
     private int id;
-    private int floor;
+    private FloorPlan floorPlan;
     private ArrayList edge;
     private Coordinate coordinate;
 
-    public Node(@JsonProperty("id") int id, @JsonProperty("floor")int floor, @JsonProperty("edge") ArrayList edge, @JsonProperty("coordinate") Coordinate coordinate) {
+    public Node(@JsonProperty("id") int id, @JsonProperty("floorPlan") FloorPlan floorPlan, @JsonProperty("edge") ArrayList edge, @JsonProperty("coordinate") Coordinate coordinate) {
 
         this.id = id;
-        this.floor = floor;
+        this.floorPlan =  floorPlan;
         this.edge = edge;
         this.coordinate = coordinate;
     }
@@ -33,8 +33,8 @@ public class Node {
         return id;
     }
 
-    public int getFloor() {
-        return floor;
+    public FloorPlan getFloorPlan() {
+        return floorPlan;
     }
 
     public ArrayList getEdge() {

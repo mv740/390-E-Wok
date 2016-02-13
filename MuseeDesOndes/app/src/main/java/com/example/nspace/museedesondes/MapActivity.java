@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.nspace.museedesondes.Model.Language;
 import com.example.nspace.museedesondes.Model.Map;
 import com.example.nspace.museedesondes.Model.PointOfInterest;
+import com.example.nspace.museedesondes.Model.Text;
 import com.example.nspace.museedesondes.Utility.ViewMap;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -139,11 +140,11 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
                 title = language.getData();
             }
         }
-        for(Language language : pointOfInterest.getDescription())
+        for(Text language : pointOfInterest.getText())
         {
             if(getApplicationContext().getResources().getConfiguration().locale.getLanguage().equals(language.getLanguage()))
             {
-                snippet = language.getData();
+                snippet = language.getContent();
             }
         }
 

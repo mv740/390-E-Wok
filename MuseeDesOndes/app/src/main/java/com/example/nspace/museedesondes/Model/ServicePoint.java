@@ -14,7 +14,7 @@ public class ServicePoint extends Node{
     private Label serviceType;
 
     public ServicePoint(@JsonProperty("id") int id,
-                        @JsonProperty("floor") int floor,
+                        @JsonProperty("floor") FloorPlan floor,
                         @JsonProperty("edge") ArrayList edge,
                         @JsonProperty("coordinate") Coordinate coordinate,
                         @JsonProperty("locationType") String serviceType) {

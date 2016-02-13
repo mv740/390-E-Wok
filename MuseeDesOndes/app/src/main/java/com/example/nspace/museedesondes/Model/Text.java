@@ -18,4 +18,7 @@ public class Text extends ExhibitionContent{
         this.content = content;
     }
 
+    public String getContent() {
+        return content;
+    }
 }

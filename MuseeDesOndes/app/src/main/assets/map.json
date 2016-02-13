@@ -18,14 +18,18 @@
           "data": "my name"
         }
       ],
-      "description": [
+      "text": [
         {
+          "id": "test_id",
+          "title": "test_titre",
           "language": "fr",
-          "data": "Veuillez lire cette description"
+          "htmlContent": "Veuillez lire cette description"
         },
         {
+          "id": "test_id",
+          "title": "test_titre",
           "language": "en_us",
-          "data": "Please read this description"
+          "htmlContent": "Please read this description"
         }
       ],
       "video": [
@@ -93,7 +97,12 @@
           "artifactImagePath": "artifactImage/test_image1.png"
         }
       ],
-      "floor": 1,
+      "floorPlan": {
+        "floorId": "1",
+        "imagePath": "image/floor_1",
+        "imageWidth": "10",
+        "imageHeight": "10"
+      },
       "room": 210,
       "tags": [
         "testTags1",
@@ -113,7 +122,12 @@
     {
       "type": "TransitionPoint",
       "id": 1,
-      "floor": 1,
+      "floorPlan": {
+        "floorId": "1",
+        "imagePath": "image/floor_1",
+        "imageWidth": "10",
+        "imageHeight": "10"
+      },
       "coordinate": {
         "x": 20,
         "y": 40
@@ -129,7 +143,12 @@
       "type": "ServicePoint",
       "locationType": "ENTRANCE",
       "id": 3,
-      "floor": 2,
+      "floorPlan": {
+        "floorId": "2",
+        "imagePath": "image/floor_2",
+        "imageWidth": "10",
+        "imageHeight": "10"
+      },
       "coordinate": {
         "x": 20.0,
         "y": 40.5

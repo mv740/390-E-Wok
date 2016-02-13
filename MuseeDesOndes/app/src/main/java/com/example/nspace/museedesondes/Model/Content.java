@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 /**
  * Created by michal on 2/11/2016.
  */
-@JsonTypeName("ExhibitionContent")
+@JsonTypeName("Content")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value=Audio.class, name="Audio"),
@@ -17,14 +17,14 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
         @JsonSubTypes.Type(value=QRCode.class, name="QRCode"),
         @JsonSubTypes.Type(value=Text.class, name="Text")
 })
-public class ExhibitionContent {
+public abstract class Content {
     private String id;
     private String title;
-    private String language;
+    private Language language;
 
-    public ExhibitionContent(@JsonProperty("id") String id,
-                             @JsonProperty("title") String title,
-                             @JsonProperty("language")String language) {
+    public Content(@JsonProperty("id") String id,
+                   @JsonProperty("title") String title,
+                   @JsonProperty("language") Language language) {
         this.id = id;
         this.title = title;
         this.language = language;
@@ -38,7 +38,7 @@ public class ExhibitionContent {
         return title;
     }
 
-    public String getLanguage() {
+    public Language getLanguage() {
         return language;
     }
 }

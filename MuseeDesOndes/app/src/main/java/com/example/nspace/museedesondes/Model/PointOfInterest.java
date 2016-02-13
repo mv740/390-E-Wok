@@ -1,10 +1,7 @@
 package com.example.nspace.museedesondes.Model;
 
-import android.app.LauncherActivity;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.util.ArrayList;
 
@@ -21,32 +18,24 @@ public class PointOfInterest extends Node {
     private ArrayList<Audio> audio;
     private ArrayList<Image> images;
     private ArrayList<QRCode> qrCodes;
-    private String room;
-    private ArrayList<String> tags;
 
     public PointOfInterest(@JsonProperty("id") int id,
                            @JsonProperty("floorPlan") FloorPlan floor,
                            @JsonProperty("edge") ArrayList edge,
                            @JsonProperty("coordinate") Coordinate coordinate,
                            @JsonProperty("beaconInformation") BeaconInformation beaconInformation,
-                           @JsonProperty("name") ArrayList<Language> name,
                            @JsonProperty("text") ArrayList<Text> text,
                            @JsonProperty("video") ArrayList<Video> video,
                            @JsonProperty("audio") ArrayList<Audio> audio,
                            @JsonProperty("image") ArrayList<Image> images,
-                           @JsonProperty("qrcode") ArrayList<QRCode> qrCodes,
-                           @JsonProperty("room") String room,
-                           @JsonProperty("tags") ArrayList<String> tags) {
+                           @JsonProperty("qrcode") ArrayList<QRCode> qrCodes) {
         super(id, floor, edge, coordinate);
         this.beaconInformation = beaconInformation;
-        this.name = name;
         this.text = text;
         this.video = video;
         this.audio = audio;
         this.images = images;
         this.qrCodes = qrCodes;
-        this.room = room;
-        this.tags = tags;
     }
 
 
@@ -81,14 +70,6 @@ public class PointOfInterest extends Node {
 
     public ArrayList<Image> getImages() {
         return images;
-    }
-
-    public String getRoom() {
-        return room;
-    }
-
-    public ArrayList<String> getTags() {
-        return tags;
     }
 
     public ArrayList<QRCode> getQrCodes() {

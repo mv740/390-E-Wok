@@ -10,16 +10,24 @@ import java.util.ArrayList;
 public class StoryLine {
 
     private int id;
-    private ArrayList<Language> name;
-    private ArrayList<Language> description;
+    private ArrayList<Text> text;
+    private String imagePath;
+    private int walkingTimeInMinutes;
+    private int floorsCovered;
     private ArrayList IdList;
 
-    public StoryLine(@JsonProperty("id") int id, @JsonProperty("name") ArrayList<Language> name, @JsonProperty("description") ArrayList<Language> description, @JsonProperty("nodeIds") ArrayList idList) {
+    public StoryLine(@JsonProperty("id") int id,
+                     @JsonProperty("text") ArrayList<Text> text,
+                     @JsonProperty("imagePath") String imagePath,
+                     @JsonProperty("walkingTimeInMinutes") int walkingTimeInMinutes,
+                     @JsonProperty("floorsCovered") int floorsCovered,
+                     @JsonProperty("nodeIds") ArrayList idList) {
         this.id = id;
-        this.name = name;
-        this.description = description;
-        IdList = idList;
-
+        this.text = text;
+        this.imagePath = imagePath;
+        this.walkingTimeInMinutes = walkingTimeInMinutes;
+        this.floorsCovered = floorsCovered;
+        this.IdList = idList;
 
     }
 
@@ -27,12 +35,20 @@ public class StoryLine {
         return id;
     }
 
-    public ArrayList<Language> getName() {
-        return name;
+    public ArrayList<Text> getText() {
+        return text;
     }
 
-    public ArrayList<Language> getDescription() {
-        return description;
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public int getWalkingTimeInMinutes() {
+        return walkingTimeInMinutes;
+    }
+
+    public int getFloorsCovered() {
+        return floorsCovered;
     }
 
     public ArrayList getIdList() {

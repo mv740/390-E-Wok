@@ -7,14 +7,14 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  * Created by michal on 2/11/2016.
  */
 @JsonTypeName("Audio")
-public class Audio extends ExhibitionContent {
+public class Audio extends Content {
     private String filePath;
     private int durationInSeconds;
     private String encoding;
 
     public Audio(@JsonProperty("id") String id,
                  @JsonProperty("title") String title,
-                 @JsonProperty("language")String language,
+                 @JsonProperty("language")Language language,
                  @JsonProperty("filePath")String filePath,
                  @JsonProperty("durationInSeconds")int durationInSeconds,
                  @JsonProperty("encoding")String encoding) {

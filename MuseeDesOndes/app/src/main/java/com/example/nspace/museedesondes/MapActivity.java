@@ -134,18 +134,18 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
         String title = "error";
         String snippet = "error";
-        for(Language language : pointOfInterest.getName())
+        for(Text text : pointOfInterest.getText())
         {
-            if(getApplicationContext().getResources().getConfiguration().locale.getLanguage().equals(language.getLanguage()))
+            if(getApplicationContext().getResources().getConfiguration().locale.getLanguage().equals(text.getLanguage().name().toLowerCase()))
             {
-                title = language.getData();
+                title = text.getLanguage().name();
             }
         }
         for(Text text : pointOfInterest.getText())
         {
-            if(getApplicationContext().getResources().getConfiguration().locale.getLanguage().equals(text.getLanguage()))
+            if(getApplicationContext().getResources().getConfiguration().locale.getLanguage().equals(text.getLanguage().name().toLowerCase()))
             {
-                snippet = String.valueOf(text.getContent());
+                snippet = text.getContent();
             }
         }
 

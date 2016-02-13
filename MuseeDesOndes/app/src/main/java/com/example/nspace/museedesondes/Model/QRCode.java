@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  * Created by michal on 2/11/2016.
  */
 @JsonTypeName("QRCode")
-public class QRCode extends ExhibitionContent {
+public class QRCode extends Content {
     private String encodingString;
     private String artifactTitle;
     private String artifactDescription;
@@ -15,7 +15,7 @@ public class QRCode extends ExhibitionContent {
 
     public QRCode(@JsonProperty("id") String id,
                   @JsonProperty("title") String title,
-                  @JsonProperty("language")String language,
+                  @JsonProperty("language")Language language,
                   @JsonProperty("encodingString")String encodingString,
                   @JsonProperty("artifactTitle")String artifactTitle,
                   @JsonProperty("artifactDescription")String artifactDescription,

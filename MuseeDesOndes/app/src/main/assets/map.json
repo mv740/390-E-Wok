@@ -8,16 +8,6 @@
         "major": 1111,
         "minor": 2222
       },
-      "name": [
-        {
-          "language": "fr",
-          "data": "mon nom"
-        },
-        {
-          "language": "en_us",
-          "data": "my name"
-        }
-      ],
       "text": [
         {
           "@type":"Text",
@@ -30,7 +20,7 @@
           "@type":"Text",
           "id": "test_id",
           "title": "test_titre",
-          "language": "en_us",
+          "language": "en_US",
           "htmlContent": "Please read this description"
         }
       ],
@@ -39,7 +29,7 @@
           "@type":"Video",
           "id": "test_id",
           "title": "video_titre",
-          "language": "FR",
+          "language": "fr",
           "filePath": "video/FR/test.mp4",
           "durationInSeconds": 30,
           "resolution": 720,
@@ -49,7 +39,7 @@
           "@type":"Video",
           "id": "test_id",
           "title": "video_title",
-          "language": "EN",
+          "language": "en_US",
           "filePath": "video/EN/test.mp4",
           "durationInSeconds": 60,
           "resolution": 480,
@@ -61,7 +51,7 @@
           "@type":"Audio",
           "id": "test_id",
           "title": "audio_titre",
-          "language": "FR",
+          "language": "fr",
           "filePath": "audio/FR/test_1.mp3",
           "encoding": "mp3"
         },
@@ -69,7 +59,7 @@
           "@type":"Audio",
           "id": "test_id",
           "title": "audio_title",
-          "language": "EN",
+          "language": "en_US",
           "filePath": "audio/EN/test_1.mp3",
           "encoding": "mp3"
         }
@@ -79,7 +69,7 @@
           "@type":"Image",
           "id": "test_id",
           "title": "test_title",
-          "language": "EN",
+          "language": "en_US",
           "filePath": "picture/test_image1.png",
           "width": "10",
           "height": "20"
@@ -88,7 +78,7 @@
           "@type":"Image",
           "id": "test_id",
           "title": "test_titre",
-          "language": "FR",
+          "language": "fr",
           "filePath": "picture/test_image2.png",
           "width": "10",
           "height": "20"
@@ -99,7 +89,7 @@
           "@type":"QRCode",
           "id": "test_id_qr",
           "title": "test_titre_qr",
-          "language": "FR",
+          "language": "fr",
           "encodingString": "encoding",
           "artifactTitle": "test_title",
           "artifactDescription": "test_description",
@@ -112,12 +102,6 @@
         "imageWidth": "10",
         "imageHeight": "10"
       },
-      "room": 210,
-      "tags": [
-        "testTags1",
-        "testTags2",
-        "testTags3"
-      ],
       "coordinate": {
         "x": 0.001,
         "y": 0.0
@@ -141,7 +125,7 @@
         "x": 20,
         "y": 40
       },
-      "transitionType": "CORRIDOR",
+      "label": "STAIRS",
       "edge": [
         1,
         2,
@@ -150,7 +134,7 @@
     },
     {
       "@type": "ServicePoint",
-      "locationType": "ENTRANCE",
+      "label": "ENTRANCE",
       "id": 3,
       "floorPlan": {
         "floorId": "2",
@@ -179,35 +163,66 @@
       ]
     }
   ],
-  "storyLines": [
+  "storyLine": [
     {
       "id": 12,
-      "name": [
+      "text": [
         {
-          "language": "FR",
-          "data": "histoire test"
+          "@type":"Text",
+          "id": "test_id",
+          "title": "test_titre",
+          "language": "fr",
+          "htmlContent": "Veuillez lire cette description"
         },
         {
-          "language": "EN",
-          "data": "Storyline test"
+          "@type":"Text",
+          "id": "test_id",
+          "title": "test_titre",
+          "language": "en_US",
+          "htmlContent": "Please read this description"
         }
       ],
-      "description": [
-        {
-          "language": "FR",
-          "data": "Veuillez lire cette hitoire"
-        },
-        {
-          "language": "EN",
-          "data": "Please read this storyline"
-        }
-      ],
+      "imagePath": "image/floor_2",
+      "walkingTimeInMinutes": 30,
+      "floorsCovered": 2,
       "nodeIds": [
         1,
         2,
         3,
         10
       ]
+    }
+  ],
+  "floorPlan" : [
+     {
+      "floorId": "1",
+      "imagePath": "floor_1_rca_march2011_1",
+      "imageWidth": "10",
+      "imageHeight": "10"
+    },
+    {
+      "floorId": "2",
+      "imagePath": "floor_2_rca_march2011_1",
+      "imageWidth": "10",
+      "imageHeight": "10"
+    },
+    {
+      "floorId": "3",
+      "imagePath": "floor_3_rca_march2011_1",
+      "imageWidth": "10",
+      "imageHeight": "10"
+    },
+    {
+      "floorId": "4",
+      "imagePath": "floor_4_rca_march2011_1",
+      "imageWidth": "10",
+      "imageHeight": "10"
+    },
+    {
+      "floorId": "5",
+      "imagePath": "floor_5_rca_march2011_1",
+      "imageWidth": "10",
+      "imageHeight": "10"
     }
   ]
 }

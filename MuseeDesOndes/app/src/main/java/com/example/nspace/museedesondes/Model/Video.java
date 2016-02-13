@@ -1,14 +1,13 @@
 package com.example.nspace.museedesondes.Model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * Created by michal on 2/11/2016.
  */
 @JsonTypeName("Video")
-public class Video extends ExhibitionContent{
+public class Video extends Content {
     private String filePath;
     private int durationInSeconds;
     private int resolution;
@@ -16,7 +15,7 @@ public class Video extends ExhibitionContent{
 
     public Video(@JsonProperty("id") String id,
                  @JsonProperty("title") String title,
-                 @JsonProperty("language")String language,
+                 @JsonProperty("language")Language language,
                  @JsonProperty("filePath")String filePath,
                  @JsonProperty("durationInSeconds")int durationInSeconds,
                  @JsonProperty("resolution")int resolution,

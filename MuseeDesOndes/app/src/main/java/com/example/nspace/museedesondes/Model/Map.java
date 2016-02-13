@@ -19,18 +19,19 @@ public class Map {
     private ArrayList<PointOfInterest> pointOfInterests;
     private ArrayList<ServicePoint> servicePoints;
     private ArrayList<TransitionPoint> transitionPoints;
+    private ArrayList<FloorPlan> floorPlans;
 
     private static Map instance = null;
 
-    private Map(@JsonProperty("node") ArrayList<Node> nodes, @JsonProperty("edge") ArrayList<Edge> edges, @JsonProperty("storyLines") ArrayList<StoryLine> storyLines) {
+    private Map(@JsonProperty("node") ArrayList<Node> nodes,
+                @JsonProperty("edge") ArrayList<Edge> edges,
+                @JsonProperty("storyLine") ArrayList<StoryLine> storyLines,
+                @JsonProperty("floorPlan") ArrayList<FloorPlan> floorPlans) {
 
-        //load json
-        //create nodes
-        //create edges
-        //create StoryLine
         this.nodes = nodes;
         this.edges = edges;
         this.storyLines = storyLines;
+        this.floorPlans = floorPlans;
         this.pointOfInterests = new ArrayList<>();
         this.servicePoints = new ArrayList<>();
         this.transitionPoints = new ArrayList<>();
@@ -135,5 +136,9 @@ public class Map {
 
     public ArrayList<TransitionPoint> getTransitionPoints() {
         return transitionPoints;
+    }
+
+    public ArrayList<FloorPlan> getFloorPlans() {
+        return floorPlans;
     }
 }

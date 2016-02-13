@@ -38,6 +38,8 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import com.google.android.gms.maps.model.Polyline;
+import com.example.nspace.museedesondes.Model.Node;
+import java.util.ArrayList;
 
 public class MapActivity extends ActionBarActivity implements OnMapReadyCallback, NavigationDrawerFragment.NavigationDrawerCallbacks{
 
@@ -178,7 +180,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         andAnotherOne2.title("Waguan");
         andAnotherOne2.snippet(snippet);
 
-        
+
         // This is a testing the creation of a polyline between two points. Harrison Ianatchkov Feb 12, 2016
         Polyline line = mMap.addPolyline(new PolylineOptions()
                 .add(node.getPosition(), andAnotherOne2.getPosition())
@@ -187,10 +189,46 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
                 .width(15)
                 .color(Color.parseColor("#FFFE7070")));
 
+    }
 
+    /**
+     * This method is meant to setup the nodes from the JSON as points on the map.
+     * @param nodes nodes from this arraylist are placed on the map
+     */
+    public ArrayList<MarkerOptions> setNodePositions(ArrayList<Node> nodes) {
+        ArrayList<MarkerOptions> markers;
+        if (nodes == null) {
+            return null;
+        }
+        markers = new ArrayList<MarkerOptions>();
+        String snippet = "error";
+        String title = "error";
 
+        for (int i = 0; i < nodes.toArray().length; i++) {
+            MarkerOptions marker = new MarkerOptions();
+            marker.position(new LatLng(nodes.get(i).getCoordinate().getX(), nodes.get(i).getCoordinate().getY()));
+            marker.title(title);
+            marker.snippet(snippet);
+            markers.add(marker);
+        }
 
-        
+        return markers;
+    }
+
+    /**
+     * This function is meant to trace the path between nodes in the arraylist of MarkerOptions
+     * @param markers
+     */
+    public void tracePath(ArrayList<MarkerOptions> markers) {
+
+        Polyline line;
+
+        for (int i = 0; i < markers.toArray().length - 1; i++) {
+            line = mMap.addPolyline(new PolylineOptions()
+                    .add(markers.get(i).getPosition(), markers.get(i + 1).getPosition())
+                    .width(15)
+                    .color(Color.parseColor("FFFE7070")));
+        }
     }
 
     @Override

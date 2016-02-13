@@ -71,8 +71,8 @@
       "id": 1,
       "floor": 1,
       "coordinate": {
-        "x": 20,
-        "y": 40
+        "x": 0.015,
+        "y": 0.01
       },
       "transitionType" : "CORRIDOR",
       "edge": [
@@ -87,8 +87,8 @@
       "id": 3,
       "floor": 2,
       "coordinate": {
-        "x": 20.0,
-        "y": 40.5
+        "x": -0.02,
+        "y": 0.0
       },
       "edge": [
         1,

@@ -110,7 +110,7 @@
       "id": 2,
       "floorPlan": {
         "floorId": "1",
-        "imagePath": "image/floor_1",
+        "imagePath": "floor_1_rca_march2011_1",
         "imageWidth": "10",
         "imageHeight": "10"
       },
@@ -124,7 +124,7 @@
       "id": 3,
       "floorPlan": {
         "floorId": "2",
-        "imagePath": "image/floor_2",
+        "imagePath": "floor_2_rca_march2011_1",
         "imageWidth": "10",
         "imageHeight": "10"
       },

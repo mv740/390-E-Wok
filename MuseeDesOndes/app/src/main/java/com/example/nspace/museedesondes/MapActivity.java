@@ -166,11 +166,30 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         anotherOne.icon((BitmapDescriptorFactory.defaultMarker((BitmapDescriptorFactory.HUE_AZURE))));
         mMap.addMarker(anotherOne);
 
+        // This is a testing point. TO BE REMOVED Harrison Ianatchkov Feb 12, 2016
+        MarkerOptions andAnotherOne1 = new MarkerOptions();
+        andAnotherOne1.position(new LatLng(0.015, 0.01));
+        andAnotherOne1.title("Waguan");
+        andAnotherOne1.snippet(snippet);
+
+        // This is a testing point. TO BE REMOVED Harrison Ianatchkov Feb 12, 2016
+        MarkerOptions andAnotherOne2 = new MarkerOptions();
+        andAnotherOne2.position(new LatLng(0.015, -0.004));
+        andAnotherOne2.title("Waguan");
+        andAnotherOne2.snippet(snippet);
+
         // This is a testing the creation of a polyline between two points. Harrison Ianatchkov Feb 12, 2016
         Polyline line = mMap.addPolyline(new PolylineOptions()
-                .add(node.getPosition(), anotherOne.getPosition())
-                .width(1)
+                .add(node.getPosition(), andAnotherOne2.getPosition())
+                .add(andAnotherOne2.getPosition(), andAnotherOne1.getPosition())
+                .add(andAnotherOne1.getPosition(), anotherOne.getPosition())
+                .width(15)
                 .color(Color.parseColor("#FFFE7070")));
+
+
+
+
+        
     }
 
     @Override

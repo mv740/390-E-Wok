@@ -134,6 +134,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         //// TODO: 2/7/2016 refactor this in a proper fuction
         PointOfInterest pointOfInterest = information.getPointOfInterests().get(0);
 
+
         String title = "error";
         String snippet = "error";
         for(Language language : pointOfInterest.getName())
@@ -152,42 +153,10 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         }
 
 
-        //single marker with value from json
-        MarkerOptions node = new MarkerOptions();
-        node.position(new LatLng(pointOfInterest.getCoordinate().getX(), pointOfInterest.getCoordinate().getY()));
-        node.title(title);
-        node.snippet(snippet);
-        node.icon((BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-        mMap.addMarker(node);
+        ArrayList<Node> nodes = information.getNodes();
+        // This statement places all the nodes on the map and traces the path between them.
+        tracePath(setNodePositions(nodes));
 
-        // This is a testing point. TO BE REMOVED Harrison Ianatchkov Feb 12, 2016
-        MarkerOptions anotherOne = new MarkerOptions();
-        anotherOne.position(new LatLng(0.001, 0.01));
-        anotherOne.title("Waguan");
-        anotherOne.snippet(snippet);
-        anotherOne.icon((BitmapDescriptorFactory.defaultMarker((BitmapDescriptorFactory.HUE_AZURE))));
-        mMap.addMarker(anotherOne);
-
-        // This is a testing point. TO BE REMOVED Harrison Ianatchkov Feb 12, 2016
-        MarkerOptions andAnotherOne1 = new MarkerOptions();
-        andAnotherOne1.position(new LatLng(0.015, 0.01));
-        andAnotherOne1.title("Waguan");
-        andAnotherOne1.snippet(snippet);
-
-        // This is a testing point. TO BE REMOVED Harrison Ianatchkov Feb 12, 2016
-        MarkerOptions andAnotherOne2 = new MarkerOptions();
-        andAnotherOne2.position(new LatLng(0.015, -0.004));
-        andAnotherOne2.title("Waguan");
-        andAnotherOne2.snippet(snippet);
-
-
-        // This is a testing the creation of a polyline between two points. Harrison Ianatchkov Feb 12, 2016
-        Polyline line = mMap.addPolyline(new PolylineOptions()
-                .add(node.getPosition(), andAnotherOne2.getPosition())
-                .add(andAnotherOne2.getPosition(), andAnotherOne1.getPosition())
-                .add(andAnotherOne1.getPosition(), anotherOne.getPosition())
-                .width(15)
-                .color(Color.parseColor("#FFFE7070")));
 
     }
 

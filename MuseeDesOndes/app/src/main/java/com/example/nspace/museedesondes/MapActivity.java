@@ -178,6 +178,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         andAnotherOne2.title("Waguan");
         andAnotherOne2.snippet(snippet);
 
+        
         // This is a testing the creation of a polyline between two points. Harrison Ianatchkov Feb 12, 2016
         Polyline line = mMap.addPolyline(new PolylineOptions()
                 .add(node.getPosition(), andAnotherOne2.getPosition())

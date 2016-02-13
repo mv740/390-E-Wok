@@ -21,15 +21,15 @@ public class PointOfInterest extends Node {
 
     public PointOfInterest(@JsonProperty("id") int id,
                            @JsonProperty("floorPlan") FloorPlan floor,
-                           @JsonProperty("edge") ArrayList edge,
-                           @JsonProperty("coordinate") Coordinate coordinate,
+                           @JsonProperty("x") double x,
+                           @JsonProperty("y") double y,
                            @JsonProperty("beaconInformation") BeaconInformation beaconInformation,
                            @JsonProperty("text") ArrayList<Text> text,
                            @JsonProperty("video") ArrayList<Video> video,
                            @JsonProperty("audio") ArrayList<Audio> audio,
                            @JsonProperty("image") ArrayList<Image> images,
                            @JsonProperty("qrcode") ArrayList<QRCode> qrCodes) {
-        super(id, floor, edge, coordinate);
+        super(id, floor, x, y);
         this.beaconInformation = beaconInformation;
         this.text = text;
         this.video = video;

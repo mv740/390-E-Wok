@@ -23,10 +23,10 @@ public class Map {
 
     private static Map instance = null;
 
-    private Map(@JsonProperty("node") ArrayList<Node> nodes,
-                @JsonProperty("edge") ArrayList<Edge> edges,
-                @JsonProperty("storyLine") ArrayList<StoryLine> storyLines,
-                @JsonProperty("floorPlan") ArrayList<FloorPlan> floorPlans) {
+    private Map(@JsonProperty("nodes") ArrayList<Node> nodes,
+                @JsonProperty("edges") ArrayList<Edge> edges,
+                @JsonProperty("storyLines") ArrayList<StoryLine> storyLines,
+                @JsonProperty("floors") ArrayList<FloorPlan> floorPlans) {
 
         this.nodes = nodes;
         this.edges = edges;
@@ -71,7 +71,28 @@ public class Map {
                 instance.transitionPoints.add((TransitionPoint)node);
             }
         }
+        setNodesReferenceForEdges();
+        setNodesReferenceForStorylines();
     }
+
+    private static void setNodesReferenceForStorylines() {
+        for(StoryLine storyLine : instance.storyLines)
+        {
+            for (Integer id : storyLine.getIdList())
+            {
+                storyLine.addNodeReference(instance.searchNodeById(id));
+            }
+        }
+    }
+
+    private static void setNodesReferenceForEdges() {
+        for (Edge edge : instance.edges)
+        {
+            edge.setStart(instance.searchNodeById(edge.getStartID()));
+            edge.setEnd(instance.searchNodeById(edge.getEndID()));
+        }
+    }
+
 
     public PointOfInterest searchPoiById(int id) {
         for (PointOfInterest poi : pointOfInterests) {
@@ -100,23 +121,6 @@ public class Map {
         }
         return null;
     }
-
-    public Edge searchEdgeById(int id) {
-
-        for (Edge edge : edges) {
-            if (edge.getId() == id) {
-                return edge;
-            }
-        }
-        return null;
-    }
-
-
-
-    public ArrayList getEdgesOfNodeById(int id) {
-        return searchNodeById(id).getEdge();
-    }
-
 
     public ArrayList<Edge> getEdges() {
         return edges;

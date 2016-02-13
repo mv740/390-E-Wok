@@ -15,10 +15,10 @@ public class TransitionPoint extends Node {
 
     public TransitionPoint(@JsonProperty("id") int id,
                            @JsonProperty("floorPlan") FloorPlan floor,
-                           @JsonProperty("edge") ArrayList edge,
-                           @JsonProperty("coordinate") Coordinate coordinate,
+                           @JsonProperty("x") double x,
+                           @JsonProperty("y") double y,
                            @JsonProperty("label") Label label) {
-        super(id, floor, edge, coordinate);
+        super(id, floor, x, y);
         this.label = label;//Label.getEnum(label);
     }
     public Label getLabel() {

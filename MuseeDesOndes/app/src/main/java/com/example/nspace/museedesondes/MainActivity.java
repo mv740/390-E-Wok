@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
+import com.example.nspace.museedesondes.Model.Map;
 import com.example.nspace.museedesondes.Model.Preferences;
 
 
@@ -30,6 +31,10 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
 
         loadReplaceMeWith(R.layout.welcome_language);
+
+        //Todo will need to see if loading information on first page will make the map loading less laggy
+        // need to test it further if it does have a impact or not
+        //Map.getInstance(getApplicationContext());
     }
 
     private void loadReplaceMeWith(int id){

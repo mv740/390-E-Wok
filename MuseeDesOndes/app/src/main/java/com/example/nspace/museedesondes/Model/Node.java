@@ -18,15 +18,18 @@ import java.util.ArrayList;
 public class Node {
     private int id;
     private FloorPlan floorPlan;
-    private ArrayList edge;
-    private Coordinate coordinate;
+    private double x;
+    private double y;
 
-    public Node(@JsonProperty("id") int id, @JsonProperty("floorPlan") FloorPlan floorPlan, @JsonProperty("edge") ArrayList edge, @JsonProperty("coordinate") Coordinate coordinate) {
+    public Node(@JsonProperty("id") int id,
+                @JsonProperty("floorPlan") FloorPlan floorPlan,
+                @JsonProperty("x") double x,
+                @JsonProperty("y") double y) {
 
         this.id = id;
         this.floorPlan =  floorPlan;
-        this.edge = edge;
-        this.coordinate = coordinate;
+        this.x = x;
+        this.y = y;
     }
 
     public int getId() {
@@ -37,11 +40,11 @@ public class Node {
         return floorPlan;
     }
 
-    public ArrayList getEdge() {
-        return edge;
+    public double getX() {
+        return x;
     }
 
-    public Coordinate getCoordinate() {
-        return coordinate;
+    public double getY() {
+        return y;
     }
 }

@@ -152,7 +152,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
         //single marker with value from json
         MarkerOptions node = new MarkerOptions();
-        node.position(new LatLng(pointOfInterest.getCoordinate().getX(), pointOfInterest.getCoordinate().getY()));
+        node.position(new LatLng(pointOfInterest.getX(), pointOfInterest.getY()));
         node.title(title);
         node.snippet(snippet);
         node.icon((BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));

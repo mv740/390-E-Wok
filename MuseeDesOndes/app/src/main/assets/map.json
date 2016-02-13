@@ -1,5 +1,5 @@
 {
-  "node": [
+  "nodes": [
     {
       "@type": "PointOfInterest",
       "id": 1,
@@ -10,14 +10,14 @@
       },
       "text": [
         {
-          "@type":"Text",
+          "@type": "Text",
           "id": "test_id",
           "title": "test_titre",
           "language": "fr",
           "htmlContent": "Veuillez lire cette description"
         },
         {
-          "@type":"Text",
+          "@type": "Text",
           "id": "test_id",
           "title": "test_titre",
           "language": "en_US",
@@ -26,7 +26,7 @@
       ],
       "video": [
         {
-          "@type":"Video",
+          "@type": "Video",
           "id": "test_id",
           "title": "video_titre",
           "language": "fr",
@@ -36,7 +36,7 @@
           "encoding": "H.265/MPEG-H"
         },
         {
-          "@type":"Video",
+          "@type": "Video",
           "id": "test_id",
           "title": "video_title",
           "language": "en_US",
@@ -48,7 +48,7 @@
       ],
       "audio": [
         {
-          "@type":"Audio",
+          "@type": "Audio",
           "id": "test_id",
           "title": "audio_titre",
           "language": "fr",
@@ -56,7 +56,7 @@
           "encoding": "mp3"
         },
         {
-          "@type":"Audio",
+          "@type": "Audio",
           "id": "test_id",
           "title": "audio_title",
           "language": "en_US",
@@ -66,7 +66,7 @@
       ],
       "image": [
         {
-          "@type":"Image",
+          "@type": "Image",
           "id": "test_id",
           "title": "test_title",
           "language": "en_US",
@@ -75,7 +75,7 @@
           "height": "20"
         },
         {
-          "@type":"Image",
+          "@type": "Image",
           "id": "test_id",
           "title": "test_titre",
           "language": "fr",
@@ -86,7 +86,7 @@
       ],
       "qrcode": [
         {
-          "@type":"QRCode",
+          "@type": "QRCode",
           "id": "test_id_qr",
           "title": "test_titre_qr",
           "language": "fr",
@@ -102,35 +102,21 @@
         "imageWidth": "10",
         "imageHeight": "10"
       },
-      "coordinate": {
-        "x": 0.001,
-        "y": 0.0
-      },
-      "edge": [
-        1,
-        2,
-        3
-      ]
+      "x": 0.001,
+      "y": 0.0
     },
     {
       "@type": "TransitionPoint",
-      "id": 1,
+      "id": 2,
       "floorPlan": {
         "floorId": "1",
         "imagePath": "image/floor_1",
         "imageWidth": "10",
         "imageHeight": "10"
       },
-      "coordinate": {
-        "x": 20,
-        "y": 40
-      },
-      "label": "STAIRS",
-      "edge": [
-        1,
-        2,
-        3
-      ]
+      "x": 20.0,
+      "y": 40.0,
+      "label": "STAIRS"
     },
     {
       "@type": "ServicePoint",
@@ -142,40 +128,30 @@
         "imageWidth": "10",
         "imageHeight": "10"
       },
-      "coordinate": {
-        "x": 20.0,
-        "y": 40.5
-      },
-      "edge": [
-        1,
-        2,
-        3
-      ]
+      "x": 20.0,
+      "y": 40.5
     }
   ],
-  "edge": [
+  "edges": [
     {
-      "id": 1,
       "weight": 10,
-      "node": [
-        1,
-        2
-      ]
+      "start" : 1,
+      "end" : 2
     }
   ],
-  "storyLine": [
+  "storyLines": [
     {
       "id": 12,
       "text": [
         {
-          "@type":"Text",
+          "@type": "Text",
           "id": "test_id",
           "title": "test_titre",
           "language": "fr",
           "htmlContent": "Veuillez lire cette description"
         },
         {
-          "@type":"Text",
+          "@type": "Text",
           "id": "test_id",
           "title": "test_titre",
           "language": "en_US",
@@ -188,13 +164,12 @@
       "nodeIds": [
         1,
         2,
-        3,
-        10
+        3
       ]
     }
   ],
-  "floorPlan" : [
-     {
+  "floors": [
+    {
       "floorId": "1",
       "imagePath": "floor_1_rca_march2011_1",
       "imageWidth": "10",

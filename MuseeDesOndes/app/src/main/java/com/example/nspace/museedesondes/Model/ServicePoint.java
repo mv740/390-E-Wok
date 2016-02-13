@@ -15,10 +15,10 @@ public class ServicePoint extends Node{
 
     public ServicePoint(@JsonProperty("id") int id,
                         @JsonProperty("floor") FloorPlan floor,
-                        @JsonProperty("edge") ArrayList edge,
-                        @JsonProperty("coordinate") Coordinate coordinate,
+                        @JsonProperty("x") double x,
+                        @JsonProperty("y") double y,
                         @JsonProperty("label") Label  label) {
-        super(id, floor, edge, coordinate);
+        super(id, floor, x , y);
 
         this.label = label;//Label.getEnum(label);
     }

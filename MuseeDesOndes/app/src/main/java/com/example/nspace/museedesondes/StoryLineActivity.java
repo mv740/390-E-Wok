@@ -42,7 +42,10 @@ public class StoryLineActivity extends AppCompatActivity {
                 "Explore all of the exhbits in the museum in any order.",
                 "Before the publication of the First Folio in 1623, nineteen of the thirty-seven plays in Shakespeare's canon had appeared in quarto format. ",
                 "With the exception of Othello (1622), all of the quartos were published prior to the date of Shakespeare's retirement from the theatre in about 1611",
-                "Here you will find the complete text of Shakespeare's plays, based primarily on the First Folio, and a variety of helpful resources, including extensive explanatory notes, character analysis."
+                "Here you will find the complete text of Shakespeare's plays, based primarily on the First Folio, and a variety of helpful resources, including extensive " +
+                        "explanatory notes, character analysis.Shakespeare was born and brought up in Stratford-upon-Avon, Warwickshire. At the age of 18, he married Anne Hathaway, " +
+                        "with whom he had three children: Susanna, and twins Hamnet and Judith. Sometime between 1585 and 1592, he began a successful career in London as an actor, writer," +
+                        " and part-owner of a playing company called the Lord Chamberlain's Men, later known as the King's Men."
         } ;
 
         imageId = new Integer[]{

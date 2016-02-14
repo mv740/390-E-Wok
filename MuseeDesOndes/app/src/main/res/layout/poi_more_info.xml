@@ -72,15 +72,16 @@
     </HorizontalScrollView>
 
     <Button
-    android:layout_width="50dp"
-    android:layout_height="50dp"
-    android:background="@drawable/play_icon"
-    android:id="@+id/play_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/play_icon"
+        android:id="@+id/play_button"
         android:layout_below="@+id/horizontalScrollView"
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
-        android:textColor="#000000" />
+        android:textColor="#000000"
+        android:onClick="playAudioFile"/>
 
     <ScrollView
         android:layout_width="wrap_content"

@@ -4,6 +4,7 @@ package com.example.nspace.museedesondes;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -192,6 +193,16 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         ViewMap.switchFloor(groundOverlay, floor, information.getFloorPlans(), getApplicationContext() );
         FloatingActionMenu floorButton = (FloatingActionMenu) findViewById(R.id.floor_button);
         floorButton.toggle(true);
+    }
+
+    public void playAudioFile(View v){
+        Button play = (Button) findViewById(R.id.play_button);
+        ViewGroup layout = (ViewGroup)play.getParent();
+
+
+        MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(),R.raw.sampleaudio);
+        mediaPlayer.start();
+
     }
 
 

@@ -81,7 +81,8 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:textColor="#000000"
-        android:onClick="playAudioFile"/>
+        android:onClick="playAudioFile"
+        android:longClickable="true"/>
 
     <ScrollView
         android:layout_width="wrap_content"

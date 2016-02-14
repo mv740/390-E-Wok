@@ -2,6 +2,7 @@ package com.example.nspace.museedesondes;
 
 
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.media.MediaPlayer;
@@ -34,13 +35,16 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.GroundOverlay;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 
-public class MapActivity extends ActionBarActivity implements OnMapReadyCallback, NavigationDrawerFragment.NavigationDrawerCallbacks{
+public class MapActivity extends ActionBarActivity implements OnMapReadyCallback, NavigationDrawerFragment.NavigationDrawerCallbacks, GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
     private NavigationDrawerFragment mNavigationDrawerFragment;
@@ -48,7 +52,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     private Map information;
     public static Drawable imgToSendToFullscreenImgActivity;
 
-    //todo will need to mediaPlayer.release();  when menu is closed to release ram 
+    //todo will need to mediaPlayer.release();  when menu is closed to release ram
     private MediaPlayer mediaPlayer;
 
     @Override
@@ -69,12 +73,12 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-       bringButtonsToFront();
+        bringButtonsToFront();
 
-        mediaPlayer = MediaPlayer.create(getApplicationContext(),R.raw.sampleaudio);
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sampleaudio);
     }
 
-    private void bringButtonsToFront(){
+    private void bringButtonsToFront() {
         FloatingActionButton ham = (FloatingActionButton) findViewById(R.id.hamburger);
         FloatingActionButton search = (FloatingActionButton) findViewById(R.id.search_button);
         FloatingActionMenu floor = (FloatingActionMenu) findViewById(R.id.floor_button);
@@ -85,7 +89,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
     }
 
-    public void onHamClick(View v){
+    public void onHamClick(View v) {
         mNavigationDrawerFragment.toggleDrawer(this);
     }
 
@@ -121,16 +125,14 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         //mMap.moveCamera(CameraUpdateFactory.newLatLngBounds());
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(center, 14));
         mMap.clear();
-
+        mMap.setOnMarkerClickListener(this);
 
 
         //load map and then switch floor to 5
-       // GroundOverlay groundOverlay = ViewMap.loadDefaultFloor(mMap, custom);
+        // GroundOverlay groundOverlay = ViewMap.loadDefaultFloor(mMap, custom);
         groundOverlay = ViewMap.loadDefaultFloor(mMap, custom, information.getFloorPlans(), getApplicationContext());
         //need to implement a list view
         //ViewMap.switchFloor(groundOverlay, 5);
-
-
 
 
         //// TODO: 2/7/2016 refactor this in a proper fuction
@@ -138,17 +140,13 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
         String title = "error";
         String snippet = "error";
-        for(Text text : pointOfInterest.getText())
-        {
-            if(getApplicationContext().getResources().getConfiguration().locale.getLanguage().equals(text.getLanguage().name().toLowerCase()))
-            {
+        for (Text text : pointOfInterest.getText()) {
+            if (getApplicationContext().getResources().getConfiguration().locale.getLanguage().equals(text.getLanguage().name().toLowerCase())) {
                 title = text.getLanguage().name();
             }
         }
-        for(Text text : pointOfInterest.getText())
-        {
-            if(getApplicationContext().getResources().getConfiguration().locale.getLanguage().equals(text.getLanguage().name().toLowerCase()))
-            {
+        for (Text text : pointOfInterest.getText()) {
+            if (getApplicationContext().getResources().getConfiguration().locale.getLanguage().equals(text.getLanguage().name().toLowerCase())) {
                 snippet = text.getContent();
             }
         }
@@ -163,6 +161,29 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         mMap.addMarker(node);
 
 
+        //On long click reset audio
+        Button buttonAudio = (Button) findViewById(R.id.play_button);
+        buttonAudio.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (mediaPlayer != null) {
+                    if (mediaPlayer.isPlaying()) {
+                        //http://stackoverflow.com/questions/2969242/problems-with-mediaplayer-raw-resources-stop-and-start
+                        //how to set data source again after reset
+                        v.setBackgroundResource(R.drawable.ic_play_circle_filled_white_48dp);
+                        mediaPlayer.reset();//It requires again setDataSource for player object.
+                        AssetFileDescriptor afd = getApplicationContext().getResources().openRawResourceFd(R.raw.sampleaudio);
+                        try {
+                            mediaPlayer.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                            mediaPlayer.prepare();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                return true;
+            }
+        });
     }
 
     @Override
@@ -172,45 +193,55 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
     //HANDLERS ************
 
-    public void poiImgOnClick(View v){
-        imgToSendToFullscreenImgActivity = ((ImageView)v).getDrawable();
+    public void poiImgOnClick(View v) {
+        imgToSendToFullscreenImgActivity = ((ImageView) v).getDrawable();
         Intent fullscreenImgActivity = new Intent(MapActivity.this, FullscreenImgActivity.class);
         startActivity(fullscreenImgActivity);
     }
 
-    public void floorButton1OnClick(View v){
+    public void floorButton1OnClick(View v) {
         changeFloor(1);
     }
-    public void floorButton2OnClick(View v){
+
+    public void floorButton2OnClick(View v) {
         changeFloor(2);
     }
-    public void floorButton3OnClick(View v){
+
+    public void floorButton3OnClick(View v) {
         changeFloor(3);
     }
-    public void floorButton4OnClick(View v){
+
+    public void floorButton4OnClick(View v) {
         changeFloor(4);
     }
 
-    public void changeFloor(int floor){
-        ViewMap.switchFloor(groundOverlay, floor, information.getFloorPlans(), getApplicationContext() );
+    public void changeFloor(int floor) {
+        ViewMap.switchFloor(groundOverlay, floor, information.getFloorPlans(), getApplicationContext());
         FloatingActionMenu floorButton = (FloatingActionMenu) findViewById(R.id.floor_button);
         floorButton.toggle(true);
     }
 
-    public void playAudioFile(View v){
+    public void playAudioFile(View v) {
         Button play = (Button) findViewById(R.id.play_button);
-        ViewGroup layout = (ViewGroup)play.getParent();
-
-
+        ViewGroup layout = (ViewGroup) play.getParent();
+        
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
             v.setBackgroundResource(R.drawable.ic_play_circle_filled_white_48dp);
         } else {
             mediaPlayer.start();
             v.setBackgroundResource(R.drawable.ic_pause_circle_filled_white_48dp);
-        }
 
+        }
     }
 
-
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        if(marker.getTitle().equals("fr") || marker.getTitle().equals("en_us"))
+        {
+            SlidingUpPanelLayout  layout = (SlidingUpPanelLayout) this.findViewById(R.id.sliding_layout);
+            layout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+        }
+        return false;
+    }
 }

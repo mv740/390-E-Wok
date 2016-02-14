@@ -74,7 +74,7 @@
     <Button
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="@drawable/play_icon"
+        android:background="@drawable/ic_play_circle_filled_white_48dp"
         android:id="@+id/play_button"
         android:layout_below="@+id/horizontalScrollView"
         android:layout_alignParentStart="true"

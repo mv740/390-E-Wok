@@ -48,6 +48,9 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     private Map information;
     public static Drawable imgToSendToFullscreenImgActivity;
 
+    //todo will need to mediaPlayer.release();  when menu is closed to release ram 
+    private MediaPlayer mediaPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,8 +71,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
        bringButtonsToFront();
 
-
-
+        mediaPlayer = MediaPlayer.create(getApplicationContext(),R.raw.sampleaudio);
     }
 
     private void bringButtonsToFront(){
@@ -200,8 +202,13 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         ViewGroup layout = (ViewGroup)play.getParent();
 
 
-        MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(),R.raw.sampleaudio);
-        mediaPlayer.start();
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+            v.setBackgroundResource(R.drawable.ic_play_circle_filled_white_48dp);
+        } else {
+            mediaPlayer.start();
+            v.setBackgroundResource(R.drawable.ic_pause_circle_filled_white_48dp);
+        }
 
     }
 

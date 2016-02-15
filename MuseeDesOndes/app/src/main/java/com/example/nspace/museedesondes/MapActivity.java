@@ -207,7 +207,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     public void floorButton1OnClick(View v) {
         changeFloor(1);
         FloatingActionButton floorSelected =  (FloatingActionButton)this.findViewById(R.id.fab1);
-        floorSelected.setColorNormal(Color.parseColor("#FF050505"));
+        floorSelected.setColorNormal(Color.parseColor("#FFFFA8A8"));
         FloatingActionButton floor5 =  (FloatingActionButton)this.findViewById(R.id.fab5);
         FloatingActionButton floor3 =  (FloatingActionButton)this.findViewById(R.id.fab3);
         FloatingActionButton floor4 =  (FloatingActionButton)this.findViewById(R.id.fab4);
@@ -221,7 +221,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     public void floorButton2OnClick(View v) {
         changeFloor(2);
         FloatingActionButton floorSelected =  (FloatingActionButton)this.findViewById(R.id.fab2);
-        floorSelected.setColorNormal(Color.parseColor("#FF050505"));
+        floorSelected.setColorNormal(Color.parseColor("#FFFFA8A8"));
         FloatingActionButton floor1 =  (FloatingActionButton)this.findViewById(R.id.fab1);
         FloatingActionButton floor3 =  (FloatingActionButton)this.findViewById(R.id.fab3);
         FloatingActionButton floor4 =  (FloatingActionButton)this.findViewById(R.id.fab4);
@@ -236,7 +236,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     public void floorButton3OnClick(View v) {
         changeFloor(3);
         FloatingActionButton floorSelected =  (FloatingActionButton)this.findViewById(R.id.fab3);
-        floorSelected.setColorNormal(Color.parseColor("#FF050505"));
+        floorSelected.setColorNormal(Color.parseColor("#FFFFA8A8"));
         FloatingActionButton floor1 =  (FloatingActionButton)this.findViewById(R.id.fab1);
         FloatingActionButton floor5 =  (FloatingActionButton)this.findViewById(R.id.fab5);
         FloatingActionButton floor4 =  (FloatingActionButton)this.findViewById(R.id.fab4);
@@ -251,7 +251,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     public void floorButton4OnClick(View v) {
         changeFloor(4);
         FloatingActionButton floorSelected =  (FloatingActionButton)this.findViewById(R.id.fab4);
-        floorSelected.setColorNormal(Color.parseColor("#FF050505"));
+        floorSelected.setColorNormal(Color.parseColor("#FFFFA8A8"));
         FloatingActionButton floor1 =  (FloatingActionButton)this.findViewById(R.id.fab1);
         FloatingActionButton floor3 =  (FloatingActionButton)this.findViewById(R.id.fab3);
         FloatingActionButton floor5 =  (FloatingActionButton)this.findViewById(R.id.fab5);
@@ -264,7 +264,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     public void floorButton5OnClick(View v) {
         changeFloor(5);
         FloatingActionButton floorSelected =  (FloatingActionButton)this.findViewById(R.id.fab5);
-        floorSelected.setColorNormal(Color.parseColor("#FF050505"));
+        floorSelected.setColorNormal(Color.parseColor("#FFFFA8A8"));
         FloatingActionButton floor1 =  (FloatingActionButton)this.findViewById(R.id.fab1);
         FloatingActionButton floor3 =  (FloatingActionButton)this.findViewById(R.id.fab3);
         FloatingActionButton floor4 =  (FloatingActionButton)this.findViewById(R.id.fab4);

@@ -28,7 +28,7 @@ public class ViewMap {
         Resources resources = context.getResources();
         final int resourceID = resources.getIdentifier(floorPlans.get(0).getImagePath(), "drawable", context.getPackageName()); // 0 = floor 1
         FloatingActionButton floorSelected =  (FloatingActionButton)view.findViewById(R.id.fab1);
-        floorSelected.setColorNormal(Color.parseColor("#FF050505"));
+        floorSelected.setColorNormal(Color.parseColor("#FFFFA8A8"));
 
         BitmapDescriptor image = BitmapDescriptorFactory.fromResource(resourceID);
 

@@ -2,9 +2,12 @@ package com.example.nspace.museedesondes.Utility;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.view.View;
 
 import com.example.nspace.museedesondes.Model.FloorPlan;
 import com.example.nspace.museedesondes.R;
+import com.github.clans.fab.FloatingActionButton;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -20,10 +23,12 @@ import java.util.ArrayList;
 public class ViewMap {
 
 
-    public static GroundOverlay loadDefaultFloor(GoogleMap googleMap, LatLng position,ArrayList<FloorPlan> floorPlans, Context context  )
+    public static GroundOverlay loadDefaultFloor(GoogleMap googleMap, LatLng position,ArrayList<FloorPlan> floorPlans, Context context, View view)
     {
         Resources resources = context.getResources();
-        final int resourceID = resources.getIdentifier(floorPlans.get(0).getImagePath(),"drawable",context.getPackageName());
+        final int resourceID = resources.getIdentifier(floorPlans.get(0).getImagePath(), "drawable", context.getPackageName()); // 0 = floor 1
+        FloatingActionButton floorSelected =  (FloatingActionButton)view.findViewById(R.id.fab1);
+        floorSelected.setColorNormal(Color.parseColor("#FF050505"));
 
         BitmapDescriptor image = BitmapDescriptorFactory.fromResource(resourceID);
 

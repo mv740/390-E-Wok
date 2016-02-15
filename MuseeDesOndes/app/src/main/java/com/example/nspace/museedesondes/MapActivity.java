@@ -3,6 +3,8 @@ package com.example.nspace.museedesondes;
 
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.media.MediaPlayer;
@@ -51,6 +53,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     private GroundOverlay groundOverlay;
     private Map information;
     public static Drawable imgToSendToFullscreenImgActivity;
+
 
     //todo will need to mediaPlayer.release();  when menu is closed to release ram
     private MediaPlayer mediaPlayer;
@@ -114,6 +117,8 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         mMap.getUiSettings().setIndoorLevelPickerEnabled(true);
         mMap.getUiSettings().setMapToolbarEnabled(false);
 
+
+
         //// TODO: 2/7/2016  need to get the lat/lng of each map et bound the available view screen
 //        final LatLngBounds BOUNDS = new LatLngBounds(new LatLng(0.027,-0.02), new LatLng(41.9667, 12.5938));
 //        final int MAX_ZOOM = 16;
@@ -130,7 +135,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
         //load map and then switch floor to 5
         // GroundOverlay groundOverlay = ViewMap.loadDefaultFloor(mMap, custom);
-        groundOverlay = ViewMap.loadDefaultFloor(mMap, custom, information.getFloorPlans(), getApplicationContext());
+        groundOverlay = ViewMap.loadDefaultFloor(mMap, custom, information.getFloorPlans(), getApplicationContext(), findViewById(android.R.id.content));
         //need to implement a list view
         //ViewMap.switchFloor(groundOverlay, 5);
 
@@ -201,18 +206,73 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
     public void floorButton1OnClick(View v) {
         changeFloor(1);
+        FloatingActionButton floorSelected =  (FloatingActionButton)this.findViewById(R.id.fab1);
+        floorSelected.setColorNormal(Color.parseColor("#FF050505"));
+        FloatingActionButton floor5 =  (FloatingActionButton)this.findViewById(R.id.fab5);
+        FloatingActionButton floor3 =  (FloatingActionButton)this.findViewById(R.id.fab3);
+        FloatingActionButton floor4 =  (FloatingActionButton)this.findViewById(R.id.fab4);
+        FloatingActionButton floor2 =  (FloatingActionButton)this.findViewById(R.id.fab2);
+        floor5.setColorNormal(Color.parseColor("#FFE33C3C"));
+        floor2.setColorNormal(Color.parseColor("#FFE33C3C"));
+        floor3.setColorNormal(Color.parseColor("#FFE33C3C"));
+        floor4.setColorNormal(Color.parseColor("#FFE33C3C"));
     }
 
     public void floorButton2OnClick(View v) {
         changeFloor(2);
+        FloatingActionButton floorSelected =  (FloatingActionButton)this.findViewById(R.id.fab2);
+        floorSelected.setColorNormal(Color.parseColor("#FF050505"));
+        FloatingActionButton floor1 =  (FloatingActionButton)this.findViewById(R.id.fab1);
+        FloatingActionButton floor3 =  (FloatingActionButton)this.findViewById(R.id.fab3);
+        FloatingActionButton floor4 =  (FloatingActionButton)this.findViewById(R.id.fab4);
+        FloatingActionButton floor5 =  (FloatingActionButton)this.findViewById(R.id.fab5);
+        floor1.setColorNormal(Color.parseColor("#FFE33C3C"));
+        floor5.setColorNormal(Color.parseColor("#FFE33C3C"));
+        floor3.setColorNormal(Color.parseColor("#FFE33C3C"));
+        floor4.setColorNormal(Color.parseColor("#FFE33C3C"));
     }
+
 
     public void floorButton3OnClick(View v) {
         changeFloor(3);
+        FloatingActionButton floorSelected =  (FloatingActionButton)this.findViewById(R.id.fab3);
+        floorSelected.setColorNormal(Color.parseColor("#FF050505"));
+        FloatingActionButton floor1 =  (FloatingActionButton)this.findViewById(R.id.fab1);
+        FloatingActionButton floor5 =  (FloatingActionButton)this.findViewById(R.id.fab5);
+        FloatingActionButton floor4 =  (FloatingActionButton)this.findViewById(R.id.fab4);
+        FloatingActionButton floor2 =  (FloatingActionButton)this.findViewById(R.id.fab2);
+        floor1.setColorNormal(Color.parseColor("#FFE33C3C"));
+        floor2.setColorNormal(Color.parseColor("#FFE33C3C"));
+        floor5.setColorNormal(Color.parseColor("#FFE33C3C"));
+        floor4.setColorNormal(Color.parseColor("#FFE33C3C"));
     }
+
 
     public void floorButton4OnClick(View v) {
         changeFloor(4);
+        FloatingActionButton floorSelected =  (FloatingActionButton)this.findViewById(R.id.fab4);
+        floorSelected.setColorNormal(Color.parseColor("#FF050505"));
+        FloatingActionButton floor1 =  (FloatingActionButton)this.findViewById(R.id.fab1);
+        FloatingActionButton floor3 =  (FloatingActionButton)this.findViewById(R.id.fab3);
+        FloatingActionButton floor5 =  (FloatingActionButton)this.findViewById(R.id.fab5);
+        FloatingActionButton floor2 =  (FloatingActionButton)this.findViewById(R.id.fab2);
+        floor1.setColorNormal(Color.parseColor("#FFE33C3C"));
+        floor2.setColorNormal(Color.parseColor("#FFE33C3C"));
+        floor3.setColorNormal(Color.parseColor("#FFE33C3C"));
+        floor5.setColorNormal(Color.parseColor("#FFE33C3C"));
+    }
+    public void floorButton5OnClick(View v) {
+        changeFloor(5);
+        FloatingActionButton floorSelected =  (FloatingActionButton)this.findViewById(R.id.fab5);
+        floorSelected.setColorNormal(Color.parseColor("#FF050505"));
+        FloatingActionButton floor1 =  (FloatingActionButton)this.findViewById(R.id.fab1);
+        FloatingActionButton floor3 =  (FloatingActionButton)this.findViewById(R.id.fab3);
+        FloatingActionButton floor4 =  (FloatingActionButton)this.findViewById(R.id.fab4);
+        FloatingActionButton floor2 =  (FloatingActionButton)this.findViewById(R.id.fab2);
+        floor1.setColorNormal(Color.parseColor("#FFE33C3C"));
+        floor2.setColorNormal(Color.parseColor("#FFE33C3C"));
+        floor3.setColorNormal(Color.parseColor("#FFE33C3C"));
+        floor4.setColorNormal(Color.parseColor("#FFE33C3C"));
     }
 
     public void changeFloor(int floor) {

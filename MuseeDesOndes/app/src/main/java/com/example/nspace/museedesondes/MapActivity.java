@@ -7,17 +7,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.PopupMenu;
-import android.widget.Toast;
 
 import com.example.nspace.museedesondes.Model.Language;
 import com.example.nspace.museedesondes.Model.Map;
@@ -29,14 +20,11 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.GroundOverlay;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import com.google.android.gms.maps.model.Polyline;
 import com.example.nspace.museedesondes.Model.Node;
 import java.util.ArrayList;
@@ -155,50 +143,48 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
         ArrayList<Node> nodes = information.getNodes();
         // This statement places all the nodes on the map and traces the path between them.
-        tracePath(setNodePositions(nodes));
+        tracePath(nodes);
 
 
     }
 
     /**
-     * This method is meant to setup the nodes from the JSON as points on the map.
-     * @param nodes nodes from this arraylist are placed on the map
+     * This function is meant to trace the path between nodes in the arraylist of coordinates
+     * representing each node's latitudinal and longitudinal position respectively.
+     * @param nodes This is the list of nodes that are to be sorted through. The nodes could be
+     *              either points of interest, points of traversal, or others.
      */
-    public ArrayList<MarkerOptions> setNodePositions(ArrayList<Node> nodes) {
-        ArrayList<MarkerOptions> markers;
+    public void tracePath(ArrayList<Node> nodes) {
+
+        ArrayList<LatLng> nodePositions = listNodeCoordinates(nodes);
+        Polyline line = null;
+        for(int i = 0; i < nodePositions.size() - 1; i++) {
+            line = mMap.addPolyline(new PolylineOptions()
+                    .add(nodePositions.get(i), nodePositions.get(i + 1))
+                    .width(15)
+                    .color(Color.parseColor("#99E33C3C")));
+        }
+        line.setPoints(nodePositions);
+    }
+
+    /**
+     * This method is used to return a list of LatLng coordinates associated with the list of nodes passed as a parameter.
+     * @param nodes   The list of nodes for which coordinates should be derived.
+     * @return        The list of LatLng coordinates.
+     */
+    public ArrayList<LatLng> listNodeCoordinates(ArrayList<Node> nodes) {
         if (nodes == null) {
             return null;
         }
-        markers = new ArrayList<MarkerOptions>();
-        String snippet = "error";
-        String title = "error";
 
-        for (int i = 0; i < nodes.toArray().length; i++) {
-            MarkerOptions marker = new MarkerOptions();
-            marker.position(new LatLng(nodes.get(i).getCoordinate().getX(), nodes.get(i).getCoordinate().getY()));
-            marker.title(title);
-            marker.snippet(snippet);
-            markers.add(marker);
+        ArrayList<LatLng> nodeLatLngs = new ArrayList<LatLng>();
+        for (Node node: nodes) {
+            nodeLatLngs.add(new LatLng(node.getCoordinate().getX(), node.getCoordinate().getY()));
         }
-
-        return markers;
+        return nodeLatLngs;
     }
 
-    /**
-     * This function is meant to trace the path between nodes in the arraylist of MarkerOptions
-     * @param markers
-     */
-    public void tracePath(ArrayList<MarkerOptions> markers) {
 
-        Polyline line;
-
-        for (int i = 0; i < markers.toArray().length - 1; i++) {
-            line = mMap.addPolyline(new PolylineOptions()
-                    .add(markers.get(i).getPosition(), markers.get(i + 1).getPosition())
-                    .width(15)
-                    .color(Color.parseColor("FFFE7070")));
-        }
-    }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {

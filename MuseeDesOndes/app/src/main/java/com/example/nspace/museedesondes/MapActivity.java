@@ -228,8 +228,6 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         return nodeLatLngs;
     }
 
-
-
     @Override
     public void onNavigationDrawerItemSelected(int position) {
 

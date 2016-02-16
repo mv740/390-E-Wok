@@ -19,18 +19,19 @@ public class Map {
     private ArrayList<PointOfInterest> pointOfInterests;
     private ArrayList<ServicePoint> servicePoints;
     private ArrayList<TransitionPoint> transitionPoints;
+    private ArrayList<FloorPlan> floorPlans;
 
     private static Map instance = null;
 
-    private Map(@JsonProperty("node") ArrayList<Node> nodes, @JsonProperty("edge") ArrayList<Edge> edges, @JsonProperty("storyLines") ArrayList<StoryLine> storyLines) {
+    private Map(@JsonProperty("nodes") ArrayList<Node> nodes,
+                @JsonProperty("edges") ArrayList<Edge> edges,
+                @JsonProperty("storyLines") ArrayList<StoryLine> storyLines,
+                @JsonProperty("floors") ArrayList<FloorPlan> floorPlans) {
 
-        //load json
-        //create nodes
-        //create edges
-        //create StoryLine
         this.nodes = nodes;
         this.edges = edges;
         this.storyLines = storyLines;
+        this.floorPlans = floorPlans;
         this.pointOfInterests = new ArrayList<>();
         this.servicePoints = new ArrayList<>();
         this.transitionPoints = new ArrayList<>();
@@ -70,7 +71,28 @@ public class Map {
                 instance.transitionPoints.add((TransitionPoint)node);
             }
         }
+        setNodesReferenceForEdges();
+        setNodesReferenceForStorylines();
     }
+
+    private static void setNodesReferenceForStorylines() {
+        for(StoryLine storyLine : instance.storyLines)
+        {
+            for (Integer id : storyLine.getIdList())
+            {
+                storyLine.addNodeReference(instance.searchNodeById(id));
+            }
+        }
+    }
+
+    private static void setNodesReferenceForEdges() {
+        for (Edge edge : instance.edges)
+        {
+            edge.setStart(instance.searchNodeById(edge.getStartID()));
+            edge.setEnd(instance.searchNodeById(edge.getEndID()));
+        }
+    }
+
 
     public PointOfInterest searchPoiById(int id) {
         for (PointOfInterest poi : pointOfInterests) {
@@ -100,23 +122,6 @@ public class Map {
         return null;
     }
 
-    public Edge searchEdgeById(int id) {
-
-        for (Edge edge : edges) {
-            if (edge.getId() == id) {
-                return edge;
-            }
-        }
-        return null;
-    }
-
-
-
-    public ArrayList getEdgesOfNodeById(int id) {
-        return searchNodeById(id).getEdge();
-    }
-
-
     public ArrayList<Edge> getEdges() {
         return edges;
     }
@@ -135,5 +140,9 @@ public class Map {
 
     public ArrayList<TransitionPoint> getTransitionPoints() {
         return transitionPoints;
+    }
+
+    public ArrayList<FloorPlan> getFloorPlans() {
+        return floorPlans;
     }
 }

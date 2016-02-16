@@ -9,34 +9,46 @@ import java.util.ArrayList;
  */
 public class Edge {
 
-    private int id;
     private int weight;
-    private ArrayList<Node> node;
+    private Node start;
+    private Node end;
+    private int startID;
+    private int endID;
 
-    public Edge(@JsonProperty("id")int id,@JsonProperty("weight") int weight, @JsonProperty("node")ArrayList node) {
-        this.id = id;
+    public Edge(@JsonProperty("weight") int weight,
+                @JsonProperty("start") int startID,
+                @JsonProperty("end") int endID) {
         this.weight = weight;
-        this.node = node;
+        this.startID = startID;
+        this.endID = endID;
     }
 
-    public int getId() {
-        return id;
-    }
 
     public int getWeight() {
         return weight;
     }
 
-    public ArrayList getNode() {
-        return node;
+    public int getStartID() {
+        return startID;
     }
 
-    @Override
-    public String toString() {
-        return "Edge{" +
-                "id=" + id +
-                ", weight=" + weight +
-                ", node=" + node +
-                '}';
+    public int getEndID() {
+        return endID;
+    }
+
+    public Node getStart() {
+        return start;
+    }
+
+    public Node getEnd() {
+        return end;
+    }
+
+    public void setStart(Node start) {
+        this.start = start;
+    }
+
+    public void setEnd(Node end) {
+        this.end = end;
     }
 }

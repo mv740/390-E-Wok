@@ -11,19 +11,19 @@ import java.util.ArrayList;
 @JsonTypeName("ServicePoint")
 public class ServicePoint extends Node{
 
-    private Label serviceType;
+    private Label label;
 
     public ServicePoint(@JsonProperty("id") int id,
-                        @JsonProperty("floor") int floor,
-                        @JsonProperty("edge") ArrayList edge,
-                        @JsonProperty("coordinate") Coordinate coordinate,
-                        @JsonProperty("locationType") String serviceType) {
-        super(id, floor, edge, coordinate);
+                        @JsonProperty("floor") FloorPlan floor,
+                        @JsonProperty("x") double x,
+                        @JsonProperty("y") double y,
+                        @JsonProperty("label") Label  label) {
+        super(id, floor, x , y);
 
-        this.serviceType = Label.getEnum(serviceType);
+        this.label = label;//Label.getEnum(label);
     }
 
-    public Label getServiceType() {
-        return serviceType;
+    public Label getLabel() {
+        return label;
     }
 }

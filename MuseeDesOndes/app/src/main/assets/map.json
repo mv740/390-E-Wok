@@ -1,141 +1,330 @@
 {
-  "node": [
+  "nodes": [
     {
-      "type": "PointOfInterest",
+      "@type": "PointOfInterest",
       "id": 1,
       "beaconInformation": {
         "UUID": "test_uuid",
         "major": 1111,
         "minor": 2222
       },
-      "name": [
+      "text": [
         {
+          "@type": "Text",
+          "id": "test_id",
+          "title": "test_titre",
           "language": "fr",
-          "data": "mon nom"
+          "htmlContent": "Veuillez lire cette description"
         },
         {
-          "language": "en_us",
-          "data": "my name"
-        }
-      ],
-      "description": [
-        {
-          "language": "fr",
-          "data": "Veuillez lire cette description"
-        },
-        {
-          "language": "en_us",
-          "data": "Please read this description"
+          "@type": "Text",
+          "id": "test_id",
+          "title": "test_titre",
+          "language": "en_US",
+          "htmlContent": "Please read this description"
         }
       ],
       "video": [
         {
-          "language": "FR",
-          "data": "video/FR/test.mp4"
+          "@type": "Video",
+          "id": "test_id",
+          "title": "video_titre",
+          "language": "fr",
+          "filePath": "video/FR/test.mp4",
+          "durationInSeconds": 30,
+          "resolution": 720,
+          "encoding": "H.265/MPEG-H"
         },
         {
-          "language": "EN",
-          "data": "video/EN/test.mp4"
+          "@type": "Video",
+          "id": "test_id",
+          "title": "video_title",
+          "language": "en_US",
+          "filePath": "video/EN/test.mp4",
+          "durationInSeconds": 60,
+          "resolution": 480,
+          "encoding": "H.264/MPEG-4"
         }
       ],
       "audio": [
         {
-          "language": "FR",
-          "data": "audio/FR/test.mp4"
+          "@type": "Audio",
+          "id": "test_id",
+          "title": "audio_titre",
+          "language": "fr",
+          "filePath": "audio/FR/test_1.mp3",
+          "encoding": "mp3"
         },
         {
-          "language": "EN",
-          "data": "audio/EN/test.mp4"
+          "@type": "Audio",
+          "id": "test_id",
+          "title": "audio_title",
+          "language": "en_US",
+          "filePath": "audio/EN/test_1.mp3",
+          "encoding": "mp3"
         }
       ],
-      "picture": "picture/test",
-      "floor": 1,
-      "room": 210,
-      "tags": [
-        "testTags1",
-        "testTags2",
-        "testTags3"
+      "image": [
+        {
+          "@type": "Image",
+          "id": "test_id",
+          "title": "test_title",
+          "language": "en_US",
+          "filePath": "picture/test_image1.png",
+          "width": "10",
+          "height": "20"
+        },
+        {
+          "@type": "Image",
+          "id": "test_id",
+          "title": "test_titre",
+          "language": "fr",
+          "filePath": "picture/test_image2.png",
+          "width": "10",
+          "height": "20"
+        }
       ],
-      "coordinate": {
-        "x": 0.001,
-        "y": 0.0
+      "qrcode": [
+        {
+          "@type": "QRCode",
+          "id": "test_id_qr",
+          "title": "test_titre_qr",
+          "language": "fr",
+          "encodingString": "encoding",
+          "artifactTitle": "test_title",
+          "artifactDescription": "test_description",
+          "artifactImagePath": "artifactImage/test_image1.png"
+        }
+      ],
+      "floorPlan": {
+        "floorId": "1",
+        "imagePath": "image/floor_1",
+        "imageWidth": "10",
+        "imageHeight": "10"
       },
-      "edge": [
-        1,
-        2,
-        3
-      ]
+      "x": 0.001,
+      "y": 0.0
     },
     {
+<<<<<<< HEAD
       "type": "TransitionPoint",
       "id": 1,
       "floor": 1,
       "coordinate": {
         "x": 0.015,
         "y": 0.01
+=======
+      "@type": "TransitionPoint",
+      "id": 2,
+      "floorPlan": {
+        "floorId": "1",
+        "imagePath": "floor_1_rca_march2011_1",
+        "imageWidth": "10",
+        "imageHeight": "10"
+>>>>>>> 9b0d587a1d37cec21e489ec932925b975da45338
       },
-      "transitionType" : "CORRIDOR",
-      "edge": [
+      "x": 20.0,
+      "y": 40.0,
+      "label": "STAIRS"
+    },
+    {
+      "@type": "ServicePoint",
+      "label": "ENTRANCE",
+      "id": 3,
+<<<<<<< HEAD
+      "floor": 2,
+      "coordinate": {
+        "x": -0.02,
+        "y": 0.0
+=======
+      "floorPlan": {
+        "floorId": "2",
+        "imagePath": "floor_2_rca_march2011_1",
+        "imageWidth": "10",
+        "imageHeight": "10"
+>>>>>>> 9b0d587a1d37cec21e489ec932925b975da45338
+      },
+      "x": 20.0,
+      "y": 40.5
+    }
+  ],
+  "edges": [
+    {
+      "weight": 10,
+      "start" : 1,
+      "end" : 2
+    }
+  ],
+  "storyLines": [
+    {
+      "id": 1,
+      "text": [
+        {
+          "@type": "Text",
+          "id": "test_id",
+          "title": "RCA dans histoire",
+          "language": "fr",
+          "htmlContent": "Avant la publication du Premier Folio en 1623, dix-neuf des trente-sept pièces de théâtre dans le canon de Shakespeare était apparu en format in-quarto."
+        },
+        {
+          "@type": "Text",
+          "id": "test_id",
+          "title": "RCA Throughout history",
+          "language": "en_US",
+          "htmlContent": "Before the publication of the First Folio in 1623, nineteen of the thirty-seven plays in Shakespeare's canon had appeared in quarto format. "
+        }
+      ],
+      "image": [
+        {
+          "@type": "Image",
+          "id": "test_id",
+          "title": "test_title",
+          "language": "en_US",
+          "filePath": "picture/en/test_storyline_image1.png",
+          "width": "10",
+          "height": "20"
+        },
+        {
+          "@type": "Image",
+          "id": "test_id",
+          "title": "test_titre",
+          "language": "fr",
+          "filePath": "picture/fr/test_storyline_image1.png",
+          "width": "10",
+          "height": "20"
+        }
+      ],
+      "walkingTimeInMinutes": 30,
+      "floorsCovered": 2,
+      "nodeIds": [
         1,
         2,
         3
       ]
     },
     {
-      "type": "ServicePoint",
-      "locationType": "ENTRANCE",
+      "id": 2,
+      "text": [
+        {
+          "@type": "Text",
+          "id": "test_id",
+          "title": "Nippers le chien",
+          "language": "fr",
+          "htmlContent": "À l'exception d'Othello (1622), tous les in-quarto ont été publiés avant la date de la retraite de Shakespeare du théâtre dans environ 1611"
+        },
+        {
+          "@type": "Text",
+          "id": "test_id",
+          "title": "Nippers the Dog",
+          "language": "en_US",
+          "htmlContent": "With the exception of Othello (1622), all of the quartos were published prior to the date of Shakespeare's retirement from the theatre in about 1611"
+        }
+      ],
+      "image": [
+        {
+          "@type": "Image",
+          "id": "test_id",
+          "title": "test_title",
+          "language": "en_US",
+          "filePath": "picture/en/test_storyline_image1.png",
+          "width": "10",
+          "height": "20"
+        },
+        {
+          "@type": "Image",
+          "id": "test_id",
+          "title": "test_titre",
+          "language": "fr",
+          "filePath": "picture/fr/test_storyline_image1.png",
+          "width": "10",
+          "height": "20"
+        }
+      ],
+      "walkingTimeInMinutes": 30,
+      "floorsCovered": 2,
+      "nodeIds": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
       "id": 3,
-      "floor": 2,
-      "coordinate": {
-        "x": -0.02,
-        "y": 0.0
-      },
-      "edge": [
+      "text": [
+        {
+          "@type": "Text",
+          "id": "test_id",
+          "title": "Chose de Gramaphone",
+          "language": "fr",
+          "htmlContent": "Ici vous trouverez le texte complet de pièces de Shakespeare, basée principalement sur la Première Folio, et une variété de ressources utiles, y compris de nombreuses notes explicatives, le caractère analysis.Shakespeare est né et a grandi à Stratford-upon-Avon, Warwickshire. À l'âge de 18 ans, il épouse Anne Hathaway, avec qui il a eu trois enfants: Susanna, et les jumeaux Hamnet et Judith. Quelque part entre 1585 et 1592, il a commencé une carrière couronnée de succès à Londres comme un acteur, écrivain et co-propriétaire d'une entreprise jouant appelé Hommes du Lord Chamberlain, plus tard connu comme fous du roi."
+        },
+        {
+          "@type": "Text",
+          "id": "test_id",
+          "title": "Gramaphone Stuff",
+          "language": "en_US",
+          "htmlContent": "Here you will find the complete text of Shakespeare's plays, based primarily on the First Folio, and a variety of helpful resources, including extensive explanatory notes, character analysis.Shakespeare was born and brought up in Stratford-upon-Avon, Warwickshire. At the age of 18, he married Anne Hathaway, with whom he had three children: Susanna, and twins Hamnet and Judith. Sometime between 1585 and 1592, he began a successful career in London as an actor, writer, and part-owner of a playing company called the Lord Chamberlain's Men, later known as the King's Men. This is a long test!!"
+        }
+      ],
+      "image": [
+        {
+          "@type": "Image",
+          "id": "test_id",
+          "title": "test_title",
+          "language": "en_US",
+          "filePath": "picture/en/test_storyline_image1.png",
+          "width": "10",
+          "height": "20"
+        },
+        {
+          "@type": "Image",
+          "id": "test_id",
+          "title": "test_titre",
+          "language": "fr",
+          "filePath": "picture/fr/test_storyline_image1.png",
+          "width": "10",
+          "height": "20"
+        }
+      ],
+      "walkingTimeInMinutes": 30,
+      "floorsCovered": 2,
+      "nodeIds": [
         1,
         2,
         3
       ]
     }
   ],
-  "edge": [
+  "floors": [
     {
-      "id": 1,
-      "weight": 10,
-      "node": [
-        1,
-        2
-      ]
-    }
-  ],
-  "storyLines": [
+      "floorId": "1",
+      "imagePath": "floor_1_rca_march2011_1",
+      "imageWidth": "10",
+      "imageHeight": "10"
+    },
     {
-      "id": 12,
-      "name": [
-        {
-          "language": "FR",
-          "data": "histoire test"
-        },
-        {
-          "language": "EN",
-          "data": "Storyline test"
-        }
-      ],
-      "description": [
-        {
-          "language": "FR",
-          "data": "Veuillez lire cette hitoire"
-        },
-        {
-          "language": "EN",
-          "data": "Please read this storyline"
-        }
-      ],
-      "nodeIds": [
-        1,
-        2,
-        3,
-        10
-      ]
+      "floorId": "2",
+      "imagePath": "floor_2_rca_march2011_1",
+      "imageWidth": "10",
+      "imageHeight": "10"
+    },
+    {
+      "floorId": "3",
+      "imagePath": "floor_3_rca_march2011_1",
+      "imageWidth": "10",
+      "imageHeight": "10"
+    },
+    {
+      "floorId": "4",
+      "imagePath": "floor_4_rca_march2011_1",
+      "imageWidth": "10",
+      "imageHeight": "10"
+    },
+    {
+      "floorId": "5",
+      "imagePath": "floor_5_rca_march2011_1",
+      "imageWidth": "10",
+      "imageHeight": "10"
     }
   ]
 }

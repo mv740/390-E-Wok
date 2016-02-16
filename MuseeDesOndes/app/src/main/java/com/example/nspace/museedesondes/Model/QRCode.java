@@ -1,15 +1,25 @@
 package com.example.nspace.museedesondes.Model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 /**
  * Created by michal on 2/11/2016.
  */
-public class QRCode extends ExhibitionContent {
+@JsonTypeName("QRCode")
+public class QRCode extends Content {
     private String encodingString;
     private String artifactTitle;
     private String artifactDescription;
     private String artifactImagePath;
 
-    public QRCode(String id, String title, String language, String encodingString, String artifactTitle, String artifactDescription, String artifactImagePath) {
+    public QRCode(@JsonProperty("id") String id,
+                  @JsonProperty("title") String title,
+                  @JsonProperty("language")Language language,
+                  @JsonProperty("encodingString")String encodingString,
+                  @JsonProperty("artifactTitle")String artifactTitle,
+                  @JsonProperty("artifactDescription")String artifactDescription,
+                  @JsonProperty("artifactImagePath")String artifactImagePath) {
         super(id, title, language);
         this.encodingString = encodingString;
         this.artifactTitle = artifactTitle;

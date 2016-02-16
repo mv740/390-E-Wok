@@ -13,34 +13,29 @@ public class PointOfInterest extends Node {
 
     private BeaconInformation beaconInformation;
     private ArrayList<Language> name;
-    private ArrayList<Language> description;
-    private ArrayList<Language> video;
-    private ArrayList<Language> audio;
-    private String picture;
-    private String room;
-    private ArrayList<String> tags;
+    private ArrayList<Text> text;
+    private ArrayList<Video> video;
+    private ArrayList<Audio> audio;
+    private ArrayList<Image> images;
+    private ArrayList<QRCode> qrCodes;
 
     public PointOfInterest(@JsonProperty("id") int id,
-                           @JsonProperty("floor") int floor,
-                           @JsonProperty("edge") ArrayList edge,
-                           @JsonProperty("coordinate") Coordinate coordinate,
+                           @JsonProperty("floorPlan") FloorPlan floor,
+                           @JsonProperty("x") double x,
+                           @JsonProperty("y") double y,
                            @JsonProperty("beaconInformation") BeaconInformation beaconInformation,
-                           @JsonProperty("name") ArrayList<Language> name,
-                           @JsonProperty("description") ArrayList<Language> description,
-                           @JsonProperty("video") ArrayList<Language> video,
-                           @JsonProperty("audio") ArrayList<Language> audio,
-                           @JsonProperty("picture") String picture,
-                           @JsonProperty("room") String room,
-                           @JsonProperty("tags") ArrayList<String> tags) {
-        super(id, floor, edge, coordinate);
+                           @JsonProperty("text") ArrayList<Text> text,
+                           @JsonProperty("video") ArrayList<Video> video,
+                           @JsonProperty("audio") ArrayList<Audio> audio,
+                           @JsonProperty("image") ArrayList<Image> images,
+                           @JsonProperty("qrcode") ArrayList<QRCode> qrCodes) {
+        super(id, floor, x, y);
         this.beaconInformation = beaconInformation;
-        this.name = name;
-        this.description = description;
+        this.text = text;
         this.video = video;
         this.audio = audio;
-        this.picture = picture;
-        this.room = room;
-        this.tags = tags;
+        this.images = images;
+        this.qrCodes = qrCodes;
     }
 
 
@@ -52,7 +47,7 @@ public class PointOfInterest extends Node {
         return name;
     }
 
-    public ArrayList<Language> getDescription() {
+    public ArrayList<Text> getText() {
 
 //        Locale currentLocale = getResources().getConfiguration().locale;
 //        String currentLanguage = currentLocale.getLanguage();
@@ -62,26 +57,22 @@ public class PointOfInterest extends Node {
 //            return frenchDescription;
 //        }
 
-        return description;
+        return text;
     }
 
-    public ArrayList<Language> getVideo() {
+    public ArrayList<Video> getVideo() {
         return video;
     }
 
-    public ArrayList<Language> getAudio() {
+    public ArrayList<Audio> getAudio() {
         return audio;
     }
 
-    public String getPicture() {
-        return picture;
+    public ArrayList<Image> getImages() {
+        return images;
     }
 
-    public String getRoom() {
-        return room;
-    }
-
-    public ArrayList<String> getTags() {
-        return tags;
+    public ArrayList<QRCode> getQrCodes() {
+        return qrCodes;
     }
 }

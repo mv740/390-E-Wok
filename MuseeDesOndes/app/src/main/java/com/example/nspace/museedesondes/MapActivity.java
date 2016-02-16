@@ -2,17 +2,24 @@ package com.example.nspace.museedesondes;
 
 
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.nspace.museedesondes.Model.Language;
 import com.example.nspace.museedesondes.Model.Map;
 import com.example.nspace.museedesondes.Model.PointOfInterest;
+import com.example.nspace.museedesondes.Model.Text;
 import com.example.nspace.museedesondes.Utility.ViewMap;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -22,19 +29,31 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.GroundOverlay;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import com.google.android.gms.maps.model.Polyline;
 import com.example.nspace.museedesondes.Model.Node;
 import java.util.ArrayList;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
-public class MapActivity extends ActionBarActivity implements OnMapReadyCallback, NavigationDrawerFragment.NavigationDrawerCallbacks{
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
+
+public class MapActivity extends ActionBarActivity implements OnMapReadyCallback, NavigationDrawerFragment.NavigationDrawerCallbacks, GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private GroundOverlay groundOverlay;
+    private Map information;
     public static Drawable imgToSendToFullscreenImgActivity;
+
+
+    //todo will need to mediaPlayer.release();  when menu is closed to release ram
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,13 +73,12 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-       bringButtonsToFront();
+        bringButtonsToFront();
 
-
-
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sampleaudio);
     }
 
-    private void bringButtonsToFront(){
+    private void bringButtonsToFront() {
         FloatingActionButton ham = (FloatingActionButton) findViewById(R.id.hamburger);
         FloatingActionButton search = (FloatingActionButton) findViewById(R.id.search_button);
         FloatingActionMenu floor = (FloatingActionMenu) findViewById(R.id.floor_button);
@@ -71,7 +89,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
     }
 
-    public void onHamClick(View v){
+    public void onHamClick(View v) {
         mNavigationDrawerFragment.toggleDrawer(this);
     }
 
@@ -87,7 +105,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Map information = Map.getInstance(getApplicationContext());
+        information = Map.getInstance(getApplicationContext());
 
         mMap = googleMap;
         mMap.setBuildingsEnabled(true);
@@ -95,6 +113,8 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setIndoorLevelPickerEnabled(true);
         mMap.getUiSettings().setMapToolbarEnabled(false);
+
+
 
         //// TODO: 2/7/2016  need to get the lat/lng of each map et bound the available view screen
 //        final LatLngBounds BOUNDS = new LatLngBounds(new LatLng(0.027,-0.02), new LatLng(41.9667, 12.5938));
@@ -107,16 +127,14 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         //mMap.moveCamera(CameraUpdateFactory.newLatLngBounds());
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(center, 14));
         mMap.clear();
-
+        mMap.setOnMarkerClickListener(this);
 
 
         //load map and then switch floor to 5
-       // GroundOverlay groundOverlay = ViewMap.loadDefaultFloor(mMap, custom);
-        groundOverlay = ViewMap.loadDefaultFloor(mMap, custom);
+        // GroundOverlay groundOverlay = ViewMap.loadDefaultFloor(mMap, custom);
+        groundOverlay = ViewMap.loadDefaultFloor(mMap, custom, information.getFloorPlans(), getApplicationContext(), findViewById(android.R.id.content));
         //need to implement a list view
         //ViewMap.switchFloor(groundOverlay, 5);
-
-
 
 
         //// TODO: 2/7/2016 refactor this in a proper fuction
@@ -125,21 +143,40 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
         String title = "error";
         String snippet = "error";
-        for(Language language : pointOfInterest.getName())
-        {
-            if(getApplicationContext().getResources().getConfiguration().locale.getLanguage().equals(language.getLanguage()))
-            {
-                title = language.getData();
+        for (Text text : pointOfInterest.getText()) {
+            if (getApplicationContext().getResources().getConfiguration().locale.getLanguage().equals(text.getLanguage().name().toLowerCase())) {
+                title = text.getLanguage().name();
             }
         }
-        for(Language language : pointOfInterest.getDescription())
-        {
-            if(getApplicationContext().getResources().getConfiguration().locale.getLanguage().equals(language.getLanguage()))
-            {
-                snippet = language.getData();
+        for (Text text : pointOfInterest.getText()) {
+            if (getApplicationContext().getResources().getConfiguration().locale.getLanguage().equals(text.getLanguage().name().toLowerCase())) {
+                snippet = text.getContent();
             }
         }
 
+        //On long click reset audio
+        Button buttonAudio = (Button) findViewById(R.id.play_button);
+        buttonAudio.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (mediaPlayer != null) {
+                    if (mediaPlayer.isPlaying()) {
+                        //http://stackoverflow.com/questions/2969242/problems-with-mediaplayer-raw-resources-stop-and-start
+                        //how to set data source again after reset
+                        v.setBackgroundResource(R.drawable.ic_play_circle_filled_white_48dp);
+                        mediaPlayer.reset();//It requires again setDataSource for player object.
+                        AssetFileDescriptor afd = getApplicationContext().getResources().openRawResourceFd(R.raw.sampleaudio);
+                        try {
+                            mediaPlayer.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                            mediaPlayer.prepare();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                return true;
+            }
+        });
 
         ArrayList<Node> nodes = information.getNodes();
         // This statement places all the nodes on the map and traces the path between them.
@@ -166,6 +203,13 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         }
         line.setPoints(nodePositions);
     }
+//        //single marker with value from json
+//        MarkerOptions node = new MarkerOptions();
+//        node.position(new LatLng(pointOfInterest.getX(), pointOfInterest.getY()));
+//        node.title(title);
+//        node.snippet(snippet);
+//        node.icon((BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+//        mMap.addMarker(node);
 
     /**
      * This method is used to return a list of LatLng coordinates associated with the list of nodes passed as a parameter.
@@ -179,7 +223,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
         ArrayList<LatLng> nodeLatLngs = new ArrayList<LatLng>();
         for (Node node: nodes) {
-            nodeLatLngs.add(new LatLng(node.getCoordinate().getX(), node.getCoordinate().getY()));
+            nodeLatLngs.add(new LatLng(node.getX(), node.getY()));
         }
         return nodeLatLngs;
     }
@@ -193,30 +237,110 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
     //HANDLERS ************
 
-    public void poiImgOnClick(View v){
-        imgToSendToFullscreenImgActivity = ((ImageView)v).getDrawable();
+    public void poiImgOnClick(View v) {
+        imgToSendToFullscreenImgActivity = ((ImageView) v).getDrawable();
         Intent fullscreenImgActivity = new Intent(MapActivity.this, FullscreenImgActivity.class);
         startActivity(fullscreenImgActivity);
     }
 
-    public void floorButton1OnClick(View v){
+    public void floorButton1OnClick(View v) {
         changeFloor(1);
-    }
-    public void floorButton2OnClick(View v){
-        changeFloor(2);
-    }
-    public void floorButton3OnClick(View v){
-        changeFloor(3);
-    }
-    public void floorButton4OnClick(View v){
-        changeFloor(4);
+        FloatingActionButton floorSelected =  (FloatingActionButton)this.findViewById(R.id.fab1);
+        floorSelected.setColorNormal(Color.parseColor("#FFFFA8A8"));
+        FloatingActionButton floor5 =  (FloatingActionButton)this.findViewById(R.id.fab5);
+        FloatingActionButton floor3 =  (FloatingActionButton)this.findViewById(R.id.fab3);
+        FloatingActionButton floor4 =  (FloatingActionButton)this.findViewById(R.id.fab4);
+        FloatingActionButton floor2 =  (FloatingActionButton)this.findViewById(R.id.fab2);
+        floor5.setColorNormal(Color.parseColor("#FFE33C3C"));
+        floor2.setColorNormal(Color.parseColor("#FFE33C3C"));
+        floor3.setColorNormal(Color.parseColor("#FFE33C3C"));
+        floor4.setColorNormal(Color.parseColor("#FFE33C3C"));
     }
 
-    public void changeFloor(int floor){
-        ViewMap.switchFloor(groundOverlay, floor);
+    public void floorButton2OnClick(View v) {
+        changeFloor(2);
+        FloatingActionButton floorSelected =  (FloatingActionButton)this.findViewById(R.id.fab2);
+        floorSelected.setColorNormal(Color.parseColor("#FFFFA8A8"));
+        FloatingActionButton floor1 =  (FloatingActionButton)this.findViewById(R.id.fab1);
+        FloatingActionButton floor3 =  (FloatingActionButton)this.findViewById(R.id.fab3);
+        FloatingActionButton floor4 =  (FloatingActionButton)this.findViewById(R.id.fab4);
+        FloatingActionButton floor5 =  (FloatingActionButton)this.findViewById(R.id.fab5);
+        floor1.setColorNormal(Color.parseColor("#FFE33C3C"));
+        floor5.setColorNormal(Color.parseColor("#FFE33C3C"));
+        floor3.setColorNormal(Color.parseColor("#FFE33C3C"));
+        floor4.setColorNormal(Color.parseColor("#FFE33C3C"));
+    }
+
+
+    public void floorButton3OnClick(View v) {
+        changeFloor(3);
+        FloatingActionButton floorSelected =  (FloatingActionButton)this.findViewById(R.id.fab3);
+        floorSelected.setColorNormal(Color.parseColor("#FFFFA8A8"));
+        FloatingActionButton floor1 =  (FloatingActionButton)this.findViewById(R.id.fab1);
+        FloatingActionButton floor5 =  (FloatingActionButton)this.findViewById(R.id.fab5);
+        FloatingActionButton floor4 =  (FloatingActionButton)this.findViewById(R.id.fab4);
+        FloatingActionButton floor2 =  (FloatingActionButton)this.findViewById(R.id.fab2);
+        floor1.setColorNormal(Color.parseColor("#FFE33C3C"));
+        floor2.setColorNormal(Color.parseColor("#FFE33C3C"));
+        floor5.setColorNormal(Color.parseColor("#FFE33C3C"));
+        floor4.setColorNormal(Color.parseColor("#FFE33C3C"));
+    }
+
+
+    public void floorButton4OnClick(View v) {
+        changeFloor(4);
+        FloatingActionButton floorSelected =  (FloatingActionButton)this.findViewById(R.id.fab4);
+        floorSelected.setColorNormal(Color.parseColor("#FFFFA8A8"));
+        FloatingActionButton floor1 =  (FloatingActionButton)this.findViewById(R.id.fab1);
+        FloatingActionButton floor3 =  (FloatingActionButton)this.findViewById(R.id.fab3);
+        FloatingActionButton floor5 =  (FloatingActionButton)this.findViewById(R.id.fab5);
+        FloatingActionButton floor2 =  (FloatingActionButton)this.findViewById(R.id.fab2);
+        floor1.setColorNormal(Color.parseColor("#FFE33C3C"));
+        floor2.setColorNormal(Color.parseColor("#FFE33C3C"));
+        floor3.setColorNormal(Color.parseColor("#FFE33C3C"));
+        floor5.setColorNormal(Color.parseColor("#FFE33C3C"));
+    }
+    public void floorButton5OnClick(View v) {
+        changeFloor(5);
+        FloatingActionButton floorSelected =  (FloatingActionButton)this.findViewById(R.id.fab5);
+        floorSelected.setColorNormal(Color.parseColor("#FFFFA8A8"));
+        FloatingActionButton floor1 =  (FloatingActionButton)this.findViewById(R.id.fab1);
+        FloatingActionButton floor3 =  (FloatingActionButton)this.findViewById(R.id.fab3);
+        FloatingActionButton floor4 =  (FloatingActionButton)this.findViewById(R.id.fab4);
+        FloatingActionButton floor2 =  (FloatingActionButton)this.findViewById(R.id.fab2);
+        floor1.setColorNormal(Color.parseColor("#FFE33C3C"));
+        floor2.setColorNormal(Color.parseColor("#FFE33C3C"));
+        floor3.setColorNormal(Color.parseColor("#FFE33C3C"));
+        floor4.setColorNormal(Color.parseColor("#FFE33C3C"));
+    }
+
+    public void changeFloor(int floor) {
+        ViewMap.switchFloor(groundOverlay, floor, information.getFloorPlans(), getApplicationContext());
         FloatingActionMenu floorButton = (FloatingActionMenu) findViewById(R.id.floor_button);
         floorButton.toggle(true);
     }
 
+    public void playAudioFile(View v) {
+        Button play = (Button) findViewById(R.id.play_button);
+        ViewGroup layout = (ViewGroup) play.getParent();
+        
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+            v.setBackgroundResource(R.drawable.ic_play_circle_filled_white_48dp);
+        } else {
+            mediaPlayer.start();
+            v.setBackgroundResource(R.drawable.ic_pause_circle_filled_white_48dp);
 
+        }
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        if(marker.getTitle().equals("fr") || marker.getTitle().equals("en_us"))
+        {
+            SlidingUpPanelLayout  layout = (SlidingUpPanelLayout) this.findViewById(R.id.sliding_layout);
+            layout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+        }
+        return false;
+    }
 }

@@ -10,16 +10,26 @@ import java.util.ArrayList;
 public class StoryLine {
 
     private int id;
-    private ArrayList<Language> name;
-    private ArrayList<Language> description;
-    private ArrayList IdList;
+    private ArrayList<Text> text;
+    private ArrayList<Image> images;
+    private int walkingTimeInMinutes;
+    private int floorsCovered;
+    private ArrayList<Integer> IdList; // used only to get reference node
+    private ArrayList<Node> nodes;
 
-    public StoryLine(@JsonProperty("id") int id, @JsonProperty("name") ArrayList<Language> name, @JsonProperty("description") ArrayList<Language> description, @JsonProperty("nodeIds") ArrayList idList) {
+    public StoryLine(@JsonProperty("id") int id,
+                     @JsonProperty("text") ArrayList<Text> text,
+                     @JsonProperty("image") ArrayList<Image> images,
+                     @JsonProperty("walkingTimeInMinutes") int walkingTimeInMinutes,
+                     @JsonProperty("floorsCovered") int floorsCovered,
+                     @JsonProperty("nodeIds") ArrayList<Integer> idList) {
         this.id = id;
-        this.name = name;
-        this.description = description;
-        IdList = idList;
-
+        this.text = text;
+        this.images = images;
+        this.walkingTimeInMinutes = walkingTimeInMinutes;
+        this.floorsCovered = floorsCovered;
+        this.IdList = idList;
+        this.nodes = new ArrayList<>();
 
     }
 
@@ -27,15 +37,31 @@ public class StoryLine {
         return id;
     }
 
-    public ArrayList<Language> getName() {
-        return name;
+    public ArrayList<Text> getText() {
+        return text;
     }
 
-    public ArrayList<Language> getDescription() {
-        return description;
+    public ArrayList<Image> getImages() {
+        return images;
     }
 
-    public ArrayList getIdList() {
+    public int getWalkingTimeInMinutes() {
+        return walkingTimeInMinutes;
+    }
+
+    public int getFloorsCovered() {
+        return floorsCovered;
+    }
+
+    public ArrayList<Integer> getIdList() {
         return IdList;
+    }
+
+    public void addNodeReference(Node node) {
+        this.nodes.add(node);
+    }
+
+    public ArrayList<Node> getNodes() {
+        return nodes;
     }
 }

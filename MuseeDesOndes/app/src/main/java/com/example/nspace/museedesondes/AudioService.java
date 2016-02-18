@@ -5,12 +5,16 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.IBinder;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.SeekBar;
 
 public class AudioService extends Service {
 
     private final IBinder audioBinder = new AudioBinder();
     private MediaPlayer mediaPlayer; //todo will need to mediaPlayer.release();  when menu is closed to release ram
+    private SeekBar seekBar;
+    LayoutInflater inflater;
 
     public AudioService() {
     }
@@ -21,8 +25,12 @@ public class AudioService extends Service {
     }
 
     public void toggleAudioOnOff(View v){
-        if(mediaPlayer == null)
+        if(mediaPlayer == null) {
             mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sampleaudio);
+            inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+            View layout = inflater.inflate(R.layout.poi_more_info, null);
+            seekBar = (SeekBar) layout.findViewById(R.id.seekBar);
+        }
 
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.pause();

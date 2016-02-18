@@ -92,7 +92,8 @@
         android:layout_marginTop="10dp"
         android:scrollbarSize="50dp"
         android:minHeight="100dp"
-        android:maxHeight="100dp"/>
+        android:maxHeight="100dp"
+        android:id="@+id/seekBar"/>
 
     <ScrollView
         android:layout_width="wrap_content"

@@ -16,8 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-<<<<<<< HEAD
-=======
+
 
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -25,7 +24,6 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 import com.example.nspace.museedesondes.AudioService.AudioBinder;
 
->>>>>>> 29590424860216c14385b7e88a04735ef7673f5a
 
 import com.example.nspace.museedesondes.Model.Map;
 import com.example.nspace.museedesondes.Model.PointOfInterest;
@@ -40,15 +38,12 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.GroundOverlay;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-<<<<<<< HEAD
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import com.google.android.gms.maps.model.Polyline;
 import com.example.nspace.museedesondes.Model.Node;
 import java.util.ArrayList;
-=======
->>>>>>> 29590424860216c14385b7e88a04735ef7673f5a
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.io.IOException;
@@ -158,7 +153,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
         // Obtains ALL nodes.
         ArrayList<Node> nodes = information.getNodes();
-        
+
         // This statement places all the nodes on the map and traces the path between them.
         tracePath(nodes);
 

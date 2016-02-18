@@ -1,25 +1,35 @@
 package com.example.nspace.museedesondes;
 
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.res.AssetFileDescriptor;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
-import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+<<<<<<< HEAD
+=======
 
-import com.example.nspace.museedesondes.Model.Language;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.PopupMenu;
+import android.widget.Toast;
+import com.example.nspace.museedesondes.AudioService.AudioBinder;
+
+>>>>>>> 29590424860216c14385b7e88a04735ef7673f5a
+
 import com.example.nspace.museedesondes.Model.Map;
 import com.example.nspace.museedesondes.Model.PointOfInterest;
-import com.example.nspace.museedesondes.Model.Text;
+import com.example.nspace.museedesondes.Utility.PointMarker;
 import com.example.nspace.museedesondes.Utility.ViewMap;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -30,17 +40,18 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.GroundOverlay;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+<<<<<<< HEAD
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import com.google.android.gms.maps.model.Polyline;
 import com.example.nspace.museedesondes.Model.Node;
 import java.util.ArrayList;
+=======
+>>>>>>> 29590424860216c14385b7e88a04735ef7673f5a
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 
 
 public class MapActivity extends ActionBarActivity implements OnMapReadyCallback, NavigationDrawerFragment.NavigationDrawerCallbacks, GoogleMap.OnMarkerClickListener {
@@ -50,10 +61,9 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     private GroundOverlay groundOverlay;
     private Map information;
     public static Drawable imgToSendToFullscreenImgActivity;
+    AudioService audioService;
 
 
-    //todo will need to mediaPlayer.release();  when menu is closed to release ram
-    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +84,9 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
         bringButtonsToFront();
+        Intent intent = new Intent(this,AudioService.class);
+        bindService(intent, audioConnection, Context.BIND_AUTO_CREATE);
 
-        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sampleaudio);
     }
 
     private void bringButtonsToFront() {
@@ -108,11 +119,14 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         information = Map.getInstance(getApplicationContext());
 
         mMap = googleMap;
-        mMap.setBuildingsEnabled(true);
-        mMap.setIndoorEnabled(true);
+        mMap.setBuildingsEnabled(false);
+        mMap.setIndoorEnabled(false);
         mMap.getUiSettings().setZoomControlsEnabled(true);
-        mMap.getUiSettings().setIndoorLevelPickerEnabled(true);
+        mMap.getUiSettings().setIndoorLevelPickerEnabled(false);
         mMap.getUiSettings().setMapToolbarEnabled(false);
+        mMap.getUiSettings().setRotateGesturesEnabled(false);
+
+
 
 
 
@@ -139,46 +153,12 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
         //// TODO: 2/7/2016 refactor this in a proper fuction
         PointOfInterest pointOfInterest = information.getPointOfInterests().get(0);
+        PointMarker.singleInterestPointFactory(pointOfInterest, getApplicationContext(), mMap);
 
 
-        String title = "error";
-        String snippet = "error";
-        for (Text text : pointOfInterest.getText()) {
-            if (getApplicationContext().getResources().getConfiguration().locale.getLanguage().equals(text.getLanguage().name().toLowerCase())) {
-                title = text.getLanguage().name();
-            }
-        }
-        for (Text text : pointOfInterest.getText()) {
-            if (getApplicationContext().getResources().getConfiguration().locale.getLanguage().equals(text.getLanguage().name().toLowerCase())) {
-                snippet = text.getContent();
-            }
-        }
-
-        //On long click reset audio
-        Button buttonAudio = (Button) findViewById(R.id.play_button);
-        buttonAudio.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if (mediaPlayer != null) {
-                    if (mediaPlayer.isPlaying()) {
-                        //http://stackoverflow.com/questions/2969242/problems-with-mediaplayer-raw-resources-stop-and-start
-                        //how to set data source again after reset
-                        v.setBackgroundResource(R.drawable.ic_play_circle_filled_white_48dp);
-                        mediaPlayer.reset();//It requires again setDataSource for player object.
-                        AssetFileDescriptor afd = getApplicationContext().getResources().openRawResourceFd(R.raw.sampleaudio);
-                        try {
-                            mediaPlayer.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-                            mediaPlayer.prepare();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-                return true;
-            }
-        });
-
+        // Obtains ALL nodes.
         ArrayList<Node> nodes = information.getNodes();
+        
         // This statement places all the nodes on the map and traces the path between them.
         tracePath(nodes);
 
@@ -203,13 +183,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         }
         line.setPoints(nodePositions);
     }
-//        //single marker with value from json
-//        MarkerOptions node = new MarkerOptions();
-//        node.position(new LatLng(pointOfInterest.getX(), pointOfInterest.getY()));
-//        node.title(title);
-//        node.snippet(snippet);
-//        node.icon((BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-//        mMap.addMarker(node);
+
 
     /**
      * This method is used to return a list of LatLng coordinates associated with the list of nodes passed as a parameter.
@@ -226,14 +200,15 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
             nodeLatLngs.add(new LatLng(node.getX(), node.getY()));
         }
         return nodeLatLngs;
+
+
     }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
 
     }
-
-    //HANDLERS ************
+    
 
     public void poiImgOnClick(View v) {
         imgToSendToFullscreenImgActivity = ((ImageView) v).getDrawable();
@@ -319,26 +294,29 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     }
 
     public void playAudioFile(View v) {
-        Button play = (Button) findViewById(R.id.play_button);
-        ViewGroup layout = (ViewGroup) play.getParent();
-        
-        if (mediaPlayer.isPlaying()) {
-            mediaPlayer.pause();
-            v.setBackgroundResource(R.drawable.ic_play_circle_filled_white_48dp);
-        } else {
-            mediaPlayer.start();
-            v.setBackgroundResource(R.drawable.ic_pause_circle_filled_white_48dp);
-
-        }
+        audioService.toggleAudioOnOff(v);
     }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        if(marker.getTitle().equals("fr") || marker.getTitle().equals("en_us"))
+        if(marker.getTitle().equals("fr") || marker.getTitle().equalsIgnoreCase("en_us"))
         {
             SlidingUpPanelLayout  layout = (SlidingUpPanelLayout) this.findViewById(R.id.sliding_layout);
             layout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
         }
         return false;
     }
+
+    private ServiceConnection audioConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            AudioBinder binder = (AudioBinder) service;
+            audioService = binder.getAudioService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
 }

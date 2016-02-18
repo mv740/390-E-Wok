@@ -1,7 +1,10 @@
 package com.example.nspace.museedesondes;
 
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -9,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
@@ -22,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.PopupMenu;
 import android.widget.Toast;
+import com.example.nspace.museedesondes.AudioService.AudioBinder;
 
 import com.example.nspace.museedesondes.Model.Language;
 import com.example.nspace.museedesondes.Model.Map;
@@ -53,10 +58,9 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     private GroundOverlay groundOverlay;
     private Map information;
     public static Drawable imgToSendToFullscreenImgActivity;
+    AudioService audioService;
 
 
-    //todo will need to mediaPlayer.release();  when menu is closed to release ram
-    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +81,9 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
         bringButtonsToFront();
+        Intent intent = new Intent(this,AudioService.class);
+        bindService(intent, audioConnection, Context.BIND_AUTO_CREATE);
 
-        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sampleaudio);
     }
 
     private void bringButtonsToFront() {
@@ -166,29 +171,6 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         mMap.addMarker(node);
 
 
-        //On long click reset audio
-        Button buttonAudio = (Button) findViewById(R.id.play_button);
-        buttonAudio.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if (mediaPlayer != null) {
-                    if (mediaPlayer.isPlaying()) {
-                        //http://stackoverflow.com/questions/2969242/problems-with-mediaplayer-raw-resources-stop-and-start
-                        //how to set data source again after reset
-                        v.setBackgroundResource(R.drawable.ic_play_circle_filled_white_48dp);
-                        mediaPlayer.reset();//It requires again setDataSource for player object.
-                        AssetFileDescriptor afd = getApplicationContext().getResources().openRawResourceFd(R.raw.sampleaudio);
-                        try {
-                            mediaPlayer.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-                            mediaPlayer.prepare();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-                return true;
-            }
-        });
     }
 
     @Override
@@ -282,17 +264,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     }
 
     public void playAudioFile(View v) {
-        Button play = (Button) findViewById(R.id.play_button);
-        ViewGroup layout = (ViewGroup) play.getParent();
-        
-        if (mediaPlayer.isPlaying()) {
-            mediaPlayer.pause();
-            v.setBackgroundResource(R.drawable.ic_play_circle_filled_white_48dp);
-        } else {
-            mediaPlayer.start();
-            v.setBackgroundResource(R.drawable.ic_pause_circle_filled_white_48dp);
-
-        }
+        audioService.toggleAudioOnOff(v);
     }
 
     @Override
@@ -304,4 +276,17 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         }
         return false;
     }
+
+    private ServiceConnection audioConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            AudioBinder binder = (AudioBinder) service;
+            audioService = binder.getAudioService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
 }

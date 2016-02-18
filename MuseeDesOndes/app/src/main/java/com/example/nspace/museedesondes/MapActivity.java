@@ -6,32 +6,27 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.res.AssetFileDescriptor;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
+
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 import com.example.nspace.museedesondes.AudioService.AudioBinder;
 
-import com.example.nspace.museedesondes.Model.Language;
+
 import com.example.nspace.museedesondes.Model.Map;
 import com.example.nspace.museedesondes.Model.PointOfInterest;
-import com.example.nspace.museedesondes.Model.Text;
+import com.example.nspace.museedesondes.Utility.PointMarker;
 import com.example.nspace.museedesondes.Utility.ViewMap;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -39,16 +34,12 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.GroundOverlay;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 
 
 public class MapActivity extends ActionBarActivity implements OnMapReadyCallback, NavigationDrawerFragment.NavigationDrawerCallbacks, GoogleMap.OnMarkerClickListener {
@@ -116,11 +107,14 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         information = Map.getInstance(getApplicationContext());
 
         mMap = googleMap;
-        mMap.setBuildingsEnabled(true);
-        mMap.setIndoorEnabled(true);
+        mMap.setBuildingsEnabled(false);
+        mMap.setIndoorEnabled(false);
         mMap.getUiSettings().setZoomControlsEnabled(true);
-        mMap.getUiSettings().setIndoorLevelPickerEnabled(true);
+        mMap.getUiSettings().setIndoorLevelPickerEnabled(false);
         mMap.getUiSettings().setMapToolbarEnabled(false);
+        mMap.getUiSettings().setRotateGesturesEnabled(false);
+
+
 
 
 
@@ -147,28 +141,9 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
         //// TODO: 2/7/2016 refactor this in a proper fuction
         PointOfInterest pointOfInterest = information.getPointOfInterests().get(0);
-
-        String title = "error";
-        String snippet = "error";
-        for (Text text : pointOfInterest.getText()) {
-            if (getApplicationContext().getResources().getConfiguration().locale.getLanguage().equals(text.getLanguage().name().toLowerCase())) {
-                title = text.getLanguage().name();
-            }
-        }
-        for (Text text : pointOfInterest.getText()) {
-            if (getApplicationContext().getResources().getConfiguration().locale.getLanguage().equals(text.getLanguage().name().toLowerCase())) {
-                snippet = text.getContent();
-            }
-        }
+        PointMarker.singleInterestPointFactory(pointOfInterest, getApplicationContext(), mMap);
 
 
-        //single marker with value from json
-        MarkerOptions node = new MarkerOptions();
-        node.position(new LatLng(pointOfInterest.getX(), pointOfInterest.getY()));
-        node.title(title);
-        node.snippet(snippet);
-        node.icon((BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-        mMap.addMarker(node);
 
 
     }
@@ -177,8 +152,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     public void onNavigationDrawerItemSelected(int position) {
 
     }
-
-    //HANDLERS ************
+    
 
     public void poiImgOnClick(View v) {
         imgToSendToFullscreenImgActivity = ((ImageView) v).getDrawable();
@@ -269,7 +243,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        if(marker.getTitle().equals("fr") || marker.getTitle().equals("en_us"))
+        if(marker.getTitle().equals("fr") || marker.getTitle().equalsIgnoreCase("en_us"))
         {
             SlidingUpPanelLayout  layout = (SlidingUpPanelLayout) this.findViewById(R.id.sliding_layout);
             layout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);

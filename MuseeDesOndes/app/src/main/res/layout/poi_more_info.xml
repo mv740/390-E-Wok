@@ -84,6 +84,16 @@
         android:onClick="playAudioFile"
         android:longClickable="true"/>
 
+    <SeekBar
+        android:layout_marginLeft="60dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/horizontalScrollView"
+        android:layout_marginTop="10dp"
+        android:scrollbarSize="50dp"
+        android:minHeight="100dp"
+        android:maxHeight="100dp"/>
+
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

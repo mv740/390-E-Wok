@@ -92,7 +92,8 @@
         android:layout_marginTop="10dp"
         android:scrollbarSize="50dp"
         android:minHeight="100dp"
-        android:maxHeight="100dp"/>
+        android:maxHeight="100dp"
+        android:id="@+id/seekBar"/>
 
     <ScrollView
         android:layout_width="wrap_content"
@@ -110,6 +111,7 @@
         <com.bluejamesbond.text.DocumentView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:id="@+id/poi_text"
             ext:documentView_text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sit amet ipsum ultrices, elementum tellus non, sagittis dolor. Ut odio sem, venenatis non varius non, vulputate ut tortor. Nulla ullamcorper nulla sed magna gravida, sit amet varius ipsum malesuada. Cras consectetur, mi vitae maximus efficitur, erat mi viverra mi, tristique pretium est lorem vel ipsum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Integer eu efficitur arcu. Donec ultricies feugiat libero, vel egestas ex. Suspendisse at Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sit amet ipsum ultrices, elementum tellus non, sagittis dolor. Ut odio sem, venenatis non varius non, vulputate ut tortor. Nulla ullamcorper nulla sed magna gravida, sit amet varius "
             ext:documentView_textAlignment="justified"
             ext:documentView_textSize="20dp"

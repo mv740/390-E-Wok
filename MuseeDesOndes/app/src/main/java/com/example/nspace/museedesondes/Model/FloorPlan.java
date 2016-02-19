@@ -13,7 +13,7 @@ public class FloorPlan {
     private int imageWidth;
     private int imageHeight;
 
-    public FloorPlan(@JsonProperty("floorId")String id,
+    public FloorPlan(@JsonProperty("floorID")String id,
                      @JsonProperty("imagePath")String imagePath,
                      @JsonProperty("imageWidth")int imageWidth,
                      @JsonProperty("imageHeight")int imageHeight) {

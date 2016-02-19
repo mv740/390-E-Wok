@@ -9,6 +9,7 @@ import android.widget.ListView;
 
 import com.example.nspace.museedesondes.Model.Map;
 import com.example.nspace.museedesondes.Model.StoryLine;
+import com.example.nspace.museedesondes.Model.StoryLineDescription;
 import com.example.nspace.museedesondes.Model.Text;
 import com.example.nspace.museedesondes.Utility.CustomStoryList;
 
@@ -68,12 +69,13 @@ public class StoryLineActivity extends AppCompatActivity {
         descriptionArray[0] = getResources().getString(R.string.free_exploration_description);
 
         int index = 1;
+        //todo remove //
         for(StoryLine storyline : storyLineList){
-            ArrayList<Text> textList = storyline.getText();
-            for(Text text : textList){
-                if(text.getLanguage().toString().equalsIgnoreCase(currentLanguage)) {
-                    titleArray[index] = text.getTitle();
-                    descriptionArray[index] = text.getContent();
+            ArrayList<StoryLineDescription> textList = storyline.getDescriptions();
+            for(StoryLineDescription description : textList){
+                if(description.getLanguage().toString().equalsIgnoreCase(currentLanguage)) {
+                    titleArray[index] = description.getTitle();
+                    descriptionArray[index] = description.getDescription();
                     break;
                 }
             }

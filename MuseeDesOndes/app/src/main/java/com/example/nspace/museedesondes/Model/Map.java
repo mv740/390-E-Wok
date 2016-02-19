@@ -23,10 +23,10 @@ public class Map {
 
     private static Map instance = null;
 
-    private Map(@JsonProperty("nodes") ArrayList<Node> nodes,
-                @JsonProperty("edges") ArrayList<Edge> edges,
-                @JsonProperty("storyLines") ArrayList<StoryLine> storyLines,
-                @JsonProperty("floors") ArrayList<FloorPlan> floorPlans) {
+    private Map(@JsonProperty("node") ArrayList<Node> nodes,
+                @JsonProperty("edge") ArrayList<Edge> edges,
+                @JsonProperty("storyLine") ArrayList<StoryLine> storyLines,
+                @JsonProperty("floorPlan") ArrayList<FloorPlan> floorPlans) {
 
         this.nodes = nodes;
         this.edges = edges;
@@ -78,7 +78,7 @@ public class Map {
     private static void setNodesReferenceForStorylines() {
         for(StoryLine storyLine : instance.storyLines)
         {
-            for (Integer id : storyLine.getIdList())
+            for (Integer id : storyLine.getPath())
             {
                 storyLine.addNodeReference(instance.searchNodeById(id));
             }

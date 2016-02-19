@@ -22,6 +22,7 @@ public class StoryLineActivity extends AppCompatActivity {
     String[] descriptionArray;
     Integer[] imageIdArray;
     Map information;
+    String storyLineActivityLang;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +32,10 @@ public class StoryLineActivity extends AppCompatActivity {
         information = Map.getInstance(getApplicationContext());
 
         Locale currentLocale = getResources().getConfiguration().locale;
-        String currentLanguage = currentLocale.getLanguage();
+        storyLineActivityLang = currentLocale.getLanguage();
 
         ArrayList<StoryLine> storyLineList = information.getStoryLines();
-        populateAdapterArrays(storyLineList, currentLanguage);
+        populateAdapterArrays(storyLineList, storyLineActivityLang);
 
         //todo: fetch storyline image array from Map and put into arrays
 
@@ -79,5 +80,17 @@ public class StoryLineActivity extends AppCompatActivity {
             }
             index++;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        Locale currentLocale = getResources().getConfiguration().locale;
+        String currentAppLanguage = currentLocale.getLanguage();
+
+        if(!currentAppLanguage.equalsIgnoreCase(storyLineActivityLang)) {
+            storyLineActivityLang = currentAppLanguage;
+            recreate();
+        }
+        super.onResume();
     }
 }

@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.PopupMenu;
@@ -38,6 +39,12 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.GroundOverlay;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
+
+import com.google.android.gms.maps.model.Polyline;
+import com.example.nspace.museedesondes.Model.Node;
+import java.util.ArrayList;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.io.IOException;
@@ -142,13 +149,63 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
 
         //// TODO: 2/7/2016 refactor this in a proper fuction
-        PointOfInterest pointOfInterest = information.getPointOfInterests().get(0);
-        PointMarker.singleInterestPointFactory(pointOfInterest, getApplicationContext(), mMap);
+        //// 2/18/2016 Completed by Harrison.
+        ArrayList<PointOfInterest> pointsOfInterest = information.getPointOfInterests();
+        placeMarkersOnPointsOfInterest(pointsOfInterest);
+
+        PoiPanel.replaceText((SlidingUpPanelLayout) findViewById(R.id.sliding_layout), "SALUT");
 
 
-        PoiPanel.replaceText((SlidingUpPanelLayout)findViewById(R.id.sliding_layout), "SALUT");
+        // Obtains ALL nodes.
+        ArrayList<Node> nodes = information.getNodes();
+
+        // This statement places all the nodes on the map and traces the path between them.
+        tracePath(nodes);
 
 
+    }
+
+    /**
+     * This method places the AZURE markers on the list of points of interest.
+     * @param pointsOfInterest List of all points of interest.
+     */
+    private void placeMarkersOnPointsOfInterest(ArrayList<PointOfInterest> pointsOfInterest) {
+        for (PointOfInterest pointOfInterest: pointsOfInterest) {
+            PointMarker.singleInterestPointFactory(pointOfInterest, getApplicationContext(), mMap);
+        }
+    }
+
+    /**
+     * This function is meant to trace the path between nodes in the arraylist of coordinates
+     * representing each node's latitudinal and longitudinal position respectively.
+     * @param nodes This is the list of nodes that are to be sorted through. The nodes could be
+     *              either points of interest, points of traversal, or others.
+     */
+    public void tracePath(ArrayList<Node> nodes) {
+
+        ArrayList<LatLng> nodePositions = listNodeCoordinates(nodes);
+        Polyline line = mMap.addPolyline(new PolylineOptions()
+                            .width(15)
+                            .color(Color.parseColor("#99E33C3C")));
+        line.setPoints(nodePositions);
+    }
+
+
+    /**
+     * This method is used to return a list of LatLng coordinates associated with the list of nodes passed as a parameter.
+     * @param nodes   The list of nodes for which coordinates should be derived.
+     * @return        The list of LatLng coordinates.
+     */
+    public ArrayList<LatLng> listNodeCoordinates(ArrayList<Node> nodes) {
+        if (nodes == null) {
+            return null;
+        }
+
+        ArrayList<LatLng> nodeLatLngs = new ArrayList<LatLng>();
+        for (Node node: nodes) {
+            nodeLatLngs.add(new LatLng(node.getX(), node.getY()));
+        }
+        return nodeLatLngs;
     }
 
     @Override

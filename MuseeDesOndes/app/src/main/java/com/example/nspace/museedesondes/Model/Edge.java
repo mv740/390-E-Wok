@@ -1,31 +1,32 @@
 package com.example.nspace.museedesondes.Model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
 /**
  * Created by michal on 1/28/2016.
  */
 public class Edge {
 
-    private int weight;
+    private int distance;
     private Node start;
     private Node end;
     private int startID;
     private int endID;
+    private int floorNumber;
 
-    public Edge(@JsonProperty("weight") int weight,
-                @JsonProperty("start") int startID,
-                @JsonProperty("end") int endID) {
-        this.weight = weight;
+    public Edge(@JsonProperty("startNode") int startID,
+                @JsonProperty("endNode") int endID,
+                @JsonProperty("distance") int distance,
+                @JsonProperty("floorNumber") int floorNumber) {
         this.startID = startID;
         this.endID = endID;
+        this.distance = distance;
+        this.floorNumber = floorNumber;
     }
 
-
-    public int getWeight() {
-        return weight;
+    public int getDistance() {
+        return distance;
     }
 
     public int getStartID() {
@@ -50,5 +51,9 @@ public class Edge {
 
     public void setEnd(Node end) {
         this.end = end;
+    }
+
+    public int getFloorNumber() {
+        return floorNumber;
     }
 }

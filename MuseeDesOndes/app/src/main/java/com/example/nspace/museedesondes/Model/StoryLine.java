@@ -1,6 +1,7 @@
 package com.example.nspace.museedesondes.Model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
 import java.util.ArrayList;
 
@@ -10,39 +11,31 @@ import java.util.ArrayList;
 public class StoryLine {
 
     private int id;
-    private ArrayList<Text> text;
-    private ArrayList<Image> images;
+    private String imagePath;
     private int walkingTimeInMinutes;
     private int floorsCovered;
-    private ArrayList<Integer> IdList; // used only to get reference node
+    private ArrayList<Integer> path; // used only to get reference node
     private ArrayList<Node> nodes;
+    private ArrayList<StoryLineDescription> descriptions;
 
     public StoryLine(@JsonProperty("id") int id,
-                     @JsonProperty("text") ArrayList<Text> text,
-                     @JsonProperty("image") ArrayList<Image> images,
+                     @JsonProperty("thumbnail") String imagePath,
+                     @JsonProperty("title") ArrayList<StoryLineDescription> descriptions,
                      @JsonProperty("walkingTimeInMinutes") int walkingTimeInMinutes,
                      @JsonProperty("floorsCovered") int floorsCovered,
-                     @JsonProperty("nodeIds") ArrayList<Integer> idList) {
+                     @JsonProperty("path") ArrayList<Integer> path) {
         this.id = id;
-        this.text = text;
-        this.images = images;
         this.walkingTimeInMinutes = walkingTimeInMinutes;
         this.floorsCovered = floorsCovered;
-        this.IdList = idList;
+        this.path = path;
+        this.imagePath = imagePath;
         this.nodes = new ArrayList<>();
+        this.descriptions = descriptions;
 
     }
 
     public int getId() {
         return id;
-    }
-
-    public ArrayList<Text> getText() {
-        return text;
-    }
-
-    public ArrayList<Image> getImages() {
-        return images;
     }
 
     public int getWalkingTimeInMinutes() {
@@ -53,8 +46,12 @@ public class StoryLine {
         return floorsCovered;
     }
 
-    public ArrayList<Integer> getIdList() {
-        return IdList;
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public ArrayList<Integer> getPath() {
+        return path;
     }
 
     public void addNodeReference(Node node) {
@@ -63,5 +60,18 @@ public class StoryLine {
 
     public ArrayList<Node> getNodes() {
         return nodes;
+    }
+
+    public ArrayList<StoryLineDescription> getDescriptions() {
+        return descriptions;
+    }
+
+    @JsonSetter("description")
+    public void setDescriptions(ArrayList<StoryLineDescription> descriptions) {
+
+        for(int i =0; i<descriptions.size(); i++)
+        {
+            this.descriptions.get(i).setDescription(descriptions.get(i).getDescription());
+        }
     }
 }

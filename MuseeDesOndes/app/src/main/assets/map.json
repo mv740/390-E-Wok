@@ -1,5 +1,5 @@
 {
-  "nodes": [
+  "node": [
     {
       "@type": "PointOfInterest",
       "id": 1,
@@ -97,7 +97,7 @@
         }
       ],
       "floorPlan": {
-        "floorId": "1",
+        "floorID": "1",
         "imagePath": "image/floor_1",
         "imageWidth": "10",
         "imageHeight": "10"
@@ -109,13 +109,13 @@
       "@type": "TransitionPoint",
       "id": 2,
       "floorPlan": {
-        "floorId": "1",
+        "floorID": "1",
         "imagePath": "floor_1_rca_march2011_1",
         "imageWidth": "10",
         "imageHeight": "10"
       },
-      "x": 20.0,
-      "y": 40.0,
+      "x": 0.002,
+      "y": 0.004,
       "label": "STAIRS"
     },
     {
@@ -123,64 +123,50 @@
       "label": "ENTRANCE",
       "id": 3,
       "floorPlan": {
-        "floorId": "2",
+        "floorID": "2",
         "imagePath": "floor_2_rca_march2011_1",
         "imageWidth": "10",
         "imageHeight": "10"
       },
-      "x": 20.0,
-      "y": 40.5
+      "x": 0.0022,
+      "y": 0.00405
     }
   ],
-  "edges": [
+  "edge": [
     {
-      "weight": 10,
-      "start" : 1,
-      "end" : 2
+      "startNode" : 1,
+      "endNode" : 2,
+      "floorNumber": 1,
+      "distance": 20
     }
   ],
-  "storyLines": [
+  "storyLine": [
     {
       "id": 1,
-      "text": [
+      "title": [
         {
-          "@type": "Text",
-          "id": "test_id",
-          "title": "RCA dans histoire",
           "language": "fr",
-          "htmlContent": "Avant la publication du Premier Folio en 1623, dix-neuf des trente-sept pièces de théâtre dans le canon de Shakespeare était apparu en format in-quarto."
+          "title": "RCA dans histoire"
         },
         {
-          "@type": "Text",
-          "id": "test_id",
-          "title": "RCA Throughout history",
           "language": "en_US",
-          "htmlContent": "Before the publication of the First Folio in 1623, nineteen of the thirty-seven plays in Shakespeare's canon had appeared in quarto format. "
+          "title": "RCA Throughout history"
         }
       ],
-      "image": [
+      "description": [
         {
-          "@type": "Image",
-          "id": "test_id",
-          "title": "test_title",
-          "language": "en_US",
-          "filePath": "picture/en/test_storyline_image1.png",
-          "width": "10",
-          "height": "20"
+          "language": "fr",
+          "description": "Avant la publication du Premier Folio en 1623, dix-neuf des trente-sept pièces de théâtre dans le canon de Shakespeare était apparu en format in-quarto."
         },
         {
-          "@type": "Image",
-          "id": "test_id",
-          "title": "test_titre",
-          "language": "fr",
-          "filePath": "picture/fr/test_storyline_image1.png",
-          "width": "10",
-          "height": "20"
+          "language": "en_US",
+          "description": "Before the publication of the First Folio in 1623, nineteen of the thirty-seven plays in Shakespeare's canon had appeared in quarto format. "
         }
       ],
+      "thumbnail": "test_storyline_image1.png",
       "walkingTimeInMinutes": 30,
       "floorsCovered": 2,
-      "nodeIds": [
+      "path": [
         1,
         2,
         3
@@ -188,45 +174,30 @@
     },
     {
       "id": 2,
-      "text": [
+      "title": [
         {
-          "@type": "Text",
-          "id": "test_id",
-          "title": "Nippers le chien",
           "language": "fr",
-          "htmlContent": "À l'exception d'Othello (1622), tous les in-quarto ont été publiés avant la date de la retraite de Shakespeare du théâtre dans environ 1611"
+          "title": "Nippers le chien"
         },
         {
-          "@type": "Text",
-          "id": "test_id",
-          "title": "Nippers the Dog",
           "language": "en_US",
-          "htmlContent": "With the exception of Othello (1622), all of the quartos were published prior to the date of Shakespeare's retirement from the theatre in about 1611"
+          "title": "Nippers the Dog"
         }
       ],
-      "image": [
+      "description": [
         {
-          "@type": "Image",
-          "id": "test_id",
-          "title": "test_title",
-          "language": "en_US",
-          "filePath": "picture/en/test_storyline_image1.png",
-          "width": "10",
-          "height": "20"
+          "language": "fr",
+          "description": "À l'exception d'Othello (1622), tous les in-quarto ont été publiés avant la date de la retraite de Shakespeare du théâtre dans environ 1611"
         },
         {
-          "@type": "Image",
-          "id": "test_id",
-          "title": "test_titre",
-          "language": "fr",
-          "filePath": "picture/fr/test_storyline_image1.png",
-          "width": "10",
-          "height": "20"
+          "language": "en_US",
+          "description": "With the exception of Othello (1622), all of the quartos were published prior to the date of Shakespeare's retirement from the theatre in about 1611"
         }
       ],
+      "thumbnail": "test_storyline_image2.png",
       "walkingTimeInMinutes": 30,
       "floorsCovered": 2,
-      "nodeIds": [
+      "path": [
         1,
         2,
         3
@@ -234,78 +205,63 @@
     },
     {
       "id": 3,
-      "text": [
+      "title": [
         {
-          "@type": "Text",
-          "id": "test_id",
-          "title": "Chose de Gramaphone",
           "language": "fr",
-          "htmlContent": "Ici vous trouverez le texte complet de pièces de Shakespeare, basée principalement sur la Première Folio, et une variété de ressources utiles, y compris de nombreuses notes explicatives, le caractère analysis.Shakespeare est né et a grandi à Stratford-upon-Avon, Warwickshire. À l'âge de 18 ans, il épouse Anne Hathaway, avec qui il a eu trois enfants: Susanna, et les jumeaux Hamnet et Judith. Quelque part entre 1585 et 1592, il a commencé une carrière couronnée de succès à Londres comme un acteur, écrivain et co-propriétaire d'une entreprise jouant appelé Hommes du Lord Chamberlain, plus tard connu comme fous du roi."
+          "title": "Chose de Gramaphone"
         },
         {
-          "@type": "Text",
-          "id": "test_id",
-          "title": "Gramaphone Stuff",
           "language": "en_US",
-          "htmlContent": "Here you will find the complete text of Shakespeare's plays, based primarily on the First Folio, and a variety of helpful resources, including extensive explanatory notes, character analysis.Shakespeare was born and brought up in Stratford-upon-Avon, Warwickshire. At the age of 18, he married Anne Hathaway, with whom he had three children: Susanna, and twins Hamnet and Judith. Sometime between 1585 and 1592, he began a successful career in London as an actor, writer, and part-owner of a playing company called the Lord Chamberlain's Men, later known as the King's Men. This is a long test!!"
+          "title": "Gramaphone Stuff"
         }
       ],
-      "image": [
+      "description": [
         {
-          "@type": "Image",
-          "id": "test_id",
-          "title": "test_title",
-          "language": "en_US",
-          "filePath": "picture/en/test_storyline_image1.png",
-          "width": "10",
-          "height": "20"
+          "language": "fr",
+          "description": "Ici vous trouverez le texte complet de pièces de Shakespeare, basée principalement sur la Première Folio, et une variété de ressources utiles, y compris de nombreuses notes explicatives, le caractère analysis.Shakespeare est né et a grandi à Stratford-upon-Avon, Warwickshire. À l'âge de 18 ans, il épouse Anne Hathaway, avec qui il a eu trois enfants: Susanna, et les jumeaux Hamnet et Judith. Quelque part entre 1585 et 1592, il a commencé une carrière couronnée de succès à Londres comme un acteur, écrivain et co-propriétaire d'une entreprise jouant appelé Hommes du Lord Chamberlain, plus tard connu comme fous du roi."
         },
         {
-          "@type": "Image",
-          "id": "test_id",
-          "title": "test_titre",
-          "language": "fr",
-          "filePath": "picture/fr/test_storyline_image1.png",
-          "width": "10",
-          "height": "20"
+          "language": "en_US",
+          "description": "Here you will find the complete text of Shakespeare's plays, based primarily on the First Folio, and a variety of helpful resources, including extensive explanatory notes, character analysis.Shakespeare was born and brought up in Stratford-upon-Avon, Warwickshire. At the age of 18, he married Anne Hathaway, with whom he had three children: Susanna, and twins Hamnet and Judith. Sometime between 1585 and 1592, he began a successful career in London as an actor, writer, and part-owner of a playing company called the Lord Chamberlain's Men, later known as the King's Men. This is a long test!!"
         }
       ],
+      "thumbnail": "test_storyline_image3.png",
       "walkingTimeInMinutes": 30,
       "floorsCovered": 2,
-      "nodeIds": [
+      "path": [
         1,
         2,
         3
       ]
     }
   ],
-  "floors": [
+  "floorPlan": [
     {
-      "floorId": "1",
+      "floorID": "1",
       "imagePath": "floor_1_rca_march2011_1",
       "imageWidth": "10",
       "imageHeight": "10"
     },
     {
-      "floorId": "2",
+      "floorID": "2",
       "imagePath": "floor_2_rca_march2011_1",
       "imageWidth": "10",
       "imageHeight": "10"
     },
     {
-      "floorId": "3",
+      "floorID": "3",
       "imagePath": "floor_3_rca_march2011_1",
       "imageWidth": "10",
       "imageHeight": "10"
     },
     {
-      "floorId": "4",
+      "floorID": "4",
       "imagePath": "floor_4_rca_march2011_1",
       "imageWidth": "10",
       "imageHeight": "10"
     },
     {
-      "floorId": "5",
+      "floorID": "5",
       "imagePath": "floor_5_rca_march2011_1",
       "imageWidth": "10",
       "imageHeight": "10"

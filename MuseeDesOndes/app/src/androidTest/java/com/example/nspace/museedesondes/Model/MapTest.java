@@ -59,4 +59,12 @@ public class MapTest extends ActivityInstrumentationTestCase2<MainActivity> {
         assertNotNull("error map is null", map);
         assertFalse("error : map is containing zero story lines", map.getEdges().isEmpty());
     }
+
+//    public void testTEST() throws Exception {
+//        Map map = Map.getInstance(context);
+//        assertNotNull("error map is null", map);
+//        assertEquals("test",map.getStoryLines().get(0).getDescriptions().get(0).getDescription());
+//        assertEquals("hello",map.getStoryLines().get(0).getDescriptions().get(1).getDescription());
+//        assertEquals("titre",map.getStoryLines().get(0).getDescriptions().get(1).getTitle());
+//    }
 }

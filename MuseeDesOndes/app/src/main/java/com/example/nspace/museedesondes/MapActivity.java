@@ -170,13 +170,9 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     public void tracePath(ArrayList<Node> nodes) {
 
         ArrayList<LatLng> nodePositions = listNodeCoordinates(nodes);
-        Polyline line = null;
-        for(int i = 0; i < nodePositions.size() - 1; i++) {
-            line = mMap.addPolyline(new PolylineOptions()
-                    .add(nodePositions.get(i), nodePositions.get(i + 1))
-                    .width(15)
-                    .color(Color.parseColor("#99E33C3C")));
-        }
+        Polyline line = mMap.addPolyline(new PolylineOptions()
+                            .width(15)
+                            .color(Color.parseColor("#99E33C3C")));
         line.setPoints(nodePositions);
     }
 

@@ -147,8 +147,10 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
 
         //// TODO: 2/7/2016 refactor this in a proper fuction
-        PointOfInterest pointOfInterest = information.getPointOfInterests().get(0);
-        PointMarker.singleInterestPointFactory(pointOfInterest, getApplicationContext(), mMap);
+        //// 2/18/2016 Completed by Harrison.
+        ArrayList<PointOfInterest> pointsOfInterest = information.getPointOfInterests();
+        placeMarkersOnPointsOfInterest(pointsOfInterest);
+
         PoiPanel.replaceText((SlidingUpPanelLayout) findViewById(R.id.sliding_layout), "SALUT");
 
 
@@ -159,6 +161,16 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         tracePath(nodes);
 
 
+    }
+
+    /**
+     * This method places the AZURE markers on the list of points of interest.
+     * @param pointsOfInterest List of all points of interest.
+     */
+    private void placeMarkersOnPointsOfInterest(ArrayList<PointOfInterest> pointsOfInterest) {
+        for (PointOfInterest pointOfInterest: pointsOfInterest) {
+            PointMarker.singleInterestPointFactory(pointOfInterest, getApplicationContext(), mMap);
+        }
     }
 
     /**

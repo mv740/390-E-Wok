@@ -72,7 +72,7 @@
                     fab:menu_colorNormal="@color/rca_onclick"
                     fab:menu_colorPressed="#FFFE7070"
                     fab:menu_colorRipple="#FFFE7070"
-                    android:onClick="floorButton1OnClick"
+                    android:onClick="floorButtonOnClick"
                     android:src="@drawable/floor1_icon"/>
 
                 <com.github.clans.fab.FloatingActionButton
@@ -82,7 +82,7 @@
                     fab:menu_colorNormal="@color/rca_onclick"
                     fab:menu_colorPressed="#FFFE7070"
                     fab:menu_colorRipple="#FFFE7070"
-                    android:onClick="floorButton2OnClick"
+                    android:onClick="floorButtonOnClick"
                     android:src="@drawable/floor2_icon"/>
 
                 <com.github.clans.fab.FloatingActionButton
@@ -92,7 +92,7 @@
                     fab:menu_colorNormal="@color/rca_onclick"
                     fab:menu_colorPressed="#FFFE7070"
                     fab:menu_colorRipple="#FFFE7070"
-                    android:onClick="floorButton3OnClick"
+                    android:onClick="floorButtonOnClick"
                     android:src="@drawable/floor3_icon"/>
                 <com.github.clans.fab.FloatingActionButton
                     android:id="@+id/fab4"
@@ -101,7 +101,7 @@
                     fab:menu_colorNormal="@color/rca_onclick"
                     fab:menu_colorPressed="#FFFE7070"
                     fab:menu_colorRipple="#FFFE7070"
-                    android:onClick="floorButton4OnClick"
+                    android:onClick="floorButtonOnClick"
                     android:src="@drawable/floor4_icon"/>
                 <com.github.clans.fab.FloatingActionButton
                     android:id="@+id/fab5"
@@ -110,7 +110,7 @@
                     fab:menu_colorNormal="@color/rca_onclick"
                     fab:menu_colorPressed="#FFFE7070"
                     fab:menu_colorRipple="#FFFE7070"
-                    android:onClick="floorButton5OnClick"
+                    android:onClick="floorButtonOnClick"
                     android:src="@drawable/floor5_icon"/>
 
             </com.github.clans.fab.FloatingActionMenu>

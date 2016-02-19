@@ -1,6 +1,8 @@
 package com.example.nspace.museedesondes;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,8 +21,6 @@ public class MainActivity extends AppCompatActivity{
      * Created by sebastian on 2/02/2016.
      */
 
-    String appLanguage;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -30,7 +30,13 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        loadReplaceMeWith(R.layout.welcome_language);
+        SharedPreferences sharedPrefs = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        if (sharedPrefs.getBoolean("firstrun", true)) {
+            sharedPrefs.edit().putBoolean("firstrun", false).commit();
+            loadReplaceMeWith(R.layout.welcome_language);
+        } else {
+            loadReplaceMeWith(R.layout.welcome_begin_tour);
+        }
 
         //Todo will need to see if loading information on first page will make the map loading less laggy
         // need to test it further if it does have a impact or not

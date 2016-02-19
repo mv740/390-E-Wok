@@ -29,6 +29,7 @@ public class Preferences {
         editor.commit();
     }
 
+
     public static void setLocale(String lang) {
         Locale myLocale = new Locale(lang);
         Resources res = appContext.getResources();

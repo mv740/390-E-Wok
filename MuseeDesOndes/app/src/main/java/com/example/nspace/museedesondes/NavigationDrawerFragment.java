@@ -1,6 +1,5 @@
 package com.example.nspace.museedesondes;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
@@ -23,7 +22,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Locale;
 
 
 /**
@@ -63,6 +65,8 @@ public class NavigationDrawerFragment extends Fragment {
     private boolean mUserLearnedDrawer;
     private ListView mDrawerList;
     private boolean drawerGoingToOpen = true;
+    private String navFragmentLang;
+    ArrayAdapter adapter;
 
     public NavigationDrawerFragment() {
     }
@@ -70,6 +74,9 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Locale currentLocale = getResources().getConfiguration().locale;
+        navFragmentLang = currentLocale.getLanguage();
 
         // Read in the flag indicating whether or not the user has demonstrated awareness of the
         // drawer. See PREF_USER_LEARNED_DRAWER for details.
@@ -82,6 +89,21 @@ public class NavigationDrawerFragment extends Fragment {
 
         // Select either the default item (0) or the last selected item.
         selectItem(mCurrentSelectedPosition);
+    }
+
+    @Override
+    public void onResume() {
+        Locale currentLocale = getResources().getConfiguration().locale;
+        String currentAppLanguage = currentLocale.getLanguage();
+
+        //recreating the nav drawer list items if language has changed
+        if(!currentAppLanguage.equalsIgnoreCase(navFragmentLang)) {
+            navFragmentLang = currentAppLanguage;
+            adapter.clear();
+            adapter.addAll(getResources().getStringArray(R.array.drawer_ele));
+            adapter.notifyDataSetChanged();
+        }
+        super.onResume();
     }
 
     @Override
@@ -103,8 +125,12 @@ public class NavigationDrawerFragment extends Fragment {
                 selectItem(position);
             }
         });
+
         String[] drawer_ele = getResources().getStringArray(R.array.drawer_ele);
-        ArrayAdapter adapter = new ArrayAdapter<String>(this.getContext(), R.layout.fragment_navigation_item, drawer_ele);
+        //have to convert from string array to string array list in order to be able to modify string list elements
+        ArrayList<String> array_list_drawer_ele = new ArrayList<String>(Arrays.asList(drawer_ele));
+
+        adapter = new ArrayAdapter<String>(this.getContext(), R.layout.fragment_navigation_item, array_list_drawer_ele);
         mDrawerListView.setAdapter(adapter);
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
 

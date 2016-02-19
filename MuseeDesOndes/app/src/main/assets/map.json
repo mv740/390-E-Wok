@@ -1,141 +1,121 @@
 {
-  "node": [
-    {
-      "@type": "PointOfInterest",
-      "id": 1,
-      "beaconInformation": {
-        "UUID": "test_uuid",
-        "major": 1111,
-        "minor": 2222
-      },
-      "text": [
-        {
-          "@type": "Text",
-          "id": "test_id",
-          "title": "test_titre",
-          "language": "fr",
-          "htmlContent": "Veuillez lire cette description"
+  "node": {
+    "poi" : [
+      {
+        "id": 1,
+        "beaconInformation": {
+          "UUID": "test_uuid",
+          "major": 1111,
+          "minor": 2222
         },
-        {
-          "@type": "Text",
-          "id": "test_id",
-          "title": "test_titre",
-          "language": "en_US",
-          "htmlContent": "Please read this description"
-        }
-      ],
-      "video": [
-        {
-          "@type": "Video",
-          "id": "test_id",
-          "title": "video_titre",
-          "language": "fr",
-          "filePath": "video/FR/test.mp4",
-          "durationInSeconds": 30,
-          "resolution": 720,
-          "encoding": "H.265/MPEG-H"
+        "text": [
+          {
+            "id": "test_id",
+            "title": "test_titre",
+            "language": "fr",
+            "htmlContent": "Veuillez lire cette description"
+          },
+          {
+            "id": "test_id",
+            "title": "test_titre",
+            "language": "en_US",
+            "htmlContent": "Please read this description"
+          }
+        ],
+        "video": [
+          {
+            "id": "test_id",
+            "title": "video_titre",
+            "language": "fr",
+            "filePath": "video/FR/test.mp4",
+            "durationInSeconds": 30,
+            "resolution": 720,
+            "encoding": "H.265/MPEG-H"
+          },
+          {
+            "id": "test_id",
+            "title": "video_title",
+            "language": "en_US",
+            "filePath": "video/EN/test.mp4",
+            "durationInSeconds": 60,
+            "resolution": 480,
+            "encoding": "H.264/MPEG-4"
+          }
+        ],
+        "audio": [
+          {
+            "id": "test_id",
+            "title": "audio_titre",
+            "language": "fr",
+            "filePath": "audio/FR/test_1.mp3",
+            "encoding": "mp3"
+          },
+          {
+            "id": "test_id",
+            "title": "audio_title",
+            "language": "en_US",
+            "filePath": "audio/EN/test_1.mp3",
+            "encoding": "mp3"
+          }
+        ],
+        "image": [
+          {
+            "id": "test_id",
+            "title": "test_title",
+            "language": "en_US",
+            "filePath": "picture/test_image1.png",
+            "width": "10",
+            "height": "20"
+          },
+          {
+            "id": "test_id",
+            "title": "test_titre",
+            "language": "fr",
+            "filePath": "picture/test_image2.png",
+            "width": "10",
+            "height": "20"
+          }
+        ],
+        "floorPlan": {
+          "floorID": "1",
+          "imagePath": "image/floor_1",
+          "imageWidth": "10",
+          "imageHeight": "10"
         },
-        {
-          "@type": "Video",
-          "id": "test_id",
-          "title": "video_title",
-          "language": "en_US",
-          "filePath": "video/EN/test.mp4",
-          "durationInSeconds": 60,
-          "resolution": 480,
-          "encoding": "H.264/MPEG-4"
-        }
-      ],
-      "audio": [
-        {
-          "@type": "Audio",
-          "id": "test_id",
-          "title": "audio_titre",
-          "language": "fr",
-          "filePath": "audio/FR/test_1.mp3",
-          "encoding": "mp3"
+        "x": 0.001,
+        "y": 0.0
+      }],
+    "pot" : [
+      {
+        "id": 2,
+        "floorPlan": {
+          "floorID": "1",
+          "imagePath": "floor_1_rca_march2011_1",
+          "imageWidth": "10",
+          "imageHeight": "10"
         },
-        {
-          "@type": "Audio",
-          "id": "test_id",
-          "title": "audio_title",
-          "language": "en_US",
-          "filePath": "audio/EN/test_1.mp3",
-          "encoding": "mp3"
-        }
-      ],
-      "image": [
-        {
-          "@type": "Image",
-          "id": "test_id",
-          "title": "test_title",
-          "language": "en_US",
-          "filePath": "picture/test_image1.png",
-          "width": "10",
-          "height": "20"
+        "x": 0.002,
+        "y": 0.004,
+        "label": "STAIRS"
+      },
+      {
+        "label": "ENTRANCE",
+        "id": 3,
+        "floorPlan": {
+          "floorID": "2",
+          "imagePath": "floor_2_rca_march2011_1",
+          "imageWidth": "10",
+          "imageHeight": "10"
         },
-        {
-          "@type": "Image",
-          "id": "test_id",
-          "title": "test_titre",
-          "language": "fr",
-          "filePath": "picture/test_image2.png",
-          "width": "10",
-          "height": "20"
-        }
-      ],
-      "qrcode": [
-        {
-          "@type": "QRCode",
-          "id": "test_id_qr",
-          "title": "test_titre_qr",
-          "language": "fr",
-          "encodingString": "encoding",
-          "artifactTitle": "test_title",
-          "artifactDescription": "test_description",
-          "artifactImagePath": "artifactImage/test_image1.png"
-        }
-      ],
-      "floorPlan": {
-        "floorID": "1",
-        "imagePath": "image/floor_1",
-        "imageWidth": "10",
-        "imageHeight": "10"
-      },
-      "x": 0.001,
-      "y": 0.0
-    },
-    {
-      "@type": "TransitionPoint",
-      "id": 2,
-      "floorPlan": {
-        "floorID": "1",
-        "imagePath": "floor_1_rca_march2011_1",
-        "imageWidth": "10",
-        "imageHeight": "10"
-      },
-      "x": 0.002,
-      "y": 0.004,
-      "label": "STAIRS"
-    },
-    {
-      "@type": "ServicePoint",
-      "label": "ENTRANCE",
-      "id": 3,
-      "floorPlan": {
-        "floorID": "2",
-        "imagePath": "floor_2_rca_march2011_1",
-        "imageWidth": "10",
-        "imageHeight": "10"
-      },
-      "x": 0.0022,
-      "y": 0.00405
-    }
-  ],
+        "x": 0.0022,
+        "y": 0.00405
+      }
+    ]
+  },
   "edge": [
     {
-      "startNode" : 1,
-      "endNode" : 2,
+      "startNode": 1,
+      "endNode": 2,
       "floorNumber": 1,
       "distance": 20
     }

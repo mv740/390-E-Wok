@@ -3,7 +3,7 @@ package com.example.nspace.museedesondes.Utility;
 import android.content.Context;
 import com.example.nspace.museedesondes.Model.PointOfInterest;
 import com.example.nspace.museedesondes.Model.Text;
-import com.example.nspace.museedesondes.Model.TransitionPoint;
+import com.example.nspace.museedesondes.Model.LabelledPoint;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -38,13 +38,13 @@ public class PointMarker {
         googleMap.addMarker(node);
     }
 
-    public static void singleTransitionPointFactory(TransitionPoint transitionPoint, GoogleMap googleMap) {
-        String title = transitionPoint.getLabel().name();
+    public static void singleTransitionPointFactory(LabelledPoint labelledPoint, GoogleMap googleMap) {
+        String title = labelledPoint.getLabel().name();
         MarkerOptions node = new MarkerOptions();
-        node.position(new LatLng(transitionPoint.getX(), transitionPoint.getY()));
+        node.position(new LatLng(labelledPoint.getX(), labelledPoint.getY()));
         node.title(title);
 
-        switch (transitionPoint.getLabel()) {
+        switch (labelledPoint.getLabel()) {
             case NONE:
                 node.visible(false); // hide point of transition that are between node of interest
                 break;

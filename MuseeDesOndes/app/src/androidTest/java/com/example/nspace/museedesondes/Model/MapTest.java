@@ -64,7 +64,7 @@ public class MapTest extends ActivityInstrumentationTestCase2<MainActivity> {
 //        Map map = Map.getInstance(context);
 //        assertNotNull("error map is null", map);
 //        assertEquals("test",map.getStoryLines().get(0).getDescriptions().get(0).getDescription());
-//        assertEquals("hello",map.getStoryLines().get(0).getDescriptions().get(1).getDescription());
+//        assertEquals("Point",map.getStoryLines().get(0).getDescriptions().get(1).getDescription());
 //        assertEquals("titre",map.getStoryLines().get(0).getDescriptions().get(1).getTitle());
 //    }
 }

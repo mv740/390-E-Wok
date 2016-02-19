@@ -17,24 +17,26 @@ public class Map {
     private ArrayList<Edge> edges;
     private ArrayList<StoryLine> storyLines;
     private ArrayList<PointOfInterest> pointOfInterests;
-    private ArrayList<ServicePoint> servicePoints;
-    private ArrayList<TransitionPoint> transitionPoints;
+    private ArrayList<LabelledPoint> labelledPoints;
     private ArrayList<FloorPlan> floorPlans;
+    private Point point;
+
+
 
     private static Map instance = null;
 
-    private Map(@JsonProperty("node") ArrayList<Node> nodes,
+    private Map(@JsonProperty("node") Point point,
                 @JsonProperty("edge") ArrayList<Edge> edges,
                 @JsonProperty("storyLine") ArrayList<StoryLine> storyLines,
                 @JsonProperty("floorPlan") ArrayList<FloorPlan> floorPlans) {
 
-        this.nodes = nodes;
+        this.point = point;
         this.edges = edges;
         this.storyLines = storyLines;
         this.floorPlans = floorPlans;
         this.pointOfInterests = new ArrayList<>();
-        this.servicePoints = new ArrayList<>();
-        this.transitionPoints = new ArrayList<>();
+        this.labelledPoints = new ArrayList<>();
+        this.nodes = new ArrayList<>();
     }
 
     public static Map getInstance(Context context) {
@@ -44,7 +46,7 @@ public class Map {
             try {
                 instance = mapper.readValue((mapSource), Map.class);
                 if (instance != null)
-                    filterNodes();
+                    initializeNodes();
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -54,26 +56,16 @@ public class Map {
         return instance;
     }
 
-    public ArrayList<Node> getNodes() {
-        return nodes;
-    }
-
-
-    private static void filterNodes() {
-
-        for (Node node : instance.getNodes()) {
-            if (node instanceof PointOfInterest) {
-                instance.pointOfInterests.add((PointOfInterest) node);
-            } else if (node instanceof ServicePoint) {
-                instance.servicePoints.add((ServicePoint) node);
-            } else if( node instanceof TransitionPoint)
-            {
-                instance.transitionPoints.add((TransitionPoint)node);
-            }
-        }
+    private static void initializeNodes()
+    {
+        instance.pointOfInterests = instance.point.getPoi();
+        instance.labelledPoints = instance.point.getPot();
+        instance.nodes.addAll(instance.pointOfInterests);
+        instance.nodes.addAll(instance.labelledPoints);
         setNodesReferenceForEdges();
         setNodesReferenceForStorylines();
     }
+
 
     private static void setNodesReferenceForStorylines() {
         for(StoryLine storyLine : instance.storyLines)
@@ -103,15 +95,6 @@ public class Map {
         return null;
     }
 
-    public ServicePoint searchServicePointById(int id) {
-        for (ServicePoint servicePoint : servicePoints) {
-            if (servicePoint.getId() == id) {
-                return servicePoint;
-            }
-        }
-        return null;
-    }
-
     public Node searchNodeById(int id) {
 
         for (Node node : nodes) {
@@ -134,15 +117,16 @@ public class Map {
         return pointOfInterests;
     }
 
-    public ArrayList<ServicePoint> getServicePoints() {
-        return servicePoints;
-    }
 
-    public ArrayList<TransitionPoint> getTransitionPoints() {
-        return transitionPoints;
+    public ArrayList<LabelledPoint> getLabelledPoints() {
+        return labelledPoints;
     }
 
     public ArrayList<FloorPlan> getFloorPlans() {
         return floorPlans;
+    }
+
+    public ArrayList<Node> getNodes() {
+        return nodes;
     }
 }

@@ -1,7 +1,12 @@
 package com.example.nspace.museedesondes.Model;
 
+import com.example.nspace.museedesondes.Deserializer.AudioDeserialize;
+import com.example.nspace.museedesondes.Deserializer.ImageDeserialize;
+import com.example.nspace.museedesondes.Deserializer.TextDeserialize;
+import com.example.nspace.museedesondes.Deserializer.VideoDeserialize;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.util.ArrayList;
 
@@ -13,11 +18,14 @@ public class PointOfInterest extends Node {
 
     private BeaconInformation beaconInformation;
     private ArrayList<Language> name;
+    @JsonDeserialize(using = TextDeserialize.class)
     private ArrayList<Text> text;
+    @JsonDeserialize(using = VideoDeserialize.class)
     private ArrayList<Video> video;
+    @JsonDeserialize(using = AudioDeserialize.class)
     private ArrayList<Audio> audio;
+    @JsonDeserialize(using = ImageDeserialize.class)
     private ArrayList<Image> images;
-    private ArrayList<QRCode> qrCodes;
 
     public PointOfInterest(@JsonProperty("id") int id,
                            @JsonProperty("floorPlan") FloorPlan floor,
@@ -27,15 +35,13 @@ public class PointOfInterest extends Node {
                            @JsonProperty("text") ArrayList<Text> text,
                            @JsonProperty("video") ArrayList<Video> video,
                            @JsonProperty("audio") ArrayList<Audio> audio,
-                           @JsonProperty("image") ArrayList<Image> images,
-                           @JsonProperty("qrcode") ArrayList<QRCode> qrCodes) {
+                           @JsonProperty("image") ArrayList<Image> images) {
         super(id, floor, x, y);
         this.beaconInformation = beaconInformation;
         this.text = text;
         this.video = video;
         this.audio = audio;
         this.images = images;
-        this.qrCodes = qrCodes;
     }
 
 
@@ -72,7 +78,4 @@ public class PointOfInterest extends Node {
         return images;
     }
 
-    public ArrayList<QRCode> getQrCodes() {
-        return qrCodes;
-    }
 }

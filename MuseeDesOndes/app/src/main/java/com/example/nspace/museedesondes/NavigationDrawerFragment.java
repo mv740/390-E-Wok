@@ -124,8 +124,7 @@ public class NavigationDrawerFragment extends Fragment {
                 case 0:
                     return;
                 case 1:
-                    Intent  startStorylines = new Intent(parent.getContext(), StoryLineActivity.class);
-                    startActivity(startStorylines);
+                    getActivity().finish();
                     return;
                 case 2:
                     Intent startSettings = new Intent(parent.getContext(), Settings.class);

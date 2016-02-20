@@ -21,7 +21,7 @@ import java.util.ArrayList;
 /**
  * Created by michal on 2/10/2016.
  */
-public class ViewMap {
+public class MapManager {
 
 
     public static GroundOverlay loadDefaultFloor(GoogleMap googleMap, LatLng position,ArrayList<FloorPlan> floorPlans, Context context, View view)

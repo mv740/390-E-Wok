@@ -21,8 +21,8 @@ import com.example.nspace.museedesondes.AudioService.AudioBinder;
 
 import com.example.nspace.museedesondes.Model.Map;
 import com.example.nspace.museedesondes.Model.PointOfInterest;
+import com.example.nspace.museedesondes.Utility.MapManager;
 import com.example.nspace.museedesondes.Utility.PointMarker;
-import com.example.nspace.museedesondes.Utility.ViewMap;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -130,10 +130,10 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
 
         //load map and then switch floor to 5
-        // GroundOverlay groundOverlay = ViewMap.loadDefaultFloor(mMap, custom);
-        groundOverlay = ViewMap.loadDefaultFloor(mMap, custom, information.getFloorPlans(), getApplicationContext(), findViewById(android.R.id.content));
+        // GroundOverlay groundOverlay = MapManager.loadDefaultFloor(mMap, custom);
+        groundOverlay = MapManager.loadDefaultFloor(mMap, custom, information.getFloorPlans(), getApplicationContext(), findViewById(android.R.id.content));
         //need to implement a list view
-        //ViewMap.switchFloor(groundOverlay, 5);
+        //MapManager.switchFloor(groundOverlay, 5);
 
 
         //// TODO: 2/7/2016 refactor this in a proper fuction
@@ -242,7 +242,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     }
 
     public void changeFloor(int floor) {
-        ViewMap.switchFloor(groundOverlay, floor, information.getFloorPlans(), getApplicationContext());
+        MapManager.switchFloor(groundOverlay, floor, information.getFloorPlans(), getApplicationContext());
         FloatingActionMenu floorButton = (FloatingActionMenu) findViewById(R.id.floor_button);
         floorButton.toggle(true);
     }

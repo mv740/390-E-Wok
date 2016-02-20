@@ -21,4 +21,5 @@ public class PoiPanel {
         TextView docView = (TextView) panel.findViewById(poi_title);
         docView.setText(title);
     }
+
 }

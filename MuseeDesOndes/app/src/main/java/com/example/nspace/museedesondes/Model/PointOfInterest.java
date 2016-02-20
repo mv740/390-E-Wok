@@ -47,11 +47,11 @@ public class PointOfInterest extends Node {
         return beaconInformation;
     }
 
-    public ArrayList<Video> getVideo() {
+    public ArrayList<Video> getVideos() {
         return media.getVideos();
     }
 
-    public ArrayList<Audio> getAudio() {
+    public ArrayList<Audio> getAudios() {
         return media.getAudios();
     }
 
@@ -74,39 +74,41 @@ public class PointOfInterest extends Node {
 
 
     /**
-     * Get Image in the language that was saved in your profile.
+     * Get every Image in the language that was saved in your profile.
      *
      * @param context current activity context
      * @return image in locale language
      */
-    public Image getLocaleImage(Context context)
+    public ArrayList<Image> getLocaleImages(Context context)
     {
+        ArrayList<Image> images = new ArrayList<>();
         for (Image image : media.getImages())
         {
             if(context.getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(image.getLanguage().name()))
             {
-                return  image;
+                  images.add(image);
             }
         }
-        return null;
+        return images;
     }
 
     /**
-     * Get Audio in the language that was saved in your profile.
+     * Get every Audio in the language that was saved in your profile.
      *
      * @param context current activity context
      * @return audio in locale language
      */
-    public Audio getLocaleAudio(Context context)
+    public ArrayList<Audio> getLocaleAudios(Context context)
     {
+        ArrayList<Audio> audios = new ArrayList<>();
         for (Audio audio : media.getAudios())
         {
             if(context.getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(audio.getLanguage().name()))
             {
-                return  audio;
+                audios.add(audio);
             }
         }
-        return null;
+        return audios;
     }
 
     /**
@@ -115,16 +117,17 @@ public class PointOfInterest extends Node {
      * @param context current activity context
      * @return video in locale language
      */
-    public Video getLocaleVideo(Context context)
+    public ArrayList<Video> getLocaleVideos(Context context)
     {
+        ArrayList<Video> videos = new ArrayList<>();
         for (Video video : media.getVideos())
         {
             if(context.getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(video.getLanguage().name()))
             {
-                return  video;
+                  videos.add(video);
             }
         }
-        return null;
+        return videos;
     }
 
     /**

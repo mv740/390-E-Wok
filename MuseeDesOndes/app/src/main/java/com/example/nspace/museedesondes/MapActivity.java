@@ -31,7 +31,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.GroundOverlay;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import com.google.android.gms.maps.model.Polyline;
@@ -139,8 +141,24 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         //// TODO: 2/7/2016 refactor this in a proper fuction
         //// 2/18/2016 Completed by Harrison.
         ArrayList<PointOfInterest> pointsOfInterest = information.getPointOfInterests();
-        placeMarkersOnPointsOfInterest(pointsOfInterest);
-        //PoiPanel.replaceDescription((SlidingUpPanelLayout) findViewById(R.id.sliding_layout), pointsOfInterest.get(0).getDescriptions().get(0).getDescription());
+        final ArrayList<MarkerOptions> markers = placeMarkersOnPointsOfInterest(pointsOfInterest);
+
+
+        //todo testing currently 2/19/15
+        mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+            @Override
+            public void onMapLoaded() {
+
+                //android Zoom-to-Fit All Markers on Google Map
+                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                for (MarkerOptions marker : markers)
+                {
+                    builder.include(marker.getPosition());
+                }
+                LatLngBounds bounds = builder.build();
+                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
+            }
+        });
 
 
         // Obtains ALL nodes.
@@ -157,10 +175,12 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
      *
      * @param pointsOfInterest List of all points of interest.
      */
-    private void placeMarkersOnPointsOfInterest(ArrayList<PointOfInterest> pointsOfInterest) {
+    private ArrayList<MarkerOptions> placeMarkersOnPointsOfInterest(ArrayList<PointOfInterest> pointsOfInterest) {
+        ArrayList<MarkerOptions> mMarkerArray = new ArrayList<>();
         for (PointOfInterest pointOfInterest : pointsOfInterest) {
-            PointMarker.singleInterestPointFactory(pointOfInterest, getApplicationContext(), mMap);
+            PointMarker.singleInterestPointFactory(pointOfInterest, getApplicationContext(), mMap, mMarkerArray);
         }
+        return  mMarkerArray;
     }
 
     /**
@@ -253,6 +273,12 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
     @Override
     public boolean onMarkerClick(Marker marker) {
+
+        //move camera to marker postion
+        LatLng markerLocation = marker.getPosition();
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(markerLocation));
+
+        //update SlidingPanel to selected point of interest
         SlidingUpPanelLayout layout = (SlidingUpPanelLayout) this.findViewById(R.id.sliding_layout);
         PointOfInterest pointOfInterest = information.searchPoiByTitle(marker.getTitle());
         String description = pointOfInterest.getLocaleDescription(getApplicationContext()).getDescription();

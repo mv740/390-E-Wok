@@ -8,6 +8,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+
 /**
  * Created by michal on 2/15/2016.
  */
@@ -16,12 +18,12 @@ public class PointMarker {
 
     /**
      * Create a point of interest marker and drop it on the map on the specified coordinate
-     *
-     * @param pointOfInterest
+     *  @param pointOfInterest
      * @param context
      * @param googleMap MapPlan
+     * @param mMarkerArray
      */
-    public static void singleInterestPointFactory(PointOfInterest pointOfInterest, Context context, GoogleMap googleMap) {
+    public static void singleInterestPointFactory(PointOfInterest pointOfInterest, Context context, GoogleMap googleMap, ArrayList<MarkerOptions> mMarkerArray) {
 
         String title = "error";
         title = pointOfInterest.getLocaleDescription(context).getTitle();
@@ -30,6 +32,7 @@ public class PointMarker {
         node.position(new LatLng(pointOfInterest.getX(), pointOfInterest.getY()));
         node.title(title);
         node.icon((BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+        mMarkerArray.add(node);
         googleMap.addMarker(node);
     }
 

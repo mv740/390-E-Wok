@@ -13,17 +13,17 @@ import com.fasterxml.jackson.annotation.*;
 })
 public class Node {
     private int id;
-    private FloorPlan floorPlan;
+    private int floorID;
     private double x;
     private double y;
 
     public Node(@JsonProperty("id") int id,
-                @JsonProperty("floorPlan") FloorPlan floorPlan,
+                @JsonProperty("floorID") int floorID,
                 @JsonProperty("x") double x,
                 @JsonProperty("y") double y) {
 
         this.id = id;
-        this.floorPlan = floorPlan;
+        this.floorID = floorID;
         this.x = x;
         this.y = y;
     }
@@ -32,8 +32,8 @@ public class Node {
         return id;
     }
 
-    public FloorPlan getFloorPlan() {
-        return floorPlan;
+    public int getFloorID() {
+        return floorID;
     }
 
     public double getX() {

@@ -10,11 +10,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 public class Text extends Content {
     private String content;
 
-    public Text(@JsonProperty("id") String id,
-                @JsonProperty("title") String title,
+    public Text(@JsonProperty("caption") String caption,
                 @JsonProperty("language")Language language,
-                @JsonProperty("htmlContent")String content) {
-        super(id, title, language);
+                @JsonProperty("content")String content) {
+        super(caption, language);
         this.content = content;
     }
 

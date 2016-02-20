@@ -14,11 +14,11 @@ public class LabelledPoint extends Node {
     private Label label;
 
     public LabelledPoint(@JsonProperty("id") int id,
-                         @JsonProperty("floorPlan") FloorPlan floor,
+                         @JsonProperty("floorID") int floorID,
                          @JsonProperty("x") double x,
                          @JsonProperty("y") double y,
                          @JsonProperty("label") Label label) {
-        super(id, floor, x, y);
+        super(id, floorID, x, y);
         this.label = label;//Label.getEnum(label);
     }
     public Label getLabel() {

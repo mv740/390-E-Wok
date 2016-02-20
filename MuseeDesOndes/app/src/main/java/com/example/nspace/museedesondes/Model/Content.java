@@ -2,7 +2,6 @@ package com.example.nspace.museedesondes.Model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
@@ -16,24 +15,17 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
         @JsonSubTypes.Type(value=Text.class, name="Text")
 })
 public abstract class Content {
-    private String id;
-    private String title;
+    private String caption;
     private Language language;
 
-    public Content(@JsonProperty("id") String id,
-                   @JsonProperty("title") String title,
+    public Content(@JsonProperty("caption") String caption,
                    @JsonProperty("language") Language language) {
-        this.id = id;
-        this.title = title;
+        this.caption = caption;
         this.language = language;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
+    public String getCaption() {
+        return caption;
     }
 
     public Language getLanguage() {

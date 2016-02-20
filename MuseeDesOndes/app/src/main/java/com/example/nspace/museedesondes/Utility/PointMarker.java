@@ -2,6 +2,7 @@ package com.example.nspace.museedesondes.Utility;
 
 import android.content.Context;
 import com.example.nspace.museedesondes.Model.PointOfInterest;
+import com.example.nspace.museedesondes.Model.PointOfInterestDescription;
 import com.example.nspace.museedesondes.Model.Text;
 import com.example.nspace.museedesondes.Model.LabelledPoint;
 import com.google.android.gms.maps.GoogleMap;
@@ -25,9 +26,9 @@ public class PointMarker {
     public static void singleInterestPointFactory(PointOfInterest pointOfInterest, Context context, GoogleMap googleMap) {
 
         String title = "error";
-        for (Text text : pointOfInterest.getText()) {
-            if (context.getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(text.getLanguage().name())) {
-                title = text.getLanguage().name();
+        for (PointOfInterestDescription pointOfInterestDescription : pointOfInterest.getDescriptions()) {
+            if (context.getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(pointOfInterestDescription.getLanguage().name())) {
+                title = pointOfInterestDescription.getLanguage().name();
             }
         }
 

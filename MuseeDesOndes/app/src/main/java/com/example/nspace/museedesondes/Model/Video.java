@@ -8,38 +8,16 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  */
 @JsonTypeName("Video")
 public class Video extends Content {
-    private String filePath;
-    private int durationInSeconds;
-    private int resolution;
-    private String encoding;
+    private String path;
 
-    public Video(@JsonProperty("id") String id,
-                 @JsonProperty("title") String title,
+    public Video(@JsonProperty("caption") String caption,
                  @JsonProperty("language")Language language,
-                 @JsonProperty("filePath")String filePath,
-                 @JsonProperty("durationInSeconds")int durationInSeconds,
-                 @JsonProperty("resolution")int resolution,
-                 @JsonProperty("encoding")String encoding) {
-        super(id, title, language);
-        this.filePath = filePath;
-        this.durationInSeconds = durationInSeconds;
-        this.resolution = resolution;
-        this.encoding = encoding;
+                 @JsonProperty("path")String path) {
+        super(caption, language);
+        this.path = path;
     }
 
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public int getDurationInSeconds() {
-        return durationInSeconds;
-    }
-
-    public int getResolution() {
-        return resolution;
-    }
-
-    public String getEncoding() {
-        return encoding;
+    public String getPath() {
+        return path;
     }
 }

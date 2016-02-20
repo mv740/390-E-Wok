@@ -8,92 +8,112 @@
           "major": 1111,
           "minor": 2222
         },
-        "text": [
+        "title": [
           {
-            "id": "test_id",
-            "title": "test_titre",
             "language": "fr",
-            "htmlContent": "Veuillez lire cette description"
+            "title": "ttest_titre"
           },
           {
-            "id": "test_id",
-            "title": "test_titre",
             "language": "en_US",
-            "htmlContent": "Please read this description"
+            "title": "test_title"
           }
         ],
-        "video": [
+        "description": [
           {
-            "id": "test_id",
-            "title": "video_titre",
             "language": "fr",
-            "filePath": "video/FR/test.mp4",
-            "durationInSeconds": 30,
-            "resolution": 720,
-            "encoding": "H.265/MPEG-H"
+            "description": "Veuillez lire cette description"
           },
           {
-            "id": "test_id",
-            "title": "video_title",
             "language": "en_US",
-            "filePath": "video/EN/test.mp4",
-            "durationInSeconds": 60,
-            "resolution": 480,
-            "encoding": "H.264/MPEG-4"
+            "description": "Please read this description"
           }
         ],
-        "audio": [
-          {
-            "id": "test_id",
-            "title": "audio_titre",
-            "language": "fr",
-            "filePath": "audio/FR/test_1.mp3",
-            "encoding": "mp3"
-          },
-          {
-            "id": "test_id",
-            "title": "audio_title",
-            "language": "en_US",
-            "filePath": "audio/EN/test_1.mp3",
-            "encoding": "mp3"
-          }
-        ],
-        "image": [
-          {
-            "id": "test_id",
-            "title": "test_title",
-            "language": "en_US",
-            "filePath": "picture/test_image1.png",
-            "width": "10",
-            "height": "20"
-          },
-          {
-            "id": "test_id",
-            "title": "test_titre",
-            "language": "fr",
-            "filePath": "picture/test_image2.png",
-            "width": "10",
-            "height": "20"
-          }
-        ],
-        "floorPlan": {
-          "floorID": "1",
-          "imagePath": "image/floor_1",
-          "imageWidth": "10",
-          "imageHeight": "10"
+        "media" : {
+          "video": [
+            {
+              "caption": "video_titre",
+              "language": "fr",
+              "path": "video/FR/test.mp4"
+            },
+            {
+              "caption": "video_title",
+              "language": "en_US",
+              "path": "video/EN/test.mp4"
+            }
+          ],
+          "audio": [
+            {
+              "caption": "audio_titre",
+              "language": "fr",
+              "path": "audio/FR/test_1.mp3"
+            },
+            {
+              "caption": "audio_title",
+              "language": "en_US",
+              "path": "audio/EN/test_1.mp3"
+            }
+          ],
+          "image": [
+            {
+              "caption": "test_title",
+              "language": "en_US",
+              "path": "picture/test_image1.png"
+            },
+            {
+              "caption": "test_titre",
+              "language": "fr",
+              "path": "picture/test_image2.png"
+            }
+          ]
         },
+        "floorID": 1,
         "x": 0.001,
-        "y": 0.0
+        "y": 0.0,
+        "storyPoint": [
+          {
+            "storylineID": 1,
+            "title": [
+              {
+                "language": "fr",
+                "title": "<title>"
+              }
+            ],
+            "description": [
+              {
+                "language": "fr",
+                "description": "<description>"
+              }
+            ],
+            "media": {
+              "image": [
+                {
+                  "path": "<URL>",
+                  "language": "fr",
+                  "caption": "<caption>"
+                }
+              ],
+              "video": [
+                {
+                  "path": "<URL>",
+                  "language": "fr",
+                  "caption": "<caption>"
+                }
+              ],
+              "audio": [
+                {
+                  "path": "<URL>",
+                  "language": "fr",
+                  "caption": "<caption>"
+                }
+              ]
+            }
+          }
+        ]
       }],
     "pot" : [
       {
         "id": 2,
-        "floorPlan": {
-          "floorID": "1",
-          "imagePath": "floor_1_rca_march2011_1",
-          "imageWidth": "10",
-          "imageHeight": "10"
-        },
+        "floorID": 1,
         "x": 0.002,
         "y": 0.004,
         "label": "STAIRS"
@@ -101,12 +121,7 @@
       {
         "label": "ENTRANCE",
         "id": 3,
-        "floorPlan": {
-          "floorID": "2",
-          "imagePath": "floor_2_rca_march2011_1",
-          "imageWidth": "10",
-          "imageHeight": "10"
-        },
+        "floorID": 2,
         "x": 0.0022,
         "y": 0.00405
       }

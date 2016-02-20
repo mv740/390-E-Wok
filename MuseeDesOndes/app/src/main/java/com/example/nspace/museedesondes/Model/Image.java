@@ -9,31 +9,16 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("Image")
 public class Image extends Content {
 
-    private String filePath;
-    private int width;
-    private int height;
+    private String path;
 
-    public Image(@JsonProperty("id") String id,
-                 @JsonProperty("title") String title,
+    public Image(@JsonProperty("caption") String title,
                  @JsonProperty("language")Language language,
-                 @JsonProperty("filePath")String filePath,
-                 @JsonProperty("width")int width,
-                 @JsonProperty("height")int height) {
-        super(id, title, language);
-        this.filePath = filePath;
-        this.width = width;
-        this.height = height;
+                 @JsonProperty("path")String filePath) {
+        super(title, language);
+        this.path = filePath;
+    }
+    public String getPath() {
+        return path;
     }
 
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
 }

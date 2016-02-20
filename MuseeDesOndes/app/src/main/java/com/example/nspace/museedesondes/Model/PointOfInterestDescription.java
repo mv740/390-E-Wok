@@ -10,14 +10,14 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 public class PointOfInterestDescription {
 
     private String title;
-    private String summary;
+    private String description;
     private Language language;
 
     public PointOfInterestDescription(@JsonProperty("language") Language language,
-                                      @JsonProperty("summary") String summary,
+                                      @JsonProperty("description") String description,
                                       @JsonProperty("title") String title) {
         this.title = title;
-        this.summary = summary;
+        this.description = description;
         this.language = language;
     }
 
@@ -25,11 +25,15 @@ public class PointOfInterestDescription {
         return title;
     }
 
-    public String getSummary() {
-        return summary;
+    public String getDescription() {
+        return description;
     }
 
     public Language getLanguage() {
         return language;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

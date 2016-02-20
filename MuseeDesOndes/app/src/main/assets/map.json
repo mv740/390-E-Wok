@@ -11,7 +11,7 @@
         "title": [
           {
             "language": "fr",
-            "title": "ttest_titre"
+            "title": "test_titre"
           },
           {
             "language": "en_US",
@@ -69,6 +69,115 @@
         "floorID": 1,
         "x": 0.001,
         "y": 0.0,
+        "storyPoint": [
+          {
+            "storylineID": 1,
+            "title": [
+              {
+                "language": "fr",
+                "title": "<title>"
+              }
+            ],
+            "description": [
+              {
+                "language": "fr",
+                "description": "<description>"
+              }
+            ],
+            "media": {
+              "image": [
+                {
+                  "path": "<URL>",
+                  "language": "fr",
+                  "caption": "<caption>"
+                }
+              ],
+              "video": [
+                {
+                  "path": "<URL>",
+                  "language": "fr",
+                  "caption": "<caption>"
+                }
+              ],
+              "audio": [
+                {
+                  "path": "<URL>",
+                  "language": "fr",
+                  "caption": "<caption>"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "beaconInformation": {
+          "UUID": "test_uuid",
+          "major": 1111,
+          "minor": 2222
+        },
+        "title": [
+          {
+            "language": "fr",
+            "title": "test_titre3"
+          },
+          {
+            "language": "en_US",
+            "title": "test_title3"
+          }
+        ],
+        "description": [
+          {
+            "language": "fr",
+            "description": "Veuillez lire cette description3"
+          },
+          {
+            "language": "en_US",
+            "description": "Please read this description3"
+          }
+        ],
+        "media" : {
+          "video": [
+            {
+              "caption": "video_titre",
+              "language": "fr",
+              "path": "video/FR/test.mp4"
+            },
+            {
+              "caption": "video_title",
+              "language": "en_US",
+              "path": "video/EN/test.mp4"
+            }
+          ],
+          "audio": [
+            {
+              "caption": "audio_titre",
+              "language": "fr",
+              "path": "audio/FR/test_1.mp3"
+            },
+            {
+              "caption": "audio_title",
+              "language": "en_US",
+              "path": "audio/EN/test_1.mp3"
+            }
+          ],
+          "image": [
+            {
+              "caption": "test_title",
+              "language": "en_US",
+              "path": "picture/test_image1.png"
+            },
+            {
+              "caption": "test_titre",
+              "language": "fr",
+              "path": "picture/test_image2.png"
+            }
+          ]
+        },
+        "floorID": 1,
+        "x": 0.005,
+        "y": 0.005,
         "storyPoint": [
           {
             "storylineID": 1,

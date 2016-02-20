@@ -5,7 +5,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.res.AssetFileDescriptor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -14,15 +13,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 
 
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.PopupMenu;
-import android.widget.Toast;
 import com.example.nspace.museedesondes.AudioService.AudioBinder;
 
 
@@ -39,15 +32,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.GroundOverlay;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import com.google.android.gms.maps.model.Polyline;
 import com.example.nspace.museedesondes.Model.Node;
-import java.util.ArrayList;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
-import java.io.IOException;
+import java.util.ArrayList;
+
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 
 public class MapActivity extends ActionBarActivity implements OnMapReadyCallback, NavigationDrawerFragment.NavigationDrawerCallbacks, GoogleMap.OnMarkerClickListener {
@@ -58,8 +50,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     private Map information;
     public static Drawable imgToSendToFullscreenImgActivity;
     AudioService audioService;
-    private int[] floorButtonIdList = {R.id.fab1,R.id.fab2,R.id.fab3,R.id.fab4,R.id.fab5};
-
+    private int[] floorButtonIdList = {R.id.fab1, R.id.fab2, R.id.fab3, R.id.fab4, R.id.fab5};
 
 
     @Override
@@ -81,7 +72,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
         bringButtonsToFront();
-        Intent intent = new Intent(this,AudioService.class);
+        Intent intent = new Intent(this, AudioService.class);
         bindService(intent, audioConnection, Context.BIND_AUTO_CREATE);
 
     }
@@ -124,9 +115,6 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         mMap.getUiSettings().setRotateGesturesEnabled(false);
 
 
-
-
-
         //// TODO: 2/7/2016  need to get the lat/lng of each map et bound the available view screen
 //        final LatLngBounds BOUNDS = new LatLngBounds(new LatLng(0.027,-0.02), new LatLng(41.9667, 12.5938));
 //        final int MAX_ZOOM = 16;
@@ -152,8 +140,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         //// 2/18/2016 Completed by Harrison.
         ArrayList<PointOfInterest> pointsOfInterest = information.getPointOfInterests();
         placeMarkersOnPointsOfInterest(pointsOfInterest);
-
-        PoiPanel.replaceText((SlidingUpPanelLayout) findViewById(R.id.sliding_layout), "SALUT");
+        //PoiPanel.replaceDescription((SlidingUpPanelLayout) findViewById(R.id.sliding_layout), pointsOfInterest.get(0).getDescriptions().get(0).getDescription());
 
 
         // Obtains ALL nodes.
@@ -167,10 +154,11 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
     /**
      * This method places the AZURE markers on the list of points of interest.
+     *
      * @param pointsOfInterest List of all points of interest.
      */
     private void placeMarkersOnPointsOfInterest(ArrayList<PointOfInterest> pointsOfInterest) {
-        for (PointOfInterest pointOfInterest: pointsOfInterest) {
+        for (PointOfInterest pointOfInterest : pointsOfInterest) {
             PointMarker.singleInterestPointFactory(pointOfInterest, getApplicationContext(), mMap);
         }
     }
@@ -178,6 +166,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     /**
      * This function is meant to trace the path between nodes in the arraylist of coordinates
      * representing each node's latitudinal and longitudinal position respectively.
+     *
      * @param nodes This is the list of nodes that are to be sorted through. The nodes could be
      *              either points of interest, points of traversal, or others.
      */
@@ -185,16 +174,17 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
         ArrayList<LatLng> nodePositions = listNodeCoordinates(nodes);
         Polyline line = mMap.addPolyline(new PolylineOptions()
-                            .width(15)
-                            .color(Color.parseColor("#99E33C3C")));
+                .width(15)
+                .color(Color.parseColor("#99E33C3C")));
         line.setPoints(nodePositions);
     }
 
 
     /**
      * This method is used to return a list of LatLng coordinates associated with the list of nodes passed as a parameter.
-     * @param nodes   The list of nodes for which coordinates should be derived.
-     * @return        The list of LatLng coordinates.
+     *
+     * @param nodes The list of nodes for which coordinates should be derived.
+     * @return The list of LatLng coordinates.
      */
     public ArrayList<LatLng> listNodeCoordinates(ArrayList<Node> nodes) {
         if (nodes == null) {
@@ -202,7 +192,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         }
 
         ArrayList<LatLng> nodeLatLngs = new ArrayList<LatLng>();
-        for (Node node: nodes) {
+        for (Node node : nodes) {
             nodeLatLngs.add(new LatLng(node.getX(), node.getY()));
         }
         return nodeLatLngs;
@@ -212,7 +202,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     public void onNavigationDrawerItemSelected(int position) {
 
     }
-    
+
 
     public void poiImgOnClick(View v) {
         imgToSendToFullscreenImgActivity = ((ImageView) v).getDrawable();
@@ -221,32 +211,32 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     }
 
     public void floorButtonOnClick(View v) {
-       //maps floor button id to floor id
-        switch(v.getId()) {
-            case R.id.fab1 :
+        //maps floor button id to floor id
+        switch (v.getId()) {
+            case R.id.fab1:
                 changeFloor(1);
                 break;
-            case R.id.fab2 :
+            case R.id.fab2:
                 changeFloor(2);
                 break;
-            case R.id.fab3 :
+            case R.id.fab3:
                 changeFloor(3);
                 break;
-            case R.id.fab4 :
+            case R.id.fab4:
                 changeFloor(4);
                 break;
-            case R.id.fab5 :
+            case R.id.fab5:
                 changeFloor(5);
                 break;
         }
 
         FloatingActionButton floor;
-        for(int buttonId : floorButtonIdList) {
-            floor = (FloatingActionButton)this.findViewById(buttonId);
-            if(buttonId == v.getId()) {
-                floor.setColorNormal(ContextCompat.getColor(this,R.color.rca_primary));
+        for (int buttonId : floorButtonIdList) {
+            floor = (FloatingActionButton) this.findViewById(buttonId);
+            if (buttonId == v.getId()) {
+                floor.setColorNormal(ContextCompat.getColor(this, R.color.rca_primary));
             } else {
-                floor.setColorNormal(ContextCompat.getColor(this,R.color.rca_onclick));
+                floor.setColorNormal(ContextCompat.getColor(this, R.color.rca_onclick));
             }
         }
     }
@@ -263,12 +253,16 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        if(marker.getTitle().equals("fr") || marker.getTitle().equalsIgnoreCase("en_us"))
-        {
-            SlidingUpPanelLayout  layout = (SlidingUpPanelLayout) this.findViewById(R.id.sliding_layout);
-            layout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
-        }
-        return false;
+        SlidingUpPanelLayout layout = (SlidingUpPanelLayout) this.findViewById(R.id.sliding_layout);
+        PointOfInterest pointOfInterest = information.searchPoiByTitle(marker.getTitle());
+        String description = pointOfInterest.getLocaleDescription(getApplicationContext()).getDescription();
+        String title = pointOfInterest.getLocaleDescription(getApplicationContext()).getTitle();
+
+        PoiPanel.replaceTitle((SlidingUpPanelLayout) findViewById(R.id.sliding_layout), title);
+        PoiPanel.replaceDescription((SlidingUpPanelLayout) findViewById(R.id.sliding_layout), description);
+
+        layout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+        return true;
     }
 
     private ServiceConnection audioConnection = new ServiceConnection() {

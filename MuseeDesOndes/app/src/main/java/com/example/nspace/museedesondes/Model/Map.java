@@ -22,7 +22,6 @@ public class Map {
     private Point point;
 
 
-
     private static Map instance = null;
 
     private Map(@JsonProperty("node") Point point,
@@ -56,8 +55,7 @@ public class Map {
         return instance;
     }
 
-    private static void initializeNodes()
-    {
+    private static void initializeNodes() {
         instance.pointOfInterests = instance.point.getPoi();
         instance.labelledPoints = instance.point.getPot();
         instance.nodes.addAll(instance.pointOfInterests);
@@ -68,18 +66,15 @@ public class Map {
 
 
     private static void setNodesReferenceForStorylines() {
-        for(StoryLine storyLine : instance.storyLines)
-        {
-            for (Integer id : storyLine.getPath())
-            {
+        for (StoryLine storyLine : instance.storyLines) {
+            for (Integer id : storyLine.getPath()) {
                 storyLine.addNodeReference(instance.searchNodeById(id));
             }
         }
     }
 
     private static void setNodesReferenceForEdges() {
-        for (Edge edge : instance.edges)
-        {
+        for (Edge edge : instance.edges) {
             edge.setStart(instance.searchNodeById(edge.getStartID()));
             edge.setEnd(instance.searchNodeById(edge.getEndID()));
         }
@@ -100,6 +95,18 @@ public class Map {
         for (Node node : nodes) {
             if (node.getId() == id) {
                 return node;
+            }
+        }
+        return null;
+    }
+
+    public PointOfInterest searchPoiByTitle(String title) {
+        for (PointOfInterest poi : pointOfInterests) {
+            for (PointOfInterestDescription description : poi.getDescriptions()) {
+                if(description.getTitle().equalsIgnoreCase(title))
+                {
+                    return poi;
+                }
             }
         }
         return null;

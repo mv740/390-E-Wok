@@ -3,6 +3,7 @@ package com.example.nspace.museedesondes.Utility;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 
 import com.example.nspace.museedesondes.Model.FloorPlan;
@@ -28,15 +29,15 @@ public class ViewMap {
         Resources resources = context.getResources();
         final int resourceID = resources.getIdentifier(floorPlans.get(0).getImagePath(), "drawable", context.getPackageName()); // 0 = floor 1
         FloatingActionButton floorSelected =  (FloatingActionButton)view.findViewById(R.id.fab1);
-        floorSelected.setColorNormal(context.getResources().getColor(R.color.rca_primary));
+        floorSelected.setColorNormal(ContextCompat.getColor(context, R.color.rca_primary));
         FloatingActionButton floor5 =  (FloatingActionButton)view.findViewById(R.id.fab5);
         FloatingActionButton floor3 =  (FloatingActionButton)view.findViewById(R.id.fab3);
         FloatingActionButton floor4 =  (FloatingActionButton)view.findViewById(R.id.fab4);
         FloatingActionButton floor2 =  (FloatingActionButton)view.findViewById(R.id.fab2);
-        floor5.setColorNormal(context.getResources().getColor(R.color.rca_onclick));
-        floor2.setColorNormal(context.getResources().getColor(R.color.rca_onclick));
-        floor3.setColorNormal(context.getResources().getColor(R.color.rca_onclick));
-        floor4.setColorNormal(context.getResources().getColor(R.color.rca_onclick));
+        floor5.setColorNormal(ContextCompat.getColor(context, R.color.rca_onclick));
+        floor2.setColorNormal(ContextCompat.getColor(context, R.color.rca_onclick));
+        floor3.setColorNormal(ContextCompat.getColor(context, R.color.rca_onclick));
+        floor4.setColorNormal(ContextCompat.getColor(context, R.color.rca_onclick));
 
         BitmapDescriptor image = BitmapDescriptorFactory.fromResource(resourceID);
 

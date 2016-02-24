@@ -38,15 +38,6 @@ public class StoryLineActivity extends AppCompatActivity {
         ArrayList<StoryLine> storyLineList = information.getStoryLines();
         populateAdapterArrays(storyLineList, storyLineActivityLang);
 
-        //todo: fetch storyline image array from Map and put into arrays
-
-        imageIdArray = new Integer[]{
-                R.drawable.free_exploration,
-                R.drawable.placeholder_home_icon,
-                R.drawable.placeholder_panda_icon,
-                R.drawable.placeholder_tree_icon,
-        };
-
         CustomStoryList adapter = new CustomStoryList(StoryLineActivity.this, titleArray, descriptionArray, imageIdArray);
         list = (ListView)findViewById(R.id.storylineList);
         list.setAdapter(adapter);
@@ -65,12 +56,16 @@ public class StoryLineActivity extends AppCompatActivity {
     public void populateAdapterArrays(ArrayList<StoryLine> storyLineList, String currentLanguage) {
         titleArray = new String[storyLineList.size() + 1];
         descriptionArray = new String[storyLineList.size() + 1];
+        imageIdArray = new Integer[storyLineList.size() + 1];
 
+        //default values used for free exploration in the first listview position
         titleArray[0] = getResources().getString(R.string.free_exploration);
         descriptionArray[0] = getResources().getString(R.string.free_exploration_description);
+        imageIdArray[0] = R.drawable.free_exploration;
 
+        String imageName;
         int index = 1;
-        //todo remove //
+        
         for(StoryLine storyline : storyLineList){
             ArrayList<StoryLineDescription> textList = storyline.getDescriptions();
             for(StoryLineDescription description : textList){
@@ -80,6 +75,8 @@ public class StoryLineActivity extends AppCompatActivity {
                     break;
                 }
             }
+            imageName = storyline.getImagePath();
+            imageIdArray[index] = getResources().getIdentifier(imageName , "drawable", getPackageName());
             index++;
         }
     }

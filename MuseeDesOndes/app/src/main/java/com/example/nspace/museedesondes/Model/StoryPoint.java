@@ -3,7 +3,6 @@ package com.example.nspace.museedesondes.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.util.ArrayList;
 
@@ -13,23 +12,23 @@ import java.util.ArrayList;
 @JsonTypeName("StoryPoint")
 public class StoryPoint {
     private  int storylineID;
-    private ArrayList<StoryLineDescription> storyLineDescriptions;
+    private ArrayList<PointOfInterestDescription> storylineAssociatedDescription;
     private Media media;
 
     public StoryPoint( @JsonProperty("storylineID")int storylineID,
-                       @JsonProperty("title") ArrayList<StoryLineDescription> storyLineDescriptions,
+                       @JsonProperty("title") ArrayList<PointOfInterestDescription> storylineAssociatedDescription,
                        @JsonProperty("media") Media media) {
         this.storylineID = storylineID;
-        this.storyLineDescriptions = storyLineDescriptions;
+        this.storylineAssociatedDescription = storylineAssociatedDescription;
         this.media = media;
     }
 
     @JsonSetter("description")
-    public void setStoryLineDescriptions(ArrayList<StoryLineDescription> descriptions) {
+    private void setStorylineAssociatedDescription(ArrayList<StoryLineDescription> descriptions) {
 
         for(int i =0; i<descriptions.size(); i++)
         {
-            this.storyLineDescriptions.get(i).setDescription(descriptions.get(i).getDescription());
+            this.storylineAssociatedDescription.get(i).setDescription(descriptions.get(i).getDescription());
         }
     }
 
@@ -37,15 +36,15 @@ public class StoryPoint {
         return storylineID;
     }
 
-    public ArrayList<StoryLineDescription> getStoryLineDescriptions() {
-        return storyLineDescriptions;
+    public ArrayList<PointOfInterestDescription> getStorylineAssociatedDescription() {
+        return storylineAssociatedDescription;
     }
 
-    public ArrayList<Video> getVideo() {
+    public ArrayList<Video> getVideos() {
         return media.getVideos();
     }
 
-    public ArrayList<Audio> getAudio() {
+    public ArrayList<Audio> getAudios() {
         return media.getAudios();
     }
 

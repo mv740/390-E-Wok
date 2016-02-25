@@ -5,9 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
-
-import com.example.nspace.museedesondes.Model.Preferences;
 
 
 public class FullscreenImgActivity extends AppCompatActivity {

@@ -74,7 +74,7 @@ public class MapManager {
         displayCurrentFloorPointOfInterest(floorID, markerList);
 
         //todo For testing only, hashmap will later be  {"storyline id-floor","polyline object"}
-        // method .remove() delete the polyline 
+        // method .remove() delete the polyline
         if(floorID != 1)
         {
             polylineList.get("hello").setVisible(false);

@@ -2,13 +2,9 @@ package com.example.nspace.museedesondes.Model;
 
 import android.content.Context;
 
-import com.example.nspace.museedesondes.Deserializer.AudioDeserialize;
-import com.example.nspace.museedesondes.Deserializer.ImageDeserialize;
-import com.example.nspace.museedesondes.Deserializer.VideoDeserialize;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.util.ArrayList;
 
@@ -21,7 +17,7 @@ public class PointOfInterest extends Node {
     private BeaconInformation beaconInformation;
     private ArrayList<PointOfInterestDescription> descriptions;
     private Media media;
-    private ArrayList<StoryPoint> storyPoint;
+    private ArrayList<StoryPoint> storyPoints;
 
 
     public PointOfInterest(@JsonProperty("id") int id,
@@ -31,16 +27,16 @@ public class PointOfInterest extends Node {
                            @JsonProperty("beaconInformation") BeaconInformation beaconInformation,
                            @JsonProperty("title") ArrayList<PointOfInterestDescription> descriptions,
                            @JsonProperty("media") Media media,
-                           @JsonProperty("storyPoint") ArrayList<StoryPoint> storyPoint) {
+                           @JsonProperty("storyPoint") ArrayList<StoryPoint> storyPoints) {
         super(id, floorID, x, y);
         this.beaconInformation = beaconInformation;
         this.descriptions = descriptions;
         this.media = media;
-        this.storyPoint = storyPoint;
+        this.storyPoints = storyPoints;
     }
 
-    public ArrayList<StoryPoint> getStoryPoint() {
-        return storyPoint;
+    public ArrayList<StoryPoint> getStoryPoints() {
+        return storyPoints;
     }
 
     public BeaconInformation getBeaconInformation() {
@@ -147,4 +143,121 @@ public class PointOfInterest extends Node {
         }
         return null;
     }
+
+
+    /**
+     * Get specific description related to the storyline, if none found  return the default description
+     *
+     * @param storylineID
+     * @param context
+     * @return
+     */
+    public PointOfInterestDescription getStoryRelatedDescription(int storylineID, Context context)
+    {
+        for(StoryPoint storyPoint : this.storyPoints)
+        {
+            if(storyPoint.getStorylineID() == storylineID)
+            {
+
+                for (PointOfInterestDescription description : storyPoint.getStorylineAssociatedDescription())
+                {
+                    if(context.getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(description.getLanguage().name()))
+                    {
+                        return  description;
+                    }
+                }
+            }
+        }
+
+
+        return getLocaleDescription(context);
+    }
+
+    /**
+     * Get specific Audios related to the storyline, if none found  return the default audios
+     *
+     * @param storylineID
+     * @param context
+     * @return
+     */
+    public ArrayList<Audio> getStoryRelatedAudios(int storylineID, Context context)
+    {
+        ArrayList<Audio> relatedAudios = new ArrayList<>();
+        for(StoryPoint storyPoint : this.storyPoints)
+        {
+            if(storyPoint.getStorylineID() == storylineID)
+            {
+                for (Audio audio : storyPoint.getAudios())
+                {
+                    if(context.getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(audio.getLanguage().name()))
+                    {
+                        relatedAudios.add(audio);
+                    }
+                }
+                if(relatedAudios.size()>0)
+                    return relatedAudios;
+            }
+        }
+
+        return getLocaleAudios(context);
+    }
+
+    /**
+     * Get specific Videos related to the storyline, if none found  return the default Videos
+     *
+     * @param storylineID
+     * @param context
+     * @return
+     */
+    public ArrayList<Video> getStoryRelatedVideos(int storylineID, Context context)
+    {
+        ArrayList<Video> relatedVideos = new ArrayList<>();
+        for(StoryPoint storyPoint : this.storyPoints)
+        {
+            if(storyPoint.getStorylineID() == storylineID)
+            {
+                for (Video video : storyPoint.getVideos())
+                {
+                    if(context.getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(video.getLanguage().name()))
+                    {
+                        relatedVideos.add(video);
+                    }
+                }
+                if(relatedVideos.size()>0)
+                    return relatedVideos;
+            }
+        }
+
+        return getLocaleVideos(context);
+    }
+
+    /**
+     * Get specific Images related to the storyline, if none found  return the default images
+     *
+     * @param storylineID
+     * @param context
+     * @return
+     */
+    public ArrayList<Image> getStoryRelatedImages(int storylineID, Context context)
+    {
+        ArrayList<Image> relatedImages = new ArrayList<>();
+        for(StoryPoint storyPoint : this.storyPoints)
+        {
+            if(storyPoint.getStorylineID() == storylineID)
+            {
+                for (Image image : storyPoint.getImages())
+                {
+                    if(context.getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(image.getLanguage().name()))
+                    {
+                        relatedImages.add(image);
+                    }
+                }
+                if(relatedImages.size()>0)
+                    return relatedImages;
+            }
+        }
+
+        return getLocaleImages(context);
+    }
+
 }

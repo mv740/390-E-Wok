@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 
 import com.example.nspace.museedesondes.Model.FloorPlan;
@@ -15,8 +16,11 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.GroundOverlay;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.Polyline;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by michal on 2/10/2016.
@@ -24,7 +28,7 @@ import java.util.ArrayList;
 public class MapManager {
 
 
-    public static GroundOverlay loadDefaultFloor(GoogleMap googleMap, LatLng position,ArrayList<FloorPlan> floorPlans, Context context, View view)
+    public static GroundOverlay loadDefaultFloor(GoogleMap googleMap, LatLng position,ArrayList<FloorPlan> floorPlans, Context context, View view )
     {
         Resources resources = context.getResources();
         final int resourceID = resources.getIdentifier(floorPlans.get(0).getImagePath(), "drawable", context.getPackageName()); // 0 = floor 1
@@ -46,7 +50,10 @@ public class MapManager {
                 .image(image)
                 .position(position, 5520f, 10704f).anchor(0, 0);
 
-        return googleMap.addGroundOverlay(customMap);
+        GroundOverlay groundOverlay = googleMap.addGroundOverlay(customMap);
+
+
+        return groundOverlay;
 
     }
 
@@ -54,19 +61,46 @@ public class MapManager {
      * @param groundOverlay pass the same groundOverlay from defaultFloorMethod; this keep all image customisation
      * @param floorID floor number
      * @param floorPlans
+     * @param markerList
+     * @param polylineList
      */
-    public static void switchFloor(GroundOverlay groundOverlay, int floorID, ArrayList<FloorPlan> floorPlans, Context context)
+    public static void switchFloor(GroundOverlay groundOverlay, int floorID, ArrayList<FloorPlan> floorPlans, Context context, ArrayList<Marker> markerList, HashMap<String, Polyline> polylineList)
     {
         //http://stackoverflow.com/questions/16369814/how-to-access-the-drawable-resources-by-name-in-android
         int index = floorID-1; //Todo if floor object aren't in order then we will need to loop to find the correct one by id
 
+        Log.d("markerList", String.valueOf(markerList.size()));
+
+        displayCurrentFloorPointOfInterest(floorID, markerList);
+
+        //todo For testing only, hashmap will later be  {"storyline id-floor","polyline object"}
+        // method .remove() delete the polyline 
+        if(floorID != 1)
+        {
+            polylineList.get("hello").setVisible(false);
+        }else {
+            polylineList.get("hello").setVisible(true);
+        }
+
         Resources resources = context.getResources();
         final int resourceID = resources.getIdentifier(floorPlans.get(index).getImagePath(),"drawable",context.getPackageName());
-
         groundOverlay.setImage(BitmapDescriptorFactory.fromResource(resourceID));
+
+
     }
 
-
+    public static void displayCurrentFloorPointOfInterest(int floorID, ArrayList<Marker> markerList) {
+        //show only those meant for the current floor
+        for(Marker marker : markerList)
+        {
+            if((Integer.parseInt(marker.getSnippet())) == floorID){
+                marker.setVisible(true);
+            }else
+            {
+                marker.setVisible(false);
+            }
+        }
+    }
 
 
 }

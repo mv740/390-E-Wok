@@ -33,13 +33,13 @@ import com.google.android.gms.maps.model.GroundOverlay;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import com.google.android.gms.maps.model.Polyline;
 import com.example.nspace.museedesondes.Model.Node;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
@@ -53,6 +53,8 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     public static Drawable imgToSendToFullscreenImgActivity;
     AudioService audioService;
     private int[] floorButtonIdList = {R.id.fab1, R.id.fab2, R.id.fab3, R.id.fab4, R.id.fab5};
+    private ArrayList<Marker> markerList;
+    private HashMap<String,Polyline> polylineList;
 
 
     @Override
@@ -76,6 +78,8 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         bringButtonsToFront();
         Intent intent = new Intent(this, AudioService.class);
         bindService(intent, audioConnection, Context.BIND_AUTO_CREATE);
+
+        this.polylineList = new HashMap<>();
 
     }
 
@@ -134,14 +138,12 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         //load map and then switch floor to 5
         // GroundOverlay groundOverlay = MapManager.loadDefaultFloor(mMap, custom);
         groundOverlay = MapManager.loadDefaultFloor(mMap, custom, information.getFloorPlans(), getApplicationContext(), findViewById(android.R.id.content));
+
         //need to implement a list view
         //MapManager.switchFloor(groundOverlay, 5);
 
-
-        //// TODO: 2/7/2016 refactor this in a proper fuction
-        //// 2/18/2016 Completed by Harrison.
-        ArrayList<PointOfInterest> pointsOfInterest = information.getPointOfInterests();
-        final ArrayList<MarkerOptions> markers = placeMarkersOnPointsOfInterest(pointsOfInterest);
+        this.markerList = placeMarkersOnPointsOfInterest(information.getPointOfInterests());
+        MapManager.displayCurrentFloorPointOfInterest(1,this.markerList);
 
 
         //todo testing currently 2/19/15
@@ -151,7 +153,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
                 //android Zoom-to-Fit All Markers on Google Map
                 LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                for (MarkerOptions marker : markers)
+                for (Marker marker : markerList)
                 {
                     builder.include(marker.getPosition());
                 }
@@ -165,7 +167,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         ArrayList<Node> nodes = information.getNodes();
 
         // This statement places all the nodes on the map and traces the path between them.
-        tracePath(nodes);
+        tracePath(nodes,1, this.polylineList);
 
 
     }
@@ -175,8 +177,8 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
      *
      * @param pointsOfInterest List of all points of interest.
      */
-    private ArrayList<MarkerOptions> placeMarkersOnPointsOfInterest(ArrayList<PointOfInterest> pointsOfInterest) {
-        ArrayList<MarkerOptions> mMarkerArray = new ArrayList<>();
+    private ArrayList<Marker> placeMarkersOnPointsOfInterest(ArrayList<PointOfInterest> pointsOfInterest) {
+        ArrayList<Marker> mMarkerArray = new ArrayList<>();
         for (PointOfInterest pointOfInterest : pointsOfInterest) {
             PointMarker.singleInterestPointFactory(pointOfInterest, getApplicationContext(), mMap, mMarkerArray);
         }
@@ -190,13 +192,14 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
      * @param nodes This is the list of nodes that are to be sorted through. The nodes could be
      *              either points of interest, points of traversal, or others.
      */
-    public void tracePath(ArrayList<Node> nodes) {
+    public void tracePath(ArrayList<Node> nodes, int floorID, HashMap<String,Polyline> polylineList) {
 
-        ArrayList<LatLng> nodePositions = listNodeCoordinates(nodes);
+        ArrayList<LatLng> nodePositions = listNodeCoordinates(nodes,floorID);
         Polyline line = mMap.addPolyline(new PolylineOptions()
                 .width(15)
                 .color(Color.parseColor("#99E33C3C")));
         line.setPoints(nodePositions);
+        polylineList.put("hello",line);
     }
 
 
@@ -206,14 +209,17 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
      * @param nodes The list of nodes for which coordinates should be derived.
      * @return The list of LatLng coordinates.
      */
-    public ArrayList<LatLng> listNodeCoordinates(ArrayList<Node> nodes) {
+    public ArrayList<LatLng> listNodeCoordinates(ArrayList<Node> nodes, int floorID) {
         if (nodes == null) {
             return null;
         }
 
         ArrayList<LatLng> nodeLatLngs = new ArrayList<LatLng>();
         for (Node node : nodes) {
-            nodeLatLngs.add(new LatLng(node.getX(), node.getY()));
+            if(node.getFloorID() == floorID)
+            {
+                nodeLatLngs.add(new LatLng(node.getX(), node.getY()));
+            }
         }
         return nodeLatLngs;
     }
@@ -262,7 +268,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     }
 
     public void changeFloor(int floor) {
-        MapManager.switchFloor(groundOverlay, floor, information.getFloorPlans(), getApplicationContext());
+        MapManager.switchFloor(groundOverlay, floor, information.getFloorPlans(), getApplicationContext(), this.markerList, this.polylineList);
         FloatingActionMenu floorButton = (FloatingActionMenu) findViewById(R.id.floor_button);
         floorButton.toggle(true);
     }

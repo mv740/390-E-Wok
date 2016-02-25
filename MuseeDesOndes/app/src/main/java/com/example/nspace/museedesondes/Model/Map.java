@@ -103,8 +103,7 @@ public class Map {
     public PointOfInterest searchPoiByTitle(String title) {
         for (PointOfInterest poi : pointOfInterests) {
             for (PointOfInterestDescription description : poi.getDescriptions()) {
-                if(description.getTitle().equalsIgnoreCase(title))
-                {
+                if (description.getTitle().equalsIgnoreCase(title)) {
                     return poi;
                 }
             }
@@ -136,4 +135,27 @@ public class Map {
     public ArrayList<Node> getNodes() {
         return nodes;
     }
+
+    public ArrayList<PointOfInterest> getPointOfInterestsCurrentFloor(int currentFloor) {
+        ArrayList<PointOfInterest> currentFloorList = new ArrayList<>();
+        for (PointOfInterest poi : pointOfInterests) {
+            if (poi.getFloorID() == currentFloor) {
+                currentFloorList.add(poi);
+            }
+        }
+        return currentFloorList;
+    }
+
+
+    public ArrayList<LabelledPoint> getLabelledPointsCurrentFloor(int currentFloor) {
+        ArrayList<LabelledPoint> currentFloorList = new ArrayList<>();
+        for (LabelledPoint labelledPoint : labelledPoints) {
+            if (labelledPoint.getFloorID() == currentFloor) {
+                currentFloorList.add(labelledPoint);
+            }
+        }
+        return currentFloorList;
+    }
+
+
 }

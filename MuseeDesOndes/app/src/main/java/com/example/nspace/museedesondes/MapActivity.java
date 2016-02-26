@@ -12,6 +12,7 @@ import android.os.IBinder;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -29,9 +30,9 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.GroundOverlay;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -41,6 +42,7 @@ import com.example.nspace.museedesondes.Model.Node;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.google.android.gms.maps.model.VisibleRegion;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 
@@ -54,7 +56,8 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     AudioService audioService;
     private int[] floorButtonIdList = {R.id.fab1, R.id.fab2, R.id.fab3, R.id.fab4, R.id.fab5};
     private ArrayList<Marker> markerList;
-    private HashMap<String,Polyline> polylineList;
+    private HashMap<String, Polyline> polylineList;
+    private MapManager mapManager;
 
 
     @Override
@@ -80,7 +83,6 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         bindService(intent, audioConnection, Context.BIND_AUTO_CREATE);
 
         this.polylineList = new HashMap<>();
-
     }
 
     private void bringButtonsToFront() {
@@ -113,6 +115,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         information = Map.getInstance(getApplicationContext());
 
         mMap = googleMap;
+        mapManager = new MapManager(mMap,this);
         mMap.setBuildingsEnabled(false);
         mMap.setIndoorEnabled(false);
         mMap.getUiSettings().setZoomControlsEnabled(true);
@@ -137,28 +140,20 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
         //load map and then switch floor to 5
         // GroundOverlay groundOverlay = MapManager.loadDefaultFloor(mMap, custom);
-        groundOverlay = MapManager.loadDefaultFloor(mMap, custom, information.getFloorPlans(), getApplicationContext(), findViewById(android.R.id.content));
+        groundOverlay = mapManager.loadDefaultFloor(mMap, custom, information.getFloorPlans(), findViewById(android.R.id.content));
 
         //need to implement a list view
         //MapManager.switchFloor(groundOverlay, 5);
 
         this.markerList = placeMarkersOnPointsOfInterest(information.getPointOfInterests());
-        MapManager.displayCurrentFloorPointOfInterest(1,this.markerList);
+        mapManager.displayCurrentFloorPointOfInterest(1, this.markerList);
 
 
         //todo testing currently 2/19/15
         mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
             @Override
             public void onMapLoaded() {
-
-                //android Zoom-to-Fit All Markers on Google Map
-                LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                for (Marker marker : markerList)
-                {
-                    builder.include(marker.getPosition());
-                }
-                LatLngBounds bounds = builder.build();
-                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
+                mapManager.zoomToFit(markerList);
             }
         });
 
@@ -167,10 +162,29 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         ArrayList<Node> nodes = information.getNodes();
 
         // This statement places all the nodes on the map and traces the path between them.
-        tracePath(nodes,1, this.polylineList);
+        tracePath(nodes, 1, this.polylineList);
+
+        mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+
+            public void onCameraChange(CameraPosition position) {
+                VisibleRegion vr = mMap.getProjection().getVisibleRegion();
+                double left = vr.latLngBounds.southwest.longitude;
+                double top = vr.latLngBounds.northeast.latitude;
+                double right = vr.latLngBounds.northeast.longitude;
+                double bottom = vr.latLngBounds.southwest.latitude;
 
 
+                Log.v("onCameraChange", "left :"+left);
+                Log.v("onCameraChange", "top :"+top);
+                Log.v("onCameraChange", "right :"+right);
+                Log.v("onCameraChange", "bottom :"+bottom);
+
+                mapManager.zoomLimit(position);
+                mapManager.verifyCameraPosition(left, top, right, bottom);
+            }
+        });
     }
+
 
     /**
      * This method places the AZURE markers on the list of points of interest.
@@ -182,7 +196,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         for (PointOfInterest pointOfInterest : pointsOfInterest) {
             PointMarker.singleInterestPointFactory(pointOfInterest, getApplicationContext(), mMap, mMarkerArray);
         }
-        return  mMarkerArray;
+        return mMarkerArray;
     }
 
     /**
@@ -192,14 +206,14 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
      * @param nodes This is the list of nodes that are to be sorted through. The nodes could be
      *              either points of interest, points of traversal, or others.
      */
-    public void tracePath(ArrayList<Node> nodes, int floorID, HashMap<String,Polyline> polylineList) {
+    public void tracePath(ArrayList<Node> nodes, int floorID, HashMap<String, Polyline> polylineList) {
 
-        ArrayList<LatLng> nodePositions = listNodeCoordinates(nodes,floorID);
+        ArrayList<LatLng> nodePositions = listNodeCoordinates(nodes, floorID);
         Polyline line = mMap.addPolyline(new PolylineOptions()
                 .width(15)
                 .color(Color.parseColor("#99E33C3C")));
         line.setPoints(nodePositions);
-        polylineList.put("hello",line);
+        polylineList.put("hello", line);
     }
 
 
@@ -216,8 +230,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
         ArrayList<LatLng> nodeLatLngs = new ArrayList<LatLng>();
         for (Node node : nodes) {
-            if(node.getFloorID() == floorID)
-            {
+            if (node.getFloorID() == floorID) {
                 nodeLatLngs.add(new LatLng(node.getX(), node.getY()));
             }
         }
@@ -268,7 +281,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     }
 
     public void changeFloor(int floor) {
-        MapManager.switchFloor(groundOverlay, floor, information.getFloorPlans(), getApplicationContext(), this.markerList, this.polylineList);
+        mapManager.switchFloor(groundOverlay, floor, information.getFloorPlans(), this.markerList, this.polylineList);
         FloatingActionMenu floorButton = (FloatingActionMenu) findViewById(R.id.floor_button);
         floorButton.toggle(true);
     }

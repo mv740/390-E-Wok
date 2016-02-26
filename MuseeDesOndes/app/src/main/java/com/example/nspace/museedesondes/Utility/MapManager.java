@@ -10,12 +10,16 @@ import android.view.View;
 import com.example.nspace.museedesondes.Model.FloorPlan;
 import com.example.nspace.museedesondes.R;
 import com.github.clans.fab.FloatingActionButton;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.GroundOverlay;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.Polyline;
 
@@ -27,8 +31,17 @@ import java.util.HashMap;
  */
 public class MapManager {
 
+    private GoogleMap mMap;
+    private Context context;
 
-    public static GroundOverlay loadDefaultFloor(GoogleMap googleMap, LatLng position,ArrayList<FloorPlan> floorPlans, Context context, View view )
+    public MapManager(GoogleMap googleMap, Context context)
+    {
+        this.mMap = googleMap;
+        this.context = context;
+    }
+
+
+    public GroundOverlay loadDefaultFloor(GoogleMap googleMap, LatLng position, ArrayList<FloorPlan> floorPlans, View view)
     {
         Resources resources = context.getResources();
         final int resourceID = resources.getIdentifier(floorPlans.get(0).getImagePath(), "drawable", context.getPackageName()); // 0 = floor 1
@@ -50,8 +63,8 @@ public class MapManager {
                 .image(image)
                 .position(position, 5520f, 10704f).anchor(0, 0);
 
-        GroundOverlay groundOverlay = googleMap.addGroundOverlay(customMap);
 
+        GroundOverlay groundOverlay = googleMap.addGroundOverlay(customMap);
 
         return groundOverlay;
 
@@ -64,7 +77,7 @@ public class MapManager {
      * @param markerList
      * @param polylineList
      */
-    public static void switchFloor(GroundOverlay groundOverlay, int floorID, ArrayList<FloorPlan> floorPlans, Context context, ArrayList<Marker> markerList, HashMap<String, Polyline> polylineList)
+    public void switchFloor(GroundOverlay groundOverlay, int floorID, ArrayList<FloorPlan> floorPlans, ArrayList<Marker> markerList, HashMap<String, Polyline> polylineList)
     {
         //http://stackoverflow.com/questions/16369814/how-to-access-the-drawable-resources-by-name-in-android
         int index = floorID-1; //Todo if floor object aren't in order then we will need to loop to find the correct one by id
@@ -83,13 +96,13 @@ public class MapManager {
         }
 
         Resources resources = context.getResources();
-        final int resourceID = resources.getIdentifier(floorPlans.get(index).getImagePath(),"drawable",context.getPackageName());
+        final int resourceID = resources.getIdentifier(floorPlans.get(index).getImagePath(), "drawable", context.getPackageName());
         groundOverlay.setImage(BitmapDescriptorFactory.fromResource(resourceID));
 
 
     }
 
-    public static void displayCurrentFloorPointOfInterest(int floorID, ArrayList<Marker> markerList) {
+    public void displayCurrentFloorPointOfInterest(int floorID, ArrayList<Marker> markerList) {
         //show only those meant for the current floor
         for(Marker marker : markerList)
         {
@@ -102,5 +115,73 @@ public class MapManager {
         }
     }
 
+    /**
+     * android Zoom-to-Fit All Markers on Google Map
+     */
+    public void zoomToFit(ArrayList<Marker> markerList) {
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        for (Marker marker : markerList) {
+            builder.include(marker.getPosition());
+        }
+        LatLngBounds bounds = builder.build();
+        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
+    }
+
+    /**
+     * limit the max and min zoom
+     *
+     * @param position
+     */
+    public void zoomLimit(CameraPosition position) {
+        if (position.zoom > 15)
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+        if(position.zoom <13)
+        {
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(13.1f));
+        }
+    }
+
+    /**
+     * Every time a camera view change, it will verify its position to determine if it is out of bound.
+     * if it is, then it will move the camera. We must always see a part of the map.
+     *
+     * @param left
+     * @param top
+     * @param right
+     * @param bottom
+     */
+    public void verifyCameraPosition(double left, double top, double right, double bottom) {
+
+        boolean updateCamera = false;
+
+        //will need to do further testing to determine the best boundaries
+        if (left < -0.0355) {
+            left = -0.030;
+            updateCamera = true;
+        }
+        else if (right >0.0475) {
+            right = 0.042;
+            updateCamera = true;
+
+        }
+        //Y
+        if (top > 0.039) {
+            top = 0.037;
+            updateCamera = true;
+        }
+        else if (bottom < -0.078) {
+            bottom = -0.076;
+            updateCamera = true;
+        }
+
+        LatLng southwest = new LatLng(bottom, left);
+        LatLng northeast = new LatLng(top, right);
+        LatLngBounds newBounds = new LatLngBounds(southwest, northeast);
+        CameraUpdate update = CameraUpdateFactory.newLatLngBounds(newBounds, 0);
+        if(updateCamera)
+        {
+            mMap.moveCamera(update);
+        }
+    }
 
 }

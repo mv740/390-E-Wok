@@ -8,6 +8,7 @@ import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -15,6 +16,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 
 
 import com.example.nspace.museedesondes.AudioService.AudioBinder;
@@ -58,6 +60,8 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     private ArrayList<Marker> markerList;
     private HashMap<String, Polyline> polylineList;
     private MapManager mapManager;
+    private SeekBar seekBar;
+    Handler audioHandler = new Handler();
 
 
     @Override
@@ -81,9 +85,12 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         bringButtonsToFront();
         Intent intent = new Intent(this, AudioService.class);
         bindService(intent, audioConnection, Context.BIND_AUTO_CREATE);
+        seekBar = (SeekBar) findViewById(R.id.seekBar);
 
         this.polylineList = new HashMap<>();
     }
+
+
 
     private void bringButtonsToFront() {
         FloatingActionButton ham = (FloatingActionButton) findViewById(R.id.hamburger);
@@ -287,7 +294,10 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     }
 
     public void playAudioFile(View v) {
+        audioService.setAudio();
+        audioRunnable.run();
         audioService.toggleAudioOnOff(v);
+
     }
 
     @Override
@@ -315,11 +325,22 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         public void onServiceConnected(ComponentName name, IBinder service) {
             AudioBinder binder = (AudioBinder) service;
             audioService = binder.getAudioService();
+
+
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
 
+        }
+    };
+
+    private Runnable audioRunnable = new Runnable() {
+        @Override
+        public void run() {
+            int currentPosition = audioService.getCurrentPosition();
+            seekBar.setProgress(currentPosition);
+            audioHandler.postDelayed(this, 1000);
         }
     };
 }

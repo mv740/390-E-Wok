@@ -16,6 +16,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 
+import com.estimote.sdk.BeaconManager;
+import com.estimote.sdk.SystemRequirementsChecker;
 import com.example.nspace.museedesondes.AudioService.AudioBinder;
 
 
@@ -23,6 +25,7 @@ import com.example.nspace.museedesondes.Model.Map;
 import com.example.nspace.museedesondes.Model.PointOfInterest;
 import com.example.nspace.museedesondes.Utility.MapManager;
 import com.example.nspace.museedesondes.Utility.PointMarker;
+import com.example.nspace.museedesondes.Utility.StoryLineManager;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -53,6 +56,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     public static Drawable imgToSendToFullscreenImgActivity;
     AudioService audioService;
     private int[] floorButtonIdList = {R.id.fab1, R.id.fab2, R.id.fab3, R.id.fab4, R.id.fab5};
+    private StoryLineManager storyLineManager;
 
 
     @Override
@@ -77,6 +81,10 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         Intent intent = new Intent(this, AudioService.class);
         bindService(intent, audioConnection, Context.BIND_AUTO_CREATE);
 
+        //create storyline manager which handles storyline progression and interaction with the beacons
+        //TODO: pass in storyline line selected from StoryLineActivity
+        storyLineManager = new StoryLineManager(null, this, mMap);
+        storyLineManager.setBeaconRangeListener();
     }
 
     private void bringButtonsToFront() {
@@ -303,4 +311,25 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
         }
     };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        SystemRequirementsChecker.checkWithDefaultDialogs(this);
+
+        storyLineManager.getBeaconManager().connect(new BeaconManager.ServiceReadyCallback() {
+            @Override
+            public void onServiceReady() {
+                storyLineManager.getBeaconManager().startRanging(storyLineManager.getRegion());
+            }
+        });
+    }
+
+    @Override
+    protected void onPause() {
+        storyLineManager.getBeaconManager().stopRanging(storyLineManager.getRegion());
+
+        super.onPause();
+    }
 }

@@ -11,8 +11,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
-import com.example.nspace.museedesondes.Model.Map;
-import com.example.nspace.museedesondes.Model.Preferences;
+import com.example.nspace.museedesondes.Utility.Preferences;
 
 
 public class MainActivity extends AppCompatActivity{

@@ -1,13 +1,12 @@
 package com.example.nspace.museedesondes;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioGroup;
 
-import com.example.nspace.museedesondes.Model.Preferences;
+import com.example.nspace.museedesondes.Utility.Preferences;
 
 
 

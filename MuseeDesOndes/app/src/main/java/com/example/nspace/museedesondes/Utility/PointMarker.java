@@ -1,11 +1,13 @@
 package com.example.nspace.museedesondes.Utility;
 
 import android.content.Context;
+
 import com.example.nspace.museedesondes.Model.PointOfInterest;
 import com.example.nspace.museedesondes.Model.LabelledPoint;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
@@ -18,12 +20,13 @@ public class PointMarker {
 
     /**
      * Create a point of interest marker and drop it on the map on the specified coordinate
-     *  @param pointOfInterest
+     *
+     * @param pointOfInterest
      * @param context
-     * @param googleMap MapPlan
+     * @param googleMap       MapPlan
      * @param mMarkerArray
      */
-    public static void singleInterestPointFactory(PointOfInterest pointOfInterest, Context context, GoogleMap googleMap, ArrayList<MarkerOptions> mMarkerArray) {
+    public static void singleInterestPointFactory(PointOfInterest pointOfInterest, Context context, GoogleMap googleMap, ArrayList<Marker> mMarkerArray) {
 
         String title = "error";
         title = pointOfInterest.getLocaleDescription(context).getTitle();
@@ -32,8 +35,14 @@ public class PointMarker {
         node.position(new LatLng(pointOfInterest.getX(), pointOfInterest.getY()));
         node.title(title);
         node.icon((BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-        mMarkerArray.add(node);
-        googleMap.addMarker(node);
+
+        //storing floor id in marker snippet
+        node.snippet(String.valueOf(pointOfInterest.getFloorID()));
+
+        Marker createdMarker = googleMap.addMarker(node);
+
+        mMarkerArray.add(createdMarker);
+
     }
 
     public static void singleTransitionPointFactory(LabelledPoint labelledPoint, GoogleMap googleMap) {

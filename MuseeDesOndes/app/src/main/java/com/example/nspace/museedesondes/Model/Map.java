@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.example.nspace.museedesondes.Utility.JsonHelper;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -19,12 +20,12 @@ public class Map {
     private ArrayList<PointOfInterest> pointOfInterests;
     private ArrayList<LabelledPoint> labelledPoints;
     private ArrayList<FloorPlan> floorPlans;
-    private Point point;
+    private ArrayList<Point> point;
 
 
     private static Map instance = null;
 
-    private Map(@JsonProperty("node") Point point,
+    private Map(@JsonProperty("node") ArrayList<Point> point,
                 @JsonProperty("edge") ArrayList<Edge> edges,
                 @JsonProperty("storyLine") ArrayList<StoryLine> storyLines,
                 @JsonProperty("floorPlan") ArrayList<FloorPlan> floorPlans) {
@@ -42,6 +43,7 @@ public class Map {
         if (instance == null) {
             String mapSource = JsonHelper.loadJSON("map.json", context);
             ObjectMapper mapper = new ObjectMapper();
+            mapper.enable(DeserializationFeature. ACCEPT_SINGLE_VALUE_AS_ARRAY);
             try {
                 instance = mapper.readValue((mapSource), Map.class);
                 if (instance != null)
@@ -56,8 +58,8 @@ public class Map {
     }
 
     private static void initializeNodes() {
-        instance.pointOfInterests = instance.point.getPoi();
-        instance.labelledPoints = instance.point.getPot();
+        instance.pointOfInterests = instance.point.get(0).getPoi();
+        instance.labelledPoints = instance.point.get(0).getPot();
         instance.nodes.addAll(instance.pointOfInterests);
         instance.nodes.addAll(instance.labelledPoints);
         setNodesReferenceForEdges();
@@ -103,8 +105,7 @@ public class Map {
     public PointOfInterest searchPoiByTitle(String title) {
         for (PointOfInterest poi : pointOfInterests) {
             for (PointOfInterestDescription description : poi.getDescriptions()) {
-                if(description.getTitle().equalsIgnoreCase(title))
-                {
+                if (description.getTitle().equalsIgnoreCase(title)) {
                     return poi;
                 }
             }
@@ -135,5 +136,30 @@ public class Map {
 
     public ArrayList<Node> getNodes() {
         return nodes;
+    }
+
+    public ArrayList<PointOfInterest> getPointOfInterestsCurrentFloor(int currentFloor) {
+        ArrayList<PointOfInterest> currentFloorList = new ArrayList<>();
+        for (PointOfInterest poi : pointOfInterests) {
+            if (poi.getFloorID() == currentFloor) {
+                currentFloorList.add(poi);
+            }
+        }
+        return currentFloorList;
+    }
+
+
+    public ArrayList<LabelledPoint> getLabelledPointsCurrentFloor(int currentFloor) {
+        ArrayList<LabelledPoint> currentFloorList = new ArrayList<>();
+        for (LabelledPoint labelledPoint : labelledPoints) {
+            if (labelledPoint.getFloorID() == currentFloor) {
+                currentFloorList.add(labelledPoint);
+            }
+        }
+        return currentFloorList;
+    }
+
+    private ArrayList<Point> getPoint() {
+        return point;
     }
 }

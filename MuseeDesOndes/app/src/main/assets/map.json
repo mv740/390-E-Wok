@@ -1,351 +1,462 @@
 {
-  "node": {
-    "poi" : [
-      {
-        "id": 1,
-        "beaconInformation": {
-          "UUID": "test_uuid",
-          "major": 1111,
-          "minor": 2222
-        },
-        "title": [
-          {
-            "language": "fr",
-            "title": "test_titre"
+  "node": [
+    {
+      "poi" : [
+        {
+          "id": 1,
+          "beaconInformation": {
+            "UUID": "test_uuid",
+            "major": 1111,
+            "minor": 2222
           },
-          {
-            "language": "en_US",
-            "title": "test_title"
-          }
-        ],
-        "description": [
-          {
-            "language": "fr",
-            "description": "Veuillez lire cette description"
-          },
-          {
-            "language": "en_US",
-            "description": "Please read this description"
-          }
-        ],
-        "media" : {
-          "video": [
+          "title": [
             {
-              "caption": "video_titre",
               "language": "fr",
-              "path": "video/FR/test.mp4"
+              "title": "test_titre"
             },
             {
-              "caption": "video_title",
               "language": "en_US",
-              "path": "video/EN/test.mp4"
+              "title": "test_title"
             }
           ],
-          "audio": [
+          "description": [
             {
-              "caption": "audio_titre",
               "language": "fr",
-              "path": "audio/FR/test_1.mp3"
+              "description": "Veuillez lire cette description"
             },
             {
-              "caption": "audio_title",
               "language": "en_US",
-              "path": "audio/EN/test_1.mp3"
+              "description": "Please read this description"
             }
           ],
-          "image": [
+          "media" : {
+            "video": [
+              {
+                "caption": "video_titre",
+                "language": "fr",
+                "path": "video/FR/test.mp4"
+              },
+              {
+                "caption": "video_title",
+                "language": "en_US",
+                "path": "video/EN/test.mp4"
+              }
+            ],
+            "audio": [
+              {
+                "caption": "audio_titre",
+                "language": "fr",
+                "path": "audio/FR/test_1.mp3"
+              },
+              {
+                "caption": "audio_title",
+                "language": "en_US",
+                "path": "audio/EN/test_1.mp3"
+              }
+            ],
+            "image": [
+              {
+                "caption": "test_title",
+                "language": "en_US",
+                "path": "picture/test_image1.png"
+              },
+              {
+                "caption": "test_titre",
+                "language": "fr",
+                "path": "picture/test_image2.png"
+              }
+            ]
+          },
+          "floorID": 1,
+          "x": 0.001,
+          "y": 0.0,
+          "storyPoint": [
             {
-              "caption": "test_title",
-              "language": "en_US",
-              "path": "picture/test_image1.png"
-            },
-            {
-              "caption": "test_titre",
-              "language": "fr",
-              "path": "picture/test_image2.png"
+              "storylineID": 1,
+              "title": [
+                {
+                  "language": "fr",
+                  "title": "<title>"
+                }
+              ],
+              "description": [
+                {
+                  "language": "fr",
+                  "description": "<description>"
+                }
+              ],
+              "media": {
+                "image": [
+                  {
+                    "path": "<URL>",
+                    "language": "fr",
+                    "caption": "<caption>"
+                  }
+                ],
+                "video": [
+                  {
+                    "path": "<URL>",
+                    "language": "fr",
+                    "caption": "<caption>"
+                  }
+                ],
+                "audio": [
+                  {
+                    "path": "<URL>",
+                    "language": "fr",
+                    "caption": "<caption>"
+                  }
+                ]
+              }
             }
           ]
         },
-        "floorID": 1,
-        "x": 0.001,
-        "y": 0.0,
-        "storyPoint": [
-          {
-            "storylineID": 1,
-            "title": [
-              {
-                "language": "fr",
-                "title": "<title>"
-              }
-            ],
-            "description": [
-              {
-                "language": "fr",
-                "description": "<description>"
-              }
-            ],
-            "media": {
-              "image": [
-                {
-                  "path": "<URL>",
-                  "language": "fr",
-                  "caption": "<caption>"
-                }
-              ],
-              "video": [
-                {
-                  "path": "<URL>",
-                  "language": "fr",
-                  "caption": "<caption>"
-                }
-              ],
-              "audio": [
-                {
-                  "path": "<URL>",
-                  "language": "fr",
-                  "caption": "<caption>"
-                }
-              ]
-            }
-          }
-        ]
-      },
-      {
-        "id": 3,
-        "beaconInformation": {
-          "UUID": "test_uuid",
-          "major": 1111,
-          "minor": 2222
-        },
-        "title": [
-          {
-            "language": "fr",
-            "title": "test_titre3"
+        {
+          "id": 3,
+          "beaconInformation": {
+            "UUID": "test_uuid",
+            "major": 1111,
+            "minor": 2222
           },
-          {
-            "language": "en_US",
-            "title": "test_title3"
-          }
-        ],
-        "description": [
-          {
-            "language": "fr",
-            "description": "Veuillez lire cette description3"
-          },
-          {
-            "language": "en_US",
-            "description": "Please read this description3"
-          }
-        ],
-        "media" : {
-          "video": [
+          "title": [
             {
-              "caption": "video_titre",
               "language": "fr",
-              "path": "video/FR/test.mp4"
+              "title": "test_titre3"
             },
             {
-              "caption": "video_title",
               "language": "en_US",
-              "path": "video/EN/test.mp4"
+              "title": "test_title3"
             }
           ],
-          "audio": [
+          "description": [
             {
-              "caption": "audio_titre",
               "language": "fr",
-              "path": "audio/FR/test_1.mp3"
+              "description": "Veuillez lire cette description3"
             },
             {
-              "caption": "audio_title",
               "language": "en_US",
-              "path": "audio/EN/test_1.mp3"
+              "description": "Please read this description3"
             }
           ],
-          "image": [
+          "media" : {
+            "video": [
+              {
+                "caption": "video_titre",
+                "language": "fr",
+                "path": "video/FR/test.mp4"
+              },
+              {
+                "caption": "video_title",
+                "language": "en_US",
+                "path": "video/EN/test.mp4"
+              }
+            ],
+            "audio": [
+              {
+                "caption": "audio_titre",
+                "language": "fr",
+                "path": "audio/FR/test_1.mp3"
+              },
+              {
+                "caption": "audio_title",
+                "language": "en_US",
+                "path": "audio/EN/test_1.mp3"
+              }
+            ],
+            "image": [
+              {
+                "caption": "test_title",
+                "language": "en_US",
+                "path": "picture/test_image1.png"
+              },
+              {
+                "caption": "test_titre",
+                "language": "fr",
+                "path": "picture/test_image2.png"
+              }
+            ]
+          },
+          "floorID": 1,
+          "x": 0.02,
+          "y": 0.005,
+          "storyPoint": [
             {
-              "caption": "test_title",
-              "language": "en_US",
-              "path": "picture/test_image1.png"
-            },
-            {
-              "caption": "test_titre",
-              "language": "fr",
-              "path": "picture/test_image2.png"
+              "storylineID": 1,
+              "title": [
+                {
+                  "language": "fr",
+                  "title": "<title>"
+                }
+              ],
+              "description": [
+                {
+                  "language": "fr",
+                  "description": "<description>"
+                }
+              ],
+              "media": {
+                "image": [
+                  {
+                    "path": "<URL>",
+                    "language": "fr",
+                    "caption": "<caption>"
+                  }
+                ],
+                "video": [
+                  {
+                    "path": "<URL>",
+                    "language": "fr",
+                    "caption": "<caption>"
+                  }
+                ],
+                "audio": [
+                  {
+                    "path": "<URL>",
+                    "language": "fr",
+                    "caption": "<caption>"
+                  }
+                ]
+              }
             }
           ]
         },
-        "floorID": 1,
-        "x": 0.005,
-        "y": 0.005,
-        "storyPoint": [
-          {
-            "storylineID": 1,
-            "title": [
-              {
-                "language": "fr",
-                "title": "<title>"
-              }
-            ],
-            "description": [
-              {
-                "language": "fr",
-                "description": "<description>"
-              }
-            ],
-            "media": {
-              "image": [
-                {
-                  "path": "<URL>",
-                  "language": "fr",
-                  "caption": "<caption>"
-                }
-              ],
-              "video": [
-                {
-                  "path": "<URL>",
-                  "language": "fr",
-                  "caption": "<caption>"
-                }
-              ],
-              "audio": [
-                {
-                  "path": "<URL>",
-                  "language": "fr",
-                  "caption": "<caption>"
-                }
-              ]
-            }
-          }
-        ]
-      },
-      {
-        "id": 4,
-        "beaconInformation": {
-          "UUID": "test_uuid",
-          "major": 1111,
-          "minor": 2222
-        },
-        "title": [
-          {
-            "language": "fr",
-            "title": "test_titre3"
+        {
+          "id": 4,
+          "beaconInformation": {
+            "UUID": "test_uuid",
+            "major": 1111,
+            "minor": 2222
           },
-          {
-            "language": "en_US",
-            "title": "test_title3"
-          }
-        ],
-        "description": [
-          {
-            "language": "fr",
-            "description": "Veuillez lire cette description3"
-          },
-          {
-            "language": "en_US",
-            "description": "Please read this description3"
-          }
-        ],
-        "media" : {
-          "video": [
+          "title": [
             {
-              "caption": "video_titre",
               "language": "fr",
-              "path": "video/FR/test.mp4"
+              "title": "test_titre3"
             },
             {
-              "caption": "video_title",
               "language": "en_US",
-              "path": "video/EN/test.mp4"
+              "title": "test_title3"
             }
           ],
-          "audio": [
+          "description": [
             {
-              "caption": "audio_titre",
               "language": "fr",
-              "path": "audio/FR/test_1.mp3"
+              "description": "Veuillez lire cette description3"
             },
             {
-              "caption": "audio_title",
               "language": "en_US",
-              "path": "audio/EN/test_1.mp3"
+              "description": "Please read this description3"
             }
           ],
-          "image": [
+          "media" : {
+            "video": [
+              {
+                "caption": "video_titre",
+                "language": "fr",
+                "path": "video/FR/test.mp4"
+              },
+              {
+                "caption": "video_title",
+                "language": "en_US",
+                "path": "video/EN/test.mp4"
+              }
+            ],
+            "audio": [
+              {
+                "caption": "audio_titre",
+                "language": "fr",
+                "path": "audio/FR/test_1.mp3"
+              },
+              {
+                "caption": "audio_title",
+                "language": "en_US",
+                "path": "audio/EN/test_1.mp3"
+              }
+            ],
+            "image": [
+              {
+                "caption": "test_title",
+                "language": "en_US",
+                "path": "picture/test_image1.png"
+              },
+              {
+                "caption": "test_titre",
+                "language": "fr",
+                "path": "picture/test_image2.png"
+              }
+            ]
+          },
+          "floorID": 1,
+          "x": -0.015,
+          "y": 0.025,
+          "storyPoint": [
             {
-              "caption": "test_title",
-              "language": "en_US",
-              "path": "picture/test_image1.png"
-            },
-            {
-              "caption": "test_titre",
-              "language": "fr",
-              "path": "picture/test_image2.png"
+              "storylineID": 1,
+              "title": [
+                {
+                  "language": "fr",
+                  "title": "<title>"
+                }
+              ],
+              "description": [
+                {
+                  "language": "fr",
+                  "description": "<description>"
+                }
+              ],
+              "media": {
+                "image": [
+                  {
+                    "path": "<URL>",
+                    "language": "fr",
+                    "caption": "<caption>"
+                  }
+                ],
+                "video": [
+                  {
+                    "path": "<URL>",
+                    "language": "fr",
+                    "caption": "<caption>"
+                  }
+                ],
+                "audio": [
+                  {
+                    "path": "<URL>",
+                    "language": "fr",
+                    "caption": "<caption>"
+                  }
+                ]
+              }
             }
           ]
         },
-        "floorID": 1,
-        "x": -0.015,
-        "y": 0.015,
-        "storyPoint": [
-          {
-            "storylineID": 1,
-            "title": [
-              {
-                "language": "fr",
-                "title": "<title>"
-              }
-            ],
-            "description": [
-              {
-                "language": "fr",
-                "description": "<description>"
-              }
-            ],
-            "media": {
-              "image": [
-                {
-                  "path": "<URL>",
-                  "language": "fr",
-                  "caption": "<caption>"
-                }
-              ],
-              "video": [
-                {
-                  "path": "<URL>",
-                  "language": "fr",
-                  "caption": "<caption>"
-                }
-              ],
-              "audio": [
-                {
-                  "path": "<URL>",
-                  "language": "fr",
-                  "caption": "<caption>"
-                }
-              ]
+        {
+          "id": 5,
+          "beaconInformation": {
+            "UUID": "test_uuid",
+            "major": 1111,
+            "minor": 2222
+          },
+          "title": [
+            {
+              "language": "fr",
+              "title": "test_titre3"
+            },
+            {
+              "language": "en_US",
+              "title": "test_title3"
             }
-          }
-        ]
-      }
-    ],
-    "pot" : [
-      {
-        "id": 2,
-        "floorID": 1,
-        "x": 0.002,
-        "y": 0.004,
-        "label": "STAIRS"
-      },
-      {
-        "label": "ENTRANCE",
-        "id": 3,
-        "floorID": 2,
-        "x": 0.0022,
-        "y": 0.00405
-      }
-    ]
-  },
+          ],
+          "description": [
+            {
+              "language": "fr",
+              "description": "Veuillez lire cette description3"
+            },
+            {
+              "language": "en_US",
+              "description": "Please read this description3"
+            }
+          ],
+          "media" : {
+            "video": [
+              {
+                "caption": "video_titre",
+                "language": "fr",
+                "path": "video/FR/test.mp4"
+              },
+              {
+                "caption": "video_title",
+                "language": "en_US",
+                "path": "video/EN/test.mp4"
+              }
+            ],
+            "audio": [
+              {
+                "caption": "audio_titre",
+                "language": "fr",
+                "path": "audio/FR/test_1.mp3"
+              },
+              {
+                "caption": "audio_title",
+                "language": "en_US",
+                "path": "audio/EN/test_1.mp3"
+              }
+            ],
+            "image": [
+              {
+                "caption": "test_title",
+                "language": "en_US",
+                "path": "picture/test_image1.png"
+              },
+              {
+                "caption": "test_titre",
+                "language": "fr",
+                "path": "picture/test_image2.png"
+              }
+            ]
+          },
+          "floorID": 1,
+          "x": -0.065,
+          "y": -0.015,
+          "storyPoint": [
+            {
+              "storylineID": 1,
+              "title": [
+                {
+                  "language": "fr",
+                  "title": "<title>"
+                }
+              ],
+              "description": [
+                {
+                  "language": "fr",
+                  "description": "<description>"
+                }
+              ],
+              "media": {
+                "image": [
+                  {
+                    "path": "<URL>",
+                    "language": "fr",
+                    "caption": "<caption>"
+                  }
+                ],
+                "video": [
+                  {
+                    "path": "<URL>",
+                    "language": "fr",
+                    "caption": "<caption>"
+                  }
+                ],
+                "audio": [
+                  {
+                    "path": "<URL>",
+                    "language": "fr",
+                    "caption": "<caption>"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "pot" : [
+        {
+          "id": 2,
+          "floorID": 1,
+          "x": 0.002,
+          "y": 0.004,
+          "label": "STAIRS"
+        },
+        {
+          "label": "ENTRANCE",
+          "id": 3,
+          "floorID": 2,
+          "x": 0.0022,
+          "y": 0.00405
+        }
+      ]
+    }
+  ],
   "edge": [
     {
       "startNode": 1,
@@ -377,7 +488,7 @@
           "description": "Before the publication of the First Folio in 1623, nineteen of the thirty-seven plays in Shakespeare's canon had appeared in quarto format. "
         }
       ],
-      "thumbnail": "test_storyline_image1.png",
+      "thumbnail": "placeholder_home_icon",
       "walkingTimeInMinutes": 30,
       "floorsCovered": 2,
       "path": [
@@ -408,7 +519,7 @@
           "description": "With the exception of Othello (1622), all of the quartos were published prior to the date of Shakespeare's retirement from the theatre in about 1611"
         }
       ],
-      "thumbnail": "test_storyline_image2.png",
+      "thumbnail": "placeholder_panda_icon",
       "walkingTimeInMinutes": 30,
       "floorsCovered": 2,
       "path": [
@@ -418,7 +529,7 @@
       ]
     },
     {
-      "id": 3,
+      "id": 66,
       "title": [
         {
           "language": "fr",
@@ -439,7 +550,7 @@
           "description": "Here you will find the complete text of Shakespeare's plays, based primarily on the First Folio, and a variety of helpful resources, including extensive explanatory notes, character analysis.Shakespeare was born and brought up in Stratford-upon-Avon, Warwickshire. At the age of 18, he married Anne Hathaway, with whom he had three children: Susanna, and twins Hamnet and Judith. Sometime between 1585 and 1592, he began a successful career in London as an actor, writer, and part-owner of a playing company called the Lord Chamberlain's Men, later known as the King's Men. This is a long test!!"
         }
       ],
-      "thumbnail": "test_storyline_image3.png",
+      "thumbnail": "placeholder_tree_icon",
       "walkingTimeInMinutes": 30,
       "floorsCovered": 2,
       "path": [

@@ -1,4 +1,4 @@
-package com.example.nspace.museedesondes.Model;
+package com.example.nspace.museedesondes.Utility;
 
 import android.content.Context;
 import android.content.SharedPreferences;

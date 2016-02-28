@@ -8,12 +8,15 @@ import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 
 
 import com.estimote.sdk.BeaconManager;
@@ -23,6 +26,7 @@ import com.example.nspace.museedesondes.AudioService.AudioBinder;
 
 import com.example.nspace.museedesondes.Model.Map;
 import com.example.nspace.museedesondes.Model.PointOfInterest;
+import com.example.nspace.museedesondes.Model.StoryLine;
 import com.example.nspace.museedesondes.Utility.MapManager;
 import com.example.nspace.museedesondes.Utility.PointMarker;
 import com.example.nspace.museedesondes.Utility.StoryLineManager;
@@ -32,18 +36,19 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.GroundOverlay;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import com.google.android.gms.maps.model.Polyline;
 import com.example.nspace.museedesondes.Model.Node;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import com.google.android.gms.maps.model.VisibleRegion;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 
@@ -57,12 +62,24 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     AudioService audioService;
     private int[] floorButtonIdList = {R.id.fab1, R.id.fab2, R.id.fab3, R.id.fab4, R.id.fab5};
     private StoryLineManager storyLineManager;
+    private StoryLine storyLine;
+    private boolean freeExploration;
+    private ArrayList<Marker> markerList;
+    private HashMap<String, Polyline> polylineList;
+    private MapManager mapManager;
+    private SeekBar seekBar;
+    Handler audioHandler = new Handler();
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+
+        information = Map.getInstance(getApplicationContext());
+        getStoryLineSelected();
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -80,11 +97,28 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         bringButtonsToFront();
         Intent intent = new Intent(this, AudioService.class);
         bindService(intent, audioConnection, Context.BIND_AUTO_CREATE);
+        seekBar = (SeekBar) findViewById(R.id.seekBar);
 
         //create storyline manager which handles storyline progression and interaction with the beacons
         //TODO: pass in storyline line selected from StoryLineActivity
         storyLineManager = new StoryLineManager(null, this, mMap);
         storyLineManager.setBeaconRangeListener();
+
+        this.polylineList = new HashMap<>();
+    }
+
+    //sets the storyline to the one selected in the StoryLineActivity
+    private void getStoryLineSelected() {
+        Intent mIntent = getIntent();
+        int position = mIntent.getIntExtra("Story line list position", 0);
+        ArrayList<StoryLine> storyLineList = information.getStoryLines();
+
+        if(position == 0) {
+            freeExploration = true;
+        } else {
+            storyLine = storyLineList.get(position - 1);
+            freeExploration = false;
+        }
     }
 
     private void bringButtonsToFront() {
@@ -117,6 +151,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         information = Map.getInstance(getApplicationContext());
 
         mMap = googleMap;
+        mapManager = new MapManager(mMap,this);
         mMap.setBuildingsEnabled(false);
         mMap.setIndoorEnabled(false);
         mMap.getUiSettings().setZoomControlsEnabled(true);
@@ -141,30 +176,20 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
         //load map and then switch floor to 5
         // GroundOverlay groundOverlay = MapManager.loadDefaultFloor(mMap, custom);
-        groundOverlay = MapManager.loadDefaultFloor(mMap, custom, information.getFloorPlans(), getApplicationContext(), findViewById(android.R.id.content));
+        groundOverlay = mapManager.loadDefaultFloor(mMap, custom, information.getFloorPlans(), findViewById(android.R.id.content));
+
         //need to implement a list view
         //MapManager.switchFloor(groundOverlay, 5);
 
-
-        //// TODO: 2/7/2016 refactor this in a proper fuction
-        //// 2/18/2016 Completed by Harrison.
-        ArrayList<PointOfInterest> pointsOfInterest = information.getPointOfInterests();
-        final ArrayList<MarkerOptions> markers = placeMarkersOnPointsOfInterest(pointsOfInterest);
+        this.markerList = placeMarkersOnPointsOfInterest(information.getPointOfInterests());
+        mapManager.displayCurrentFloorPointOfInterest(1, this.markerList);
 
 
         //todo testing currently 2/19/15
         mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
             @Override
             public void onMapLoaded() {
-
-                //android Zoom-to-Fit All Markers on Google Map
-                LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                for (MarkerOptions marker : markers)
-                {
-                    builder.include(marker.getPosition());
-                }
-                LatLngBounds bounds = builder.build();
-                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
+                mapManager.zoomToFit(markerList);
             }
         });
 
@@ -173,22 +198,41 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         ArrayList<Node> nodes = information.getNodes();
 
         // This statement places all the nodes on the map and traces the path between them.
-        tracePath(nodes);
+        tracePath(nodes, 1, this.polylineList);
+
+        mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+
+            public void onCameraChange(CameraPosition position) {
+                VisibleRegion vr = mMap.getProjection().getVisibleRegion();
+                double left = vr.latLngBounds.southwest.longitude;
+                double top = vr.latLngBounds.northeast.latitude;
+                double right = vr.latLngBounds.northeast.longitude;
+                double bottom = vr.latLngBounds.southwest.latitude;
 
 
+                Log.v("onCameraChange", "left :"+left);
+                Log.v("onCameraChange", "top :"+top);
+                Log.v("onCameraChange", "right :"+right);
+                Log.v("onCameraChange", "bottom :"+bottom);
+
+                mapManager.zoomLimit(position);
+                mapManager.verifyCameraPosition(left, top, right, bottom);
+            }
+        });
     }
+
 
     /**
      * This method places the AZURE markers on the list of points of interest.
      *
      * @param pointsOfInterest List of all points of interest.
      */
-    private ArrayList<MarkerOptions> placeMarkersOnPointsOfInterest(ArrayList<PointOfInterest> pointsOfInterest) {
-        ArrayList<MarkerOptions> mMarkerArray = new ArrayList<>();
+    private ArrayList<Marker> placeMarkersOnPointsOfInterest(ArrayList<PointOfInterest> pointsOfInterest) {
+        ArrayList<Marker> mMarkerArray = new ArrayList<>();
         for (PointOfInterest pointOfInterest : pointsOfInterest) {
             PointMarker.singleInterestPointFactory(pointOfInterest, getApplicationContext(), mMap, mMarkerArray);
         }
-        return  mMarkerArray;
+        return mMarkerArray;
     }
 
     /**
@@ -198,13 +242,14 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
      * @param nodes This is the list of nodes that are to be sorted through. The nodes could be
      *              either points of interest, points of traversal, or others.
      */
-    public void tracePath(ArrayList<Node> nodes) {
+    public void tracePath(ArrayList<Node> nodes, int floorID, HashMap<String, Polyline> polylineList) {
 
-        ArrayList<LatLng> nodePositions = listNodeCoordinates(nodes);
+        ArrayList<LatLng> nodePositions = listNodeCoordinates(nodes, floorID);
         Polyline line = mMap.addPolyline(new PolylineOptions()
                 .width(15)
                 .color(Color.parseColor("#99E33C3C")));
         line.setPoints(nodePositions);
+        polylineList.put("hello", line);
     }
 
 
@@ -214,14 +259,16 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
      * @param nodes The list of nodes for which coordinates should be derived.
      * @return The list of LatLng coordinates.
      */
-    public ArrayList<LatLng> listNodeCoordinates(ArrayList<Node> nodes) {
+    public ArrayList<LatLng> listNodeCoordinates(ArrayList<Node> nodes, int floorID) {
         if (nodes == null) {
             return null;
         }
 
         ArrayList<LatLng> nodeLatLngs = new ArrayList<LatLng>();
         for (Node node : nodes) {
-            nodeLatLngs.add(new LatLng(node.getX(), node.getY()));
+            if (node.getFloorID() == floorID) {
+                nodeLatLngs.add(new LatLng(node.getX(), node.getY()));
+            }
         }
         return nodeLatLngs;
     }
@@ -270,13 +317,16 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     }
 
     public void changeFloor(int floor) {
-        MapManager.switchFloor(groundOverlay, floor, information.getFloorPlans(), getApplicationContext());
+        mapManager.switchFloor(groundOverlay, floor, information.getFloorPlans(), this.markerList, this.polylineList);
         FloatingActionMenu floorButton = (FloatingActionMenu) findViewById(R.id.floor_button);
         floorButton.toggle(true);
     }
 
     public void playAudioFile(View v) {
+        audioService.setAudio();
+        audioRunnable.run();
         audioService.toggleAudioOnOff(v);
+
     }
 
     @Override
@@ -304,6 +354,8 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         public void onServiceConnected(ComponentName name, IBinder service) {
             AudioBinder binder = (AudioBinder) service;
             audioService = binder.getAudioService();
+
+
         }
 
         @Override
@@ -312,6 +364,33 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         }
     };
 
+    private Runnable audioRunnable = new Runnable() {
+        @Override
+        public void run() {
+            int currentPosition = audioService.getCurrentPosition();
+            seekBar.setProgress(currentPosition);
+            seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    if (audioService.isMediaSet() && fromUser) {
+                        audioService.setAudioPosition(progress * 1000);
+                    }
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+
+                }
+            });
+            audioHandler.postDelayed(this, 1000);
+        }
+    };
+    
     @Override
     protected void onResume() {
         super.onResume();
@@ -332,4 +411,5 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
         super.onPause();
     }
+
 }

@@ -340,7 +340,27 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         public void run() {
             int currentPosition = audioService.getCurrentPosition();
             seekBar.setProgress(currentPosition);
+            seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    if (audioService.isMediaSet() && fromUser) {
+                        audioService.setAudioPosition(progress * 1000);
+                    }
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+
+                }
+            });
             audioHandler.postDelayed(this, 1000);
         }
     };
+
+
 }

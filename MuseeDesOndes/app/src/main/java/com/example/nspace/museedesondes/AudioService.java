@@ -83,6 +83,14 @@ public class AudioService extends Service {
         return currentTime/1000;
     }
 
+    public boolean isMediaSet(){
+        return mediaPlayer !=null;
+    }
+
+    public void setAudioPosition(int updatedPosition){
+        mediaPlayer.seekTo(updatedPosition);
+    }
+
     /*
      //On long click reset audio
         Button buttonAudio = (Button) findViewById(R.id.play_button);

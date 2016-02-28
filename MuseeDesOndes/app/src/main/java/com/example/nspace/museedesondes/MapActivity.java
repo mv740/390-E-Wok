@@ -24,6 +24,7 @@ import com.example.nspace.museedesondes.AudioService.AudioBinder;
 
 import com.example.nspace.museedesondes.Model.Map;
 import com.example.nspace.museedesondes.Model.PointOfInterest;
+import com.example.nspace.museedesondes.Model.StoryLine;
 import com.example.nspace.museedesondes.Utility.MapManager;
 import com.example.nspace.museedesondes.Utility.PointMarker;
 import com.github.clans.fab.FloatingActionButton;
@@ -57,6 +58,8 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     public static Drawable imgToSendToFullscreenImgActivity;
     AudioService audioService;
     private int[] floorButtonIdList = {R.id.fab1, R.id.fab2, R.id.fab3, R.id.fab4, R.id.fab5};
+    private StoryLine storyLine;
+    private boolean freeExploration;
     private ArrayList<Marker> markerList;
     private HashMap<String, Polyline> polylineList;
     private MapManager mapManager;
@@ -68,6 +71,10 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+
+        information = Map.getInstance(getApplicationContext());
+        getStoryLineSelected();
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -90,7 +97,19 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         this.polylineList = new HashMap<>();
     }
 
+    //sets the storyline to the one selected in the StoryLineActivity
+    private void getStoryLineSelected() {
+        Intent mIntent = getIntent();
+        int position = mIntent.getIntExtra("Story line list position", 0);
+        ArrayList<StoryLine> storyLineList = information.getStoryLines();
 
+        if(position == 0) {
+            freeExploration = true;
+        } else {
+            storyLine = storyLineList.get(position - 1);
+            freeExploration = false;
+        }
+    }
 
     private void bringButtonsToFront() {
         FloatingActionButton ham = (FloatingActionButton) findViewById(R.id.hamburger);

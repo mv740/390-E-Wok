@@ -47,7 +47,7 @@ public class StoryLineActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 Intent startMap = new Intent(StoryLineActivity.this, MapActivity.class);
-                startMap.putExtra("title",titleArray[position]);
+                startMap.putExtra("Story line list position", position);
                 startActivity(startMap);
             }
         });

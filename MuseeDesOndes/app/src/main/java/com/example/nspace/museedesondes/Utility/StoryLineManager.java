@@ -9,10 +9,12 @@ import com.estimote.sdk.Region;
 import com.estimote.sdk.Utils;
 import com.example.nspace.museedesondes.MapActivity;
 import com.example.nspace.museedesondes.Model.BeaconInformation;
+import com.example.nspace.museedesondes.Model.Node;
 import com.example.nspace.museedesondes.Model.PointOfInterest;
 import com.example.nspace.museedesondes.Model.StoryLine;
 import com.google.android.gms.maps.GoogleMap;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,14 +23,14 @@ import java.util.UUID;
  */
 
 //class used to handle storyline progression and interaction with the beacons
-//TODO: Map Activity onResume/onPause start ranging, tie into map activity
 
 public class StoryLineManager {
 
     private final String DEFAULT_MUSEUM_UUID = "b9407f30-f5f8-466e-aff9-25556b57fe6d";
 
-    private StoryLine storyline;
-    private PointOfInterest currentPOI;
+    private StoryLine storyLine;
+    private ArrayList<PointOfInterest> POIList;
+    private int POIindex;
     private PointOfInterest nextPOI;
     private MapActivity mapActivity;
     private GoogleMap googleMap;
@@ -36,21 +38,16 @@ public class StoryLineManager {
     private Region region;
 
     public StoryLineManager(StoryLine storyLine, MapActivity mapActivity, GoogleMap googleMap) {
-        this.storyline = storyLine;
-
-        //TODO: how to initialize first node?
-        //this.nextPOI = (PointOfInterest) storyline.getNodes().get(0);
-
-        //TESTING
-        int MAJORBERRY = 61111;
-        int MINORBERRY = 23409;
-        BeaconInformation testBeaconInfo = new BeaconInformation(null,MAJORBERRY,MINORBERRY);
-        nextPOI = new PointOfInterest(0,0,0,0,testBeaconInfo,null,null,null);
-
+        this.storyLine = storyLine;
+        initializePOIList();
+        this.POIindex = 0;
+        nextPOI = POIList.get(POIindex);
+        POIindex++;
         this.mapActivity = mapActivity;
         this.googleMap = googleMap;
         region = new Region("ranged region", UUID.fromString(DEFAULT_MUSEUM_UUID), null, null);
         beaconManager = new BeaconManager(mapActivity);
+        setBeaconRangeListener();
     }
 
     public void setBeaconRangeListener() {
@@ -65,18 +62,27 @@ public class StoryLineManager {
                         // TODO: update/popup the POI panel
                         // TODO: update UI with temp man marker
                         // TODO: update storyline polyline segments
-                        // TODO: update nextPOI
 
-                        //TESTING
-                        Toast.makeText(mapActivity, "Beacon for MAJORBERRY/MINORBERRY at 'NEAR' proximity detected",
-                                Toast.LENGTH_SHORT).show();
-
+                        //updates the next point of interest beacon to listen for and stops listening after the last nodes beacon is discovered
+                        if(POIindex < POIList.size()){
+                            nextPOI = POIList.get(POIindex);
+                            POIindex++;
+                        } else {
+                            beaconManager.stopRanging(region);
+                        }
                     }
-                    //TESTING
-                    Log.d("Test", "Beacon for MAJORBERRY/MINORBERRY at 'NEAR' proximity detected");
                 }
             }
         });
+    }
+
+    public void initializePOIList() {
+        POIList = new ArrayList<PointOfInterest>();
+        for(Node node : storyLine.getNodes()) {
+            if(node instanceof PointOfInterest) {
+                POIList.add((PointOfInterest) node);
+            }
+        }
     }
 
     //TODO:

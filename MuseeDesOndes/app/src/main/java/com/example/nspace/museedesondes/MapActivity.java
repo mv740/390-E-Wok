@@ -77,8 +77,13 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
+        //create storyline manager which handles storyline progression and interaction with the beacons
         information = Map.getInstance(getApplicationContext());
         getStoryLineSelected();
+        if(!freeExploration){
+            storyLineManager = new StoryLineManager(storyLine, this, mMap);
+        }
+
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -99,10 +104,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         bindService(intent, audioConnection, Context.BIND_AUTO_CREATE);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
 
-        //create storyline manager which handles storyline progression and interaction with the beacons
-        //TODO: pass in storyline line selected from StoryLineActivity
-        storyLineManager = new StoryLineManager(null, this, mMap);
-        storyLineManager.setBeaconRangeListener();
+
 
         this.polylineList = new HashMap<>();
     }
@@ -390,25 +392,26 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
             audioHandler.postDelayed(this, 1000);
         }
     };
-    
+
     @Override
     protected void onResume() {
         super.onResume();
-
-        SystemRequirementsChecker.checkWithDefaultDialogs(this);
-
-        storyLineManager.getBeaconManager().connect(new BeaconManager.ServiceReadyCallback() {
-            @Override
-            public void onServiceReady() {
-                storyLineManager.getBeaconManager().startRanging(storyLineManager.getRegion());
-            }
-        });
+        if(!freeExploration) {
+            SystemRequirementsChecker.checkWithDefaultDialogs(this);
+            storyLineManager.getBeaconManager().connect(new BeaconManager.ServiceReadyCallback() {
+                @Override
+                public void onServiceReady() {
+                    storyLineManager.getBeaconManager().startRanging(storyLineManager.getRegion());
+                }
+            });
+        }
     }
 
     @Override
     protected void onPause() {
-        storyLineManager.getBeaconManager().stopRanging(storyLineManager.getRegion());
-
+        if(!freeExploration) {
+            storyLineManager.getBeaconManager().stopRanging(storyLineManager.getRegion());
+        }
         super.onPause();
     }
 

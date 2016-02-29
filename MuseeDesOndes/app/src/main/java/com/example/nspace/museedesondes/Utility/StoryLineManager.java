@@ -12,7 +12,10 @@ import com.example.nspace.museedesondes.Model.BeaconInformation;
 import com.example.nspace.museedesondes.Model.Node;
 import com.example.nspace.museedesondes.Model.PointOfInterest;
 import com.example.nspace.museedesondes.Model.StoryLine;
+import com.example.nspace.museedesondes.PoiPanel;
+import com.example.nspace.museedesondes.R;
 import com.google.android.gms.maps.GoogleMap;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,33 +53,28 @@ public class StoryLineManager {
         setBeaconRangeListener();
     }
 
-    public void setBeaconRangeListener() {
+    private void setBeaconRangeListener() {
         beaconManager.setRangingListener(new BeaconManager.RangingListener() {
             @Override
             public void onBeaconsDiscovered(Region region, List<Beacon> list) {
                 if (!list.isEmpty()) {
                     Beacon nearestBeacon = list.get(0);
-                    if((nearestBeacon.getMajor() == nextPOI.getBeaconInformation().getMajor())
-                            &&(nearestBeacon.getMinor() == nextPOI.getBeaconInformation().getMinor())
-                            &&((Utils.computeProximity(nearestBeacon)) == Utils.Proximity.NEAR)) {
-                        // TODO: update/popup the POI panel
+                    if ((nearestBeacon.getMajor() == nextPOI.getBeaconInformation().getMajor())
+                            && (nearestBeacon.getMinor() == nextPOI.getBeaconInformation().getMinor())
+                            && ((Utils.computeProximity(nearestBeacon)) == Utils.Proximity.NEAR)) {
+
+                        updateSlidingPanel();
                         // TODO: update UI with temp man marker
                         // TODO: update storyline polyline segments
-
-                        //updates the next point of interest beacon to listen for and stops listening after the last nodes beacon is discovered
-                        if(POIindex < POIList.size()){
-                            nextPOI = POIList.get(POIindex);
-                            POIindex++;
-                        } else {
-                            beaconManager.stopRanging(region);
-                        }
+                        updateNextPOI();
                     }
                 }
             }
         });
     }
 
-    public void initializePOIList() {
+
+    private void initializePOIList() {
         POIList = new ArrayList<PointOfInterest>();
         for(Node node : storyLine.getNodes()) {
             if(node instanceof PointOfInterest) {
@@ -85,18 +83,35 @@ public class StoryLineManager {
         }
     }
 
-    //TODO:
-    public void updatePOIPanel(){
+    //TODO: update panel using storypoint info
+    //updates and expands the sliding panel to the discovered point of interest
+    private void updateSlidingPanel(){
+        SlidingUpPanelLayout layout = (SlidingUpPanelLayout) mapActivity.findViewById(R.id.sliding_layout);
+        String description = nextPOI.getLocaleDescription(mapActivity.getApplicationContext()).getDescription();
+        String title = nextPOI.getLocaleDescription(mapActivity.getApplicationContext()).getTitle();
+        PoiPanel.replaceTitle((SlidingUpPanelLayout) mapActivity.findViewById(R.id.sliding_layout), title);
+        PoiPanel.replaceDescription((SlidingUpPanelLayout) mapActivity.findViewById(R.id.sliding_layout), description);
+        layout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+    }
+
+    private void updateManMarker() {
 
     }
 
-    public void updateManMarker() {
+    private void updateStorylinePolyline(){
 
     }
 
-    public void updateStorylinePolyline(){
-
+    //updates the next point of interest beacon to listen for, stops listening after the last beacon is discovered
+    private void updateNextPOI() {
+        if(POIindex < POIList.size()){
+            nextPOI = POIList.get(POIindex);
+            POIindex++;
+        } else {
+            beaconManager.stopRanging(region);
+        }
     }
+
 
 
     public BeaconManager getBeaconManager() {

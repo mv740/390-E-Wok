@@ -339,21 +339,21 @@
           "title": [
             {
               "language": "fr",
-              "title": "test_titre3"
+              "title": "test_titre5!"
             },
             {
               "language": "en_US",
-              "title": "test_title3"
+              "title": "test_title5!!!"
             }
           ],
           "description": [
             {
               "language": "fr",
-              "description": "Veuillez lire cette description3"
+              "description": "Veuillez lire cette description5!!!"
             },
             {
               "language": "en_US",
-              "description": "Please read this description3"
+              "description": "Please read this description5!!!"
             }
           ],
           "media" : {

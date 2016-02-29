@@ -10,6 +10,7 @@ import android.view.View;
 import com.example.nspace.museedesondes.Model.FloorPlan;
 import com.example.nspace.museedesondes.R;
 import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -45,6 +46,9 @@ public class MapManager {
     {
         Resources resources = context.getResources();
         final int resourceID = resources.getIdentifier(floorPlans.get(0).getImagePath(), "drawable", context.getPackageName()); // 0 = floor 1
+        FloatingActionMenu floorButton = (FloatingActionMenu) view.findViewById(R.id.floor_button);
+        //turn off button rotation on click
+        floorButton.setIconAnimated(false);
         FloatingActionButton floorSelected =  (FloatingActionButton)view.findViewById(R.id.fab1);
         floorSelected.setColorNormal(ContextCompat.getColor(context, R.color.rca_primary));
         FloatingActionButton floor5 =  (FloatingActionButton)view.findViewById(R.id.fab5);

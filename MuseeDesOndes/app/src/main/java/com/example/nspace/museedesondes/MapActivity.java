@@ -54,7 +54,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private GroundOverlay groundOverlay;
-    private Map information;
+    public Map information;
     public static Drawable imgToSendToFullscreenImgActivity;
     AudioService audioService;
     private int[] floorButtonIdList = {R.id.fab1, R.id.fab2, R.id.fab3, R.id.fab4, R.id.fab5};
@@ -327,15 +327,9 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLng(markerLocation));
 
         //update SlidingPanel to selected point of interest
-        SlidingUpPanelLayout layout = (SlidingUpPanelLayout) this.findViewById(R.id.sliding_layout);
-        PointOfInterest pointOfInterest = information.searchPoiByTitle(marker.getTitle());
-        String description = pointOfInterest.getLocaleDescription(getApplicationContext()).getDescription();
-        String title = pointOfInterest.getLocaleDescription(getApplicationContext()).getTitle();
 
-        PoiPanel.replaceTitle((SlidingUpPanelLayout) findViewById(R.id.sliding_layout), title);
-        PoiPanel.replaceDescription((SlidingUpPanelLayout) findViewById(R.id.sliding_layout), description);
-
-        layout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+        PoiPanel panel = new PoiPanel(this);
+        panel.update(marker);
         return true;
     }
 

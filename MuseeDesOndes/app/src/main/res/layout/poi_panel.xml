@@ -33,50 +33,21 @@
         fab:menu_shadowColor="#444"
         android:layout_alignEnd="@+id/scrollView" />
 
-    <HorizontalScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="160dp"
-        android:id="@+id/horizontalScrollView"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/my_recycler_view"
         android:layout_below="@+id/poi_title"
-        android:layout_alignParentStart="true"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
         android:layout_marginLeft="10dp"
-        >
-<LinearLayout
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginRight="10dp">
-        <ImageView
-            android:layout_width="240dp"
-            android:layout_height="160dp"
-            android:src="@drawable/museum_ex_1"
-            android:onClick="poiImgOnClick"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ImageView
-            android:layout_width="240dp"
-            android:layout_height="160dp"
-            android:src="@drawable/museum_ex_2"/>
-    </LinearLayout>
-
-</LinearLayout>
-
-
-    </HorizontalScrollView>
+        android:layout_marginRight="10dp"
+        android:scrollbars="none" />
 
     <Button
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:background="@drawable/ic_play_circle_filled_white_48dp"
         android:id="@+id/play_button"
-        android:layout_below="@+id/horizontalScrollView"
+        android:layout_below="@+id/my_recycler_view"
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="6dp"
@@ -88,7 +59,7 @@
         android:layout_marginLeft="60dp"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@+id/horizontalScrollView"
+        android:layout_below="@+id/my_recycler_view"
         android:layout_marginTop="10dp"
         android:scrollbarSize="50dp"
         android:minHeight="100dp"

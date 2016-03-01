@@ -14,14 +14,14 @@ import com.example.nspace.museedesondes.R;
  * Created by sebastian on 2016-02-09.
  */
 
-public class CustomStoryList extends ArrayAdapter<String> {
+public class StoryListAdapter extends ArrayAdapter<String> {
 
     private final Activity context;
     private final String[] title;
     private final String[] description;
     private final Integer[] imageId;
-    public CustomStoryList(Activity context,
-                           String[] web, String[] description, Integer[] imageId) {
+    public StoryListAdapter(Activity context,
+                            String[] web, String[] description, Integer[] imageId) {
         super(context, R.layout.storyline_item_layout, web);
         this.context = context;
         this.title = web;

@@ -6,6 +6,7 @@ import android.widget.TextView;
 import com.bluejamesbond.text.DocumentView;
 import com.example.nspace.museedesondes.Model.Map;
 import com.example.nspace.museedesondes.Model.PointOfInterest;
+import com.example.nspace.museedesondes.Model.StoryLine;
 import com.google.android.gms.maps.model.Marker;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
@@ -28,6 +29,16 @@ public class PoiPanel {
         PointOfInterest pointOfInterest = activity.information.searchPoiByTitle(marker.getTitle());
         String description = pointOfInterest.getLocaleDescription(activity.getApplicationContext()).getDescription();
         String title = pointOfInterest.getLocaleDescription(activity.getApplicationContext()).getTitle();
+
+        replaceTitle(title);
+        replaceDescription(description);
+
+        panel.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+    }
+
+    public void updateStoryPanel(StoryLine storyLine, PointOfInterest pointOfInterest){
+        String description = pointOfInterest.getStoryRelatedDescription(storyLine.getId(),activity.getApplicationContext()).getDescription();
+        String title = pointOfInterest.getStoryRelatedDescription(storyLine.getId(),activity.getApplicationContext()).getTitle();
 
         replaceTitle(title);
         replaceDescription(description);

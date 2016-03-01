@@ -69,6 +69,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     private MapManager mapManager;
     private SeekBar seekBar;
     Handler audioHandler = new Handler();
+    PoiPanel panel;
 
 
 
@@ -77,13 +78,14 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
+        this.panel = new PoiPanel(this);
+
         //create storyline manager which handles storyline progression and interaction with the beacons
         information = Map.getInstance(getApplicationContext());
         getStoryLineSelected();
         if(!freeExploration){
-            storyLineManager = new StoryLineManager(storyLine, this, mMap);
+            storyLineManager = new StoryLineManager(storyLine, this, panel, mMap);
         }
-
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -340,7 +342,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
         //update SlidingPanel to selected point of interest
 
-        PoiPanel panel = new PoiPanel(this);
+
         panel.update(marker);
         return true;
     }

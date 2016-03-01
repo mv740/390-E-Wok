@@ -35,14 +35,16 @@ public class StoryLineManager {
     private GoogleMap googleMap;
     private BeaconManager beaconManager;
     private Region region;
+    private PoiPanel panel;
 
-    public StoryLineManager(StoryLine storyLine, MapActivity mapActivity, GoogleMap googleMap) {
+    public StoryLineManager(StoryLine storyLine, MapActivity mapActivity, PoiPanel panel, GoogleMap googleMap) {
         this.storyLine = storyLine;
         initializePOIList();
         this.POIindex = 0;
         nextPOI = POIList.get(POIindex);
         POIindex++;
         this.mapActivity = mapActivity;
+        this.panel = panel;
         this.googleMap = googleMap;
         region = new Region("ranged region", UUID.fromString(DEFAULT_MUSEUM_UUID), null, null);
         beaconManager = new BeaconManager(mapActivity);
@@ -58,8 +60,8 @@ public class StoryLineManager {
                     if ((nearestBeacon.getMajor() == nextPOI.getBeaconInformation().getMajor())
                             && (nearestBeacon.getMinor() == nextPOI.getBeaconInformation().getMinor())
                             && ((Utils.computeProximity(nearestBeacon)) == Utils.Proximity.NEAR)) {
-
-                        updateSlidingPanel();
+                        
+                        panel.updateStoryPanel(storyLine,nextPOI);
                         // TODO: update UI with temp man marker
                         // TODO: update storyline polyline segments
                         updateNextPOI();
@@ -77,16 +79,6 @@ public class StoryLineManager {
                 POIList.add((PointOfInterest) node);
             }
         }
-    }
-
-    //updates and expands the sliding panel to the discovered point of interest
-    private void updateSlidingPanel(){
-        SlidingUpPanelLayout layout = (SlidingUpPanelLayout) mapActivity.findViewById(R.id.sliding_layout);
-        String description = nextPOI.getStoryRelatedDescription(storyLine.getId(), mapActivity.getApplicationContext()).getDescription();
-        String title = nextPOI.getStoryRelatedDescription(storyLine.getId(), mapActivity.getApplicationContext()).getTitle();
-        PoiPanel.replaceTitle((SlidingUpPanelLayout) mapActivity.findViewById(R.id.sliding_layout), title);
-        PoiPanel.replaceDescription((SlidingUpPanelLayout) mapActivity.findViewById(R.id.sliding_layout), description);
-        layout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
     }
 
     private void updateManMarker() {

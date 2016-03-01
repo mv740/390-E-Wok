@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_margin="10dp"
-        android:background="@drawable/storyline_item_bg_with_shadow"
+        android:background="@drawable/square_button_with_shadow"
         android:text="@string/free_exploration"
         android:textSize="20dp"
         android:gravity="center"

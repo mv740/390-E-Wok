@@ -7,6 +7,7 @@ import com.bluejamesbond.text.DocumentView;
 import com.example.nspace.museedesondes.Model.Map;
 import com.example.nspace.museedesondes.Model.PointOfInterest;
 import com.example.nspace.museedesondes.Model.StoryLine;
+import com.example.nspace.museedesondes.Utility.PointMarker;
 import com.google.android.gms.maps.model.Marker;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
@@ -26,7 +27,10 @@ public class PoiPanel {
     }
 
     public void update(Marker marker){
-        PointOfInterest pointOfInterest = activity.information.searchPoiByTitle(marker.getTitle());
+
+        PointMarker.Information pMarkerInfo = new PointMarker.Information(marker.getSnippet());
+
+        PointOfInterest pointOfInterest = activity.information.searchPoiById(pMarkerInfo.getNodeID());
         String description = pointOfInterest.getLocaleDescription(activity.getApplicationContext()).getDescription();
         String title = pointOfInterest.getLocaleDescription(activity.getApplicationContext()).getTitle();
 
@@ -37,8 +41,10 @@ public class PoiPanel {
     }
 
     public void updateStoryPanel(StoryLine storyLine, PointOfInterest pointOfInterest){
-        String description = pointOfInterest.getStoryRelatedDescription(storyLine.getId(),activity.getApplicationContext()).getDescription();
-        String title = pointOfInterest.getStoryRelatedDescription(storyLine.getId(),activity.getApplicationContext()).getTitle();
+
+
+        String description = pointOfInterest.getStoryRelatedDescription(storyLine.getId(), activity.getApplicationContext()).getDescription();
+        String title = pointOfInterest.getStoryRelatedDescription(storyLine.getId(), activity.getApplicationContext()).getTitle();
 
         replaceTitle(title);
         replaceDescription(description);

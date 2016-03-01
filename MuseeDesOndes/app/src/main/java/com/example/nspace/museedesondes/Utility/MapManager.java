@@ -110,7 +110,9 @@ public class MapManager {
         //show only those meant for the current floor
         for(Marker marker : markerList)
         {
-            if((Integer.parseInt(marker.getSnippet())) == floorID){
+            PointMarker.Information pMarkerInfo = new PointMarker.Information(marker.getSnippet());
+
+            if((pMarkerInfo.getFloorID()) == floorID){
                 marker.setVisible(true);
             }else
             {

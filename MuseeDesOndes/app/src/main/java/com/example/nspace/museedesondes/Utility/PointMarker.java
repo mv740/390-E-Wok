@@ -36,13 +36,36 @@ public class PointMarker {
         node.title(title);
         node.icon((BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 
-        //storing floor id in marker snippet
-        node.snippet(String.valueOf(pointOfInterest.getFloorID()));
+        //storing information in marker snippet
+        String floorID = String.valueOf(pointOfInterest.getFloorID());
+        String nodeID = String.valueOf(pointOfInterest.getId());
+        String data = floorID+"/"+nodeID;
+        node.snippet(data);
 
         Marker createdMarker = googleMap.addMarker(node);
-
         mMarkerArray.add(createdMarker);
 
+    }
+
+    // used to easily extract information from a string
+    public static class Information{
+        private int floorID;
+        private int nodeID;
+
+        public Information(String data)
+        {
+            String[] tokens = data.split("/");
+            floorID = Integer.parseInt(tokens[0]);
+            nodeID = Integer.parseInt(tokens[1]);
+        }
+
+        public int getFloorID() {
+            return floorID;
+        }
+
+        public int getNodeID() {
+            return nodeID;
+        }
     }
 
     public static void singleTransitionPointFactory(LabelledPoint labelledPoint, GoogleMap googleMap) {

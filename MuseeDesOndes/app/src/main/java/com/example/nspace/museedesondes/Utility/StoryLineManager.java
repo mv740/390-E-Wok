@@ -1,14 +1,10 @@
 package com.example.nspace.museedesondes.Utility;
 
-import android.util.Log;
-import android.widget.Toast;
-
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
 import com.estimote.sdk.Utils;
 import com.example.nspace.museedesondes.MapActivity;
-import com.example.nspace.museedesondes.Model.BeaconInformation;
 import com.example.nspace.museedesondes.Model.Node;
 import com.example.nspace.museedesondes.Model.PointOfInterest;
 import com.example.nspace.museedesondes.Model.StoryLine;
@@ -83,12 +79,11 @@ public class StoryLineManager {
         }
     }
 
-    //TODO: update panel using storypoint info
     //updates and expands the sliding panel to the discovered point of interest
     private void updateSlidingPanel(){
         SlidingUpPanelLayout layout = (SlidingUpPanelLayout) mapActivity.findViewById(R.id.sliding_layout);
-        String description = nextPOI.getLocaleDescription(mapActivity.getApplicationContext()).getDescription();
-        String title = nextPOI.getLocaleDescription(mapActivity.getApplicationContext()).getTitle();
+        String description = nextPOI.getStoryRelatedDescription(storyLine.getId(), mapActivity.getApplicationContext()).getDescription();
+        String title = nextPOI.getStoryRelatedDescription(storyLine.getId(), mapActivity.getApplicationContext()).getTitle();
         PoiPanel.replaceTitle((SlidingUpPanelLayout) mapActivity.findViewById(R.id.sliding_layout), title);
         PoiPanel.replaceDescription((SlidingUpPanelLayout) mapActivity.findViewById(R.id.sliding_layout), description);
         layout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);

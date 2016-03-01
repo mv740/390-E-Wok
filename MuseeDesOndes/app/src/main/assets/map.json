@@ -72,7 +72,7 @@
           "y": 0.0,
           "storyPoint": [
             {
-              "storylineID": 1,
+              "storylineID": 2,
               "title": [
                 {
                   "language": "fr",
@@ -399,17 +399,25 @@
           "y": -0.015,
           "storyPoint": [
             {
-              "storylineID": 1,
+              "storylineID": 66,
               "title": [
                 {
                   "language": "fr",
-                  "title": "<title>"
+                  "title": "FR STORY POINT TITLE!"
+                },
+                {
+                  "language": "en_US",
+                  "title": "EN STORY POINT TITLE!"
                 }
               ],
               "description": [
                 {
                   "language": "fr",
-                  "description": "<description>"
+                  "description": "FR STORY POINT DESC!"
+                },
+                {
+                  "language": "en_US",
+                  "description": "EN STORY POINT DESC!"
                 }
               ],
               "media": {

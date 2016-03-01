@@ -140,7 +140,7 @@
 
         </RelativeLayout>
 
-        <include layout="@layout/poi_more_info"/>
+        <include layout="@layout/poi_panel"/>
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
     <fragment android:id="@+id/navigation_drawer"

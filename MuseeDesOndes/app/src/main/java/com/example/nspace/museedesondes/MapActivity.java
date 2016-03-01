@@ -284,7 +284,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
 
     public void poiImgOnClick(View v) {
-        imgToSendToFullscreenImgActivity = ((ImageView) v).getDrawable();
+        imgToSendToFullscreenImgActivity = ((ImageView) v.findViewById(R.id.poi_panel_pic_item_imageview)).getDrawable();
         Intent fullscreenImgActivity = new Intent(MapActivity.this, FullscreenImgActivity.class);
         startActivity(fullscreenImgActivity);
     }

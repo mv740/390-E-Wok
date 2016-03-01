@@ -10,8 +10,7 @@ import android.widget.ListView;
 import com.example.nspace.museedesondes.Model.Map;
 import com.example.nspace.museedesondes.Model.StoryLine;
 import com.example.nspace.museedesondes.Model.StoryLineDescription;
-import com.example.nspace.museedesondes.Model.Text;
-import com.example.nspace.museedesondes.Utility.CustomStoryList;
+import com.example.nspace.museedesondes.Utility.StoryListAdapter;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -42,7 +41,7 @@ public class StoryLineActivity extends AppCompatActivity {
         ArrayList<StoryLine> storyLineList = information.getStoryLines();
         populateAdapterArrays(storyLineList, storyLineActivityLang);
 
-        CustomStoryList adapter = new CustomStoryList(StoryLineActivity.this, titleArray, descriptionArray, imageIdArray);
+        StoryListAdapter adapter = new StoryListAdapter(StoryLineActivity.this, titleArray, descriptionArray, imageIdArray);
         list = (ListView)findViewById(R.id.storylineList);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {

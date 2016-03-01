@@ -37,7 +37,7 @@ public class AudioService extends Service {
         /*if(mediaPlayer == null) {
             mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sampleaudio);
             inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-            View layout = inflater.inflate(R.layout.poi_more_info, null);
+            View layout = inflater.inflate(R.layout.poi_panel, null);
             seekBar = (SeekBar) layout.findViewById(R.id.seekBar);
             seekBar.setMax(mediaPlayer.getDuration());
         }*/

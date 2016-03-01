@@ -60,7 +60,7 @@ public class StoryLineManager {
                     if ((nearestBeacon.getMajor() == nextPOI.getBeaconInformation().getMajor())
                             && (nearestBeacon.getMinor() == nextPOI.getBeaconInformation().getMinor())
                             && ((Utils.computeProximity(nearestBeacon)) == Utils.Proximity.NEAR)) {
-                        
+
                         panel.updateStoryPanel(storyLine,nextPOI);
                         // TODO: update UI with temp man marker
                         // TODO: update storyline polyline segments

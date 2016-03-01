@@ -16,6 +16,10 @@ import com.example.nspace.museedesondes.Utility.CustomStoryList;
 import java.util.ArrayList;
 import java.util.Locale;
 
+/**
+ * Created by sebastian on 2016-02-08.
+ */
+
 public class StoryLineActivity extends AppCompatActivity {
 
     ListView list;

@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.example.nspace.museedesondes.R;
 
 /**
- * Created by NSPACE on 2016-02-09.
+ * Created by sebastian on 2016-02-09.
  */
 
 public class CustomStoryList extends ArrayAdapter<String> {

@@ -6,8 +6,8 @@
           "id": 1,
           "beaconInformation": {
             "UUID": "test_uuid",
-            "major": 1111,
-            "minor": 2222
+            "major": 61111,
+            "minor": 23409
           },
           "title": [
             {
@@ -72,7 +72,7 @@
           "y": 0.0,
           "storyPoint": [
             {
-              "storylineID": 1,
+              "storylineID": 2,
               "title": [
                 {
                   "language": "fr",
@@ -333,27 +333,27 @@
           "id": 5,
           "beaconInformation": {
             "UUID": "test_uuid",
-            "major": 1111,
-            "minor": 2222
+            "major": 61111,
+            "minor": 23409
           },
           "title": [
             {
               "language": "fr",
-              "title": "test_titre3"
+              "title": "test_titre5!"
             },
             {
               "language": "en_US",
-              "title": "test_title3"
+              "title": "test_title5!!!"
             }
           ],
           "description": [
             {
               "language": "fr",
-              "description": "Veuillez lire cette description3"
+              "description": "Veuillez lire cette description5!!!"
             },
             {
               "language": "en_US",
-              "description": "Please read this description3"
+              "description": "Please read this description5!!!"
             }
           ],
           "media" : {
@@ -399,17 +399,25 @@
           "y": -0.015,
           "storyPoint": [
             {
-              "storylineID": 1,
+              "storylineID": 66,
               "title": [
                 {
                   "language": "fr",
-                  "title": "<title>"
+                  "title": "FR STORY POINT TITLE!"
+                },
+                {
+                  "language": "en_US",
+                  "title": "EN STORY POINT TITLE!"
                 }
               ],
               "description": [
                 {
                   "language": "fr",
-                  "description": "<description>"
+                  "description": "FR STORY POINT DESC!"
+                },
+                {
+                  "language": "en_US",
+                  "description": "EN STORY POINT DESC!"
                 }
               ],
               "media": {
@@ -523,9 +531,9 @@
       "walkingTimeInMinutes": 30,
       "floorsCovered": 2,
       "path": [
-        1,
+        3,
         2,
-        3
+        4
       ]
     },
     {
@@ -554,9 +562,9 @@
       "walkingTimeInMinutes": 30,
       "floorsCovered": 2,
       "path": [
-        1,
+        5,
         2,
-        3
+        4
       ]
     }
   ],

@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 
 
+import com.estimote.sdk.BeaconManager;
+import com.estimote.sdk.SystemRequirementsChecker;
 import com.example.nspace.museedesondes.AudioService.AudioBinder;
 
 
@@ -27,6 +29,7 @@ import com.example.nspace.museedesondes.Model.PointOfInterest;
 import com.example.nspace.museedesondes.Model.StoryLine;
 import com.example.nspace.museedesondes.Utility.MapManager;
 import com.example.nspace.museedesondes.Utility.PointMarker;
+import com.example.nspace.museedesondes.Utility.StoryLineManager;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -58,6 +61,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     public static Drawable imgToSendToFullscreenImgActivity;
     AudioService audioService;
     private int[] floorButtonIdList = {R.id.fab1, R.id.fab2, R.id.fab3, R.id.fab4, R.id.fab5};
+    private StoryLineManager storyLineManager;
     private StoryLine storyLine;
     private boolean freeExploration;
     private ArrayList<Marker> markerList;
@@ -67,13 +71,19 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     Handler audioHandler = new Handler();
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
+        //create storyline manager which handles storyline progression and interaction with the beacons
         information = Map.getInstance(getApplicationContext());
         getStoryLineSelected();
+        if(!freeExploration){
+            storyLineManager = new StoryLineManager(storyLine, this, mMap);
+        }
+
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -93,6 +103,8 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         Intent intent = new Intent(this, AudioService.class);
         bindService(intent, audioConnection, Context.BIND_AUTO_CREATE);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
+
+
 
         this.polylineList = new HashMap<>();
     }
@@ -375,5 +387,26 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         }
     };
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(!freeExploration) {
+            SystemRequirementsChecker.checkWithDefaultDialogs(this);
+            storyLineManager.getBeaconManager().connect(new BeaconManager.ServiceReadyCallback() {
+                @Override
+                public void onServiceReady() {
+                    storyLineManager.getBeaconManager().startRanging(storyLineManager.getRegion());
+                }
+            });
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        if(!freeExploration) {
+            storyLineManager.getBeaconManager().stopRanging(storyLineManager.getRegion());
+        }
+        super.onPause();
+    }
 
 }

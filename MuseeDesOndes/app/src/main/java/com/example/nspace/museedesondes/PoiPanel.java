@@ -45,6 +45,7 @@ public class PoiPanel {
         images = new ArrayList<>();
         images.add(new Image("museum_ex_1", Language.en_US, "museum_ex_1"));
         images.add(new Image("museum_ex_2", Language.en_US, "museum_ex_2"));
+        images.add(new Image("museum_ex_3", Language.en_US, "museum_ex_3"));
 
         replaceTitle(title);
         replaceDescription(description);
@@ -64,6 +65,7 @@ public class PoiPanel {
         images = new ArrayList<>();
         images.add(new Image("museum_ex_1", Language.en_US, "museum_ex_1"));
         images.add(new Image("museum_ex_2", Language.en_US, "museum_ex_2"));
+        images.add(new Image("museum_ex_3", Language.en_US, "museum_ex_3"));
 
         replaceTitle(title);
         replaceDescription(description);

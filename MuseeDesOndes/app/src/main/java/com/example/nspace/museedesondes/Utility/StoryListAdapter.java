@@ -22,7 +22,7 @@ public class StoryListAdapter extends ArrayAdapter<String> {
     private final Integer[] imageId;
     public StoryListAdapter(Activity context,
                             String[] web, String[] description, Integer[] imageId) {
-        super(context, R.layout.storyline_item_layout, web);
+        super(context, R.layout.storyline_item, web);
         this.context = context;
         this.title = web;
         this.description = description;
@@ -31,16 +31,24 @@ public class StoryListAdapter extends ArrayAdapter<String> {
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
-        View rowView= inflater.inflate(R.layout.storyline_item_layout, null, true);
 
-        TextView txtTitle = (TextView) rowView.findViewById(R.id.txt);
-        TextView descriptField = (TextView) rowView.findViewById(R.id.description);
-        ImageView imageView = (ImageView) rowView.findViewById(R.id.img);
+        View rowView;
+        if (position == 0){
+             rowView = inflater.inflate(R.layout.storyline_free_exploration_item, null, true);
+        }
+        else {
+            rowView = inflater.inflate(R.layout.storyline_item, null, true);
+
+            TextView txtTitle = (TextView) rowView.findViewById(R.id.storyline_item_title);
+            TextView descriptField = (TextView) rowView.findViewById(R.id.storyline_item_description);
+            ImageView imageView = (ImageView) rowView.findViewById(R.id.storyline_item_pic_background);
 
 
-        txtTitle.setText(title[position]);
-        descriptField.setText(description[position]);
-        imageView.setImageResource(imageId[position]);
+            txtTitle.setText(title[position]);
+            descriptField.setText(description[position]);
+            imageView.setImageResource(imageId[position]);
+        }
+
         return rowView;
     }
 }

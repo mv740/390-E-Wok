@@ -31,7 +31,7 @@ public class StoryLineActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_story_line);
+        setContentView(R.layout.activity_storyline);
 
         information = Map.getInstance(getApplicationContext());
 

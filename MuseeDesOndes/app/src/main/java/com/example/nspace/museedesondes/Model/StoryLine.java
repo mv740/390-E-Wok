@@ -1,5 +1,7 @@
 package com.example.nspace.museedesondes.Model;
 
+import android.content.Context;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
@@ -73,5 +75,24 @@ public class StoryLine {
         {
             this.descriptions.get(i).setDescription(descriptions.get(i).getDescription());
         }
+    }
+
+
+    /**
+     * Get Description in the language that was saved in your profile.
+     *
+     * @param context current activity context
+     * @return description in locale language
+     */
+    public StoryLineDescription getLocaleDescription(Context context)
+    {
+        for (StoryLineDescription description : descriptions)
+        {
+            if(context.getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(description.getLanguage().name()))
+            {
+                return  description;
+            }
+        }
+        return null;
     }
 }

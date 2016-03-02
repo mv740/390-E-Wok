@@ -47,8 +47,7 @@
         <activity android:name=".StoryLineActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".FullscreenImgActivity"
-            android:screenOrientation="landscape" />
+            android:name=".FullscreenImgActivity"/>
 
         <service
             android:name=".AudioService"

@@ -36,11 +36,11 @@
         android:background="#FFE33C3C"
         android:layout_below="@+id/story_text_box" >
 
-        <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/storylineList"
-            android:layout_centerHorizontal="true"/>
+        <com.dexafree.materialList.view.MaterialListView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/material_listview"/>
+
     </RelativeLayout>
 
 </RelativeLayout>

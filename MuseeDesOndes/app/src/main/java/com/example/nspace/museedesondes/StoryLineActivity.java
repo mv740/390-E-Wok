@@ -1,12 +1,16 @@
 package com.example.nspace.museedesondes;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.dexafree.materialList.card.Card;
+import com.dexafree.materialList.card.CardProvider;
+import com.dexafree.materialList.view.MaterialListView;
 import com.example.nspace.museedesondes.Model.Map;
 import com.example.nspace.museedesondes.Model.StoryLine;
 import com.example.nspace.museedesondes.Model.StoryLineDescription;
@@ -41,19 +45,38 @@ public class StoryLineActivity extends AppCompatActivity {
         ArrayList<StoryLine> storyLineList = information.getStoryLines();
         populateAdapterArrays(storyLineList, storyLineActivityLang);
 
-        StoryListAdapter adapter = new StoryListAdapter(StoryLineActivity.this, titleArray, descriptionArray, imageIdArray);
-        list = (ListView)findViewById(R.id.storylineList);
-        list.setAdapter(adapter);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        buildStorylineList(storyLineList, storyLineActivityLang);
+    }
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                Intent startMap = new Intent(StoryLineActivity.this, MapActivity.class);
-                startMap.putExtra("Story line list position", position);
-                startActivity(startMap);
+    private void buildStorylineList(ArrayList<StoryLine> storyLineList, String currentLanguage) {
+
+        MaterialListView mListView = (MaterialListView) findViewById(R.id.material_listview);
+
+        for(StoryLine storyline : storyLineList){
+            ArrayList<StoryLineDescription> textList = storyline.getDescriptions();
+            for(StoryLineDescription description : textList){
+                if(description.getLanguage().toString().equalsIgnoreCase(currentLanguage)) {
+
+                    Drawable d = Drawable.createFromPath(storyline.getImagePath());
+
+                    Card card =  new Card.Builder(this)
+                            .setTag("SMALL_IMAGE_CARD")
+                            .withProvider(new CardProvider())
+                            .setLayout(R.layout.material_image_with_buttons_card)
+                            .setTitle(description.getTitle())
+                            .setDescription(description.getDescription())
+                            .setDrawable(R.drawable.museum_ex_1)
+                            .endConfig()
+                            .build();
+
+
+                    mListView.getAdapter().add(card);
+
+                    break;
+                }
             }
-        });
+        }
+
     }
 
     public void populateAdapterArrays(ArrayList<StoryLine> storyLineList, String currentLanguage) {
@@ -68,7 +91,7 @@ public class StoryLineActivity extends AppCompatActivity {
 
         String imageName;
         int index = 1;
-        
+
         for(StoryLine storyline : storyLineList){
             ArrayList<StoryLineDescription> textList = storyline.getDescriptions();
             for(StoryLineDescription description : textList){

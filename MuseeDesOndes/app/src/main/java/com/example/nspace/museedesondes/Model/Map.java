@@ -102,17 +102,6 @@ public class Map {
         return null;
     }
 
-    public PointOfInterest searchPoiByTitle(String title) {
-        for (PointOfInterest poi : pointOfInterests) {
-            for (PointOfInterestDescription description : poi.getDescriptions()) {
-                if (description.getTitle().equalsIgnoreCase(title)) {
-                    return poi;
-                }
-            }
-        }
-        return null;
-    }
-
     public ArrayList<Edge> getEdges() {
         return edges;
     }
@@ -159,7 +148,4 @@ public class Map {
         return currentFloorList;
     }
 
-    private ArrayList<Point> getPoint() {
-        return point;
-    }
 }

@@ -83,6 +83,10 @@ public class AudioService extends Service {
         return currentTime/1000;
     }
 
+    public int getAudioDuration(){
+        return mediaPlayer.getDuration();
+    }
+
     public boolean isMediaSet(){
         return mediaPlayer !=null;
     }

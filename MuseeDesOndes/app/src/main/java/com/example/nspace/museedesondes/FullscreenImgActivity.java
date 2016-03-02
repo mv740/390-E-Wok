@@ -22,15 +22,15 @@ public class FullscreenImgActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fullscreen_imgview);
         ImageView imgView = (ImageView) findViewById(R.id.fullscreen_imgview);
-        imgView.setImageDrawable(MapActivity.imgToSendToFullscreenImgActivity);
+        imgView.setImageBitmap(MapActivity.imgToSendToFullscreenImgActivity);
 
-        setProperOrientation(imgView);
+        setProperOrientation(MapActivity.imgToSendToFullscreenImgActivity);
 
         bringButtonsToFront();
     }
 
-    private void setProperOrientation(ImageView imgView){
-        if (isPortrait(imgView)) {
+    private void setProperOrientation(Bitmap bitmap){
+        if (isPortrait(bitmap)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
         else{
@@ -38,9 +38,9 @@ public class FullscreenImgActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isPortrait(ImageView imageView) {
-        float width = imageView.getDrawable().getBounds().width();
-        float height = imageView.getDrawable().getBounds().height();
+    private boolean isPortrait(Bitmap bitmap) {
+        float width = bitmap.getWidth();
+        float height = bitmap.getHeight();
 
         return (width < height);
     }

@@ -5,7 +5,9 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -58,7 +60,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private GroundOverlay groundOverlay;
     public Map information;
-    public static Drawable imgToSendToFullscreenImgActivity;
+    public static Bitmap imgToSendToFullscreenImgActivity;
     AudioService audioService;
     private int[] floorButtonIdList = {R.id.fab1, R.id.fab2, R.id.fab3, R.id.fab4, R.id.fab5};
     private StoryLineManager storyLineManager;
@@ -284,7 +286,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
 
     public void poiImgOnClick(View v) {
-        imgToSendToFullscreenImgActivity = ((ImageView) v.findViewById(R.id.poi_panel_pic_item_imageview)).getDrawable();
+        imgToSendToFullscreenImgActivity = ((BitmapDrawable)((ImageView) v.findViewById(R.id.poi_panel_pic_item_imageview)).getDrawable()).getBitmap();
         Intent fullscreenImgActivity = new Intent(MapActivity.this, FullscreenImgActivity.class);
         startActivity(fullscreenImgActivity);
     }

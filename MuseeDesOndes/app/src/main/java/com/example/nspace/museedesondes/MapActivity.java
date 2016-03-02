@@ -328,6 +328,9 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
     public void playAudioFile(View v) {
         audioService.setAudio();
+        int audioDuration = audioService.getAudioDuration();
+        SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);
+        seekBar.setMax(audioDuration / 1000);
         audioRunnable.run();
         audioService.toggleAudioOnOff(v);
 

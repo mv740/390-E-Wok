@@ -22,6 +22,7 @@ import com.example.nspace.museedesondes.Utility.Resource;
 import com.squareup.picasso.RequestCreator;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -53,10 +54,10 @@ public class StoryLineActivity extends AppCompatActivity {
         buildStorylineList(storyLineList);
     }
 
-    private void buildStorylineList(ArrayList<StoryLine> storyLineList ) {
+    private void buildStorylineList(ArrayList<StoryLine> storyLineList) {
 
         MaterialListView mListView = (MaterialListView) findViewById(R.id.material_listview);
-
+        List<Card> cards = new ArrayList<>();
 
         Card cardFreeExploration = new Card.Builder(this)
                 .setTag("LIST_CARD")
@@ -69,7 +70,8 @@ public class StoryLineActivity extends AppCompatActivity {
                 .endConfig()
                 .build();
 
-        mListView.getAdapter().add(cardFreeExploration);
+        cards.add(cardFreeExploration);
+
 
         for (StoryLine storyline : storyLineList) {
             StoryLineDescription localeDescription = storyline.getLocaleDescription(getApplicationContext());
@@ -85,10 +87,11 @@ public class StoryLineActivity extends AppCompatActivity {
                     .endConfig()
                     .build();
 
-            mListView.getAdapter().add(card);
+            cards.add(card);
+            //mListView.getAdapter().add(card);
 
         }
-
+        mListView.getAdapter().addAll(cards);
         mListView.addOnItemTouchListener(new RecyclerItemClickListener.OnItemClickListener() {
 
             @Override

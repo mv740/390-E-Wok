@@ -1,20 +1,23 @@
 package com.example.nspace.museedesondes;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
+import android.util.Log;
 import android.widget.ListView;
 
 import com.dexafree.materialList.card.Card;
 import com.dexafree.materialList.card.CardProvider;
+import com.dexafree.materialList.listeners.RecyclerItemClickListener;
 import com.dexafree.materialList.view.MaterialListView;
 import com.example.nspace.museedesondes.Model.Map;
 import com.example.nspace.museedesondes.Model.StoryLine;
 import com.example.nspace.museedesondes.Model.StoryLineDescription;
-import com.example.nspace.museedesondes.Utility.StoryListAdapter;
+import com.example.nspace.museedesondes.Utility.Resource;
+import com.squareup.picasso.RequestCreator;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -45,38 +48,67 @@ public class StoryLineActivity extends AppCompatActivity {
         ArrayList<StoryLine> storyLineList = information.getStoryLines();
         populateAdapterArrays(storyLineList, storyLineActivityLang);
 
-        buildStorylineList(storyLineList, storyLineActivityLang);
+        buildStorylineList(storyLineList);
     }
 
-    private void buildStorylineList(ArrayList<StoryLine> storyLineList, String currentLanguage) {
+    private void buildStorylineList(ArrayList<StoryLine> storyLineList ) {
 
         MaterialListView mListView = (MaterialListView) findViewById(R.id.material_listview);
 
-        for(StoryLine storyline : storyLineList){
-            ArrayList<StoryLineDescription> textList = storyline.getDescriptions();
-            for(StoryLineDescription description : textList){
-                if(description.getLanguage().toString().equalsIgnoreCase(currentLanguage)) {
 
-                    Drawable d = Drawable.createFromPath(storyline.getImagePath());
+        Card cardFreeExploration = new Card.Builder(this)
+                .setTag("BASIC_IMAGE_BUTTONS_CARD")
+                .withProvider(new CardProvider())
+                .setLayout(R.layout.material_small_image_card)
+                .setTitle("FREE EXPLORATION")
+                .setDescription("Lorem ipsum dolor sit amet")
+                .setDrawable(R.drawable.free_exploration)
+                .setDrawableConfiguration(new CardProvider.OnImageConfigListener() {
+                    @Override
+                    public void onImageConfigure(@NonNull final RequestCreator requestCreator) {
+                        requestCreator.resize(350, 350)
+                                .centerCrop();
+                    }
+                })
+                .endConfig()
+                .build();
 
-                    Card card =  new Card.Builder(this)
-                            .setTag("SMALL_IMAGE_CARD")
-                            .withProvider(new CardProvider())
-                            .setLayout(R.layout.material_image_with_buttons_card)
-                            .setTitle(description.getTitle())
-                            .setDescription(description.getDescription())
-                            .setDrawable(R.drawable.museum_ex_1)
-                            .endConfig()
-                            .build();
+        mListView.getAdapter().add(cardFreeExploration);
 
+        for (StoryLine storyline : storyLineList) {
+            StoryLineDescription localeDescription = storyline.getLocaleDescription(getApplicationContext());
 
-                    mListView.getAdapter().add(card);
+            Card card = new Card.Builder(this)
+                    .setTag("BASIC_IMAGE_BUTTONS_CARD")
+                    .withProvider(new CardProvider())
+                    .setLayout(R.layout.material_image_with_buttons_card)
+                    .setTitle(localeDescription.getTitle())
+                    .setTitleColor(Color.WHITE)
+                    .setDescription(localeDescription.getDescription())
+                    .setDrawable(Resource.getDrawableImageFromFileName(storyline, getApplicationContext()))
+                    .endConfig()
+                    .build();
 
-                    break;
-                }
-            }
+            mListView.getAdapter().add(card);
+
         }
 
+        mListView.addOnItemTouchListener(new RecyclerItemClickListener.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(Card card, int position) {
+                Log.d("CARD_TYPE", card.getTag().toString());
+
+                Intent startMap = new Intent(StoryLineActivity.this, MapActivity.class);
+                startMap.putExtra("Story line list position", position);
+                startActivity(startMap);
+            }
+
+            @Override
+            public void onItemLongClick(Card card, int position) {
+                Log.d("LONG_CLICK", card.getTag().toString());
+            }
+        });
     }
 
     public void populateAdapterArrays(ArrayList<StoryLine> storyLineList, String currentLanguage) {
@@ -92,17 +124,17 @@ public class StoryLineActivity extends AppCompatActivity {
         String imageName;
         int index = 1;
 
-        for(StoryLine storyline : storyLineList){
+        for (StoryLine storyline : storyLineList) {
             ArrayList<StoryLineDescription> textList = storyline.getDescriptions();
-            for(StoryLineDescription description : textList){
-                if(description.getLanguage().toString().equalsIgnoreCase(currentLanguage)) {
+            for (StoryLineDescription description : textList) {
+                if (description.getLanguage().toString().equalsIgnoreCase(currentLanguage)) {
                     titleArray[index] = description.getTitle();
                     descriptionArray[index] = description.getDescription();
                     break;
                 }
             }
             imageName = storyline.getImagePath();
-            imageIdArray[index] = getResources().getIdentifier(imageName , "drawable", getPackageName());
+            imageIdArray[index] = getResources().getIdentifier(imageName, "drawable", getPackageName());
             index++;
         }
     }
@@ -112,7 +144,7 @@ public class StoryLineActivity extends AppCompatActivity {
         Locale currentLocale = getResources().getConfiguration().locale;
         String currentAppLanguage = currentLocale.getLanguage();
 
-        if(!currentAppLanguage.equalsIgnoreCase(storyLineActivityLang)) {
+        if (!currentAppLanguage.equalsIgnoreCase(storyLineActivityLang)) {
             storyLineActivityLang = currentAppLanguage;
             recreate();
         }

@@ -7,10 +7,12 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.widget.ListView;
 
 import com.dexafree.materialList.card.Card;
 import com.dexafree.materialList.card.CardProvider;
+import com.dexafree.materialList.card.provider.ListCardProvider;
 import com.dexafree.materialList.listeners.RecyclerItemClickListener;
 import com.dexafree.materialList.view.MaterialListView;
 import com.example.nspace.museedesondes.Model.Map;
@@ -46,7 +48,7 @@ public class StoryLineActivity extends AppCompatActivity {
         storyLineActivityLang = currentLocale.getLanguage();
 
         ArrayList<StoryLine> storyLineList = information.getStoryLines();
-        populateAdapterArrays(storyLineList, storyLineActivityLang);
+        //populateAdapterArrays(storyLineList, storyLineActivityLang);
 
         buildStorylineList(storyLineList);
     }
@@ -57,19 +59,13 @@ public class StoryLineActivity extends AppCompatActivity {
 
 
         Card cardFreeExploration = new Card.Builder(this)
-                .setTag("BASIC_IMAGE_BUTTONS_CARD")
-                .withProvider(new CardProvider())
-                .setLayout(R.layout.material_small_image_card)
+                .setTag("LIST_CARD")
+                .setDismissible()
+                .withProvider(new ListCardProvider())
+                .setLayout(R.layout.material_list_card_layout)
                 .setTitle("FREE EXPLORATION")
-                .setDescription("Lorem ipsum dolor sit amet")
-                .setDrawable(R.drawable.free_exploration)
-                .setDrawableConfiguration(new CardProvider.OnImageConfigListener() {
-                    @Override
-                    public void onImageConfigure(@NonNull final RequestCreator requestCreator) {
-                        requestCreator.resize(350, 350)
-                                .centerCrop();
-                    }
-                })
+                .setTitleGravity(Gravity.CENTER_HORIZONTAL)
+                .setDescription("Take a list")
                 .endConfig()
                 .build();
 
@@ -109,6 +105,7 @@ public class StoryLineActivity extends AppCompatActivity {
                 Log.d("LONG_CLICK", card.getTag().toString());
             }
         });
+
     }
 
     public void populateAdapterArrays(ArrayList<StoryLine> storyLineList, String currentLanguage) {

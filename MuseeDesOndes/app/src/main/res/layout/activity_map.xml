@@ -115,9 +115,53 @@
 
             </com.github.clans.fab.FloatingActionMenu>
 
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/zoomShowAllMarker"
+                android:src="@drawable/ic_map_marker_multiple_white_36dp"
+                android:layout_marginRight="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                fab:fab_colorNormal="@color/rca_primary"
+                fab:fab_colorPressed="#FFFE7070"
+                fab:fab_colorRipple="#FFFE7070"
+                fab:menu_shadowColor="#444"
+                fab:fab_size="mini"
+                android:onClick="zoomShowAllMarker"
+                android:layout_alignBottom="@+id/floor_button"
+                android:layout_alignStart="@+id/zoomInButton" />
 
--->
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/zoomInButton"
+                android:src="@drawable/ic_plus_white_36dp"
+                android:layout_marginRight="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                fab:fab_colorNormal="@color/rca_primary"
+                fab:fab_colorPressed="#FFFE7070"
+                fab:fab_colorRipple="#FFFE7070"
+                fab:menu_shadowColor="#444"
+                fab:fab_size="mini"
+                android:onClick="zoomInButtonClick"
+                android:layout_below="@+id/floor_button"
+                android:layout_alignParentEnd="true" />
 
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/zoomOutButton"
+                android:src="@drawable/ic_minus_white_36dp"
+                android:layout_marginRight="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                fab:fab_size="mini"
+                fab:fab_colorNormal="@color/rca_primary"
+                fab:fab_colorPressed="#FFFE7070"
+                fab:fab_colorRipple="#FFFE7070"
+                fab:menu_shadowColor="#444"
+                android:onClick="zoomOutButtonClick"
+                android:layout_below="@+id/zoomInButton"
+                android:layout_alignParentEnd="true" />
 
 
 
@@ -130,9 +174,8 @@
                 android:layout_height="match_parent"
                 map:mapType="none"
                 tools:context=".MapActivity"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true" />
+                android:layout_alignTop="@+id/hamburger"
+                android:layout_alignParentStart="true" />
 
 
 

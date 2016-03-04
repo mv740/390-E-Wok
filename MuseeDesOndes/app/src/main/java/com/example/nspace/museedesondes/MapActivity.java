@@ -131,10 +131,25 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         FloatingActionButton ham = (FloatingActionButton) findViewById(R.id.hamburger);
         FloatingActionButton search = (FloatingActionButton) findViewById(R.id.search_button);
         FloatingActionMenu floor = (FloatingActionMenu) findViewById(R.id.floor_button);
+        FloatingActionButton zoomIn = (FloatingActionButton) findViewById(R.id.zoomInButton);
+        FloatingActionButton zoomOut = (FloatingActionButton) findViewById(R.id.zoomOutButton);
+
+        View fitAllMarker = findViewById(R.id.zoomShowAllMarker);
+        fitAllMarker.setVisibility(View.INVISIBLE);
 
         ham.bringToFront();
         search.bringToFront();
         floor.bringToFront();
+        zoomIn.bringToFront();
+        zoomOut.bringToFront();
+
+        //show only fitAllMarker button in free exploration
+        if(freeExploration)
+        {
+            FloatingActionButton zoomShowAllMarker = (FloatingActionButton) fitAllMarker;
+            zoomShowAllMarker.bringToFront();
+            zoomShowAllMarker.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -160,7 +175,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         mapManager = new MapManager(mMap,this);
         mMap.setBuildingsEnabled(false);
         mMap.setIndoorEnabled(false);
-        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().setZoomControlsEnabled(false);
         mMap.getUiSettings().setIndoorLevelPickerEnabled(false);
         mMap.getUiSettings().setMapToolbarEnabled(false);
         mMap.getUiSettings().setRotateGesturesEnabled(false);
@@ -416,4 +431,15 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         super.onPause();
     }
 
+    public void zoomInButtonClick(View view) {
+        mapManager.zoomIn(mMap.getCameraPosition());
+    }
+
+    public void zoomOutButtonClick(View view) {
+        mapManager.zoomOut(mMap.getCameraPosition());
+    }
+
+    public void zoomShowAllMarker(View view) {
+        mapManager.zoomToFit(markerList);
+    }
 }

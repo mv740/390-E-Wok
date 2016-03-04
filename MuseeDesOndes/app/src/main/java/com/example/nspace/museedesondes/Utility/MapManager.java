@@ -34,6 +34,8 @@ public class MapManager {
 
     private GoogleMap mMap;
     private Context context;
+    private static final int ZOOM_MAX = 15;
+    private static final int ZOOM_MIN = 13;
 
     public MapManager(GoogleMap googleMap, Context context)
     {
@@ -106,8 +108,13 @@ public class MapManager {
 
     }
 
+    /**
+     * Show only marker that are meant for the current floor
+     *
+     * @param floorID
+     * @param markerList
+     */
     public void displayCurrentFloorPointOfInterest(int floorID, ArrayList<Marker> markerList) {
-        //show only those meant for the current floor
         for(Marker marker : markerList)
         {
             PointMarker.Information pMarkerInfo = new PointMarker.Information(marker.getSnippet());
@@ -127,7 +134,10 @@ public class MapManager {
     public void zoomToFit(ArrayList<Marker> markerList) {
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         for (Marker marker : markerList) {
-            builder.include(marker.getPosition());
+            if(marker.isVisible())
+            {
+                builder.include(marker.getPosition());
+            }
         }
         LatLngBounds bounds = builder.build();
         mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
@@ -139,9 +149,9 @@ public class MapManager {
      * @param position
      */
     public void zoomLimit(CameraPosition position) {
-        if (position.zoom > 15)
+        if (position.zoom > ZOOM_MAX)
             mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
-        if(position.zoom <13)
+        if(position.zoom <12.8)
         {
             mMap.animateCamera(CameraUpdateFactory.zoomTo(13.1f));
         }
@@ -161,21 +171,21 @@ public class MapManager {
         boolean updateCamera = false;
 
         //will need to do further testing to determine the best boundaries
-        if (left < -0.0355) {
+        if (left < -0.042) {
             left = -0.030;
             updateCamera = true;
         }
-        else if (right >0.0475) {
+        else if (right >0.054) {
             right = 0.042;
             updateCamera = true;
 
         }
         //Y
-        if (top > 0.039) {
+        if (top > 0.048) {
             top = 0.037;
             updateCamera = true;
         }
-        else if (bottom < -0.078) {
+        else if (bottom < -0.086) {
             bottom = -0.076;
             updateCamera = true;
         }
@@ -188,6 +198,39 @@ public class MapManager {
         {
             mMap.moveCamera(update);
         }
+    }
+
+
+    /**
+     * zooms in on the map by moving the viewpoint's height closer
+     *
+     * @param position
+     */
+    public void zoomIn(CameraPosition position)
+    {
+        if(position.zoom <ZOOM_MAX)
+        {
+            float newZoom = position.zoom + 0.5f;
+            if(newZoom <= ZOOM_MAX){
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(newZoom));
+            }
+        }
+    }
+
+    /**
+     * zooms out on the map by moving the viewpoint's height farther away
+     *
+     * @param position
+     */
+    public void zoomOut(CameraPosition position)
+    {
+       if(position.zoom >ZOOM_MIN)
+       {
+           float newZoom = position.zoom - 0.5f;
+           if(newZoom >= ZOOM_MIN){
+               mMap.animateCamera(CameraUpdateFactory.zoomTo(newZoom));
+           }
+       }
     }
 
 }

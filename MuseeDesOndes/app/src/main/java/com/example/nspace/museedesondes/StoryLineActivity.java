@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
-import android.widget.ListView;
 
 import com.dexafree.materialList.card.Card;
 import com.dexafree.materialList.card.CardProvider;
@@ -20,7 +19,6 @@ import com.example.nspace.museedesondes.Model.StoryLine;
 import com.example.nspace.museedesondes.Model.StoryLineDescription;
 import com.example.nspace.museedesondes.Utility.Resource;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -31,10 +29,6 @@ import java.util.Locale;
 
 public class StoryLineActivity extends AppCompatActivity {
 
-    ListView list;
-    String[] titleArray;
-    String[] descriptionArray;
-    Integer[] imageIdArray;
     Map information;
     String storyLineActivityLang;
 
@@ -49,40 +43,44 @@ public class StoryLineActivity extends AppCompatActivity {
         storyLineActivityLang = currentLocale.getLanguage();
 
         ArrayList<StoryLine> storyLineList = information.getStoryLines();
-        //populateAdapterArrays(storyLineList, storyLineActivityLang);
 
         buildStorylineList(storyLineList);
     }
 
+    /**
+     * Build a list of cards that contains information about a storyline
+     *
+     * @param storyLineList
+     */
     private void buildStorylineList(ArrayList<StoryLine> storyLineList) {
 
         MaterialListView mListView = (MaterialListView) findViewById(R.id.material_listview);
         List<Card> cards = new ArrayList<>();
 
         Card cardFreeExploration = new Card.Builder(this)
-                .setTag("LIST_CARD")
+                .setTag("free_exploration")
                 .setDismissible()
                 .withProvider(new ListCardProvider())
                 .setLayout(R.layout.material_list_card_layout)
                 .setTitle(R.string.free_exploration)
                 .setTitleGravity(Gravity.CENTER_HORIZONTAL)
-                .setDescription("Take a list")
+                .setTitleColor(Color.BLACK)
                 .endConfig()
                 .build();
 
         cards.add(cardFreeExploration);
 
-
         for (StoryLine storyline : storyLineList) {
             StoryLineDescription localeDescription = storyline.getLocaleDescription(getApplicationContext());
 
             Card card = new Card.Builder(this)
-                    .setTag("BIG_IMAGE_CARD")
+                    .setTag("storyline_card")
                     .withProvider(new CardProvider())
                     .setLayout(R.layout.storyline_cards)
                     .setTitle(localeDescription.getTitle())
                     .setTitleColor(Color.WHITE)
                     .setDescription(localeDescription.getDescription())
+                    .setDescriptionColor(Color.DKGRAY)
                     .setDrawable(Resource.getDrawableImageFromFileName(storyline, getApplicationContext()))
                     .endConfig()
                     .build();
@@ -92,9 +90,10 @@ public class StoryLineActivity extends AppCompatActivity {
 
         }
         mListView.getAdapter().addAll(cards);
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
-        mListView.addOnItemTouchListener(new RecyclerItemClickListener.OnItemClickListener() {
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
 
+        //on storyline click, open confirmation dialog
+        mListView.addOnItemTouchListener(new RecyclerItemClickListener.OnItemClickListener() {
 
             @Override
             public void onItemClick(Card card, int position) {
@@ -102,20 +101,18 @@ public class StoryLineActivity extends AppCompatActivity {
 
                 final Intent startMap = new Intent(StoryLineActivity.this, MapActivity.class);
                 startMap.putExtra("Story line list position", position);
-                //startActivity(startMap);
 
                 String message = getResources().getString(R.string.dialogMsg) + card.getProvider().getTitle();
 
-                if(card.getTag()=="LIST_CARD")
-                {
+                if (card.getTag() == "free_exploration") {
                     message = getResources().getString(R.string.dialogFree);
                 }
 
-                builder.setTitle(R.string.dialogTitle)
+                dialogBuilder.setTitle(R.string.dialogTitle)
                         .setMessage(message)
                         .setPositiveButton(R.string.dialogOk, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Log.d( "AlertDialog", "Positive" );
+                                Log.d("AlertDialog", "Positive");
                                 startActivity(startMap);
                             }
                         })
@@ -129,34 +126,6 @@ public class StoryLineActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    public void populateAdapterArrays(ArrayList<StoryLine> storyLineList, String currentLanguage) {
-        titleArray = new String[storyLineList.size() + 1];
-        descriptionArray = new String[storyLineList.size() + 1];
-        imageIdArray = new Integer[storyLineList.size() + 1];
-
-        //default values used for free exploration in the first listview position
-        titleArray[0] = getResources().getString(R.string.free_exploration);
-        descriptionArray[0] = getResources().getString(R.string.free_exploration_description);
-        imageIdArray[0] = R.drawable.free_exploration;
-
-        String imageName;
-        int index = 1;
-
-        for (StoryLine storyline : storyLineList) {
-            ArrayList<StoryLineDescription> textList = storyline.getDescriptions();
-            for (StoryLineDescription description : textList) {
-                if (description.getLanguage().toString().equalsIgnoreCase(currentLanguage)) {
-                    titleArray[index] = description.getTitle();
-                    descriptionArray[index] = description.getDescription();
-                    break;
-                }
-            }
-            imageName = storyline.getImagePath();
-            imageIdArray[index] = getResources().getIdentifier(imageName, "drawable", getPackageName());
-            index++;
-        }
     }
 
     @Override

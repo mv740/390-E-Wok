@@ -24,4 +24,10 @@
         <item>Profile</item>
         <item>Find exit</item>
     </string-array>
+
+    <string name="dialogTitle">Welcome</string>
+    <string name="dialogMsg">You will begin the following storyline \n</string>
+    <string name="dialogOk">OK</string>
+    <string name="dialogCancel">Cancel</string>
+    <string name="dialogFree">You will be able to freely explore any point of interests of the museum </string>
 </resources>

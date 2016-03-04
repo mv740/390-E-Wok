@@ -1,9 +1,9 @@
 package com.example.nspace.museedesondes;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,7 +19,7 @@ import com.example.nspace.museedesondes.Model.Map;
 import com.example.nspace.museedesondes.Model.StoryLine;
 import com.example.nspace.museedesondes.Model.StoryLineDescription;
 import com.example.nspace.museedesondes.Utility.Resource;
-import com.squareup.picasso.RequestCreator;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +64,7 @@ public class StoryLineActivity extends AppCompatActivity {
                 .setDismissible()
                 .withProvider(new ListCardProvider())
                 .setLayout(R.layout.material_list_card_layout)
-                .setTitle("FREE EXPLORATION")
+                .setTitle(R.string.free_exploration)
                 .setTitleGravity(Gravity.CENTER_HORIZONTAL)
                 .setDescription("Take a list")
                 .endConfig()
@@ -92,15 +92,35 @@ public class StoryLineActivity extends AppCompatActivity {
 
         }
         mListView.getAdapter().addAll(cards);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
         mListView.addOnItemTouchListener(new RecyclerItemClickListener.OnItemClickListener() {
+
 
             @Override
             public void onItemClick(Card card, int position) {
                 Log.d("CARD_TYPE", card.getTag().toString());
 
-                Intent startMap = new Intent(StoryLineActivity.this, MapActivity.class);
+                final Intent startMap = new Intent(StoryLineActivity.this, MapActivity.class);
                 startMap.putExtra("Story line list position", position);
-                startActivity(startMap);
+                //startActivity(startMap);
+
+                String message = getResources().getString(R.string.dialogMsg) + card.getProvider().getTitle();
+
+                if(card.getTag()=="LIST_CARD")
+                {
+                    message = getResources().getString(R.string.dialogFree);
+                }
+
+                builder.setTitle(R.string.dialogTitle)
+                        .setMessage(message)
+                        .setPositiveButton(R.string.dialogOk, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Log.d( "AlertDialog", "Positive" );
+                                startActivity(startMap);
+                            }
+                        })
+                        .setNegativeButton(R.string.dialogCancel, null)
+                        .show();
             }
 
             @Override

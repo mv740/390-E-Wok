@@ -77,9 +77,9 @@ public class StoryLineActivity extends AppCompatActivity {
             StoryLineDescription localeDescription = storyline.getLocaleDescription(getApplicationContext());
 
             Card card = new Card.Builder(this)
-                    .setTag("BASIC_IMAGE_BUTTONS_CARD")
+                    .setTag("BIG_IMAGE_CARD")
                     .withProvider(new CardProvider())
-                    .setLayout(R.layout.material_image_with_buttons_card)
+                    .setLayout(R.layout.storyline_cards)
                     .setTitle(localeDescription.getTitle())
                     .setTitleColor(Color.WHITE)
                     .setDescription(localeDescription.getDescription())

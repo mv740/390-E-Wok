@@ -17,29 +17,4 @@ public enum Label {
     @JsonProperty("EXIT")EXIT,
     @JsonProperty("ENTRANCE")ENTRANCE,
     @JsonProperty("EMERGENCY_EXIT")EMERGENCY_EXIT;
-
-
-//    //    //required to parse json label string to a enum
-//    public static Label getEnum(String code) {
-//        switch (code) {
-//            case "RAMP":
-//                return RAMP;
-//            case "STAIRS":
-//                return STAIRS;
-//            case "ENTRANCE":
-//                return ENTRANCE;
-//            case "EXIT":
-//                return EXIT;
-//            case "NONE":
-//                return NONE;
-//            case "WASHROOM":
-//                return WASHROOM;
-//            case "ELEVATOR":
-//                return ELEVATOR;
-//            case "EMERGENCY_EXIT":
-//                return EMERGENCY_EXIT;
-//            default:
-//                return null;
-//        }
-//    }
 }

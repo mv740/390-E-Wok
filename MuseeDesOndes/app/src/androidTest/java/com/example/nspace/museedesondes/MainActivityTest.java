@@ -30,39 +30,22 @@ public class MainActivityTest {
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule(MainActivity.class);
 
-    //language test use conditions because you need need to delete app to get that "please select language menu again"
-
-    @Test
-    public void selectFrenchLanguage() {
-
-        try {
-            onView(withText("FRANÇAIS")).check(matches(isDisplayed()));
-            onView(withText("FRANÇAIS")).perform(ViewActions.click());
-            onView(withText("DÉBUTER LA VISITE")).check(matches(isDisplayed()));
-            //view is displayed logic
-        } catch (NoMatchingViewException e) {
-            //view not displayed logic
-        }
-    }
-
+    //all test are always in english because you can't restart app during test to select other language
+    // also need to delete app from emulator/phone between test. Because choosing language is not showed if it is already save in a profile
     @Test
     public void selectEnglishLanguage() {
 
-        try {
-            onView(withText("ENGLISH")).check(matches(isDisplayed()));
-            onView(withText("ENGLISH")).perform(ViewActions.click());
-            onView(withText("BEGIN TOUR")).check(matches(isDisplayed()));
-            //view is displayed logic
-        } catch (NoMatchingViewException e) {
-            //view not displayed logic
-        }
+        onView(withText("ENGLISH")).check(matches(isDisplayed()));
+        onView(withText("ENGLISH")).perform(ViewActions.click());
+        onView(withText("SELECT YOUR STORYLINE")).check(matches(isDisplayed()));
+
     }
 
     @Test
-    public void selectBeginTour() {
+    public void selectStorylineButton() {
 
-        onView(withText("BEGIN TOUR")).check(matches(isDisplayed()));
-        onView(withText("BEGIN TOUR")).perform(ViewActions.click());
+        onView(withText("SELECT YOUR STORYLINE")).check(matches(isDisplayed()));
+        onView(withText("SELECT YOUR STORYLINE")).perform(ViewActions.click());
         onView(withText("STORYLINES")).check(matches(isDisplayed()));
     }
 }

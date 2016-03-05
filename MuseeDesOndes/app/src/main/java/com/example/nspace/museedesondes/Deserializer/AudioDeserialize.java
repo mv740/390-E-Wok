@@ -11,15 +11,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by michal on 2/19/2016.
  */
-public class AudioDeserialize extends JsonDeserializer<ArrayList<Audio>> {
+public class AudioDeserialize extends JsonDeserializer<List<Audio>> {
     @Override
-    public ArrayList<Audio> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public List<Audio> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
-        ArrayList<Audio> audios = new ArrayList<>();
+        List<Audio> audios = new ArrayList<>();
         ObjectCodec objectCodec = p.getCodec();
 
         JsonNode node = objectCodec.readTree(p);

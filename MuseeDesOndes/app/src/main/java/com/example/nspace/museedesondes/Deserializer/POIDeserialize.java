@@ -11,15 +11,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by micha on 2/18/2016.
  */
-public class POIDeserialize extends JsonDeserializer<ArrayList<PointOfInterest>> {
+public class POIDeserialize extends JsonDeserializer<List<PointOfInterest>> {
     @Override
-    public ArrayList<PointOfInterest> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public List<PointOfInterest> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
-        ArrayList<PointOfInterest> pointOfInterests = new ArrayList<>();
+        List<PointOfInterest> pointOfInterests = new ArrayList<>();
         ObjectCodec objectCodec = p.getCodec();
 
         JsonNode node = objectCodec.readTree(p);

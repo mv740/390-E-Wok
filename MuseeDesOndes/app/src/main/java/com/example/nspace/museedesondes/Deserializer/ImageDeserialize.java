@@ -11,13 +11,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by michal on 2/19/2016.
  */
-public class ImageDeserialize extends JsonDeserializer<ArrayList<Image>> {
+public class ImageDeserialize extends JsonDeserializer<List<Image>> {
     @Override
-    public ArrayList<Image> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public List<Image> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
         ArrayList<Image> images = new ArrayList<>();
         ObjectCodec objectCodec = p.getCodec();

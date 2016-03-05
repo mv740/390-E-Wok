@@ -260,7 +260,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
      */
     public void tracePath(List<Node> nodes, int floorID, java.util.Map<String, Polyline> polylineList) {
 
-        ArrayList<LatLng> nodePositions = listNodeCoordinates(nodes, floorID);
+        List<LatLng> nodePositions = listNodeCoordinates(nodes, floorID);
         Polyline line = mMap.addPolyline(new PolylineOptions()
                 .width(15)
                 .color(Color.parseColor("#99E33C3C")));
@@ -275,12 +275,12 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
      * @param nodes The list of nodes for which coordinates should be derived.
      * @return The list of LatLng coordinates.
      */
-    public ArrayList<LatLng> listNodeCoordinates(List<Node> nodes, int floorID) {
+    public List<LatLng> listNodeCoordinates(List<Node> nodes, int floorID) {
         if (nodes == null) {
             return null;
         }
 
-        ArrayList<LatLng> nodeLatLngs = new ArrayList<LatLng>();
+        List<LatLng> nodeLatLngs = new ArrayList<LatLng>();
         for (Node node : nodes) {
             if (node.getFloorID() == floorID) {
                 nodeLatLngs.add(new LatLng(node.getX(), node.getY()));

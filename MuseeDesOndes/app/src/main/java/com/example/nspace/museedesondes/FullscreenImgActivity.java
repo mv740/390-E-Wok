@@ -22,9 +22,9 @@ public class FullscreenImgActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fullscreen_imgview);
         ImageView imgView = (ImageView) findViewById(R.id.fullscreen_imgview);
-        imgView.setImageBitmap(MapActivity.imgToSendToFullscreenImgActivity);
+        imgView.setImageBitmap(MapActivity.getImgToSendToFullscreenImgActivity());
 
-        setProperOrientation(MapActivity.imgToSendToFullscreenImgActivity);
+        setProperOrientation(MapActivity.getImgToSendToFullscreenImgActivity());
 
         bringButtonsToFront();
     }

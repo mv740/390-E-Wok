@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by michal on 2/19/2016.
@@ -14,11 +15,11 @@ import java.util.ArrayList;
 public class Media {
 
     @JsonDeserialize(using = VideoDeserialize.class)
-    private ArrayList<Video> videos;
+    private List<Video> videos;
     @JsonDeserialize(using = AudioDeserialize.class)
-    private ArrayList<Audio> audios;
+    private List<Audio> audios;
     @JsonDeserialize(using = ImageDeserialize.class)
-    private ArrayList<Image> images;
+    private List<Image> images;
 
     public Media(@JsonProperty("video") ArrayList<Video> videos,
                  @JsonProperty("audio") ArrayList<Audio> audios,
@@ -29,15 +30,15 @@ public class Media {
         this.images = images;
     }
 
-    public ArrayList<Video> getVideos() {
+    public List<Video> getVideos() {
         return videos;
     }
 
-    public ArrayList<Audio> getAudios() {
+    public List<Audio> getAudios() {
         return audios;
     }
 
-    public ArrayList<Image> getImages() {
+    public List<Image> getImages() {
         return images;
     }
 }

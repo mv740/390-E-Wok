@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by michal on 1/28/2016.
@@ -16,9 +17,9 @@ public class StoryLine {
     private String imagePath;
     private int walkingTimeInMinutes;
     private int floorsCovered;
-    private ArrayList<Integer> path; // used only to get reference node
-    private ArrayList<Node> nodes;
-    private ArrayList<StoryLineDescription> descriptions;
+    private List<Integer> path; // used only to get reference node
+    private List<Node> nodes;
+    private List<StoryLineDescription> descriptions;
 
     public StoryLine(@JsonProperty("id") int id,
                      @JsonProperty("thumbnail") String imagePath,
@@ -52,7 +53,7 @@ public class StoryLine {
         return imagePath;
     }
 
-    public ArrayList<Integer> getPath() {
+    public List<Integer> getPath() {
         return path;
     }
 
@@ -60,11 +61,11 @@ public class StoryLine {
         this.nodes.add(node);
     }
 
-    public ArrayList<Node> getNodes() {
+    public List<Node> getNodes() {
         return nodes;
     }
 
-    public ArrayList<StoryLineDescription> getDescriptions() {
+    public List<StoryLineDescription> getDescriptions() {
         return descriptions;
     }
 

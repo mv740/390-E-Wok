@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by michal on 2/18/2016.
@@ -15,20 +16,20 @@ import java.util.ArrayList;
 public class Point {
 
     @JsonDeserialize(using = POIDeserialize.class)
-    private ArrayList<PointOfInterest> poi;
+    private List<PointOfInterest> poi;
     @JsonDeserialize(using = LabelledPointDeserialize.class)
-    private ArrayList<LabelledPoint> pot;
+    private List<LabelledPoint> pot;
 
     public Point(@JsonProperty("poi") ArrayList<PointOfInterest> poi, @JsonProperty("pot") ArrayList<LabelledPoint> pot) {
         this.poi = poi;
         this.pot = pot;
     }
 
-    public ArrayList<PointOfInterest> getPoi() {
+    public List<PointOfInterest> getPoi() {
         return poi;
     }
 
-    public ArrayList<LabelledPoint> getPot() {
+    public List<LabelledPoint> getPot() {
         return pot;
     }
 }

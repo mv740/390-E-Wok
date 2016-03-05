@@ -11,6 +11,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by michal on 2/15/2016.
@@ -26,7 +27,7 @@ public class PointMarker {
      * @param googleMap       MapPlan
      * @param mMarkerArray
      */
-    public static void singleInterestPointFactory(PointOfInterest pointOfInterest, Context context, GoogleMap googleMap, ArrayList<Marker> mMarkerArray) {
+    public static void singleInterestPointFactory(PointOfInterest pointOfInterest, Context context, GoogleMap googleMap, List<Marker> mMarkerArray) {
 
         String title = "error";
         title = pointOfInterest.getLocaleDescription(context).getTitle();

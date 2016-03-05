@@ -25,6 +25,8 @@ import com.google.android.gms.maps.model.Polyline;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by michal on 2/10/2016.
@@ -43,7 +45,7 @@ public class MapManager {
     }
 
 
-    public GroundOverlay loadDefaultFloor(GoogleMap googleMap, LatLng position, ArrayList<FloorPlan> floorPlans, View view)
+    public GroundOverlay loadDefaultFloor(GoogleMap googleMap, LatLng position, List<FloorPlan> floorPlans, View view)
     {
         Resources resources = context.getResources();
         final int resourceID = resources.getIdentifier(floorPlans.get(0).getImagePath(), "drawable", context.getPackageName()); // 0 = floor 1
@@ -82,7 +84,7 @@ public class MapManager {
      * @param markerList
      * @param polylineList
      */
-    public void switchFloor(GroundOverlay groundOverlay, int floorID, ArrayList<FloorPlan> floorPlans, ArrayList<Marker> markerList, HashMap<String, Polyline> polylineList)
+    public void switchFloor(GroundOverlay groundOverlay, int floorID, List<FloorPlan> floorPlans, List<Marker> markerList, Map<String, Polyline> polylineList)
     {
         //http://stackoverflow.com/questions/16369814/how-to-access-the-drawable-resources-by-name-in-android
         int index = floorID-1; //Todo if floor object aren't in order then we will need to loop to find the correct one by id
@@ -113,7 +115,7 @@ public class MapManager {
      * @param floorID
      * @param markerList
      */
-    public void displayCurrentFloorPointOfInterest(int floorID, ArrayList<Marker> markerList) {
+    public void displayCurrentFloorPointOfInterest(int floorID, List<Marker> markerList) {
         for(Marker marker : markerList)
         {
             PointMarker.Information pMarkerInfo = new PointMarker.Information(marker.getSnippet());
@@ -130,7 +132,7 @@ public class MapManager {
     /**
      * android Zoom-to-Fit All Markers on Google Map
      */
-    public void zoomToFit(ArrayList<Marker> markerList) {
+    public void zoomToFit(List<Marker> markerList) {
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         for (Marker marker : markerList) {
             if(marker.isVisible())

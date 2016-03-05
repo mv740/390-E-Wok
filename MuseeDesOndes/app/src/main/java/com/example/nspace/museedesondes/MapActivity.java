@@ -18,14 +18,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
-import android.widget.Toast;
-
 
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.SystemRequirementsChecker;
 import com.example.nspace.museedesondes.AudioService.AudioBinder;
-
-
 import com.example.nspace.museedesondes.model.Map;
 import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.example.nspace.museedesondes.model.StoryLine;
@@ -49,6 +45,7 @@ import com.example.nspace.museedesondes.model.Node;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.google.android.gms.maps.model.VisibleRegion;
 
@@ -58,15 +55,15 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private GroundOverlay groundOverlay;
-    public Map information;
-    public static Bitmap imgToSendToFullscreenImgActivity;
+    private Map information;
+    private static Bitmap imgToSendToFullscreenImgActivity;
     AudioService audioService;
     private int[] floorButtonIdList = {R.id.fab1, R.id.fab2, R.id.fab3, R.id.fab4, R.id.fab5};
     private StoryLineManager storyLineManager;
     private StoryLine storyLine;
     private boolean freeExploration;
-    private ArrayList<Marker> markerList;
-    private HashMap<String, Polyline> polylineList;
+    private List<Marker> markerList;
+    private java.util.Map<String, Polyline> polylineList;
     private MapManager mapManager;
     private SeekBar seekBar;
     Handler audioHandler = new Handler();
@@ -108,14 +105,14 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         seekBar = (SeekBar) findViewById(R.id.seekBar);
 
 
-        this.polylineList = new HashMap<>();
+        this.polylineList = new HashMap<String, Polyline>();
     }
 
     //sets the storyline to the one selected in the StoryLineActivity
     private void getStoryLineSelected() {
         Intent mIntent = getIntent();
         int position = mIntent.getIntExtra("Story line list position", 0);
-        ArrayList<StoryLine> storyLineList = information.getStoryLines();
+        List<StoryLine> storyLineList = information.getStoryLines();
 
         if (position == 0) {
             freeExploration = true;
@@ -214,7 +211,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
 
         // Obtains ALL nodes.
-        ArrayList<Node> nodes = information.getNodes();
+        List<Node> nodes = information.getNodes();
 
         // This statement places all the nodes on the map and traces the path between them.
         tracePath(nodes, 1, this.polylineList);
@@ -246,8 +243,8 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
      *
      * @param pointsOfInterest List of all points of interest.
      */
-    private ArrayList<Marker> placeMarkersOnPointsOfInterest(ArrayList<PointOfInterest> pointsOfInterest) {
-        ArrayList<Marker> mMarkerArray = new ArrayList<>();
+    private List<Marker> placeMarkersOnPointsOfInterest(List<PointOfInterest> pointsOfInterest) {
+        List<Marker> mMarkerArray = new ArrayList<>();
         for (PointOfInterest pointOfInterest : pointsOfInterest) {
             PointMarker.singleInterestPointFactory(pointOfInterest, getApplicationContext(), mMap, mMarkerArray);
         }
@@ -261,7 +258,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
      * @param nodes This is the list of nodes that are to be sorted through. The nodes could be
      *              either points of interest, points of traversal, or others.
      */
-    public void tracePath(ArrayList<Node> nodes, int floorID, HashMap<String, Polyline> polylineList) {
+    public void tracePath(List<Node> nodes, int floorID, java.util.Map<String, Polyline> polylineList) {
 
         ArrayList<LatLng> nodePositions = listNodeCoordinates(nodes, floorID);
         Polyline line = mMap.addPolyline(new PolylineOptions()
@@ -278,7 +275,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
      * @param nodes The list of nodes for which coordinates should be derived.
      * @return The list of LatLng coordinates.
      */
-    public ArrayList<LatLng> listNodeCoordinates(ArrayList<Node> nodes, int floorID) {
+    public ArrayList<LatLng> listNodeCoordinates(List<Node> nodes, int floorID) {
         if (nodes == null) {
             return null;
         }
@@ -450,5 +447,13 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     public void floorMenuButton(View view) {
         View fitAllMarker = findViewById(R.id.zoomShowAllMarker);
         fitAllMarker.setVisibility(View.INVISIBLE);
+    }
+
+    public static Bitmap getImgToSendToFullscreenImgActivity() {
+        return imgToSendToFullscreenImgActivity;
+    }
+
+    public Map getInformation() {
+        return information;
     }
 }

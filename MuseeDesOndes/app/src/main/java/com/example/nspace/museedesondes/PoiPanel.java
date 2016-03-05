@@ -15,6 +15,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.nspace.museedesondes.R.id.poi_title;
 
@@ -35,10 +36,10 @@ public class PoiPanel {
 
         PointMarker.Information pMarkerInfo = new PointMarker.Information(marker.getSnippet());
 
-        PointOfInterest pointOfInterest = activity.information.searchPoiById(pMarkerInfo.getNodeID());
+        PointOfInterest pointOfInterest = activity.getInformation().searchPoiById(pMarkerInfo.getNodeID());
         String description = pointOfInterest.getLocaleDescription(activity.getApplicationContext()).getDescription();
         String title = pointOfInterest.getLocaleDescription(activity.getApplicationContext()).getTitle();
-        ArrayList<Image> images = pointOfInterest.getLocaleImages(activity.getApplicationContext());
+        List<Image> images = pointOfInterest.getLocaleImages(activity.getApplicationContext());
 
         //get test images:
         images = new ArrayList<>();
@@ -58,7 +59,7 @@ public class PoiPanel {
 
         String description = pointOfInterest.getStoryRelatedDescription(storyLine.getId(), activity.getApplicationContext()).getDescription();
         String title = pointOfInterest.getStoryRelatedDescription(storyLine.getId(), activity.getApplicationContext()).getTitle();
-        ArrayList<Image> images = pointOfInterest.getLocaleImages(activity.getApplicationContext());
+        List<Image> images = pointOfInterest.getLocaleImages(activity.getApplicationContext());
 
         //get test images:
         images = new ArrayList<>();
@@ -83,7 +84,7 @@ public class PoiPanel {
         docView.setText(title);
     }
 
-    private void replacePics(ArrayList<Image> images){
+    private void replacePics(List<Image> images){
         RecyclerView recyclerView = (RecyclerView) activity.findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
         HorizontalRecycleViewAdapter adapter = new HorizontalRecycleViewAdapter(activity, images);

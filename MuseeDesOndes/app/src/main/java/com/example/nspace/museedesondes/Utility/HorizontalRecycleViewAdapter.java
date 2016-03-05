@@ -12,6 +12,7 @@ import com.example.nspace.museedesondes.model.Image;
 import com.example.nspace.museedesondes.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Lenovo on 3/1/2016.
@@ -19,10 +20,10 @@ import java.util.ArrayList;
 
     public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter<HorizontalRecycleViewAdapter.SingleItemRowHolder> {
 
-        private ArrayList<Image> itemsList;
+        private List<Image> itemsList;
         private MapActivity mContext;
 
-        public HorizontalRecycleViewAdapter(MapActivity context, ArrayList<Image> itemsList) {
+        public HorizontalRecycleViewAdapter(MapActivity context, List<Image> itemsList) {
             this.itemsList = itemsList;
             this.mContext = context;
         }

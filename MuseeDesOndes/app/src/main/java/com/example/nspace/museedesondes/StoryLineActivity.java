@@ -42,7 +42,7 @@ public class StoryLineActivity extends AppCompatActivity {
         Locale currentLocale = getResources().getConfiguration().locale;
         storyLineActivityLang = currentLocale.getLanguage();
 
-        ArrayList<StoryLine> storyLineList = information.getStoryLines();
+        List<StoryLine> storyLineList = information.getStoryLines();
 
         buildStorylineList(storyLineList);
     }
@@ -52,7 +52,7 @@ public class StoryLineActivity extends AppCompatActivity {
      *
      * @param storyLineList
      */
-    private void buildStorylineList(ArrayList<StoryLine> storyLineList) {
+    private void buildStorylineList(List<StoryLine> storyLineList) {
 
         MaterialListView mListView = (MaterialListView) findViewById(R.id.material_listview);
         List<Card> cards = new ArrayList<>();

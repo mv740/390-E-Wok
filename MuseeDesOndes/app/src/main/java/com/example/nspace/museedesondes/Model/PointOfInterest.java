@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by michal on 1/28/2016.
@@ -15,9 +16,9 @@ import java.util.ArrayList;
 public class PointOfInterest extends Node {
 
     private BeaconInformation beaconInformation;
-    private ArrayList<PointOfInterestDescription> descriptions;
+    private List<PointOfInterestDescription> descriptions;
     private Media media;
-    private ArrayList<StoryPoint> storyPoints;
+    private List<StoryPoint> storyPoints;
 
 
     public PointOfInterest(@JsonProperty("id") int id,
@@ -35,24 +36,12 @@ public class PointOfInterest extends Node {
         this.storyPoints = storyPoints;
     }
 
-    public ArrayList<StoryPoint> getStoryPoints() {
+    public List<StoryPoint> getStoryPoints() {
         return storyPoints;
     }
 
     public BeaconInformation getBeaconInformation() {
         return beaconInformation;
-    }
-
-    public ArrayList<Video> getVideos() {
-        return media.getVideos();
-    }
-
-    public ArrayList<Audio> getAudios() {
-        return media.getAudios();
-    }
-
-    public ArrayList<Image> getImages() {
-        return media.getImages();
     }
 
     @JsonSetter("description")
@@ -64,7 +53,7 @@ public class PointOfInterest extends Node {
     }
 
 
-    public ArrayList<PointOfInterestDescription> getDescriptions() {
+    public List<PointOfInterestDescription> getDescriptions() {
         return descriptions;
     }
 
@@ -75,9 +64,9 @@ public class PointOfInterest extends Node {
      * @param context current activity context
      * @return image in locale language
      */
-    public ArrayList<Image> getLocaleImages(Context context)
+    public List<Image> getLocaleImages(Context context)
     {
-        ArrayList<Image> images = new ArrayList<>();
+        List<Image> images = new ArrayList<>();
         for (Image image : media.getImages())
         {
             if(context.getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(image.getLanguage().name()))
@@ -94,9 +83,9 @@ public class PointOfInterest extends Node {
      * @param context current activity context
      * @return audio in locale language
      */
-    public ArrayList<Audio> getLocaleAudios(Context context)
+    public List<Audio> getLocaleAudios(Context context)
     {
-        ArrayList<Audio> audios = new ArrayList<>();
+        List<Audio> audios = new ArrayList<>();
         for (Audio audio : media.getAudios())
         {
             if(context.getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(audio.getLanguage().name()))
@@ -113,9 +102,9 @@ public class PointOfInterest extends Node {
      * @param context current activity context
      * @return video in locale language
      */
-    public ArrayList<Video> getLocaleVideos(Context context)
+    public List<Video> getLocaleVideos(Context context)
     {
-        ArrayList<Video> videos = new ArrayList<>();
+        List<Video> videos = new ArrayList<>();
         for (Video video : media.getVideos())
         {
             if(context.getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(video.getLanguage().name()))
@@ -180,9 +169,9 @@ public class PointOfInterest extends Node {
      * @param context
      * @return
      */
-    public ArrayList<Audio> getStoryRelatedAudios(int storylineID, Context context)
+    public List<Audio> getStoryRelatedAudios(int storylineID, Context context)
     {
-        ArrayList<Audio> relatedAudios = new ArrayList<>();
+        List<Audio> relatedAudios = new ArrayList<>();
         for(StoryPoint storyPoint : this.storyPoints)
         {
             if(storyPoint.getStorylineID() == storylineID)
@@ -209,9 +198,9 @@ public class PointOfInterest extends Node {
      * @param context
      * @return
      */
-    public ArrayList<Video> getStoryRelatedVideos(int storylineID, Context context)
+    public List<Video> getStoryRelatedVideos(int storylineID, Context context)
     {
-        ArrayList<Video> relatedVideos = new ArrayList<>();
+        List<Video> relatedVideos = new ArrayList<>();
         for(StoryPoint storyPoint : this.storyPoints)
         {
             if(storyPoint.getStorylineID() == storylineID)
@@ -238,9 +227,9 @@ public class PointOfInterest extends Node {
      * @param context
      * @return
      */
-    public ArrayList<Image> getStoryRelatedImages(int storylineID, Context context)
+    public List<Image> getStoryRelatedImages(int storylineID, Context context)
     {
-        ArrayList<Image> relatedImages = new ArrayList<>();
+        List<Image> relatedImages = new ArrayList<>();
         for(StoryPoint storyPoint : this.storyPoints)
         {
             if(storyPoint.getStorylineID() == storylineID)

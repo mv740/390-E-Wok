@@ -2,26 +2,25 @@ package com.example.nspace.museedesondes.model;
 
 import android.content.Context;
 import android.util.Log;
-
 import com.example.nspace.museedesondes.utility.JsonHelper;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by michal on 1/28/2016.
  */
 public class Map {
-    private ArrayList<Node> nodes;
-    private ArrayList<Edge> edges;
-    private ArrayList<StoryLine> storyLines;
-    private ArrayList<PointOfInterest> pointOfInterests;
-    private ArrayList<LabelledPoint> labelledPoints;
-    private ArrayList<FloorPlan> floorPlans;
-    private ArrayList<Point> point;
+    private List<Node> nodes;
+    private List<Edge> edges;
+    private List<StoryLine> storyLines;
+    private List<PointOfInterest> pointOfInterests;
+    private List<LabelledPoint> labelledPoints;
+    private List<FloorPlan> floorPlans;
+    private List<Point> point;
 
 
     private static Map instance = null;
@@ -103,33 +102,33 @@ public class Map {
         return null;
     }
 
-    public ArrayList<Edge> getEdges() {
+    public List<Edge> getEdges() {
         return edges;
     }
 
-    public ArrayList<StoryLine> getStoryLines() {
+    public List<StoryLine> getStoryLines() {
         return storyLines;
     }
 
-    public ArrayList<PointOfInterest> getPointOfInterests() {
+    public List<PointOfInterest> getPointOfInterests() {
         return pointOfInterests;
     }
 
 
-    public ArrayList<LabelledPoint> getLabelledPoints() {
+    public List<LabelledPoint> getLabelledPoints() {
         return labelledPoints;
     }
 
-    public ArrayList<FloorPlan> getFloorPlans() {
+    public List<FloorPlan> getFloorPlans() {
         return floorPlans;
     }
 
-    public ArrayList<Node> getNodes() {
+    public List<Node> getNodes() {
         return nodes;
     }
 
-    public ArrayList<PointOfInterest> getPointOfInterestsCurrentFloor(int currentFloor) {
-        ArrayList<PointOfInterest> currentFloorList = new ArrayList<>();
+    public List<PointOfInterest> getPointOfInterestsCurrentFloor(int currentFloor) {
+        List<PointOfInterest> currentFloorList = new ArrayList<>();
         for (PointOfInterest poi : pointOfInterests) {
             if (poi.getFloorID() == currentFloor) {
                 currentFloorList.add(poi);
@@ -139,8 +138,8 @@ public class Map {
     }
 
 
-    public ArrayList<LabelledPoint> getLabelledPointsCurrentFloor(int currentFloor) {
-        ArrayList<LabelledPoint> currentFloorList = new ArrayList<>();
+    public List<LabelledPoint> getLabelledPointsCurrentFloor(int currentFloor) {
+        List<LabelledPoint> currentFloorList = new ArrayList<>();
         for (LabelledPoint labelledPoint : labelledPoints) {
             if (labelledPoint.getFloorID() == currentFloor) {
                 currentFloorList.add(labelledPoint);

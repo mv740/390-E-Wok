@@ -14,5 +14,5 @@ public enum  Language {
     @JsonProperty("en_US")en_US,
     @JsonProperty("fr")fr,
     @JsonProperty("de_DE")de_DE;  //German, Germany (de_DE)
-    
+
 }

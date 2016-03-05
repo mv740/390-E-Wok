@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by michal on 2/19/2016.
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 @JsonTypeName("StoryPoint")
 public class StoryPoint {
     private  int storylineID;
-    private ArrayList<PointOfInterestDescription> storylineAssociatedDescription;
+    private List<PointOfInterestDescription> storylineAssociatedDescription;
     private Media media;
 
     public StoryPoint( @JsonProperty("storylineID")int storylineID,
@@ -36,19 +37,19 @@ public class StoryPoint {
         return storylineID;
     }
 
-    public ArrayList<PointOfInterestDescription> getStorylineAssociatedDescription() {
+    public List<PointOfInterestDescription> getStorylineAssociatedDescription() {
         return storylineAssociatedDescription;
     }
 
-    public ArrayList<Video> getVideos() {
+    public List<Video> getVideos() {
         return media.getVideos();
     }
 
-    public ArrayList<Audio> getAudios() {
+    public List<Audio> getAudios() {
         return media.getAudios();
     }
 
-    public ArrayList<Image> getImages() {
+    public List<Image> getImages() {
         return media.getImages();
     }
 

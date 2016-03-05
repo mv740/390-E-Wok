@@ -25,6 +25,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -128,7 +129,7 @@ public class NavigationDrawerFragment extends Fragment {
 
         String[] drawer_ele = getResources().getStringArray(R.array.drawer_ele);
         //have to convert from string array to string array list in order to be able to modify string list elements
-        ArrayList<String> array_list_drawer_ele = new ArrayList<String>(Arrays.asList(drawer_ele));
+        List<String> array_list_drawer_ele = new ArrayList<String>(Arrays.asList(drawer_ele));
 
         adapter = new ArrayAdapter<String>(this.getContext(), R.layout.fragment_navigation_item, array_list_drawer_ele);
         mDrawerListView.setAdapter(adapter);

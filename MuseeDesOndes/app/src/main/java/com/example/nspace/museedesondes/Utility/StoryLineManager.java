@@ -23,11 +23,11 @@ import java.util.UUID;
 
 public class StoryLineManager {
 
-    private final String DEFAULT_MUSEUM_UUID = "b9407f30-f5f8-466e-aff9-25556b57fe6d";
+    private static final String DEFAULT_MUSEUM_UUID = "b9407f30-f5f8-466e-aff9-25556b57fe6d";;
 
     private StoryLine storyLine;
-    private ArrayList<PointOfInterest> POIList;
-    private int POIindex;
+    private List<PointOfInterest> pointOfInterestList;
+    private int pointOfInterestIndex;
     private PointOfInterest nextPOI;
     private MapActivity mapActivity;
     private GoogleMap googleMap;
@@ -38,9 +38,9 @@ public class StoryLineManager {
     public StoryLineManager(StoryLine storyLine, MapActivity mapActivity, PoiPanel panel, GoogleMap googleMap) {
         this.storyLine = storyLine;
         initializePOIList();
-        this.POIindex = 0;
-        nextPOI = POIList.get(POIindex);
-        POIindex++;
+        this.pointOfInterestIndex = 0;
+        nextPOI = pointOfInterestList.get(pointOfInterestIndex);
+        pointOfInterestIndex++;
         this.mapActivity = mapActivity;
         this.panel = panel;
         this.googleMap = googleMap;
@@ -71,10 +71,10 @@ public class StoryLineManager {
 
 
     private void initializePOIList() {
-        POIList = new ArrayList<PointOfInterest>();
+        pointOfInterestList = new ArrayList<PointOfInterest>();
         for(Node node : storyLine.getNodes()) {
             if(node instanceof PointOfInterest) {
-                POIList.add((PointOfInterest) node);
+                pointOfInterestList.add((PointOfInterest) node);
             }
         }
     }
@@ -89,9 +89,9 @@ public class StoryLineManager {
 
     //updates the next point of interest beacon to listen for, stops listening after the last beacon is discovered
     private void updateNextPOI() {
-        if(POIindex < POIList.size()){
-            nextPOI = POIList.get(POIindex);
-            POIindex++;
+        if(pointOfInterestIndex < pointOfInterestList.size()){
+            nextPOI = pointOfInterestList.get(pointOfInterestIndex);
+            pointOfInterestIndex++;
         } else {
             beaconManager.stopRanging(region);
         }

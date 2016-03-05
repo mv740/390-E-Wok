@@ -20,7 +20,7 @@ public class ImageDeserialize extends JsonDeserializer<List<Image>> {
     @Override
     public List<Image> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
-        ArrayList<Image> images = new ArrayList<>();
+        List<Image> images = new ArrayList<>();
         ObjectCodec objectCodec = p.getCodec();
 
         JsonNode node = objectCodec.readTree(p);

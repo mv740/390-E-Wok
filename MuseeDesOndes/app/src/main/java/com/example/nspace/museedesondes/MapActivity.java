@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 
 import com.estimote.sdk.BeaconManager;
@@ -72,7 +73,6 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     PoiPanel panel;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,9 +83,10 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         //create storyline manager which handles storyline progression and interaction with the beacons
         information = Map.getInstance(getApplicationContext());
         getStoryLineSelected();
-        if(!freeExploration){
+        if (!freeExploration) {
             storyLineManager = new StoryLineManager(storyLine, this, panel, mMap);
         }
+
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -107,7 +108,6 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         seekBar = (SeekBar) findViewById(R.id.seekBar);
 
 
-
         this.polylineList = new HashMap<>();
     }
 
@@ -117,7 +117,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         int position = mIntent.getIntExtra("Story line list position", 0);
         ArrayList<StoryLine> storyLineList = information.getStoryLines();
 
-        if(position == 0) {
+        if (position == 0) {
             freeExploration = true;
         } else {
             storyLine = storyLineList.get(position - 1);
@@ -128,12 +128,13 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     private void bringButtonsToFront() {
         FloatingActionButton ham = (FloatingActionButton) findViewById(R.id.hamburger);
         FloatingActionButton search = (FloatingActionButton) findViewById(R.id.search_button);
-        FloatingActionMenu floor = (FloatingActionMenu) findViewById(R.id.floor_button);
+        final FloatingActionMenu floor = (FloatingActionMenu) findViewById(R.id.floor_button);
         FloatingActionButton zoomIn = (FloatingActionButton) findViewById(R.id.zoomInButton);
         FloatingActionButton zoomOut = (FloatingActionButton) findViewById(R.id.zoomOutButton);
 
-        View fitAllMarker = findViewById(R.id.zoomShowAllMarker);
+        final View fitAllMarker = findViewById(R.id.zoomShowAllMarker);
         fitAllMarker.setVisibility(View.INVISIBLE);
+        floor.setClosedOnTouchOutside(true);
 
         ham.bringToFront();
         search.bringToFront();
@@ -142,8 +143,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         zoomOut.bringToFront();
 
         //show only fitAllMarker button in free exploration
-        if(freeExploration)
-        {
+        if (freeExploration) {
             FloatingActionButton zoomShowAllMarker = (FloatingActionButton) fitAllMarker;
             zoomShowAllMarker.bringToFront();
             zoomShowAllMarker.setVisibility(View.VISIBLE);
@@ -170,7 +170,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         information = Map.getInstance(getApplicationContext());
 
         mMap = googleMap;
-        mapManager = new MapManager(mMap,this);
+        mapManager = new MapManager(mMap, this);
         mMap.setBuildingsEnabled(false);
         mMap.setIndoorEnabled(false);
         mMap.getUiSettings().setZoomControlsEnabled(false);
@@ -229,10 +229,10 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
                 double bottom = vr.latLngBounds.southwest.latitude;
 
 
-                Log.v("onCameraChange", "left :"+left);
-                Log.v("onCameraChange", "top :"+top);
-                Log.v("onCameraChange", "right :"+right);
-                Log.v("onCameraChange", "bottom :"+bottom);
+                Log.v("onCameraChange", "left :" + left);
+                Log.v("onCameraChange", "top :" + top);
+                Log.v("onCameraChange", "right :" + right);
+                Log.v("onCameraChange", "bottom :" + bottom);
 
                 mapManager.zoomLimit(position);
                 mapManager.verifyCameraPosition(left, top, right, bottom);
@@ -299,13 +299,17 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
 
     public void poiImgOnClick(View v) {
-        imgToSendToFullscreenImgActivity = ((BitmapDrawable)((ImageView) v.findViewById(R.id.poi_panel_pic_item_imageview)).getDrawable()).getBitmap();
+        imgToSendToFullscreenImgActivity = ((BitmapDrawable) ((ImageView) v.findViewById(R.id.poi_panel_pic_item_imageview)).getDrawable()).getBitmap();
         Intent fullscreenImgActivity = new Intent(MapActivity.this, FullscreenImgActivity.class);
         startActivity(fullscreenImgActivity);
     }
 
     public void floorButtonOnClick(View v) {
         //maps floor button id to floor id
+        View fitAllMarker = findViewById(R.id.zoomShowAllMarker);
+        fitAllMarker.setVisibility(View.INVISIBLE);
+
+
         switch (v.getId()) {
             case R.id.fab1:
                 changeFloor(1);
@@ -333,6 +337,8 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
                 floor.setColorNormal(ContextCompat.getColor(this, R.color.rca_onclick));
             }
         }
+        if (freeExploration)
+            fitAllMarker.setVisibility(View.VISIBLE);
     }
 
     public void changeFloor(int floor) {
@@ -410,7 +416,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     @Override
     protected void onResume() {
         super.onResume();
-        if(!freeExploration) {
+        if (!freeExploration) {
             SystemRequirementsChecker.checkWithDefaultDialogs(this);
             storyLineManager.getBeaconManager().connect(new BeaconManager.ServiceReadyCallback() {
                 @Override
@@ -423,7 +429,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
     @Override
     protected void onPause() {
-        if(!freeExploration) {
+        if (!freeExploration) {
             storyLineManager.getBeaconManager().stopRanging(storyLineManager.getRegion());
         }
         super.onPause();
@@ -439,5 +445,10 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
     public void zoomShowAllMarker(View view) {
         mapManager.zoomToFit(markerList);
+    }
+
+    public void floorMenuButton(View view) {
+        View fitAllMarker = findViewById(R.id.zoomShowAllMarker);
+        fitAllMarker.setVisibility(View.INVISIBLE);
     }
 }

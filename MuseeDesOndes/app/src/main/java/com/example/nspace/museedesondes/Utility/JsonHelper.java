@@ -1,6 +1,8 @@
 package com.example.nspace.museedesondes.Utility;
 
 import android.content.Context;
+import android.util.Log;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -21,7 +23,7 @@ public class JsonHelper {
             is.close();
             json = new String(buffer, "UTF-8");
         } catch (IOException ex) {
-            ex.printStackTrace();
+            Log.d("JsonHelper", Log.getStackTraceString(ex));
             return null;
         }
         return json;

@@ -1,6 +1,7 @@
 package com.example.nspace.museedesondes.Model;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.nspace.museedesondes.Utility.JsonHelper;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -50,7 +51,7 @@ public class Map {
                     initializeNodes();
 
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.d("JsonHelper", Log.getStackTraceString(e));
             }
 
         }

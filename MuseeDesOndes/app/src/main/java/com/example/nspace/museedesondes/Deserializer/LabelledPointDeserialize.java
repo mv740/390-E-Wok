@@ -1,6 +1,6 @@
-package com.example.nspace.museedesondes.Deserializer;
+package com.example.nspace.museedesondes.deserializer;
 
-import com.example.nspace.museedesondes.Model.LabelledPoint;
+import com.example.nspace.museedesondes.model.LabelledPoint;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;

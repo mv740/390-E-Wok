@@ -1,17 +1,16 @@
 package com.example.nspace.museedesondes;
 
-import android.app.Activity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 import com.bluejamesbond.text.DocumentView;
-import com.example.nspace.museedesondes.Model.Image;
-import com.example.nspace.museedesondes.Model.Language;
-import com.example.nspace.museedesondes.Model.PointOfInterest;
-import com.example.nspace.museedesondes.Model.StoryLine;
-import com.example.nspace.museedesondes.Utility.HorizontalRecycleViewAdapter;
-import com.example.nspace.museedesondes.Utility.PointMarker;
+import com.example.nspace.museedesondes.model.Image;
+import com.example.nspace.museedesondes.model.Language;
+import com.example.nspace.museedesondes.model.PointOfInterest;
+import com.example.nspace.museedesondes.model.StoryLine;
+import com.example.nspace.museedesondes.utility.HorizontalRecycleViewAdapter;
+import com.example.nspace.museedesondes.utility.PointMarker;
 import com.google.android.gms.maps.model.Marker;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 

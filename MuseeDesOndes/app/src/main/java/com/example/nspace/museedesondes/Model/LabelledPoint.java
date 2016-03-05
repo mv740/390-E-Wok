@@ -1,9 +1,7 @@
-package com.example.nspace.museedesondes.Model;
+package com.example.nspace.museedesondes.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-
-import java.util.ArrayList;
 
 /**
  * Created by michal on 2/9/2016.

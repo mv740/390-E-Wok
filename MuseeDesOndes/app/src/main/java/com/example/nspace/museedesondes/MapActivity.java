@@ -8,7 +8,6 @@ import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -26,12 +25,12 @@ import com.estimote.sdk.SystemRequirementsChecker;
 import com.example.nspace.museedesondes.AudioService.AudioBinder;
 
 
-import com.example.nspace.museedesondes.Model.Map;
-import com.example.nspace.museedesondes.Model.PointOfInterest;
-import com.example.nspace.museedesondes.Model.StoryLine;
-import com.example.nspace.museedesondes.Utility.MapManager;
-import com.example.nspace.museedesondes.Utility.PointMarker;
-import com.example.nspace.museedesondes.Utility.StoryLineManager;
+import com.example.nspace.museedesondes.model.Map;
+import com.example.nspace.museedesondes.model.PointOfInterest;
+import com.example.nspace.museedesondes.model.StoryLine;
+import com.example.nspace.museedesondes.utility.MapManager;
+import com.example.nspace.museedesondes.utility.PointMarker;
+import com.example.nspace.museedesondes.utility.StoryLineManager;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -45,13 +44,12 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import com.google.android.gms.maps.model.Polyline;
-import com.example.nspace.museedesondes.Model.Node;
+import com.example.nspace.museedesondes.model.Node;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.google.android.gms.maps.model.VisibleRegion;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 
 public class MapActivity extends ActionBarActivity implements OnMapReadyCallback, NavigationDrawerFragment.NavigationDrawerCallbacks, GoogleMap.OnMarkerClickListener {

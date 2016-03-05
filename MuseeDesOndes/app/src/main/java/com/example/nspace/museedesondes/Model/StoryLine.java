@@ -1,4 +1,4 @@
-package com.example.nspace.museedesondes.Model;
+package com.example.nspace.museedesondes.model;
 
 import android.content.Context;
 

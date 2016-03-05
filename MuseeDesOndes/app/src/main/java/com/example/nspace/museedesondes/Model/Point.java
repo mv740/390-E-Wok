@@ -1,7 +1,7 @@
-package com.example.nspace.museedesondes.Model;
+package com.example.nspace.museedesondes.model;
 
-import com.example.nspace.museedesondes.Deserializer.POIDeserialize;
-import com.example.nspace.museedesondes.Deserializer.LabelledPointDeserialize;
+import com.example.nspace.museedesondes.deserializer.POIDeserialize;
+import com.example.nspace.museedesondes.deserializer.LabelledPointDeserialize;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;

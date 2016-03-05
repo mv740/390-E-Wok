@@ -1,9 +1,9 @@
-package com.example.nspace.museedesondes.Model;
+package com.example.nspace.museedesondes.model;
 
 import android.content.Context;
 import android.util.Log;
 
-import com.example.nspace.museedesondes.Utility.JsonHelper;
+import com.example.nspace.museedesondes.utility.JsonHelper;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

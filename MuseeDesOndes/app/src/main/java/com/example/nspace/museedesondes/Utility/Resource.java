@@ -1,11 +1,11 @@
-package com.example.nspace.museedesondes.Utility;
+package com.example.nspace.museedesondes.utility;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 
-import com.example.nspace.museedesondes.Model.StoryLine;
+import com.example.nspace.museedesondes.model.StoryLine;
 
 
 /**

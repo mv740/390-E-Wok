@@ -1,17 +1,15 @@
-package com.example.nspace.museedesondes.Utility;
+package com.example.nspace.museedesondes.utility;
 
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
 import com.estimote.sdk.Utils;
 import com.example.nspace.museedesondes.MapActivity;
-import com.example.nspace.museedesondes.Model.Node;
-import com.example.nspace.museedesondes.Model.PointOfInterest;
-import com.example.nspace.museedesondes.Model.StoryLine;
+import com.example.nspace.museedesondes.model.Node;
+import com.example.nspace.museedesondes.model.PointOfInterest;
+import com.example.nspace.museedesondes.model.StoryLine;
 import com.example.nspace.museedesondes.PoiPanel;
-import com.example.nspace.museedesondes.R;
 import com.google.android.gms.maps.GoogleMap;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
 import java.util.List;

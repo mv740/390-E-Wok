@@ -1,13 +1,12 @@
-package com.example.nspace.museedesondes.Utility;
+package com.example.nspace.museedesondes.utility;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 
-import com.example.nspace.museedesondes.Model.FloorPlan;
+import com.example.nspace.museedesondes.model.FloorPlan;
 import com.example.nspace.museedesondes.R;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;

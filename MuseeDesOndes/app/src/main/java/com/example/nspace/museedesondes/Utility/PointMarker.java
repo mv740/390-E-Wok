@@ -1,9 +1,9 @@
-package com.example.nspace.museedesondes.Utility;
+package com.example.nspace.museedesondes.utility;
 
 import android.content.Context;
 
-import com.example.nspace.museedesondes.Model.PointOfInterest;
-import com.example.nspace.museedesondes.Model.LabelledPoint;
+import com.example.nspace.museedesondes.model.PointOfInterest;
+import com.example.nspace.museedesondes.model.LabelledPoint;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;

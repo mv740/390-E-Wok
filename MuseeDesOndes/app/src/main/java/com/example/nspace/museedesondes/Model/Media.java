@@ -1,8 +1,8 @@
-package com.example.nspace.museedesondes.Model;
+package com.example.nspace.museedesondes.model;
 
-import com.example.nspace.museedesondes.Deserializer.AudioDeserialize;
-import com.example.nspace.museedesondes.Deserializer.ImageDeserialize;
-import com.example.nspace.museedesondes.Deserializer.VideoDeserialize;
+import com.example.nspace.museedesondes.deserializer.AudioDeserialize;
+import com.example.nspace.museedesondes.deserializer.ImageDeserialize;
+import com.example.nspace.museedesondes.deserializer.VideoDeserialize;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 

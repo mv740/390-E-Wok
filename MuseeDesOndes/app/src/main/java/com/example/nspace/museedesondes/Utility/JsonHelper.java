@@ -1,4 +1,4 @@
-package com.example.nspace.museedesondes.Utility;
+package com.example.nspace.museedesondes.utility;
 
 import android.content.Context;
 import android.util.Log;

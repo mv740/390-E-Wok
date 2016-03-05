@@ -14,10 +14,10 @@ import com.dexafree.materialList.card.CardProvider;
 import com.dexafree.materialList.card.provider.ListCardProvider;
 import com.dexafree.materialList.listeners.RecyclerItemClickListener;
 import com.dexafree.materialList.view.MaterialListView;
-import com.example.nspace.museedesondes.Model.Map;
-import com.example.nspace.museedesondes.Model.StoryLine;
-import com.example.nspace.museedesondes.Model.StoryLineDescription;
-import com.example.nspace.museedesondes.Utility.Resource;
+import com.example.nspace.museedesondes.model.Map;
+import com.example.nspace.museedesondes.model.StoryLine;
+import com.example.nspace.museedesondes.model.StoryLineDescription;
+import com.example.nspace.museedesondes.utility.Resource;
 
 import java.util.ArrayList;
 import java.util.List;

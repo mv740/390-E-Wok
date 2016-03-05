@@ -22,4 +22,10 @@
         <item>Trouver la sortie</item>
     </string-array>
 
+    <string name="dialogTitle">Bienvenu</string>
+    <string name="dialogMsg">Vous allez débuter le scénario suivant \n</string>
+    <string name="dialogOk">OK</string>
+    <string name="dialogCancel">Annuler</string>
+    <string name="dialogFree">Vous aller pouvoir explorer librement tous les point d\'intérêts du musée</string>
+
 </resources>

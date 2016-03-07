@@ -3,4 +3,6 @@
     <color name="colorPrimary">#f43029</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="rca_primary">#FFE33C3C</color>
+    <color name="rca_onclick">#FFFFA8A8</color>
 </resources>

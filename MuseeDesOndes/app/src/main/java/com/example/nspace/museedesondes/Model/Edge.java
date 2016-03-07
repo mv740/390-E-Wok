@@ -1,42 +1,57 @@
-package com.example.nspace.museedesondes.Model;
+package com.example.nspace.museedesondes.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.util.ArrayList;
 
 /**
  * Created by michal on 1/28/2016.
  */
 public class Edge {
 
-    private int id;
-    private int weight;
-    private ArrayList<Node> node;
-
-    public Edge(@JsonProperty("id")int id,@JsonProperty("weight") int weight, @JsonProperty("node")ArrayList node) {
-        this.id = id;
-        this.weight = weight;
-        this.node = node;
+    private int distance;
+    private Node start;
+    private Node end;
+    private int startID;
+    private int endID;
+    private int floorNumber;
+    public Edge(@JsonProperty("startNode") int startID,
+                @JsonProperty("endNode") int endID,
+                @JsonProperty("distance") int distance,
+                @JsonProperty("floorNumber") int floorNumber) {
+        this.startID = startID;
+        this.endID = endID;
+        this.distance = distance;
+        this.floorNumber = floorNumber;
     }
 
-    public int getId() {
-        return id;
+    public int getDistance() {
+        return distance;
     }
 
-    public int getWeight() {
-        return weight;
+    public int getStartID() {
+        return startID;
     }
 
-    public ArrayList getNode() {
-        return node;
+    public int getEndID() {
+        return endID;
     }
 
-    @Override
-    public String toString() {
-        return "Edge{" +
-                "id=" + id +
-                ", weight=" + weight +
-                ", node=" + node +
-                '}';
+    public Node getStart() {
+        return start;
+    }
+
+    public Node getEnd() {
+        return end;
+    }
+
+    public void setStart(Node start) {
+        this.start = start;
+    }
+
+    public void setEnd(Node end) {
+        this.end = end;
+    }
+
+    public int getFloorNumber() {
+        return floorNumber;
     }
 }

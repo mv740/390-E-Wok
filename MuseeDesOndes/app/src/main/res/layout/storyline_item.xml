@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:ext="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:id="@+id/storyline_item_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        >
+
+        <ImageView
+            android:id="@+id/storyline_item_pic_background"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:layout_alignParentStart="true"
+            android:src="@drawable/free_exploration"
+            android:scaleType="centerCrop"/>
+
+        <TextView
+            android:id="@+id/storyline_item_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:layout_marginTop="20dp"
+            android:padding="15dp"
+            android:text="STORYLINE TITLE"
+            android:textColor="#FFFFFFFF"
+            android:textAlignment="center"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="90dp"
+            android:layout_below="@+id/storyline_item_pic_background"
+            android:background="#FFFFFFFF"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sit amet ipsum ultrices, elementum tellus non, sagittis dolor. Ut odio sem, venenatis non varius non, vulputate ut tortor. Nulla ullamcorper nulla sed magna gravida, sit amet varius ipsum malesuada. Cras consectetur, mi vitae maximus efficitur, erat mi viverra mi, tristique pretium est lorem vel ipsum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Integer eu efficitur arcu. Donec ultricies feugiat libero, vel egestas ex. Suspendisse at Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sit amet ipsum ultrices, elementum tellus non, sagittis dolor. Ut odio sem, venenatis non varius non, vulputate ut tortor. Nulla ullamcorper nulla sed magna gravida, sit amet varius "
+            android:textSize="15dp"
+            android:textColor="@android:color/black"
+            android:padding="10dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/storyline_item_description"
+            />
+
+    </RelativeLayout>
+
+
+</FrameLayout>

@@ -1,4 +1,33 @@
 <resources>
     <string name="app_name">Musée des Ondes Emile Berliner</string>
     <string name="welcome_message">Welcome to the virtual guide for the Musée des Ondes Emile Berliner.</string>
+    <string name="free_exploration">FREE EXPLORATION</string>
+    <string name="free_exploration_description">Explore all of the exhbits in the museum in any order.</string>
+    <string name="settings">Settings</string>
+    <string name="language_title">Language</string>
+    <string name="english_radio">English</string>
+    <string name="french_radio">French</string>
+    <string name="ok_button">OK</string>
+    <string name="title_activity_map">Map</string>
+    <string name="storyline_activity">STORYLINES</string>
+    <string name="settings_activity">SETTINGS</string>
+    <string name="begin_tour_button_text">SELECT YOUR STORYLINE</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+
+
+    <string-array name="drawer_ele">
+        <item>Exhibits</item>
+        <item>Storylines</item>
+        <item>Profile</item>
+        <item>Find exit</item>
+    </string-array>
+
+    <string name="dialogTitle">Welcome</string>
+    <string name="dialogMsg">You will begin the following storyline \n</string>
+    <string name="dialogOk">OK</string>
+    <string name="dialogCancel">Cancel</string>
+    <string name="dialogFree">You will be able to freely explore any point of interests of the museum </string>
 </resources>

@@ -1,90 +1,603 @@
 {
   "node": [
     {
-      "type": "PointOfInterest",
-      "id": 1,
-      "iBeacon_id": 12345,
-      "name": "testName",
-      "description": "test description",
-      "video": "video/test",
-      "audio": "audio/test",
-      "picture": "picture/test",
-      "floor": 1,
-      "room": 210,
-      "tags": [
-        "testTags1",
-        "testTags2",
-        "testTags3"
+      "poi" : [
+        {
+          "id": 1,
+          "beaconInformation": {
+            "UUID": "test_uuid",
+            "major": 61111,
+            "minor": 23409
+          },
+          "title": [
+            {
+              "language": "fr",
+              "title": "test_titre"
+            },
+            {
+              "language": "en_US",
+              "title": "test_title"
+            }
+          ],
+          "description": [
+            {
+              "language": "fr",
+              "description": "Veuillez lire cette description"
+            },
+            {
+              "language": "en_US",
+              "description": "Please read this description"
+            }
+          ],
+          "media" : {
+            "video": [
+              {
+                "caption": "video_titre",
+                "language": "fr",
+                "path": "video/FR/test.mp4"
+              },
+              {
+                "caption": "video_title",
+                "language": "en_US",
+                "path": "video/EN/test.mp4"
+              }
+            ],
+            "audio": [
+              {
+                "caption": "audio_titre",
+                "language": "fr",
+                "path": "audio/FR/test_1.mp3"
+              },
+              {
+                "caption": "audio_title",
+                "language": "en_US",
+                "path": "audio/EN/test_1.mp3"
+              }
+            ],
+            "image": [
+              {
+                "caption": "test_title",
+                "language": "en_US",
+                "path": "picture/test_image1.png"
+              },
+              {
+                "caption": "test_titre",
+                "language": "fr",
+                "path": "picture/test_image2.png"
+              }
+            ]
+          },
+          "floorID": 1,
+          "x": 0.001,
+          "y": 0.0,
+          "storyPoint": [
+            {
+              "storylineID": 2,
+              "title": [
+                {
+                  "language": "fr",
+                  "title": "<title>"
+                }
+              ],
+              "description": [
+                {
+                  "language": "fr",
+                  "description": "<description>"
+                }
+              ],
+              "media": {
+                "image": [
+                  {
+                    "path": "<URL>",
+                    "language": "fr",
+                    "caption": "<caption>"
+                  }
+                ],
+                "video": [
+                  {
+                    "path": "<URL>",
+                    "language": "fr",
+                    "caption": "<caption>"
+                  }
+                ],
+                "audio": [
+                  {
+                    "path": "<URL>",
+                    "language": "fr",
+                    "caption": "<caption>"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "beaconInformation": {
+            "UUID": "test_uuid",
+            "major": 1111,
+            "minor": 2222
+          },
+          "title": [
+            {
+              "language": "fr",
+              "title": "test_titre3"
+            },
+            {
+              "language": "en_US",
+              "title": "test_title3"
+            }
+          ],
+          "description": [
+            {
+              "language": "fr",
+              "description": "Veuillez lire cette description3"
+            },
+            {
+              "language": "en_US",
+              "description": "Please read this description3"
+            }
+          ],
+          "media" : {
+            "video": [
+              {
+                "caption": "video_titre",
+                "language": "fr",
+                "path": "video/FR/test.mp4"
+              },
+              {
+                "caption": "video_title",
+                "language": "en_US",
+                "path": "video/EN/test.mp4"
+              }
+            ],
+            "audio": [
+              {
+                "caption": "audio_titre",
+                "language": "fr",
+                "path": "audio/FR/test_1.mp3"
+              },
+              {
+                "caption": "audio_title",
+                "language": "en_US",
+                "path": "audio/EN/test_1.mp3"
+              }
+            ],
+            "image": [
+              {
+                "caption": "test_title",
+                "language": "en_US",
+                "path": "picture/test_image1.png"
+              },
+              {
+                "caption": "test_titre",
+                "language": "fr",
+                "path": "picture/test_image2.png"
+              }
+            ]
+          },
+          "floorID": 1,
+          "x": 0.02,
+          "y": 0.005,
+          "storyPoint": [
+            {
+              "storylineID": 1,
+              "title": [
+                {
+                  "language": "fr",
+                  "title": "<title>"
+                }
+              ],
+              "description": [
+                {
+                  "language": "fr",
+                  "description": "<description>"
+                }
+              ],
+              "media": {
+                "image": [
+                  {
+                    "path": "<URL>",
+                    "language": "fr",
+                    "caption": "<caption>"
+                  }
+                ],
+                "video": [
+                  {
+                    "path": "<URL>",
+                    "language": "fr",
+                    "caption": "<caption>"
+                  }
+                ],
+                "audio": [
+                  {
+                    "path": "<URL>",
+                    "language": "fr",
+                    "caption": "<caption>"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "beaconInformation": {
+            "UUID": "test_uuid",
+            "major": 1111,
+            "minor": 2222
+          },
+          "title": [
+            {
+              "language": "fr",
+              "title": "test_titre3"
+            },
+            {
+              "language": "en_US",
+              "title": "test_title3"
+            }
+          ],
+          "description": [
+            {
+              "language": "fr",
+              "description": "Veuillez lire cette description3"
+            },
+            {
+              "language": "en_US",
+              "description": "Please read this description3"
+            }
+          ],
+          "media" : {
+            "video": [
+              {
+                "caption": "video_titre",
+                "language": "fr",
+                "path": "video/FR/test.mp4"
+              },
+              {
+                "caption": "video_title",
+                "language": "en_US",
+                "path": "video/EN/test.mp4"
+              }
+            ],
+            "audio": [
+              {
+                "caption": "audio_titre",
+                "language": "fr",
+                "path": "audio/FR/test_1.mp3"
+              },
+              {
+                "caption": "audio_title",
+                "language": "en_US",
+                "path": "audio/EN/test_1.mp3"
+              }
+            ],
+            "image": [
+              {
+                "caption": "test_title",
+                "language": "en_US",
+                "path": "picture/test_image1.png"
+              },
+              {
+                "caption": "test_titre",
+                "language": "fr",
+                "path": "picture/test_image2.png"
+              }
+            ]
+          },
+          "floorID": 1,
+          "x": -0.015,
+          "y": 0.025,
+          "storyPoint": [
+            {
+              "storylineID": 1,
+              "title": [
+                {
+                  "language": "fr",
+                  "title": "<title>"
+                }
+              ],
+              "description": [
+                {
+                  "language": "fr",
+                  "description": "<description>"
+                }
+              ],
+              "media": {
+                "image": [
+                  {
+                    "path": "<URL>",
+                    "language": "fr",
+                    "caption": "<caption>"
+                  }
+                ],
+                "video": [
+                  {
+                    "path": "<URL>",
+                    "language": "fr",
+                    "caption": "<caption>"
+                  }
+                ],
+                "audio": [
+                  {
+                    "path": "<URL>",
+                    "language": "fr",
+                    "caption": "<caption>"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "beaconInformation": {
+            "UUID": "test_uuid",
+            "major": 61111,
+            "minor": 23409
+          },
+          "title": [
+            {
+              "language": "fr",
+              "title": "test_titre5!"
+            },
+            {
+              "language": "en_US",
+              "title": "test_title5!!!"
+            }
+          ],
+          "description": [
+            {
+              "language": "fr",
+              "description": "Veuillez lire cette description5!!!"
+            },
+            {
+              "language": "en_US",
+              "description": "Please read this description5!!!"
+            }
+          ],
+          "media" : {
+            "video": [
+              {
+                "caption": "video_titre",
+                "language": "fr",
+                "path": "video/FR/test.mp4"
+              },
+              {
+                "caption": "video_title",
+                "language": "en_US",
+                "path": "video/EN/test.mp4"
+              }
+            ],
+            "audio": [
+              {
+                "caption": "audio_titre",
+                "language": "fr",
+                "path": "audio/FR/test_1.mp3"
+              },
+              {
+                "caption": "audio_title",
+                "language": "en_US",
+                "path": "audio/EN/test_1.mp3"
+              }
+            ],
+            "image": [
+              {
+                "caption": "test_title",
+                "language": "en_US",
+                "path": "picture/test_image1.png"
+              },
+              {
+                "caption": "test_titre",
+                "language": "fr",
+                "path": "picture/test_image2.png"
+              }
+            ]
+          },
+          "floorID": 1,
+          "x": -0.065,
+          "y": -0.015,
+          "storyPoint": [
+            {
+              "storylineID": 66,
+              "title": [
+                {
+                  "language": "fr",
+                  "title": "FR STORY POINT TITLE!"
+                },
+                {
+                  "language": "en_US",
+                  "title": "EN STORY POINT TITLE!"
+                }
+              ],
+              "description": [
+                {
+                  "language": "fr",
+                  "description": "FR STORY POINT DESC!"
+                },
+                {
+                  "language": "en_US",
+                  "description": "EN STORY POINT DESC!"
+                }
+              ],
+              "media": {
+                "image": [
+                  {
+                    "path": "<URL>",
+                    "language": "fr",
+                    "caption": "<caption>"
+                  }
+                ],
+                "video": [
+                  {
+                    "path": "<URL>",
+                    "language": "fr",
+                    "caption": "<caption>"
+                  }
+                ],
+                "audio": [
+                  {
+                    "path": "<URL>",
+                    "language": "fr",
+                    "caption": "<caption>"
+                  }
+                ]
+              }
+            }
+          ]
+        }
       ],
-      "coordinate": {
-        "x": 20,
-        "y": 40
-      },
-      "edge": [
-        1,
-        2,
-        3
-      ]
-    },
-    {
-      "type": "PointOfInterest",
-      "id": 1,
-      "iBeacon_id": 12345,
-      "name": "testName",
-      "description": "test description",
-      "video": "video/test",
-      "audio": "audio/test",
-      "picture": "picture/test",
-      "floor": 1,
-      "room": 210,
-      "tags": [
-        "testTags1",
-        "testTags2",
-        "testTags3"
-      ],
-      "coordinate": {
-        "x": 20,
-        "y": 40
-      },
-      "edge": [
-        1,
-        2,
-        3
-      ]
-    },
-    {
-      "type": "Node",
-      "id": 1,
-      "floor": 1,
-      "coordinate": {
-        "x": 20,
-        "y": 40
-      },
-      "edge": [
-        1,
-        2,
-        3
+      "pot" : [
+        {
+          "id": 2,
+          "floorID": 1,
+          "x": 0.002,
+          "y": 0.004,
+          "label": "STAIRS"
+        },
+        {
+          "label": "ENTRANCE",
+          "id": 3,
+          "floorID": 2,
+          "x": 0.0022,
+          "y": 0.00405
+        }
       ]
     }
   ],
   "edge": [
     {
+      "startNode": 1,
+      "endNode": 2,
+      "floorNumber": 1,
+      "distance": 20
+    }
+  ],
+  "storyLine": [
+    {
       "id": 1,
-      "weight": 10,
-      "node": [
+      "title": [
+        {
+          "language": "fr",
+          "title": "RCA dans histoire"
+        },
+        {
+          "language": "en_US",
+          "title": "RCA Throughout history"
+        }
+      ],
+      "description": [
+        {
+          "language": "fr",
+          "description": "Avant la publication du Premier Folio en 1623, dix-neuf des trente-sept pièces de théâtre dans le canon de Shakespeare était apparu en format in-quarto."
+        },
+        {
+          "language": "en_US",
+          "description": "Before the publication of the First Folio in 1623, nineteen of the thirty-seven plays in Shakespeare's canon had appeared in quarto format. "
+        }
+      ],
+      "thumbnail": "berliners1",
+      "walkingTimeInMinutes": 30,
+      "floorsCovered": 2,
+      "path": [
         1,
         2,
+        3
+      ]
+    },
+    {
+      "id": 2,
+      "title": [
+        {
+          "language": "fr",
+          "title": "Nippers le chien"
+        },
+        {
+          "language": "en_US",
+          "title": "Nippers the Dog"
+        }
+      ],
+      "description": [
+        {
+          "language": "fr",
+          "description": "À l'exception d'Othello (1622), tous les in-quarto ont été publiés avant la date de la retraite de Shakespeare du théâtre dans environ 1611"
+        },
+        {
+          "language": "en_US",
+          "description": "With the exception of Othello (1622), all of the quartos were published prior to the date of Shakespeare's retirement from the theatre in about 1611"
+        }
+      ],
+      "thumbnail": "museum_ex_2",
+      "walkingTimeInMinutes": 30,
+      "floorsCovered": 2,
+      "path": [
         3,
-        4,
-        5
+        2,
+        4
+      ]
+    },
+    {
+      "id": 66,
+      "title": [
+        {
+          "language": "fr",
+          "title": "Chose de Gramaphone"
+        },
+        {
+          "language": "en_US",
+          "title": "Gramaphone Stuff"
+        }
+      ],
+      "description": [
+        {
+          "language": "fr",
+          "description": "Ici vous trouverez le texte complet de pièces de Shakespeare, basée principalement sur la Première Folio, et une variété de ressources utiles, y compris de nombreuses notes explicatives, le caractère analysis.Shakespeare est né et a grandi à Stratford-upon-Avon, Warwickshire. À l'âge de 18 ans, il épouse Anne Hathaway, avec qui il a eu trois enfants: Susanna, et les jumeaux Hamnet et Judith. Quelque part entre 1585 et 1592, il a commencé une carrière couronnée de succès à Londres comme un acteur, écrivain et co-propriétaire d'une entreprise jouant appelé Hommes du Lord Chamberlain, plus tard connu comme fous du roi."
+        },
+        {
+          "language": "en_US",
+          "description": "Here you will find the complete text of Shakespeare's plays, based primarily on the First Folio, and a variety of helpful resources, including extensive explanatory notes, character analysis.Shakespeare was born and brought up in Stratford-upon-Avon, Warwickshire. At the age of 18, he married Anne Hathaway, with whom he had three children: Susanna, and twins Hamnet and Judith. Sometime between 1585 and 1592, he began a successful career in London as an actor, writer, and part-owner of a playing company called the Lord Chamberlain's Men, later known as the King's Men. This is a long test!!"
+        }
+      ],
+      "thumbnail": "salle_rca_victor_studio",
+      "walkingTimeInMinutes": 30,
+      "floorsCovered": 2,
+      "path": [
+        5,
+        2,
+        4
       ]
     }
   ],
-  "storyline": [
+  "floorPlan": [
     {
-      "name" : "StoryTest",
-      "description" : "descripion 12345456",
-      "ids": [1,2,3,10]
+      "floorID": "1",
+      "imagePath": "floor_1_rca_march2011_1",
+      "imageWidth": "10",
+      "imageHeight": "10"
+    },
+    {
+      "floorID": "2",
+      "imagePath": "floor_2_rca_march2011_1",
+      "imageWidth": "10",
+      "imageHeight": "10"
+    },
+    {
+      "floorID": "3",
+      "imagePath": "floor_3_rca_march2011_1",
+      "imageWidth": "10",
+      "imageHeight": "10"
+    },
+    {
+      "floorID": "4",
+      "imagePath": "floor_4_rca_march2011_1",
+      "imageWidth": "10",
+      "imageHeight": "10"
+    },
+    {
+      "floorID": "5",
+      "imagePath": "floor_5_rca_march2011_1",
+      "imageWidth": "10",
+      "imageHeight": "10"
     }
   ]
 }

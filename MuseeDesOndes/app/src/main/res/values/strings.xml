@@ -11,7 +11,7 @@
     <string name="title_activity_map">Map</string>
     <string name="storyline_activity">STORYLINES</string>
     <string name="settings_activity">SETTINGS</string>
-    <string name="begin_tour_button_text">SELECT YOUR STORYLINE</string>
+    <string name="begin_tour_button_text">SELECT TOUR</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

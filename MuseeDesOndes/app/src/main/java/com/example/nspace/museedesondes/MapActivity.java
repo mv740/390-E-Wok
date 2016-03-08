@@ -124,7 +124,6 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
     private void bringButtonsToFront() {
         FloatingActionButton ham = (FloatingActionButton) findViewById(R.id.hamburger);
-        FloatingActionButton search = (FloatingActionButton) findViewById(R.id.search_button);
         final FloatingActionMenu floor = (FloatingActionMenu) findViewById(R.id.floor_button);
         FloatingActionButton zoomIn = (FloatingActionButton) findViewById(R.id.zoomInButton);
         FloatingActionButton zoomOut = (FloatingActionButton) findViewById(R.id.zoomOutButton);
@@ -134,7 +133,6 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         floor.setClosedOnTouchOutside(true);
 
         ham.bringToFront();
-        search.bringToFront();
         floor.bringToFront();
         zoomIn.bringToFront();
         zoomOut.bringToFront();

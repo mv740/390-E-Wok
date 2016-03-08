@@ -57,13 +57,15 @@ public class AudioService extends Service {
     Runnable updateProgress = new Runnable() {
         @Override
         public void run() {
-            int currentTime = mediaPlayer.getCurrentPosition();
-            int duration = mediaPlayer.getDuration();
-            int percentageProgress = (int)((currentTime/duration) * 100);
-            int currentPosition = currentTime/1000;
-            seekBar.setProgress(currentPosition);
+            while(mediaPlayer.isPlaying()) {
+                int currentTime = mediaPlayer.getCurrentPosition();
+                int duration = mediaPlayer.getDuration();
+                int percentageProgress = (int) ((currentTime / duration) * 100);
+                int currentPosition = currentTime / 1000;
+                seekBar.setProgress(currentPosition);
 
-            audioHandler.postDelayed(this, 1000);
+                audioHandler.postDelayed(this, 1000);
+            }
         }
     };
 
@@ -79,8 +81,19 @@ public class AudioService extends Service {
     }
 
     public int getCurrentPosition(){
-        int currentTime = mediaPlayer.getCurrentPosition();
-        return currentTime/1000;
+        if(mediaPlayer != null) {
+            int currentTime = mediaPlayer.getCurrentPosition();
+            return currentTime / 1000;
+        }
+        return 0;
+    }
+
+    public void releaseAudio(){
+        if(mediaPlayer.isPlaying()) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer=null;
+        }
     }
 
     public int getAudioDuration(){

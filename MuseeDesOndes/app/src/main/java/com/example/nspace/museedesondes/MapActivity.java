@@ -432,6 +432,13 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         super.onPause();
     }
 
+    protected void onStop(){
+        super.onStop();
+        if(audioService != null){
+            audioService.releaseAudio();
+        }
+    }
+
     public void zoomInButtonClick(View view) {
         mapManager.zoomIn(mMap.getCameraPosition());
     }

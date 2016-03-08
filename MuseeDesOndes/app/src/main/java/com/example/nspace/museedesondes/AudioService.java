@@ -17,6 +17,7 @@ public class AudioService extends Service {
     private SeekBar seekBar;
     private Handler audioHandler = new Handler();
     LayoutInflater inflater;
+    private boolean isPlaying = false;
 
 
     public AudioService() {
@@ -45,8 +46,10 @@ public class AudioService extends Service {
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
             v.setBackgroundResource(R.drawable.ic_play_circle_filled_white_48dp);
+            isPlaying = false;
         } else {
             mediaPlayer.start();
+            isPlaying = true;
             v.setBackgroundResource(R.drawable.ic_pause_circle_filled_white_48dp);
             //updateProgress.run();
 
@@ -89,7 +92,7 @@ public class AudioService extends Service {
     }
 
     public void releaseAudio(){
-        if(mediaPlayer.isPlaying()) {
+        if(isPlaying) {
             mediaPlayer.stop();
             mediaPlayer.release();
             mediaPlayer=null;

@@ -16,7 +16,6 @@
     <string name="navigation_drawer_close">Fermer menu navigation</string>
 
     <string-array name="drawer_ele">
-        <item>Expositions</item>
         <item>Scénario</item>
         <item>Profil</item>
         <item>Trouver la sortie</item>

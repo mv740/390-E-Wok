@@ -1,6 +1,8 @@
 package com.example.nspace.museedesondes;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
 import android.support.v7.app.ActionBar;
@@ -22,6 +24,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.example.nspace.museedesondes.utility.DrawerListAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -67,7 +71,7 @@ public class NavigationDrawerFragment extends Fragment {
     private ListView mDrawerList;
     private boolean drawerGoingToOpen = true;
     private String navFragmentLang;
-    ArrayAdapter adapter;
+    DrawerListAdapter adapter;
 
     public NavigationDrawerFragment() {
     }
@@ -129,9 +133,10 @@ public class NavigationDrawerFragment extends Fragment {
 
         String[] drawer_ele = getResources().getStringArray(R.array.drawer_ele);
         //have to convert from string array to string array list in order to be able to modify string list elements
-        List<String> array_list_drawer_ele = new ArrayList<String>(Arrays.asList(drawer_ele));
+        ArrayList<String> array_list_drawer_ele = new ArrayList<String>(Arrays.asList(drawer_ele));
+        ArrayList<Drawable> array_list_drawer_ele_icons = populateDrawerItemIcons();
 
-        adapter = new ArrayAdapter<String>(this.getContext(), R.layout.fragment_navigation_item, array_list_drawer_ele);
+        adapter = new DrawerListAdapter(this.getActivity(), array_list_drawer_ele, array_list_drawer_ele_icons);
         mDrawerListView.setAdapter(adapter);
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
 
@@ -140,6 +145,17 @@ public class NavigationDrawerFragment extends Fragment {
 
 
         return mDrawerListView;
+    }
+
+    private ArrayList<Drawable> populateDrawerItemIcons(){
+
+        ArrayList<Drawable> array_list_drawer_ele_icons = new ArrayList<>();
+
+        array_list_drawer_ele_icons.add(ContextCompat.getDrawable(getContext(), R.drawable.ic_content_duplicate_white_24dp));
+        array_list_drawer_ele_icons.add(ContextCompat.getDrawable(getContext(), R.drawable.ic_language_white_24dp));
+        array_list_drawer_ele_icons.add(ContextCompat.getDrawable(getContext(), R.drawable.ic_exit_to_app_white_24dp));
+
+        return array_list_drawer_ele_icons;
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {

@@ -19,7 +19,6 @@
 
 
     <string-array name="drawer_ele">
-        <item>Exhibits</item>
         <item>Storylines</item>
         <item>Profile</item>
         <item>Find exit</item>

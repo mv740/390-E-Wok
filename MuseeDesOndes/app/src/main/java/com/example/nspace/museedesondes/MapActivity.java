@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -37,6 +38,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.GroundOverlay;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -103,7 +105,6 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         Intent intent = new Intent(this, AudioService.class);
         bindService(intent, audioConnection, Context.BIND_AUTO_CREATE);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
-
 
         this.polylineList = new HashMap<String, Polyline>();
     }
@@ -174,12 +175,6 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         mMap.getUiSettings().setRotateGesturesEnabled(false);
 
 
-        //// TODO: 2/7/2016  need to get the lat/lng of each map et bound the available view screen
-//        final LatLngBounds BOUNDS = new LatLngBounds(new LatLng(0.027,-0.02), new LatLng(41.9667, 12.5938));
-//        final int MAX_ZOOM = 16;
-//        final int MIN_ZOOM = 13;
-
-
         LatLng custom = new LatLng(0.027, -0.02);
         LatLng center = new LatLng(0, 0);
         //mMap.moveCamera(CameraUpdateFactory.newLatLngBounds());
@@ -216,21 +211,22 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
         mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
 
-            public void onCameraChange(CameraPosition position) {
+            public void onCameraChange(CameraPosition cameraPosition) {
+
                 VisibleRegion vr = mMap.getProjection().getVisibleRegion();
                 double left = vr.latLngBounds.southwest.longitude;
                 double top = vr.latLngBounds.northeast.latitude;
                 double right = vr.latLngBounds.northeast.longitude;
                 double bottom = vr.latLngBounds.southwest.latitude;
 
-
                 Log.v("onCameraChange", "left :" + left);
                 Log.v("onCameraChange", "top :" + top);
                 Log.v("onCameraChange", "right :" + right);
                 Log.v("onCameraChange", "bottom :" + bottom);
 
-                mapManager.zoomLimit(position);
-                mapManager.verifyCameraPosition(left, top, right, bottom);
+                mapManager.zoomLimit(cameraPosition);
+                LatLngBounds current = new LatLngBounds(vr.latLngBounds.southwest, vr.latLngBounds.northeast);
+                mapManager.verifyCameraBounds(current);
             }
         });
     }
@@ -430,9 +426,9 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         super.onPause();
     }
 
-    protected void onStop(){
+    protected void onStop() {
         super.onStop();
-        if(audioService != null){
+        if (audioService != null) {
             audioService.releaseAudio();
         }
     }
@@ -449,10 +445,6 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         mapManager.zoomToFit(markerList);
     }
 
-    public void floorMenuButton(View view) {
-        View fitAllMarker = findViewById(R.id.zoomShowAllMarker);
-        fitAllMarker.setVisibility(View.INVISIBLE);
-    }
 
     public static Bitmap getImgToSendToFullscreenImgActivity() {
         return imgToSendToFullscreenImgActivity;

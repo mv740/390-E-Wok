@@ -38,11 +38,15 @@ public class MapManager {
     private static final int ZOOM_MAX = 15;
     private static final int ZOOM_MIN = 13;
 
+    private LatLngBounds groundOverlayBound;
+
     public MapManager(GoogleMap googleMap, Context context)
     {
         this.mMap = googleMap;
         this.context = context;
     }
+
+
 
 
     public GroundOverlay loadDefaultFloor(GoogleMap googleMap, LatLng position, List<FloorPlan> floorPlans, View view)
@@ -70,8 +74,9 @@ public class MapManager {
                 .image(image)
                 .position(position, 5520f, 10704f).anchor(0, 0);
 
-
         GroundOverlay groundOverlay = googleMap.addGroundOverlay(customMap);
+
+        groundOverlayBound = groundOverlay.getBounds();
 
         return groundOverlay;
 
@@ -106,6 +111,7 @@ public class MapManager {
         final int resourceID = resources.getIdentifier(floorPlans.get(index).getImagePath(), "drawable", context.getPackageName());
         groundOverlay.setImage(BitmapDescriptorFactory.fromResource(resourceID));
 
+        groundOverlayBound = groundOverlay.getBounds();
 
     }
 
@@ -158,46 +164,23 @@ public class MapManager {
         }
     }
 
+
     /**
      * Every time a camera view change, it will verify its position to determine if it is out of bound.
-     * if it is, then it will move the camera. We must always see a part of the map.
-     *
-     * @param left
-     * @param top
-     * @param right
-     * @param bottom
+     * @param current
      */
-    public void verifyCameraPosition(double left, double top, double right, double bottom) {
-
-        boolean updateCamera = false;
-
-        //will need to do further testing to determine the best boundaries
-        if (left < -0.042) {
-            left = -0.030;
-            updateCamera = true;
-        }
-        else if (right >0.054) {
-            right = 0.042;
-            updateCamera = true;
-
-        }
-        //Y
-        if (top > 0.048) {
-            top = 0.037;
-            updateCamera = true;
-        }
-        else if (bottom < -0.086) {
-            bottom = -0.076;
-            updateCamera = true;
-        }
-
-        LatLng southwest = new LatLng(bottom, left);
-        LatLng northeast = new LatLng(top, right);
-        LatLngBounds newBounds = new LatLngBounds(southwest, northeast);
-        CameraUpdate update = CameraUpdateFactory.newLatLngBounds(newBounds, 0);
-        if(updateCamera)
+    public void verifyCameraBounds(LatLngBounds current)
+    {
+        if(!current.contains(groundOverlayBound.getCenter()))
         {
-            mMap.moveCamera(update);
+            //if your zoomed in, then it check if you are inside the overlay map
+            if(!groundOverlayBound.contains(current.getCenter())){
+                mMap.animateCamera(CameraUpdateFactory.newLatLng(groundOverlayBound.getCenter()));
+                Log.d("verifyCameraBounds","YES, view out of bound");
+            }
+        }
+        else {
+            Log.d("verifyCameraBounds","NO, view is correct");
         }
     }
 

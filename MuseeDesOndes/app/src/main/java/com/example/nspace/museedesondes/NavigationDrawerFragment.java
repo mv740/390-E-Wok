@@ -165,15 +165,13 @@ public class NavigationDrawerFragment extends Fragment {
 
             switch (position) {
                 case 0:
-                    return;
-                case 1:
                     getActivity().finish();
                     return;
-                case 2:
+                case 1:
                     Intent startSettings = new Intent(parent.getContext(), Settings.class);
                     startActivity(startSettings);
                     return;
-                case 3:
+                case 2:
                     return;
                 default:
 

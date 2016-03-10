@@ -61,9 +61,9 @@ public class StoryLineActivity extends AppCompatActivity {
                 .setTag("free_exploration")
                 .setDismissible()
                 .withProvider(new ListCardProvider())
-                .setLayout(R.layout.material_list_card_layout)
+                .setLayout(R.layout.free_exploration_card)
                 .setTitle(R.string.free_exploration)
-                .setTitleGravity(Gravity.CENTER_HORIZONTAL)
+                .setTitleGravity(Gravity.CENTER)
                 .setTitleColor(Color.BLACK)
                 .endConfig()
                 .build();

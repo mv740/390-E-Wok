@@ -354,10 +354,6 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         //move camera to marker postion
         LatLng markerLocation = marker.getPosition();
         mMap.moveCamera(CameraUpdateFactory.newLatLng(markerLocation));
-
-        //update SlidingPanel to selected point of interest
-
-
         panel.update(marker);
         return true;
     }
@@ -407,6 +403,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     @Override
     protected void onResume() {
         super.onResume();
+
         if (!freeExploration) {
             SystemRequirementsChecker.checkWithDefaultDialogs(this);
             storyLineManager.getBeaconManager().connect(new BeaconManager.ServiceReadyCallback() {

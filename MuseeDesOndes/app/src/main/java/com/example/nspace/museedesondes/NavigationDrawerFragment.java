@@ -100,10 +100,8 @@ public class NavigationDrawerFragment extends Fragment {
 
     @Override
     public void onResume() {
-        Locale currentLocale = getResources().getConfiguration().locale;
-        String currentAppLanguage = currentLocale.getLanguage();
 
-        Log.d("Lang", "resume" +currentAppLanguage);
+        String currentAppLanguage = getActivity().getResources().getConfiguration().locale.getLanguage();
 
         //recreating the nav drawer list items if language has changed
         if(!currentAppLanguage.equalsIgnoreCase(navFragmentLang)) {

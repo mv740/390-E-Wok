@@ -36,7 +36,7 @@ public class Settings extends AppCompatActivity {
 
         for(int i = 0;i<languagesType.length;i++)
         {
-            if(Preferences.savedLang.equalsIgnoreCase(languagesType[i]))
+            if(getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(languagesType[i]))
             {
                 savedChoice = i;
             }
@@ -76,8 +76,12 @@ public class Settings extends AppCompatActivity {
                         Log.d("Lang", String.valueOf(selectedLanguage));
                         Log.d("Lang", selectedLanguageType);
 
-                        Preferences.setLocale(selectedLanguageType);
-                        Preferences.savePreferences(selectedLanguageType);
+                        //save if different
+                        if(!getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(selectedLanguageType))
+                        {
+                            Preferences.setLocale(selectedLanguageType);
+                            Preferences.savePreferences(selectedLanguageType);
+                        }
                         finish();
                     }
                 }

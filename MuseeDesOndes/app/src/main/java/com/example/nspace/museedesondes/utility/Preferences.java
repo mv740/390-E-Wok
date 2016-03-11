@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 import java.util.Locale;
 
@@ -27,6 +28,7 @@ public class Preferences {
         SharedPreferences.Editor editor = sharedPrefs.edit();
         editor.putString("savedLang", appLanguage);
         editor.commit();
+        Log.d("Lang", "saved");
     }
 
 

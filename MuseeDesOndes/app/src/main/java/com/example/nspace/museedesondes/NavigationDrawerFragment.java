@@ -14,6 +14,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -26,6 +27,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.nspace.museedesondes.utility.DrawerListAdapter;
+import com.example.nspace.museedesondes.utility.Preferences;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -100,6 +102,8 @@ public class NavigationDrawerFragment extends Fragment {
     public void onResume() {
         Locale currentLocale = getResources().getConfiguration().locale;
         String currentAppLanguage = currentLocale.getLanguage();
+
+        Log.d("Lang", "resume" +currentAppLanguage);
 
         //recreating the nav drawer list items if language has changed
         if(!currentAppLanguage.equalsIgnoreCase(navFragmentLang)) {

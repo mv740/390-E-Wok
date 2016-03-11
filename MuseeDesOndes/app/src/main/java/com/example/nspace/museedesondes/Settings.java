@@ -19,7 +19,6 @@ public class Settings extends AppCompatActivity {
      * Created by sebastian on 2/02/2016.
      */
 
-    private TextView txtPickerOutput;
     private int selectedLanguage;
 
     @Override
@@ -44,6 +43,7 @@ public class Settings extends AppCompatActivity {
 
         NumberPicker myNumberPicker = (NumberPicker) findViewById(R.id.language_selection_view); // new NumberPicker(this);
         myNumberPicker.setMinValue(0);
+        myNumberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         myNumberPicker.setMaxValue(languagesDisplay.length - 1);
         myNumberPicker.setValue(savedChoice);
         myNumberPicker.setDisplayedValues(languagesDisplay);

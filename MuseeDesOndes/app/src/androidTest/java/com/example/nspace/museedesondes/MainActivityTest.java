@@ -29,7 +29,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 public class MainActivityTest {
 
     @Rule
-    public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule(MainActivity.class);
+    public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class);
 
     //all test are always in english because you can't restart app during test to select other language
     // also need to delete app from emulator/phone between test. Because choosing language is not showed if it is already save in a profile

@@ -235,12 +235,14 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     /**
      * This method places the AZURE markers on the list of points of interest.
      *
-     * @param pointsOfInterest List of all points of interest.
+     * @param pointsOfInterestList List of all points of interest.
      */
-    private List<Marker> placeMarkersOnPointsOfInterest(List<PointOfInterest> pointsOfInterest) {
+    private List<Marker> placeMarkersOnPointsOfInterest(List<PointOfInterest> pointsOfInterestList) {
+
         List<Marker> mMarkerArray = new ArrayList<>();
-        for (PointOfInterest pointOfInterest : pointsOfInterest) {
-            PointMarker.singleInterestPointFactory(pointOfInterest, getApplicationContext(), mMap, mMarkerArray);
+        for (PointOfInterest pointOfInterest : pointsOfInterestList) {
+            Marker marker = PointMarker.singleInterestPointFactory(pointOfInterest, getApplicationContext(), mMap);
+            mMarkerArray.add(marker);
         }
         return mMarkerArray;
     }

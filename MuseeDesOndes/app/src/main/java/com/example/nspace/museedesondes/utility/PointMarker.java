@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.example.nspace.museedesondes.model.LabelledPoint;
+import com.example.nspace.museedesondes.model.PointOfInterestDescription;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -21,13 +22,11 @@ public class PointMarker {
 
     /**
      * Create a point of interest marker and drop it on the map on the specified coordinate
-     *
-     * @param pointOfInterest
+     *  @param pointOfInterest
      * @param context
-     * @param googleMap       MapPlan
-     * @param mMarkerArray
+     * @param googleMap MapPlan
      */
-    public static void singleInterestPointFactory(PointOfInterest pointOfInterest, Context context, GoogleMap googleMap, List<Marker> mMarkerArray) {
+    public static Marker singleInterestPointFactory(PointOfInterest pointOfInterest, Context context, GoogleMap googleMap) {
 
         String title = "error";
         title = pointOfInterest.getLocaleDescription(context).getTitle();
@@ -44,8 +43,8 @@ public class PointMarker {
         node.snippet(data);
 
         Marker createdMarker = googleMap.addMarker(node);
-        mMarkerArray.add(createdMarker);
 
+        return createdMarker;
     }
 
     // used to easily extract information from a string

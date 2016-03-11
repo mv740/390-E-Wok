@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.nspace.museedesondes.Settings">
 
     <RelativeLayout
@@ -31,46 +32,48 @@
         android:background="@color/rca_primary">
 
     <RadioGroup
-
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:id="@+id/language_radios"
-        android:layout_marginLeft="24dp">
+        android:layout_alignBottom="@+id/ok_button"
+        android:layout_centerHorizontal="true">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/language_title"
-            android:id="@+id/textView2"
-            android:layout_above="@+id/language_radios"
-            android:layout_alignParentStart="true" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/english_radio"
-            android:id="@+id/english_button"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/french_radio"
-            android:id="@+id/french_button" />
+            android:textSize="35dp"
+            android:id="@+id/french_button"
+            android:layout_above="@+id/english_button"
+            android:layout_alignStart="@+id/english_button" />
 
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:text="@string/ok_button"
-            android:id="@+id/ok_button"
-            android:gravity="center"
-            android:textColor="#000000"
-            android:background="@drawable/square_button_with_shadow"/>
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/english_radio"
+            android:textSize="35dp"
+            android:id="@+id/english_button"
+            android:layout_above="@+id/ok_button"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="88dp" />
 
     </RadioGroup>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/ok_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_done_black_24dp"
+            fab:fab_label="@string/ok_button"
+            fab:fab_colorNormal="#FFFFFFFF"
+            fab:fab_colorPressed="#FFFE7070"
+            fab:fab_colorRipple="#FFFE7070"
+            fab:menu_shadowColor="#444"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="161dp" />
 
     </RelativeLayout>
 

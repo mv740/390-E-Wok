@@ -9,7 +9,7 @@
     <string name="english_radio">Anglais</string>
     <string name="ok_button">OK</string>
     <string name="storyline_activity">SCÉNARIO</string>
-    <string name="settings_activity">RÉGLAGES</string>
+    <string name="settings_activity">LANGAGES</string>
     <string name="begin_tour_button_text">SÉLECTIONNER LA VISITE</string>
 
     <string name="navigation_drawer_open">Ouvrir menu navigation</string>
@@ -17,7 +17,7 @@
 
     <string-array name="drawer_ele">
         <item>Scénario</item>
-        <item>Profil</item>
+        <item>Langue</item>
         <item>Trouver la sortie</item>
     </string-array>
 

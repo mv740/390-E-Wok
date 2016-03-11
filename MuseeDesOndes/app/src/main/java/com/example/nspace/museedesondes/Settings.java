@@ -7,7 +7,8 @@ import android.widget.Button;
 import android.widget.RadioGroup;
 
 import com.example.nspace.museedesondes.utility.Preferences;
-
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 
 
 public class Settings extends AppCompatActivity {
@@ -22,7 +23,7 @@ public class Settings extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         final RadioGroup language_radios = (RadioGroup) findViewById(R.id.language_radios);
-        final Button ok_button = (Button) findViewById(R.id.ok_button);
+        final FloatingActionButton ok_button = (FloatingActionButton) findViewById(R.id.ok_button);
 
         //set english or french language
         ok_button.setOnClickListener(

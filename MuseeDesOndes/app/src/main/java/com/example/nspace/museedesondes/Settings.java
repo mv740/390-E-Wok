@@ -3,22 +3,15 @@ package com.example.nspace.museedesondes;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.NumberPicker;
-import android.widget.RadioGroup;
 import android.widget.TextView;
-
 import com.example.nspace.museedesondes.utility.Preferences;
 import com.github.clans.fab.FloatingActionButton;
-import com.github.clans.fab.FloatingActionMenu;
-
 
 public class Settings extends AppCompatActivity {
 
@@ -34,13 +27,9 @@ public class Settings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-
-
         final FloatingActionButton ok_button = (FloatingActionButton) findViewById(R.id.ok_button);
-        //NumberPicker myNumberPicker = (NumberPicker) findViewById(R.id.language_selection_view);
 
-
-        final String languages[] = { "French", "English" };
+        final String languagesDisplay[] = { "French", "English" };
         final String languagesType[] = { "fr", "en_US"};
 
         int savedChoice = 0;
@@ -55,36 +44,26 @@ public class Settings extends AppCompatActivity {
 
         NumberPicker myNumberPicker = (NumberPicker) findViewById(R.id.language_selection_view); // new NumberPicker(this);
         myNumberPicker.setMinValue(0);
-        myNumberPicker.setMaxValue(languages.length - 1);
+        myNumberPicker.setMaxValue(languagesDisplay.length - 1);
         myNumberPicker.setValue(savedChoice);
-        myNumberPicker.setDisplayedValues(languages);
+        myNumberPicker.setDisplayedValues(languagesDisplay);
         setDividerColor(myNumberPicker, Color.WHITE);
 //
         NumberPicker.OnValueChangeListener myValueChangedListener  = new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                Log.d("Lang Set Value",languages[newVal]);
+                Log.d("Lang Set Value",languagesDisplay[newVal]);
                 selectedLanguage = newVal;
             }
         };
 //
         myNumberPicker.setOnValueChangedListener(myValueChangedListener);
 
-
-//
-//        new AlertDialog.Builder(this)
-//                .setView(myNumberPicker)
-//                .show();
-
-
-
-
         //set english or french language
         ok_button.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View view) {
                         String selectedLanguageType = null;
-
 
                         switch(selectedLanguage) {
                             case 0:
@@ -97,13 +76,6 @@ public class Settings extends AppCompatActivity {
                         Log.d("Lang", String.valueOf(selectedLanguage));
                         Log.d("Lang", selectedLanguageType);
 
-                        //skip if no radio buttons were selected
-//                        assert selectedLanguageType != null;
-//                        if(!selectedLanguageType.equalsIgnoreCase(Preferences.savedLang))
-//                        {
-//                            Preferences.setLocale(selectedLanguageType);
-//                            Preferences.savePreferences(selectedLanguageType);
-//                        }
                         Preferences.setLocale(selectedLanguageType);
                         Preferences.savePreferences(selectedLanguageType);
                         finish();

@@ -15,6 +15,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -52,11 +53,10 @@ import java.util.List;
 import com.google.android.gms.maps.model.VisibleRegion;
 
 
-public class MapActivity extends ActionBarActivity implements OnMapReadyCallback, NavigationDrawerFragment.NavigationDrawerCallbacks, GoogleMap.OnMarkerClickListener {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, NavigationDrawerFragment.NavigationDrawerCallbacks, GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
     private NavigationDrawerFragment mNavigationDrawerFragment;
-    private GroundOverlay groundOverlay;
     private Map information;
     private static Bitmap imgToSendToFullscreenImgActivity;
     AudioService audioService;
@@ -106,7 +106,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         bindService(intent, audioConnection, Context.BIND_AUTO_CREATE);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
 
-        this.polylineList = new HashMap<String, Polyline>();
+        this.polylineList = new HashMap<>();
     }
 
     //sets the storyline to the one selected in the StoryLineActivity
@@ -182,13 +182,9 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         mMap.clear();
         mMap.setOnMarkerClickListener(this);
 
+        //loading initial map
+        mapManager.loadDefaultFloor(custom, information.getFloorPlans(), findViewById(android.R.id.content));
 
-        //load map and then switch floor to 5
-        // GroundOverlay groundOverlay = MapManager.loadDefaultFloor(mMap, custom);
-        groundOverlay = mapManager.loadDefaultFloor(mMap, custom, information.getFloorPlans(), findViewById(android.R.id.content));
-
-        //need to implement a list view
-        //MapManager.switchFloor(groundOverlay, 5);
 
         this.markerList = placeMarkersOnPointsOfInterest(information.getPointOfInterests());
         mapManager.displayCurrentFloorPointOfInterest(1, this.markerList);
@@ -335,7 +331,7 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     }
 
     public void changeFloor(int floor) {
-        mapManager.switchFloor(groundOverlay, floor, information.getFloorPlans(), this.markerList, this.polylineList);
+        mapManager.switchFloor(floor, information.getFloorPlans(), this.markerList, this.polylineList);
         FloatingActionMenu floorButton = (FloatingActionMenu) findViewById(R.id.floor_button);
         floorButton.toggle(true);
     }

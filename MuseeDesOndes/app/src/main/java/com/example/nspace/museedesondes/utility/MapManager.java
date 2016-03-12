@@ -1,7 +1,6 @@
 package com.example.nspace.museedesondes.utility;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
@@ -10,7 +9,6 @@ import com.example.nspace.museedesondes.model.FloorPlan;
 import com.example.nspace.museedesondes.R;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -23,8 +21,6 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.Polyline;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,12 +29,12 @@ import java.util.Map;
  */
 public class MapManager {
 
-    private GoogleMap mMap;
-    private Context context;
     private static final int ZOOM_MAX = 15;
     private static final int ZOOM_MIN = 13;
-
+    private GoogleMap mMap;
+    private Context context;
     private LatLngBounds groundOverlayBound;
+    private GroundOverlay groundOverlayFloorMap;
 
     public MapManager(GoogleMap googleMap, Context context)
     {
@@ -47,12 +43,45 @@ public class MapManager {
     }
 
 
-
-
-    public GroundOverlay loadDefaultFloor(GoogleMap googleMap, LatLng position, List<FloorPlan> floorPlans, View view)
+    /**
+     *
+     *
+     * @param position
+     * @param floorPlans
+     * @param view
+     */
+    public void loadDefaultFloor(LatLng position, List<FloorPlan> floorPlans, View view)
     {
-        Resources resources = context.getResources();
-        final int resourceID = resources.getIdentifier(floorPlans.get(0).getImagePath(), "drawable", context.getPackageName()); // 0 = floor 1
+        initializeFloatingButtonSettings(view);
+
+        BitmapDescriptor imageFloor = BitmapDescriptorFactory.fromResource(getFloorPlanResourceID(floorPlans, 0));
+
+        GroundOverlayOptions customMap = new GroundOverlayOptions()
+                .image(imageFloor)
+                .position(position, 5520f, 10704f).anchor(0, 0)
+                .zIndex(0);
+
+        groundOverlayFloorMap = mMap.addGroundOverlay(customMap);
+        groundOverlayBound = groundOverlayFloorMap.getBounds();
+
+        //add white background under floor map
+        GroundOverlayOptions mapBackground = new GroundOverlayOptions()
+                .image(BitmapDescriptorFactory.fromResource(R.drawable.white_background))
+                .position(groundOverlayBound.getCenter(),20520f, 25704f)
+                .zIndex(-1);
+        mMap.addGroundOverlay(mapBackground);
+    }
+
+    private int getFloorPlanResourceID(List<FloorPlan> floorPlans, int index) {
+        return context.getResources().getIdentifier(floorPlans.get(index).getImagePath(), "drawable", context.getPackageName());
+    }
+
+    /**
+     * set button colors
+     * disable button menu animation
+     * @param view
+     */
+    private void initializeFloatingButtonSettings(View view) {
         FloatingActionMenu floorButton = (FloatingActionMenu) view.findViewById(R.id.floor_button);
         //turn off button rotation on click
         floorButton.setIconAnimated(false);
@@ -66,30 +95,17 @@ public class MapManager {
         floor2.setColorNormal(ContextCompat.getColor(context, R.color.rca_onclick));
         floor3.setColorNormal(ContextCompat.getColor(context, R.color.rca_onclick));
         floor4.setColorNormal(ContextCompat.getColor(context, R.color.rca_onclick));
-
-        BitmapDescriptor image = BitmapDescriptorFactory.fromResource(resourceID);
-
-
-        GroundOverlayOptions customMap = new GroundOverlayOptions()
-                .image(image)
-                .position(position, 5520f, 10704f).anchor(0, 0);
-
-        GroundOverlay groundOverlay = googleMap.addGroundOverlay(customMap);
-
-        groundOverlayBound = groundOverlay.getBounds();
-
-        return groundOverlay;
-
     }
 
     /**
-     * @param groundOverlay pass the same groundOverlay from defaultFloorMethod; this keep all image customisation
+     * Change the image of the floor map
+     *
      * @param floorID floor number
      * @param floorPlans
      * @param markerList
      * @param polylineList
      */
-    public void switchFloor(GroundOverlay groundOverlay, int floorID, List<FloorPlan> floorPlans, List<Marker> markerList, Map<String, Polyline> polylineList)
+    public void switchFloor(int floorID, List<FloorPlan> floorPlans, List<Marker> markerList, Map<String, Polyline> polylineList)
     {
         //http://stackoverflow.com/questions/16369814/how-to-access-the-drawable-resources-by-name-in-android
         int index = floorID-1; //Todo if floor object aren't in order then we will need to loop to find the correct one by id
@@ -107,12 +123,8 @@ public class MapManager {
             polylineList.get("hello").setVisible(true);
         }
 
-        Resources resources = context.getResources();
-        final int resourceID = resources.getIdentifier(floorPlans.get(index).getImagePath(), "drawable", context.getPackageName());
-        groundOverlay.setImage(BitmapDescriptorFactory.fromResource(resourceID));
-
-        groundOverlayBound = groundOverlay.getBounds();
-
+        groundOverlayFloorMap.setImage(BitmapDescriptorFactory.fromResource(getFloorPlanResourceID(floorPlans, index)));
+        groundOverlayBound = groundOverlayFloorMap.getBounds();
     }
 
     /**

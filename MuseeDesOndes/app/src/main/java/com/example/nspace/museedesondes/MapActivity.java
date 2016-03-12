@@ -1,6 +1,7 @@
 package com.example.nspace.museedesondes;
 
 
+import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -383,6 +384,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             audioHandler.postDelayed(this, 1000);
         }
     };
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        if(audioService !=null)
+        {
+            unbindService(audioConnection);
+        }
+
+    }
 
     @Override
     protected void onResume() {

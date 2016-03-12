@@ -173,30 +173,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap.getUiSettings().setIndoorLevelPickerEnabled(false);
         mMap.getUiSettings().setMapToolbarEnabled(false);
         mMap.getUiSettings().setRotateGesturesEnabled(false);
-
-
-        LatLng custom = new LatLng(0.027, -0.02);
-        LatLng center = new LatLng(0, 0);
-        //mMap.moveCamera(CameraUpdateFactory.newLatLngBounds());
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(center, 14));
         mMap.clear();
         mMap.setOnMarkerClickListener(this);
 
         //loading initial map
-        mapManager.loadDefaultFloor(custom, information.getFloorPlans(), findViewById(android.R.id.content));
+        mapManager.loadDefaultFloor(information.getFloorPlans(), findViewById(android.R.id.content));
+        mapManager.initialCameraPosition();
 
 
         this.markerList = placeMarkersOnPointsOfInterest(information.getPointOfInterests());
         mapManager.displayCurrentFloorPointOfInterest(1, this.markerList);
-
-
-        //todo testing currently 2/19/15
-        mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
-            @Override
-            public void onMapLoaded() {
-                mapManager.zoomToFit(markerList);
-            }
-        });
 
 
         // Obtains ALL nodes.
@@ -237,7 +223,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         List<Marker> mMarkerArray = new ArrayList<>();
         for (PointOfInterest pointOfInterest : pointsOfInterestList) {
-            Marker marker = PointMarker.singleInterestPointFactory(pointOfInterest, getApplicationContext(), mMap);
+            Marker marker = PointMarker.singleInterestPointFactory(pointOfInterest, getApplicationContext(), mMap, mapManager.getGroundOverlayFloorMapBound());
             mMarkerArray.add(marker);
         }
         return mMarkerArray;
@@ -275,7 +261,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         List<LatLng> nodeLatLngs = new ArrayList<LatLng>();
         for (Node node : nodes) {
             if (node.getFloorID() == floorID) {
-                nodeLatLngs.add(new LatLng(node.getX(), node.getY()));
+                nodeLatLngs.add(new LatLng(node.getY(),node.getX()));
             }
         }
         return nodeLatLngs;
@@ -429,11 +415,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public void zoomInButtonClick(View view) {
-        mapManager.zoomIn(mMap.getCameraPosition());
+        mapManager.zoomIn();
     }
 
     public void zoomOutButtonClick(View view) {
-        mapManager.zoomOut(mMap.getCameraPosition());
+        mapManager.zoomOut();
     }
 
     public void zoomShowAllMarker(View view) {

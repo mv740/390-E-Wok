@@ -29,12 +29,13 @@ import java.util.Map;
  */
 public class MapManager {
 
-    private static final int ZOOM_MAX = 15;
-    private static final int ZOOM_MIN = 13;
+    private static final double ZOOM_MAX = 15.0;
+    private static final double ZOOM_MIN = 13.0;
     private GoogleMap mMap;
     private Context context;
-    private LatLngBounds groundOverlayBound;
+    private LatLngBounds groundOverlayFloorMapBound;
     private GroundOverlay groundOverlayFloorMap;
+    private int zoomLevel = 1;
 
     public MapManager(GoogleMap googleMap, Context context)
     {
@@ -45,29 +46,29 @@ public class MapManager {
 
     /**
      *
-     *
-     * @param position
      * @param floorPlans
      * @param view
      */
-    public void loadDefaultFloor(LatLng position, List<FloorPlan> floorPlans, View view)
+    public void loadDefaultFloor(List<FloorPlan> floorPlans, View view)
     {
         initializeFloatingButtonSettings(view);
 
         BitmapDescriptor imageFloor = BitmapDescriptorFactory.fromResource(getFloorPlanResourceID(floorPlans, 0));
+        LatLng position = new LatLng(0,0);
+
 
         GroundOverlayOptions customMap = new GroundOverlayOptions()
                 .image(imageFloor)
-                .position(position, 5520f, 10704f).anchor(0, 0)
+                .position(position, 5520f, 10704f).anchor(0,1)
                 .zIndex(0);
 
         groundOverlayFloorMap = mMap.addGroundOverlay(customMap);
-        groundOverlayBound = groundOverlayFloorMap.getBounds();
+        groundOverlayFloorMapBound = groundOverlayFloorMap.getBounds();
 
         //add white background under floor map
         GroundOverlayOptions mapBackground = new GroundOverlayOptions()
                 .image(BitmapDescriptorFactory.fromResource(R.drawable.white_background))
-                .position(groundOverlayBound.getCenter(),20520f, 25704f)
+                .position(groundOverlayFloorMapBound.getCenter(),20520f, 25704f)
                 .zIndex(-1);
         mMap.addGroundOverlay(mapBackground);
     }
@@ -124,7 +125,7 @@ public class MapManager {
         }
 
         groundOverlayFloorMap.setImage(BitmapDescriptorFactory.fromResource(getFloorPlanResourceID(floorPlans, index)));
-        groundOverlayBound = groundOverlayFloorMap.getBounds();
+        groundOverlayFloorMapBound = groundOverlayFloorMap.getBounds();
     }
 
     /**
@@ -169,10 +170,10 @@ public class MapManager {
      */
     public void zoomLimit(CameraPosition position) {
         if (position.zoom > ZOOM_MAX)
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
-        if(position.zoom <12.8)
+            mMap.animateCamera(CameraUpdateFactory.zoomTo((float) ZOOM_MAX));
+        if(position.zoom <ZOOM_MIN)
         {
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(13.1f));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo((float) ZOOM_MIN));
         }
     }
 
@@ -183,16 +184,16 @@ public class MapManager {
      */
     public void verifyCameraBounds(LatLngBounds current)
     {
-        if(!current.contains(groundOverlayBound.getCenter()))
+        if(!current.contains(groundOverlayFloorMapBound.getCenter()))
         {
             //if your zoomed in, then it check if you are inside the overlay map
-            if(!groundOverlayBound.contains(current.getCenter())){
-                mMap.animateCamera(CameraUpdateFactory.newLatLng(groundOverlayBound.getCenter()));
+            if(!groundOverlayFloorMapBound.contains(current.getCenter())){
+                mMap.animateCamera(CameraUpdateFactory.newLatLng(groundOverlayFloorMapBound.getCenter()));
                 Log.d("verifyCameraBounds","YES, view out of bound");
             }
         }
         else {
-            Log.d("verifyCameraBounds","NO, view is correct");
+            Log.d("verifyCameraBounds", "NO, view is correct");
         }
     }
 
@@ -200,33 +201,56 @@ public class MapManager {
     /**
      * zooms in on the map by moving the viewpoint's height closer
      *
-     * @param position
      */
-    public void zoomIn(CameraPosition position)
+    public void zoomIn()
     {
-        if(position.zoom <ZOOM_MAX)
+
+        if(zoomLevel<5)
         {
-            float newZoom = position.zoom + 0.5f;
-            if(newZoom <= ZOOM_MAX){
-                mMap.animateCamera(CameraUpdateFactory.zoomTo(newZoom));
-            }
+            zoomLevel++;
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(getDesiredZoomLevel(zoomLevel)));
         }
     }
 
     /**
      * zooms out on the map by moving the viewpoint's height farther away
-     *
-     * @param position
      */
-    public void zoomOut(CameraPosition position)
+    public void zoomOut()
     {
-       if(position.zoom >ZOOM_MIN)
-       {
-           float newZoom = position.zoom - 0.5f;
-           if(newZoom >= ZOOM_MIN){
-               mMap.animateCamera(CameraUpdateFactory.zoomTo(newZoom));
-           }
-       }
+        if(zoomLevel>1)
+        {
+            zoomLevel--;
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(getDesiredZoomLevel(zoomLevel)));
+        }
     }
 
+    public void initialCameraPosition()
+    {
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(groundOverlayFloorMapBound.getCenter(), (float) ZOOM_MIN));
+    }
+
+
+    public LatLngBounds getGroundOverlayFloorMapBound() {
+        return groundOverlayFloorMapBound;
+    }
+
+    public float getDesiredZoomLevel(int level)
+    {
+        float zoom = 13f;
+
+        switch (level){
+            case 1 : zoom = 13f;
+                break;
+            case 2 : zoom = 13.5f;
+                break;
+            case 3 : zoom = 14f;
+                break;
+            case 4 : zoom = 14.5f;
+                break;
+            case 5 : zoom = 15.0f;
+                break;
+        }
+
+        return zoom;
+    }
 }

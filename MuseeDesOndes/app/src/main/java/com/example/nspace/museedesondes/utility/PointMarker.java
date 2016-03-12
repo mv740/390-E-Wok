@@ -8,6 +8,7 @@ import com.example.nspace.museedesondes.model.PointOfInterestDescription;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -22,17 +23,19 @@ public class PointMarker {
 
     /**
      * Create a point of interest marker and drop it on the map on the specified coordinate
-     *  @param pointOfInterest
+     * @param pointOfInterest
      * @param context
      * @param googleMap MapPlan
+     * @param groundOverlayFloorMapBound
      */
-    public static Marker singleInterestPointFactory(PointOfInterest pointOfInterest, Context context, GoogleMap googleMap) {
+    public static Marker singleInterestPointFactory(PointOfInterest pointOfInterest, Context context, GoogleMap googleMap, LatLngBounds groundOverlayFloorMapBound) {
 
         String title = "error";
         title = pointOfInterest.getLocaleDescription(context).getTitle();
+        CoordinateAdapter coordinateAdapter = new CoordinateAdapter(groundOverlayFloorMapBound);
 
         MarkerOptions node = new MarkerOptions();
-        node.position(new LatLng(pointOfInterest.getX(), pointOfInterest.getY()));
+        node.position(new LatLng(coordinateAdapter.convertY(pointOfInterest.getY()),coordinateAdapter.convertX(pointOfInterest.getX())));
         node.title(title);
         node.icon((BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 

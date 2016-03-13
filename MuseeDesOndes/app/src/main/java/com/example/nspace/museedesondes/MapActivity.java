@@ -126,24 +126,24 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private void bringButtonsToFront() {
         FloatingActionButton ham = (FloatingActionButton) findViewById(R.id.hamburger);
-        final FloatingActionMenu floor = (FloatingActionMenu) findViewById(R.id.floor_button);
+        final FloatingActionMenu floorMenu = (FloatingActionMenu) findViewById(R.id.floor_button);
+
         FloatingActionButton zoomIn = (FloatingActionButton) findViewById(R.id.zoomInButton);
         FloatingActionButton zoomOut = (FloatingActionButton) findViewById(R.id.zoomOutButton);
 
-        final View fitAllMarker = findViewById(R.id.zoomShowAllMarker);
+        FloatingActionButton fitAllMarker = (FloatingActionButton) findViewById(R.id.zoomShowAllMarker);
         fitAllMarker.setVisibility(View.INVISIBLE);
-        floor.setClosedOnTouchOutside(true);
+        floorMenu.setClosedOnTouchOutside(true);
 
         ham.bringToFront();
-        floor.bringToFront();
+        floorMenu.bringToFront();
         zoomIn.bringToFront();
         zoomOut.bringToFront();
 
         //show only fitAllMarker button in free exploration
         if (freeExploration) {
-            FloatingActionButton zoomShowAllMarker = (FloatingActionButton) fitAllMarker;
-            zoomShowAllMarker.bringToFront();
-            zoomShowAllMarker.setVisibility(View.VISIBLE);
+            fitAllMarker.bringToFront();
+            fitAllMarker.setVisibility(View.VISIBLE);
         }
 
     }

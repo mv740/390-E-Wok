@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.*;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -37,7 +38,7 @@ public class MainActivityTest {
     public void selectEnglishLanguage() {
 
         onView(withText("ENGLISH")).check(matches(isDisplayed()));
-        onView(withText("ENGLISH")).perform(ViewActions.click());
+        onView(withText("ENGLISH")).perform(click());
         onView(withId(R.id.begin_tour_button)).check(matches(isDisplayed()));
 
     }
@@ -45,9 +46,9 @@ public class MainActivityTest {
     @Test
     public void selectStorylineButton() {
 
-        onView(withText("SELECT YOUR STORYLINE"))
+        onView(withText(R.string.begin_tour_button_text))
                 .check(matches(isDisplayed()))
-                .perform(ViewActions.click());
-        onView(withText("STORYLINES")).check(matches(isDisplayed()));
+                .perform(click());
+        onView(withText(R.string.storyline_activity)).check(matches(isDisplayed()));
     }
 }

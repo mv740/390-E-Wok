@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity{
 
     private void changeLanguage(String lang){
         Preferences.setLocale(lang);
-        Preferences.savePreferences(lang);
+        Preferences.saveLanguagePreference(lang);
     }
 
     public void beginTourOnClick(View view) {

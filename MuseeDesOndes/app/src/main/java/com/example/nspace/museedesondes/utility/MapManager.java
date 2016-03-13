@@ -85,17 +85,21 @@ public class MapManager {
     private void initializeFloatingButtonSettings(View view) {
         FloatingActionMenu floorButton = (FloatingActionMenu) view.findViewById(R.id.floor_button);
         //turn off button rotation on click
-        floorButton.setIconAnimated(false);
-        FloatingActionButton floorSelected =  (FloatingActionButton)view.findViewById(R.id.fab1);
-        floorSelected.setColorNormal(ContextCompat.getColor(context, R.color.rca_primary));
-        FloatingActionButton floor5 =  (FloatingActionButton)view.findViewById(R.id.fab5);
-        FloatingActionButton floor3 =  (FloatingActionButton)view.findViewById(R.id.fab3);
-        FloatingActionButton floor4 =  (FloatingActionButton)view.findViewById(R.id.fab4);
-        FloatingActionButton floor2 =  (FloatingActionButton)view.findViewById(R.id.fab2);
-        floor5.setColorNormal(ContextCompat.getColor(context, R.color.rca_onclick));
-        floor2.setColorNormal(ContextCompat.getColor(context, R.color.rca_onclick));
-        floor3.setColorNormal(ContextCompat.getColor(context, R.color.rca_onclick));
-        floor4.setColorNormal(ContextCompat.getColor(context, R.color.rca_onclick));
+
+        if(floorButton !=null)
+        {
+            floorButton.setIconAnimated(false);
+            FloatingActionButton floorSelected =  (FloatingActionButton)view.findViewById(R.id.fab1);
+            floorSelected.setColorNormal(ContextCompat.getColor(context, R.color.rca_primary));
+            FloatingActionButton floor5 =  (FloatingActionButton)view.findViewById(R.id.fab5);
+            FloatingActionButton floor3 =  (FloatingActionButton)view.findViewById(R.id.fab3);
+            FloatingActionButton floor4 =  (FloatingActionButton)view.findViewById(R.id.fab4);
+            FloatingActionButton floor2 =  (FloatingActionButton)view.findViewById(R.id.fab2);
+            floor5.setColorNormal(ContextCompat.getColor(context, R.color.rca_onclick));
+            floor2.setColorNormal(ContextCompat.getColor(context, R.color.rca_onclick));
+            floor3.setColorNormal(ContextCompat.getColor(context, R.color.rca_onclick));
+            floor4.setColorNormal(ContextCompat.getColor(context, R.color.rca_onclick));
+        }
     }
 
     /**
@@ -252,5 +256,13 @@ public class MapManager {
         }
 
         return zoom;
+    }
+
+    public GroundOverlay getGroundOverlayFloorMap() {
+        return groundOverlayFloorMap;
+    }
+
+    public int getZoomLevel() {
+        return zoomLevel;
     }
 }

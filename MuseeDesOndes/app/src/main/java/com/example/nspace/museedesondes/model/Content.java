@@ -12,7 +12,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
         @JsonSubTypes.Type(value=Audio.class, name="Audio"),
         @JsonSubTypes.Type(value=Video.class, name="Video"),
         @JsonSubTypes.Type(value=Image.class, name="Image"),
-        @JsonSubTypes.Type(value=Text.class, name="Text")
 })
 public abstract class Content {
     private String caption;

@@ -1,10 +1,12 @@
-package com.example.nspace.museedesondes;
+package com.example.nspace.museedesondes.utility;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 import com.bluejamesbond.text.DocumentView;
+import com.example.nspace.museedesondes.MapActivity;
+import com.example.nspace.museedesondes.R;
 import com.example.nspace.museedesondes.model.Image;
 import com.example.nspace.museedesondes.model.Language;
 import com.example.nspace.museedesondes.model.PointOfInterest;

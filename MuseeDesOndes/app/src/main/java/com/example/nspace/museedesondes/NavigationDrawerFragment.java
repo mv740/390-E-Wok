@@ -14,7 +14,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,15 +23,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.nspace.museedesondes.utility.DrawerListAdapter;
-import com.example.nspace.museedesondes.utility.Preferences;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Locale;
 
 
@@ -170,7 +167,7 @@ public class NavigationDrawerFragment extends Fragment {
                     getActivity().finish();
                     return;
                 case 1:
-                    Intent startSettings = new Intent(parent.getContext(), Settings.class);
+                    Intent startSettings = new Intent(parent.getContext(), SettingsActivity.class);
                     startActivity(startSettings);
                     return;
                 case 2:
@@ -370,7 +367,8 @@ public void onDrawerSlide(View drawerView, float sideOffset){
     }
 
     private ActionBar getActionBar() {
-        return ((ActionBarActivity) getActivity()).getSupportActionBar();
+
+        return ((AppCompatActivity)getActivity()).getSupportActionBar();
     }
 
     /**

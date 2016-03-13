@@ -9,11 +9,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
-import android.widget.TextView;
 import com.example.nspace.museedesondes.utility.Preferences;
 import com.github.clans.fab.FloatingActionButton;
 
-public class Settings extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity {
 
     /**
      * Created by sebastian on 2/02/2016.
@@ -46,17 +45,16 @@ public class Settings extends AppCompatActivity {
         myNumberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         myNumberPicker.setMaxValue(languagesDisplay.length - 1);
         myNumberPicker.setValue(savedChoice);
+        selectedLanguage = savedChoice;
         myNumberPicker.setDisplayedValues(languagesDisplay);
         setDividerColor(myNumberPicker, Color.WHITE);
-//
+
         NumberPicker.OnValueChangeListener myValueChangedListener  = new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                Log.d("Lang Set Value",languagesDisplay[newVal]);
                 selectedLanguage = newVal;
             }
         };
-//
         myNumberPicker.setOnValueChangedListener(myValueChangedListener);
 
         //set english or french language
@@ -65,13 +63,15 @@ public class Settings extends AppCompatActivity {
                     public void onClick(View view) {
                         String selectedLanguageType = null;
 
-                        switch(selectedLanguage) {
-                            case 0:
-                                selectedLanguageType = "fr";
-                                break;
-                            case 1 :
-                                selectedLanguageType = "en_US";
-                                break;
+                        {
+                            switch (selectedLanguage) {
+                                case 0:
+                                    selectedLanguageType = "fr";
+                                    break;
+                                case 1:
+                                    selectedLanguageType = "en_US";
+                                    break;
+                            }
                         }
                         Log.d("Lang", String.valueOf(selectedLanguage));
                         Log.d("Lang", selectedLanguageType);

@@ -8,7 +8,6 @@ import com.example.nspace.museedesondes.MapActivity;
 import com.example.nspace.museedesondes.model.Node;
 import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.example.nspace.museedesondes.model.StoryLine;
-import com.example.nspace.museedesondes.PoiPanel;
 import com.google.android.gms.maps.GoogleMap;
 
 import java.util.ArrayList;

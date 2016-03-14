@@ -36,6 +36,7 @@ public class MapManager {
     private LatLngBounds groundOverlayFloorMapBound;
     private GroundOverlay groundOverlayFloorMap;
     private int zoomLevel = 1;
+    private boolean zoomToFitUsed = false;
 
     public MapManager(GoogleMap googleMap, Context context)
     {
@@ -156,6 +157,7 @@ public class MapManager {
      * android Zoom-to-Fit All Markers on Google Map
      */
     public void zoomToFit(List<Marker> markerList) {
+
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         for (Marker marker : markerList) {
             if(marker.isVisible())
@@ -165,6 +167,7 @@ public class MapManager {
         }
         LatLngBounds bounds = builder.build();
         mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
+        zoomToFitUsed = true;
     }
 
     /**
@@ -208,6 +211,11 @@ public class MapManager {
      */
     public void zoomIn()
     {
+        if(zoomToFitUsed)
+        {
+            float zoomValue = mMap.getCameraPosition().zoom;
+            zoomFitToZoomLevel(zoomValue);
+        }
 
         if(zoomLevel<5)
         {
@@ -221,6 +229,13 @@ public class MapManager {
      */
     public void zoomOut()
     {
+        if(zoomToFitUsed)
+        {
+            float zoomValue = mMap.getCameraPosition().zoom;
+            zoomFitToZoomLevel(zoomValue);
+        }
+
+
         if(zoomLevel>1)
         {
             zoomLevel--;
@@ -238,7 +253,13 @@ public class MapManager {
         return groundOverlayFloorMapBound;
     }
 
-    public float getDesiredZoomLevel(int level)
+    /**
+     * convert level to zoom value
+     *
+     * @param level
+     * @return
+     */
+    private float getDesiredZoomLevel(int level)
     {
         float zoom = 13f;
 
@@ -256,6 +277,36 @@ public class MapManager {
         }
 
         return zoom;
+    }
+
+    /**
+     * convert zoomFitAll new zoom value to the closest zoom level
+     *
+     * @param zoomValue
+     */
+    private void zoomFitToZoomLevel(float zoomValue)
+    {
+
+
+        if(zoomValue <= 13.25f)
+        {
+            zoomLevel= 1;
+        }else if(zoomValue <=13.75f && zoomValue > 13.25f)
+        {
+            zoomLevel =2;
+        }else if(zoomValue <=14.25f && zoomValue > 13.75f)
+        {
+            zoomLevel = 3;
+        }else if(zoomValue <=14.75f && zoomValue > 14.25f)
+        {
+            zoomLevel= 4;
+        }else if(zoomValue > 14.75f)
+        {
+            zoomLevel = 5;
+        }
+        zoomToFitUsed = false;
+
+
     }
 
     public GroundOverlay getGroundOverlayFloorMap() {

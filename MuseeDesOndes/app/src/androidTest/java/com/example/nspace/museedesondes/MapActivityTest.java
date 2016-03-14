@@ -4,12 +4,19 @@ import android.app.Activity;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
+import android.support.test.uiautomator.UiDevice;
+import android.support.test.uiautomator.UiObject;
+import android.support.test.uiautomator.UiSelector;
 import android.support.v4.content.ContextCompat;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.view.View;
 import com.example.nspace.museedesondes.utility.MapManager;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.android.gms.maps.model.GroundOverlay;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+
+import static android.support.test.InstrumentationRegistry.getContext;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.runner.lifecycle.Stage.RESUMED;
 import junit.framework.Assert;
 import org.junit.Before;
@@ -131,6 +138,26 @@ public class MapActivityTest {
 
     @Test
     public void testPlayAudioFile() throws Exception {
+    }
+
+
+    @Test
+    public void testClickMarker() throws Exception {
+
+        MapActivity mapActivity = (MapActivity) getActivityInstance();
+        String title = mapActivity.getInformation().getPointOfInterests().get(0).getLocaleDescription(mapActivity.getApplicationContext()).getTitle();
+
+        UiDevice device = UiDevice.getInstance(getInstrumentation());
+        UiObject marker = device.findObject(new UiSelector().descriptionContains(title));
+        marker.click();
+
+
+    }
+
+    @Test
+    public void testFullScreenImage() throws Exception {
+
+
 
     }
 

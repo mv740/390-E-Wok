@@ -1,9 +1,12 @@
 package com.example.nspace.museedesondes.utility;
 
+import android.app.Service;
+
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
 import com.estimote.sdk.Utils;
+import com.example.nspace.museedesondes.AudioService;
 import com.example.nspace.museedesondes.MapActivity;
 import com.example.nspace.museedesondes.model.Node;
 import com.example.nspace.museedesondes.model.PointOfInterest;
@@ -46,6 +49,7 @@ public class StoryLineManager {
         region = new Region("ranged region", UUID.fromString(DEFAULT_MUSEUM_UUID), null, null);
         beaconManager = new BeaconManager(mapActivity);
         setBeaconRangeListener();
+
     }
 
     private void setBeaconRangeListener() {

@@ -81,9 +81,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         //create storyline manager which handles storyline progression and interaction with the beacons
         information = Map.getInstance(getApplicationContext());
         getStoryLineSelected();
-        if (!freeExploration) {
-            storyLineManager = new StoryLineManager(storyLine, this, panel, mMap);
-        }
+
 
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -104,7 +102,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         Intent intent = new Intent(this, AudioService.class);
         bindService(intent, audioConnection, Context.BIND_AUTO_CREATE);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
-
+        if (!freeExploration) {
+            storyLineManager = new StoryLineManager(storyLine, this, panel, mMap);
+        }
         this.polylineList = new HashMap<>();
     }
 
@@ -322,13 +322,19 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public void playAudioFile(View v) {
+        startAudio(panel.getCurrentPointofInterest());
+
+    }
+
+    public void startAudio(PointOfInterest pointOfInterest) {
         audioService.setAudio();
         int audioDuration = audioService.getAudioDuration();
         SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);
         seekBar.setMax(audioDuration / 1000);
         audioRunnable.run();
-        audioService.toggleAudioOnOff(v);
 
+        View view = findViewById(R.id.play_button);
+        audioService.toggleAudioOnOff(view);
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 import com.bluejamesbond.text.DocumentView;
+import com.example.nspace.museedesondes.AudioService;
 import com.example.nspace.museedesondes.MapActivity;
 import com.example.nspace.museedesondes.R;
 import com.example.nspace.museedesondes.model.Image;
@@ -28,6 +29,7 @@ public class PoiPanel {
 
     MapActivity activity;
     SlidingUpPanelLayout panel;
+    PointOfInterest currentPointofInterest;
 
     public PoiPanel(MapActivity activity) {
         this.activity = activity;
@@ -39,6 +41,7 @@ public class PoiPanel {
         PointMarker.Information pMarkerInfo = new PointMarker.Information(marker.getSnippet());
 
         PointOfInterest pointOfInterest = activity.getInformation().searchPoiById(pMarkerInfo.getNodeID());
+        this.currentPointofInterest = pointOfInterest;
         String description = pointOfInterest.getLocaleDescription(activity.getApplicationContext()).getDescription();
         String title = pointOfInterest.getLocaleDescription(activity.getApplicationContext()).getTitle();
         List<Image> images = pointOfInterest.getLocaleImages(activity.getApplicationContext());
@@ -52,13 +55,14 @@ public class PoiPanel {
         replaceTitle(title);
         replaceDescription(description);
         replacePics(images);
+        activity.startAudio(pointOfInterest);
 
         panel.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
     }
 
     public void updateStoryPanel(StoryLine storyLine, PointOfInterest pointOfInterest){
 
-
+        this.currentPointofInterest = pointOfInterest;
         String description = pointOfInterest.getStoryRelatedDescription(storyLine.getId(), activity.getApplicationContext()).getDescription();
         String title = pointOfInterest.getStoryRelatedDescription(storyLine.getId(), activity.getApplicationContext()).getTitle();
         List<Image> images = pointOfInterest.getLocaleImages(activity.getApplicationContext());
@@ -72,6 +76,8 @@ public class PoiPanel {
         replaceTitle(title);
         replaceDescription(description);
         replacePics(images);
+        activity.startAudio(currentPointofInterest);
+
 
         panel.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
     }
@@ -95,4 +101,7 @@ public class PoiPanel {
         recyclerView.setAdapter(adapter);
     }
 
+    public PointOfInterest getCurrentPointofInterest() {
+        return currentPointofInterest;
+    }
 }

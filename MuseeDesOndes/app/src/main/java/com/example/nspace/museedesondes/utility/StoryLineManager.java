@@ -126,6 +126,7 @@ public class StoryLineManager {
         latLngList.add(new LatLng(node2.getX(),node2.getY()));
 
         Polyline line = googleMap.addPolyline(new PolylineOptions().width(10));
+        line.setColor(ContextCompat.getColor(mapActivity, R.color.rca_unexplored_segment));
         line.setVisible(false);
         return line;
     }

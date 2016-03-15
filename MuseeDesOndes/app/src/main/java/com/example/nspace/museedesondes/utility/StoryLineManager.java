@@ -1,5 +1,7 @@
 package com.example.nspace.museedesondes.utility;
 
+import android.graphics.Color;
+
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
@@ -9,9 +11,14 @@ import com.example.nspace.museedesondes.model.Node;
 import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.example.nspace.museedesondes.model.StoryLine;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -26,6 +33,8 @@ public class StoryLineManager {
 
     private StoryLine storyLine;
     private List<PointOfInterest> pointOfInterestList;
+    private ArrayList<ArrayList<Polyline>> segmentList;
+    private Map<Integer, ArrayList<Polyline>> floorLineMap;
     private int pointOfInterestIndex;
     private PointOfInterest nextPOI;
     private MapActivity mapActivity;
@@ -58,7 +67,7 @@ public class StoryLineManager {
                             && (nearestBeacon.getMinor() == nextPOI.getBeaconInformation().getMinor())
                             && ((Utils.computeProximity(nearestBeacon)) == Utils.Proximity.NEAR)) {
 
-                        panel.updateStoryPanel(storyLine,nextPOI);
+                        panel.updateStoryPanel(storyLine, nextPOI);
                         // TODO: update UI with temp man marker
                         // TODO: update storyline polyline segments
                         updateNextPOI();
@@ -67,7 +76,6 @@ public class StoryLineManager {
             }
         });
     }
-
 
     private void initializePOIList() {
         pointOfInterestList = new ArrayList<PointOfInterest>();
@@ -82,10 +90,6 @@ public class StoryLineManager {
 
     }
 
-    private void updateStorylinePolyline(){
-
-    }
-
     //updates the next point of interest beacon to listen for, stops listening after the last beacon is discovered
     private void updateNextPOI() {
         if(pointOfInterestIndex < pointOfInterestList.size()){
@@ -96,14 +100,52 @@ public class StoryLineManager {
         }
     }
 
-
-
     public BeaconManager getBeaconManager() {
         return beaconManager;
     }
 
     public Region getRegion() {
         return region;
+    }
+
+    /*** STORYLINE POLYLINE METHODS ***/
+
+    private Polyline getLineFromNodes(Node node1, Node node2) {
+        List<LatLng> latLngList = new ArrayList<>();
+        latLngList.add(new LatLng(node1.getX(),node1.getY()));
+        latLngList.add(new LatLng(node2.getX(),node2.getY()));
+
+        Polyline line = googleMap.addPolyline(new PolylineOptions().width(10));
+        line.setVisible(false);
+        return line;
+    }
+
+    private void initializeSegmentList() {
+        ArrayList<Polyline> segment = new ArrayList<>();
+        List<Node> nodeList = storyLine.getNodes();
+        segmentList = new  ArrayList<>();
+        Polyline line;
+
+        for(int i = 0; i < nodeList.size() - 1; i++) {
+            line = getLineFromNodes(nodeList.get(i),nodeList.get(i + 1));
+            if(nodeList.get(i) instanceof PointOfInterest) {
+                segmentList.add(segment);
+                segment = new ArrayList<>();
+            }
+            segment.add(line);
+        }
+    }
+
+    private void initializSegmentColors() {
+
+    }
+
+    private void initializeFloorLineMap(){
+        floorLineMap = new HashMap<>();
+    }
+
+    private void updateSegmentList(){
+
     }
 
 }

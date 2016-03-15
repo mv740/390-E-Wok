@@ -1,12 +1,14 @@
 package com.example.nspace.museedesondes.utility;
 
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
 import com.estimote.sdk.Utils;
 import com.example.nspace.museedesondes.MapActivity;
+import com.example.nspace.museedesondes.R;
 import com.example.nspace.museedesondes.model.Node;
 import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.example.nspace.museedesondes.model.StoryLine;
@@ -108,7 +110,11 @@ public class StoryLineManager {
         return region;
     }
 
-    /*** STORYLINE POLYLINE METHODS ***/
+    /***
+     * STORYLINE POLYLINE METHODS
+     * for these methods I have broken the storyline path through the museum into separate 'segments'
+     * each segment is a section of the path between two POIs and can be colored independently
+     ***/
 
     private Polyline getLineFromNodes(Node node1, Node node2) {
         List<LatLng> latLngList = new ArrayList<>();
@@ -137,6 +143,8 @@ public class StoryLineManager {
     }
 
     private void initializSegmentColors() {
+//        int segmentColor = ContextCompat.getColor(mapActivity, R.color.rca_current_segment);
+//        int segmentColor = ContextCompat.getColor(mapActivity, R.color.rca_unexplored_segment);
 
     }
 

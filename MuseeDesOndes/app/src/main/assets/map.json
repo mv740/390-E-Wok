@@ -112,6 +112,115 @@
           ]
         },
         {
+          "id": 2,
+          "beaconInformation": {
+            "UUID": "test_uuid",
+            "major": 1111,
+            "minor": 2222
+          },
+          "title": [
+            {
+              "language": "fr",
+              "title": "test_titre2"
+            },
+            {
+              "language": "en_US",
+              "title": "test_title2"
+            }
+          ],
+          "description": [
+            {
+              "language": "fr",
+              "description": "Veuillez lire cette description3"
+            },
+            {
+              "language": "en_US",
+              "description": "Please read this description3"
+            }
+          ],
+          "media" : {
+            "video": [
+              {
+                "caption": "video_titre",
+                "language": "fr",
+                "path": "video/FR/test.mp4"
+              },
+              {
+                "caption": "video_title",
+                "language": "en_US",
+                "path": "video/EN/test.mp4"
+              }
+            ],
+            "audio": [
+              {
+                "caption": "audio_titre",
+                "language": "fr",
+                "path": "audio/FR/test_1.mp3"
+              },
+              {
+                "caption": "audio_title",
+                "language": "en_US",
+                "path": "audio/EN/test_1.mp3"
+              }
+            ],
+            "image": [
+              {
+                "caption": "test_title",
+                "language": "en_US",
+                "path": "picture/test_image1.png"
+              },
+              {
+                "caption": "test_titre",
+                "language": "fr",
+                "path": "picture/test_image2.png"
+              }
+            ]
+          },
+          "floorID": 1,
+          "x": 0.01,
+          "y": 0.05,
+          "storyPoint": [
+            {
+              "storylineID": 1,
+              "title": [
+                {
+                  "language": "fr",
+                  "title": "<title>"
+                }
+              ],
+              "description": [
+                {
+                  "language": "fr",
+                  "description": "<description>"
+                }
+              ],
+              "media": {
+                "image": [
+                  {
+                    "path": "<URL>",
+                    "language": "fr",
+                    "caption": "<caption>"
+                  }
+                ],
+                "video": [
+                  {
+                    "path": "<URL>",
+                    "language": "fr",
+                    "caption": "<caption>"
+                  }
+                ],
+                "audio": [
+                  {
+                    "path": "<URL>",
+                    "language": "fr",
+                    "caption": "<caption>"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
           "id": 3,
           "beaconInformation": {
             "UUID": "test_uuid",
@@ -285,7 +394,7 @@
               }
             ]
           },
-          "floorID": 1,
+          "floorID": 2,
           "x": 0.03,
           "y": 0.03,
           "storyPoint": [
@@ -394,7 +503,7 @@
               }
             ]
           },
-          "floorID": 1,
+          "floorID": 3,
           "x": 0.03,
           "y": 0.02,
           "storyPoint": [
@@ -449,16 +558,65 @@
       ],
       "pot" : [
         {
-          "id": 2,
+          "id": 50,
+          "floorID": 1,
+          "x": 0.02,
+          "y": 0.01,
+          "label": "NONE"
+        },
+        {
+          "id": 51,
+          "floorID": 1,
+          "x": 0.02,
+          "y": 0.01,
+          "label": "NONE"
+        },
+        {
+          "id": 52,
+          "floorID": 1,
+          "x": 0.02,
+          "y": 0.01,
+          "label": "NONE"
+        },
+        {
+          "id": 53,
           "floorID": 1,
           "x": 0.02,
           "y": 0.01,
           "label": "STAIRS"
         },
         {
-          "label": "ENTRANCE",
-          "id": 3,
+          "id": 54,
           "floorID": 2,
+          "x": 0.02,
+          "y": 0.01,
+          "label": "STAIRS"
+        },
+        {
+          "id": 55,
+          "floorID": 2,
+          "x": 0.02,
+          "y": 0.01,
+          "label": "NONE"
+        },
+        {
+          "id": 56,
+          "floorID": 2,
+          "x": 0.02,
+          "y": 0.01,
+          "label": "STAIRS"
+        },
+        {
+          "id": 57,
+          "floorID": 3,
+          "x": 0.02,
+          "y": 0.01,
+          "label": "STAIRS"
+        },
+        {
+          "label": "NONE",
+          "id": 58,
+          "floorID": 3,
           "x": 0.002,
           "y": 0.0015
         }
@@ -501,8 +659,19 @@
       "floorsCovered": 2,
       "path": [
         1,
+        50,
+        51,
         2,
-        3
+        52,
+        3,
+        53,
+        54,
+        4,
+        55,
+        56,
+        57,
+        58,
+        5
       ]
     },
     {
@@ -532,8 +701,10 @@
       "floorsCovered": 2,
       "path": [
         3,
-        2,
-        4
+        50,
+        52,
+        53,
+        2
       ]
     },
     {
@@ -562,8 +733,10 @@
       "walkingTimeInMinutes": 30,
       "floorsCovered": 2,
       "path": [
-        5,
-        2,
+        1,
+        52,
+        53,
+        54,
         4
       ]
     }

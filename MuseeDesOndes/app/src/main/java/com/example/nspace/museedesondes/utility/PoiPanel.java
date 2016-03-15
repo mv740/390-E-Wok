@@ -55,7 +55,6 @@ public class PoiPanel {
         replaceTitle(title);
         replaceDescription(description);
         replacePics(images);
-        activity.startAudio(pointOfInterest);
 
         panel.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
     }

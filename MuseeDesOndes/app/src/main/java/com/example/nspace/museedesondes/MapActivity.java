@@ -64,7 +64,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private StoryLine storyLine;
     private boolean freeExploration;
     private List<Marker> markerList;
-    private java.util.Map<String, Polyline> polylineList;
     private MapManager mapManager;
     private SeekBar seekBar;
     Handler audioHandler = new Handler();
@@ -82,7 +81,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         information = Map.getInstance(getApplicationContext());
         getStoryLineSelected();
         if (!freeExploration) {
-            storyLineManager = new StoryLineManager(storyLine, this, panel, mMap);
+            storyLineManager = new StoryLineManager(storyLine, this, panel);
         }
 
 
@@ -105,7 +104,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         bindService(intent, audioConnection, Context.BIND_AUTO_CREATE);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
 
-        this.polylineList = new HashMap<>();
     }
 
     //sets the storyline to the one selected in the StoryLineActivity
@@ -163,9 +161,18 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         information = Map.getInstance(getApplicationContext());
+        HashMap<Integer,ArrayList<Polyline>> floorLineMap = new HashMap<>();
+
+        //initialize storyline manager
+        if(!freeExploration) {
+            storyLineManager.setGoogleMap(googleMap);
+            storyLineManager.initializeSegmentList();
+//          storyLineManager.initializSegmentColors();
+            storyLineManager.initializeFloorLineMap(floorLineMap);
+        }
 
         mMap = googleMap;
-        mapManager = new MapManager(mMap, this);
+        mapManager = new MapManager(mMap, this, floorLineMap);
         mMap.setBuildingsEnabled(false);
         mMap.setIndoorEnabled(false);
         mMap.getUiSettings().setZoomControlsEnabled(false);
@@ -182,13 +189,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         this.markerList = placeMarkersOnPointsOfInterest(information.getPointOfInterests());
         mapManager.displayCurrentFloorPointOfInterest(1, this.markerList);
-
-
-        // Obtains ALL nodes.
-        List<Node> nodes = information.getNodes();
-
-        // This statement places all the nodes on the map and traces the path between them.
-        tracePath(nodes, 1, this.polylineList);
 
         mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
 
@@ -228,43 +228,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return mMarkerArray;
     }
 
-    /**
-     * This function is meant to trace the path between nodes in the arraylist of coordinates
-     * representing each node's latitudinal and longitudinal position respectively.
-     *
-     * @param nodes This is the list of nodes that are to be sorted through. The nodes could be
-     *              either points of interest, points of traversal, or others.
-     */
-    public void tracePath(List<Node> nodes, int floorID, java.util.Map<String, Polyline> polylineList) {
-
-        List<LatLng> nodePositions = listNodeCoordinates(nodes, floorID);
-        Polyline line = mMap.addPolyline(new PolylineOptions()
-                .width(15)
-                .color(Color.parseColor("#99E33C3C")));
-        line.setPoints(nodePositions);
-        polylineList.put("hello", line);
-    }
-
-
-    /**
-     * This method is used to return a list of LatLng coordinates associated with the list of nodes passed as a parameter.
-     *
-     * @param nodes The list of nodes for which coordinates should be derived.
-     * @return The list of LatLng coordinates.
-     */
-    public List<LatLng> listNodeCoordinates(List<Node> nodes, int floorID) {
-        if (nodes == null) {
-            return null;
-        }
-
-        List<LatLng> nodeLatLngs = new ArrayList<LatLng>();
-        for (Node node : nodes) {
-            if (node.getFloorID() == floorID) {
-                nodeLatLngs.add(new LatLng(node.getY(),node.getX()));
-            }
-        }
-        return nodeLatLngs;
-    }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
@@ -316,7 +279,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public void changeFloor(int floor) {
-        mapManager.switchFloor(floor, information.getFloorPlans(), this.markerList, this.polylineList);
+        mapManager.switchFloor(floor, information.getFloorPlans(), this.markerList);
         FloatingActionMenu floorButton = (FloatingActionMenu) findViewById(R.id.floor_button);
         floorButton.toggle(true);
     }

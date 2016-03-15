@@ -45,7 +45,7 @@ public class StoryLineManager {
     private Region region;
     private PoiPanel panel;
 
-    public StoryLineManager(StoryLine storyLine, MapActivity mapActivity, PoiPanel panel, GoogleMap googleMap) {
+    public StoryLineManager(StoryLine storyLine, MapActivity mapActivity, PoiPanel panel) {
         this.storyLine = storyLine;
         initializePOIList();
         this.pointOfInterestIndex = 0;
@@ -53,7 +53,6 @@ public class StoryLineManager {
         pointOfInterestIndex++;
         this.mapActivity = mapActivity;
         this.panel = panel;
-        this.googleMap = googleMap;
         region = new Region("ranged region", UUID.fromString(DEFAULT_MUSEUM_UUID), null, null);
         beaconManager = new BeaconManager(mapActivity);
         setBeaconRangeListener();
@@ -110,6 +109,11 @@ public class StoryLineManager {
         return region;
     }
 
+    public void setGoogleMap(GoogleMap googleMap) {
+        this.googleMap = googleMap;
+    }
+
+
     /***
      * STORYLINE POLYLINE METHODS
      * for these methods I have broken the storyline path through the museum into separate 'segments'
@@ -126,7 +130,7 @@ public class StoryLineManager {
         return line;
     }
 
-    private void initializeSegmentList() {
+    public void initializeSegmentList() {
         ArrayList<Polyline> segment = new ArrayList<>();
         List<Node> nodeList = storyLine.getNodes();
         segmentList = new  ArrayList<>();
@@ -144,18 +148,21 @@ public class StoryLineManager {
         }
     }
 
-    private void initializSegmentColors() {
+    public void initializSegmentColors() {
 //        int segmentColor = ContextCompat.getColor(mapActivity, R.color.rca_current_segment);
 //        int segmentColor = ContextCompat.getColor(mapActivity, R.color.rca_unexplored_segment);
 
     }
 
-    private void initializeFloorLineMap(){
-        floorLineMap = new HashMap<>();
+    public void initializeFloorLineMap(HashMap<Integer,ArrayList<Polyline>> floorLineMap){
+        this.floorLineMap = floorLineMap;
+        //TODO iterate through segment list to init
     }
 
     private void updateSegmentList(){
-
+        //TODO:
+        //change colors
+        //redraw current floor?
     }
 
 }

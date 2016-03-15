@@ -1,12 +1,14 @@
 package com.example.nspace.museedesondes.utility;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 
 import com.example.nspace.museedesondes.model.FloorPlan;
 import com.example.nspace.museedesondes.R;
+import com.example.nspace.museedesondes.model.Node;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -20,7 +22,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,11 +41,13 @@ public class MapManager {
     private LatLngBounds groundOverlayFloorMapBound;
     private GroundOverlay groundOverlayFloorMap;
     private int zoomLevel = 1;
+    HashMap<Integer,ArrayList<Polyline>> floorLineMap;
 
-    public MapManager(GoogleMap googleMap, Context context)
+    public MapManager(GoogleMap googleMap, Context context, HashMap<Integer,ArrayList<Polyline>> floorLineMap)
     {
         this.mMap = googleMap;
         this.context = context;
+        this.floorLineMap = floorLineMap;
     }
 
 
@@ -71,6 +78,9 @@ public class MapManager {
                 .position(groundOverlayFloorMapBound.getCenter(),20520f, 25704f)
                 .zIndex(-1);
         mMap.addGroundOverlay(mapBackground);
+
+        //TODO: set visible true/false for default floor lines floorLineMap
+        //check if storyline mode
     }
 
     private int getFloorPlanResourceID(List<FloorPlan> floorPlans, int index) {
@@ -108,9 +118,8 @@ public class MapManager {
      * @param floorID floor number
      * @param floorPlans
      * @param markerList
-     * @param polylineList
      */
-    public void switchFloor(int floorID, List<FloorPlan> floorPlans, List<Marker> markerList, Map<String, Polyline> polylineList)
+    public void switchFloor(int floorID, List<FloorPlan> floorPlans, List<Marker> markerList)
     {
         //http://stackoverflow.com/questions/16369814/how-to-access-the-drawable-resources-by-name-in-android
         int index = floorID-1; //Todo if floor object aren't in order then we will need to loop to find the correct one by id
@@ -119,14 +128,11 @@ public class MapManager {
 
         displayCurrentFloorPointOfInterest(floorID, markerList);
 
-        //todo For testing only, hashmap will later be  {"storyline id-floor","polyline object"}
-        // method .remove() delete the polyline
-        if(floorID != 1)
-        {
-            polylineList.get("hello").setVisible(false);
-        }else {
-            polylineList.get("hello").setVisible(true);
-        }
+        //TODO: implement change floor using floorLineMap
+        // check if storyline mode
+        // arraylist polyline floorLineMap.get(floorID)
+        // loop through polyline list for each floor .setVisible(true); set the rest false
+
 
         groundOverlayFloorMap.setImage(BitmapDescriptorFactory.fromResource(getFloorPlanResourceID(floorPlans, index)));
         groundOverlayFloorMapBound = groundOverlayFloorMap.getBounds();
@@ -264,5 +270,45 @@ public class MapManager {
 
     public int getZoomLevel() {
         return zoomLevel;
+    }
+
+    //TODO: use methods for shortest path user story
+
+    /**
+     * This function is meant to trace the path between nodes in the arraylist of coordinates
+     * representing each node's latitudinal and longitudinal position respectively.
+     *
+     * @param nodes This is the list of nodes that are to be sorted through. The nodes could be
+     *              either points of interest, points of traversal, or others.
+     */
+    public void tracePath(List<Node> nodes, int floorID, java.util.Map<String, Polyline> polylineList) {
+
+        List<LatLng> nodePositions = listNodeCoordinates(nodes, floorID);
+        Polyline line = mMap.addPolyline(new PolylineOptions()
+                .width(10)
+                .color(Color.parseColor("#99E33C3C")));
+        line.setPoints(nodePositions);
+        polylineList.put("hello", line);
+    }
+
+
+    /**
+     * This method is used to return a list of LatLng coordinates associated with the list of nodes passed as a parameter.
+     *
+     * @param nodes The list of nodes for which coordinates should be derived.
+     * @return The list of LatLng coordinates.
+     */
+    public List<LatLng> listNodeCoordinates(List<Node> nodes, int floorID) {
+        if (nodes == null) {
+            return null;
+        }
+
+        List<LatLng> nodeLatLngs = new ArrayList<LatLng>();
+        for (Node node : nodes) {
+            if (node.getFloorID() == floorID) {
+                nodeLatLngs.add(new LatLng(node.getY(),node.getX()));
+            }
+        }
+        return nodeLatLngs;
     }
 }

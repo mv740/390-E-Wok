@@ -133,12 +133,14 @@ public class StoryLineManager {
         Polyline line;
 
         for(int i = 0; i < nodeList.size() - 1; i++) {
-            line = getLineFromNodes(nodeList.get(i),nodeList.get(i + 1));
-            if(nodeList.get(i) instanceof PointOfInterest) {
-                segmentList.add(segment);
-                segment = new ArrayList<>();
+            if(nodeList.get(i).getFloorID() == nodeList.get(i + 1).getFloorID()) {
+                line = getLineFromNodes(nodeList.get(i),nodeList.get(i + 1));
+                if(nodeList.get(i) instanceof PointOfInterest) {
+                    segmentList.add(segment);
+                    segment = new ArrayList<>();
+                }
+                segment.add(line);
             }
-            segment.add(line);
         }
     }
 

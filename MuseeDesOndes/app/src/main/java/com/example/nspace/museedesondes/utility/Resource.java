@@ -15,10 +15,15 @@ public class Resource {
 
     public static Drawable getDrawableImageFromFileName(StoryLine storyLine, Context context)
     {
-        Resources resources = context.getResources();
-        final int resourceID = resources.getIdentifier(storyLine.getImagePath(), "drawable", context.getPackageName());
+        final int resourceID = getResourceID(storyLine, context);
 
         return ContextCompat.getDrawable(context, resourceID);
     }
+
+    public static int getResourceID(StoryLine storyLine, Context context) {
+        Resources resources = context.getResources();
+        return resources.getIdentifier(storyLine.getImagePath(), "drawable", context.getPackageName());
+    }
+
 
 }

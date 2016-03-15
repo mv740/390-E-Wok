@@ -1,6 +1,7 @@
 package com.example.nspace.museedesondes;
 
 import android.app.Activity;
+import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
@@ -38,17 +39,15 @@ public class SettingsActivityTest {
 
 
     @Before
-    public void initValidLocale()
-    {
+    public void initValidLocale() {
         onView(withId(R.id.begin_tour_button))
                 .check(matches(isDisplayed()))
                 .perform(click());
-        onView(withText(R.string.free_exploration))
-                .check(matches(isDisplayed()))
-                .perform(click());
-        onView(withText("OK"))
-                .check(matches(isDisplayed()))
-                .perform(click());
+        StoryLineActivity storyLineActivity = (StoryLineActivity) getActivityInstance();
+        //always last card = free exploration
+        onView(withId(R.id.material_listview)).perform(RecyclerViewActions.scrollToPosition(storyLineActivity.getCardsNumbers() - 1));
+        onView(withText(R.string.free_exploration)).perform(click());
+        onView(withText("OK")).perform(click());
         onView(withId(R.id.hamburger)).perform(click());
         onView(withText("Language")).perform(click());
     }
@@ -72,7 +71,7 @@ public class SettingsActivityTest {
         onView(withText(R.string.settings_activity)).check(doesNotExist());
     }
 
-    public Activity getActivityInstance(){
+    public Activity getActivityInstance() {
 
         final Activity[] currentActivity = new Activity[1];
         getInstrumentation().runOnMainSync(new Runnable() {

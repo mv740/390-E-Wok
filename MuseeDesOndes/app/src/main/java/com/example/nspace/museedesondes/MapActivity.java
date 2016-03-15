@@ -114,10 +114,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         int position = mIntent.getIntExtra("Story line list position", 0);
         List<StoryLine> storyLineList = information.getStoryLines();
 
-        if (position == 0) {
+        if (position == storyLineList.size()) {
             freeExploration = true;
         } else {
-            storyLine = storyLineList.get(position - 1);
+            storyLine = storyLineList.get(position);
             freeExploration = false;
         }
     }

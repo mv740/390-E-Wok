@@ -277,7 +277,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void poiImgOnClick(View v) {
         imgToSendToFullscreenImgActivity = ((BitmapDrawable) ((ImageView) v.findViewById(R.id.poi_panel_pic_item_imageview)).getDrawable()).getBitmap();
         Intent fullscreenImgActivity = new Intent(MapActivity.this, FullscreenImgActivity.class);
-        startActivity(fullscreenImgActivity);
+            startActivity(fullscreenImgActivity);
     }
 
     public void floorButtonOnClick(View v) {
@@ -409,6 +409,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         if (audioService != null) {
             unbindService(audioConnection);
         }
+        if(!freeExploration)
+        {
+            storyLineManager.getBeaconManager().disconnect();
+        }
 
     }
 
@@ -475,7 +479,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onBackPressed() {
         if (panel.isOpen()) {
             panel.close();
-        } else super.onBackPressed();
+        } else
+        {
+
+            this.finish();
+            //super.onBackPressed();
+        }
 
     }
 }

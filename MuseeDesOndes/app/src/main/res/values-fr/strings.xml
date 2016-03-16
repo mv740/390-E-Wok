@@ -15,6 +15,8 @@
     <string name="navigation_drawer_open">Ouvrir menu navigation</string>
     <string name="navigation_drawer_close">Fermer menu navigation</string>
 
+    <string name="start_storyline">Commencer</string>
+
     <string-array name="drawer_ele">
         <item>Scénario</item>
         <item>Langue</item>
@@ -22,7 +24,7 @@
     </string-array>
 
     <string name="dialogTitle">Bienvenu</string>
-    <string name="dialogMsg">Vous allez débuter le scénario suivant \n</string>
+    <string name="dialogMsg">Ete vous sure? \n</string>
     <string name="dialogOk">OK</string>
     <string name="dialogCancel">Annuler</string>
     <string name="dialogFree">Vous aller pouvoir explorer librement tous les point d\'intérêts du musée</string>

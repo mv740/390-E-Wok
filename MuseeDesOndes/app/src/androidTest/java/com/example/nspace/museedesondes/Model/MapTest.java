@@ -86,7 +86,7 @@ public class MapTest extends ActivityInstrumentationTestCase2<MainActivity> {
         Map map = Map.getInstance(context);
         assertNotNull("error map is null", map);
 
-        FloorPlan floorPlan = new FloorPlan("1234", "hello world", 1234, 1234);
+        FloorPlan floorPlan = new FloorPlan(1234, "hello world", 1234, 1234);
         map.getFloorPlans().add(floorPlan);
         int index = map.getFloorPlans().size() - 1;
 

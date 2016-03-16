@@ -1,6 +1,5 @@
 package com.example.nspace.museedesondes.utility;
 
-import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 
 import com.estimote.sdk.Beacon;
@@ -9,6 +8,8 @@ import com.estimote.sdk.Region;
 import com.estimote.sdk.Utils;
 import com.example.nspace.museedesondes.MapActivity;
 import com.example.nspace.museedesondes.R;
+import com.example.nspace.museedesondes.model.FloorPlan;
+import com.example.nspace.museedesondes.model.Map;
 import com.example.nspace.museedesondes.model.Node;
 import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.example.nspace.museedesondes.model.StoryLine;
@@ -20,7 +21,6 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -36,7 +36,7 @@ public class StoryLineManager {
     private StoryLine storyLine;
     private List<PointOfInterest> pointOfInterestList;
     private ArrayList<ArrayList<Polyline>> segmentList;
-    private Map<Integer, ArrayList<Polyline>> floorLineMap;
+    private HashMap<Integer, ArrayList<Polyline>> floorLineMap;
     private int pointOfInterestIndex;
     private PointOfInterest nextPOI;
     private MapActivity mapActivity;
@@ -47,7 +47,7 @@ public class StoryLineManager {
 
     public StoryLineManager(StoryLine storyLine, MapActivity mapActivity, PoiPanel panel) {
         this.storyLine = storyLine;
-        initializePOIList();
+        initPOIList();
         this.pointOfInterestIndex = 0;
         nextPOI = pointOfInterestList.get(pointOfInterestIndex);
         pointOfInterestIndex++;
@@ -78,7 +78,7 @@ public class StoryLineManager {
         });
     }
 
-    private void initializePOIList() {
+    private void initPOIList() {
         pointOfInterestList = new ArrayList<PointOfInterest>();
         for(Node node : storyLine.getNodes()) {
             if(node instanceof PointOfInterest) {
@@ -131,7 +131,7 @@ public class StoryLineManager {
         return line;
     }
 
-    public void initializeSegmentList() {
+    public void initSegmentListAndFloorLineMap() {
         ArrayList<Polyline> segment = new ArrayList<>();
         List<Node> nodeList = storyLine.getNodes();
         segmentList = new  ArrayList<>();
@@ -145,25 +145,28 @@ public class StoryLineManager {
                     segment = new ArrayList<>();
                 }
                 segment.add(line);
+                floorLineMap.get(nodeList.get(i).getFloorID()).add(line);
             }
         }
     }
 
-    public void initializSegmentColors() {
-//        int segmentColor = ContextCompat.getColor(mapActivity, R.color.rca_current_segment);
-//        int segmentColor = ContextCompat.getColor(mapActivity, R.color.rca_unexplored_segment);
-
+    public void setFloorLineMap(HashMap<Integer, ArrayList<Polyline>> floorLineMap){
+        this.floorLineMap = floorLineMap;
     }
 
-    public void initializeFloorLineMap(HashMap<Integer,ArrayList<Polyline>> floorLineMap){
-        this.floorLineMap = floorLineMap;
-        //TODO iterate through segment list to init
+    public void createEmptyFloorLineMap() {
+        List<FloorPlan> floorPlans = Map.getInstance(mapActivity).getFloorPlans();
+        for(FloorPlan floorPlan : floorPlans) {
+            ArrayList<Polyline> lineList = new ArrayList<>();
+            floorLineMap.put(floorPlan.getId(),lineList);
+        }
     }
 
     private void updateSegmentList(){
         //TODO:
         //change colors
         //redraw current floor?
+//        int segmentColor = ContextCompat.getColor(mapActivity, R.color.rca_explored_segment);
+//        int segmentColor = ContextCompat.getColor(mapActivity, R.color.rca_current_segment);
     }
-
 }

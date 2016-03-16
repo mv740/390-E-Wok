@@ -69,7 +69,7 @@
           },
           "floorID": 1,
           "x": 0.01,
-          "y": 0.01,
+          "y": 0.05,
           "storyPoint": [
             {
               "storylineID": 2,
@@ -178,7 +178,7 @@
           },
           "floorID": 1,
           "x": 0.01,
-          "y": 0.05,
+          "y": 0.01,
           "storyPoint": [
             {
               "storylineID": 1,
@@ -286,8 +286,8 @@
             ]
           },
           "floorID": 1,
-          "x": 0.01,
-          "y": 0.05,
+          "x": 0.04,
+          "y": 0.01,
           "storyPoint": [
             {
               "storylineID": 1,
@@ -504,8 +504,8 @@
             ]
           },
           "floorID": 3,
-          "x": 0.03,
-          "y": 0.02,
+          "x": 0.04,
+          "y": 0.06,
           "storyPoint": [
             {
               "storylineID": 66,
@@ -561,64 +561,64 @@
           "id": 50,
           "floorID": 1,
           "x": 0.02,
-          "y": 0.01,
+          "y": 0.04,
           "label": "NONE"
         },
         {
           "id": 51,
           "floorID": 1,
-          "x": 0.02,
-          "y": 0.01,
+          "x": 0.01,
+          "y": 0.03,
           "label": "NONE"
         },
         {
           "id": 52,
           "floorID": 1,
           "x": 0.02,
-          "y": 0.01,
+          "y": 0.02,
           "label": "NONE"
         },
         {
           "id": 53,
           "floorID": 1,
-          "x": 0.02,
-          "y": 0.01,
+          "x": 0.045,
+          "y": 0.03,
           "label": "STAIRS"
         },
         {
           "id": 54,
           "floorID": 2,
-          "x": 0.02,
-          "y": 0.01,
+          "x": 0.045,
+          "y": 0.03,
           "label": "STAIRS"
         },
         {
           "id": 55,
           "floorID": 2,
-          "x": 0.02,
-          "y": 0.01,
+          "x": 0.01,
+          "y": 0.03,
           "label": "NONE"
         },
         {
           "id": 56,
           "floorID": 2,
-          "x": 0.02,
-          "y": 0.01,
+          "x": 0.01,
+          "y": 0.06,
           "label": "STAIRS"
         },
         {
           "id": 57,
           "floorID": 3,
-          "x": 0.02,
-          "y": 0.01,
+          "x": 0.01,
+          "y": 0.06,
           "label": "STAIRS"
         },
         {
           "label": "NONE",
           "id": 58,
           "floorID": 3,
-          "x": 0.002,
-          "y": 0.0015
+          "x": 0.03,
+          "y": 0.03
         }
       ]
     }

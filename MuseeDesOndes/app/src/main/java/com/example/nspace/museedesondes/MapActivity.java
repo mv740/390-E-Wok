@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,7 +27,6 @@ import com.example.nspace.museedesondes.model.StoryLine;
 import com.example.nspace.museedesondes.utility.MapManager;
 import com.example.nspace.museedesondes.utility.PoiPanel;
 import com.example.nspace.museedesondes.utility.PointMarker;
-import com.example.nspace.museedesondes.utility.Preferences;
 import com.example.nspace.museedesondes.utility.StoryLineManager;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -40,10 +38,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.PolylineOptions;
 
 import com.google.android.gms.maps.model.Polyline;
-import com.example.nspace.museedesondes.model.Node;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -161,14 +157,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         information = Map.getInstance(getApplicationContext());
+
         HashMap<Integer,ArrayList<Polyline>> floorLineMap = new HashMap<>();
 
         //initialize storyline manager
         if(!freeExploration) {
             storyLineManager.setGoogleMap(googleMap);
-            storyLineManager.initializeSegmentList();
-//          storyLineManager.initializSegmentColors();
-            storyLineManager.initializeFloorLineMap(floorLineMap);
+            storyLineManager.setFloorLineMap(floorLineMap);
+            storyLineManager.createEmptyFloorLineMap();
+            storyLineManager.initSegmentListAndFloorLineMap();
         }
 
         mMap = googleMap;

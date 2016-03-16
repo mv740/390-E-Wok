@@ -66,6 +66,13 @@
         android:maxHeight="100dp"
         android:id="@+id/seekBar"/>
 
+    <Button
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/seekBar"
+        android:text="Play Video"
+        android:onClick="playVideo"/>
+
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -326,6 +326,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
+    public void playVideo(View v){
+        Intent intent = new Intent(this, VideoActivity.class);
+        startActivity(intent);
+    }
+
     public void startAudio(PointOfInterest pointOfInterest) {
         audioService.setAudio();
         int audioDuration = audioService.getAudioDuration();

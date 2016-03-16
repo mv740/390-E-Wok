@@ -1,6 +1,7 @@
 package com.example.nspace.museedesondes.utility;
 
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
@@ -121,12 +122,10 @@ public class StoryLineManager {
      ***/
 
     private Polyline getLineFromNodes(Node node1, Node node2) {
-        List<LatLng> latLngList = new ArrayList<>();
-        latLngList.add(new LatLng(node1.getX(),node1.getY()));
-        latLngList.add(new LatLng(node2.getX(),node2.getY()));
-
-        Polyline line = googleMap.addPolyline(new PolylineOptions().width(10));
-        line.setColor(ContextCompat.getColor(mapActivity, R.color.rca_unexplored_segment));
+        Polyline line = googleMap.addPolyline(new PolylineOptions()
+                .add(new LatLng(node1.getX(), node1.getY()), new LatLng(node2.getX(), node2.getY()))
+                .color(ContextCompat.getColor(mapActivity, R.color.rca_unexplored_segment))
+                .width(10));
         line.setVisible(false);
         return line;
     }
@@ -162,7 +161,7 @@ public class StoryLineManager {
         }
     }
 
-    private void updateSegmentList(){
+    private void updateSegmentListColors(){
         //TODO:
         //change colors
         //redraw current floor?

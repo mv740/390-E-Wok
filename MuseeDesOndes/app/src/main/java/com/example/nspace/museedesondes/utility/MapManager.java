@@ -36,18 +36,22 @@ public class MapManager {
 
     private static final double ZOOM_MAX = 15.0;
     private static final double ZOOM_MIN = 13.0;
+    private final int DEFAULT_FLOOR_ID = 1;
     private GoogleMap mMap;
     private Context context;
     private LatLngBounds groundOverlayFloorMapBound;
     private GroundOverlay groundOverlayFloorMap;
     private int zoomLevel = 1;
-    HashMap<Integer,ArrayList<Polyline>> floorLineMap;
+    private HashMap<Integer,ArrayList<Polyline>> floorLineMap;
+    private int currentFloorID;
+    private boolean freeExploration;
 
-    public MapManager(GoogleMap googleMap, Context context, HashMap<Integer,ArrayList<Polyline>> floorLineMap)
+    public MapManager(GoogleMap googleMap, Context context, HashMap<Integer,ArrayList<Polyline>> floorLineMap,boolean freeExploration)
     {
         this.mMap = googleMap;
         this.context = context;
         this.floorLineMap = floorLineMap;
+        this.freeExploration = freeExploration;
     }
 
 
@@ -79,8 +83,9 @@ public class MapManager {
                 .zIndex(-1);
         mMap.addGroundOverlay(mapBackground);
 
-        //TODO: set visible true/false for default floor lines floorLineMap
-        //check if storyline mode
+        if(!freeExploration) {
+            initFloorLines();
+        }
     }
 
     private int getFloorPlanResourceID(List<FloorPlan> floorPlans, int index) {
@@ -128,14 +133,34 @@ public class MapManager {
 
         displayCurrentFloorPointOfInterest(floorID, markerList);
 
-        //TODO: implement change floor using floorLineMap
-        // check if storyline mode
-        // arraylist polyline floorLineMap.get(floorID)
-        // loop through polyline list for each floor .setVisible(true); set the rest false
-
+        if(!freeExploration) {
+            updateFloorLines(floorID);
+        }
 
         groundOverlayFloorMap.setImage(BitmapDescriptorFactory.fromResource(getFloorPlanResourceID(floorPlans, index)));
         groundOverlayFloorMapBound = groundOverlayFloorMap.getBounds();
+    }
+
+    public void initFloorLines() {
+        ArrayList<Polyline> defaultFloorLines = floorLineMap.get(DEFAULT_FLOOR_ID);
+        this.currentFloorID = DEFAULT_FLOOR_ID;
+
+        for(Polyline line : defaultFloorLines) {
+            line.setVisible(true);
+        }
+    }
+
+    private void updateFloorLines(int newFloorID) {
+        ArrayList<Polyline> currentFloorLines = floorLineMap.get(currentFloorID);
+        ArrayList<Polyline> newFloorLines = floorLineMap.get(newFloorID);
+        this.currentFloorID = newFloorID;
+
+        for(Polyline line : currentFloorLines) {
+            line.setVisible(false);
+        }
+        for(Polyline line : newFloorLines) {
+            line.setVisible(true);
+        }
     }
 
     /**

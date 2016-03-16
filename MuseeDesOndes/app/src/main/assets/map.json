@@ -69,7 +69,7 @@
           },
           "floorID": 1,
           "x": 0.01,
-          "y": 0.05,
+          "y": 0.04,
           "storyPoint": [
             {
               "storylineID": 2,
@@ -286,7 +286,7 @@
             ]
           },
           "floorID": 1,
-          "x": 0.04,
+          "x": 0.05,
           "y": 0.01,
           "storyPoint": [
             {
@@ -395,8 +395,8 @@
             ]
           },
           "floorID": 2,
-          "x": 0.03,
-          "y": 0.03,
+          "x": 0.035,
+          "y": 0.025,
           "storyPoint": [
             {
               "storylineID": 1,
@@ -504,8 +504,8 @@
             ]
           },
           "floorID": 3,
-          "x": 0.04,
-          "y": 0.06,
+          "x": 0.065,
+          "y": 0.04,
           "storyPoint": [
             {
               "storylineID": 66,
@@ -554,6 +554,115 @@
               }
             }
           ]
+        },
+        {
+          "id": 6,
+          "beaconInformation": {
+            "UUID": "test_uuid",
+            "major": 11111,
+            "minor": 22222
+          },
+          "title": [
+            {
+              "language": "fr",
+              "title": "test_titre6"
+            },
+            {
+              "language": "en_US",
+              "title": "test_title6"
+            }
+          ],
+          "description": [
+            {
+              "language": "fr",
+              "description": "Veuillez lire cette description6"
+            },
+            {
+              "language": "en_US",
+              "description": "Please read this description6"
+            }
+          ],
+          "media" : {
+            "video": [
+              {
+                "caption": "video_titre",
+                "language": "fr",
+                "path": "video/FR/test.mp4"
+              },
+              {
+                "caption": "video_title",
+                "language": "en_US",
+                "path": "video/EN/test.mp4"
+              }
+            ],
+            "audio": [
+              {
+                "caption": "audio_titre",
+                "language": "fr",
+                "path": "audio/FR/test_1.mp3"
+              },
+              {
+                "caption": "audio_title",
+                "language": "en_US",
+                "path": "audio/EN/test_1.mp3"
+              }
+            ],
+            "image": [
+              {
+                "caption": "test_title",
+                "language": "en_US",
+                "path": "picture/test_image1.png"
+              },
+              {
+                "caption": "test_titre",
+                "language": "fr",
+                "path": "picture/test_image2.png"
+              }
+            ]
+          },
+          "floorID": 1,
+          "x": 0.025,
+          "y": 0.0155,
+          "storyPoint": [
+            {
+              "storylineID": 2,
+              "title": [
+                {
+                  "language": "fr",
+                  "title": "<title>"
+                }
+              ],
+              "description": [
+                {
+                  "language": "fr",
+                  "description": "<description>"
+                }
+              ],
+              "media": {
+                "image": [
+                  {
+                    "path": "<URL>",
+                    "language": "fr",
+                    "caption": "<caption>"
+                  }
+                ],
+                "video": [
+                  {
+                    "path": "<URL>",
+                    "language": "fr",
+                    "caption": "<caption>"
+                  }
+                ],
+                "audio": [
+                  {
+                    "path": "<URL>",
+                    "language": "fr",
+                    "caption": "<caption>"
+                  }
+                ]
+              }
+            }
+          ]
         }
       ],
       "pot" : [
@@ -561,56 +670,56 @@
           "id": 50,
           "floorID": 1,
           "x": 0.02,
-          "y": 0.04,
+          "y": 0.035,
           "label": "NONE"
         },
         {
           "id": 51,
           "floorID": 1,
           "x": 0.01,
-          "y": 0.03,
+          "y": 0.035,
           "label": "NONE"
         },
         {
           "id": 52,
           "floorID": 1,
-          "x": 0.02,
-          "y": 0.02,
+          "x": 0.0185,
+          "y": 0.015,
           "label": "NONE"
         },
         {
           "id": 53,
           "floorID": 1,
-          "x": 0.045,
-          "y": 0.03,
+          "x": 0.061,
+          "y": 0.013,
           "label": "STAIRS"
         },
         {
           "id": 54,
           "floorID": 2,
-          "x": 0.045,
-          "y": 0.03,
+          "x": 0.061,
+          "y": 0.013,
           "label": "STAIRS"
         },
         {
           "id": 55,
           "floorID": 2,
-          "x": 0.01,
-          "y": 0.03,
+          "x": 0.035,
+          "y": 0.035,
           "label": "NONE"
         },
         {
           "id": 56,
           "floorID": 2,
           "x": 0.01,
-          "y": 0.06,
+          "y": 0.033,
           "label": "STAIRS"
         },
         {
           "id": 57,
           "floorID": 3,
           "x": 0.01,
-          "y": 0.06,
+          "y": 0.033,
           "label": "STAIRS"
         },
         {
@@ -618,8 +727,73 @@
           "id": 58,
           "floorID": 3,
           "x": 0.03,
-          "y": 0.03
+          "y": 0.038
+        },
+        {
+          "id": 59,
+          "floorID": 2,
+          "x": 0.035,
+          "y": 0.013,
+          "label": "NONE"
+        },
+        {
+          "id": 60,
+          "floorID": 1,
+          "x": 0.02,
+          "y": 0.04,
+          "label": "NONE"
+        },
+        {
+          "id": 61,
+          "floorID": 2,
+          "x": 0.041,
+          "y": 0.019,
+          "label": "NONE"
+        },
+        {
+          "id": 62,
+          "floorID": 2,
+          "x": 0.035,
+          "y": 0.019,
+          "label": "NONE"
+        },
+        {
+          "id": 63,
+          "floorID": 2,
+          "x": 0.035,
+          "y": 0.027,
+          "label": "NONE"
+        },
+        {
+          "id": 64,
+          "floorID": 2,
+          "x": 0.040,
+          "y": 0.027,
+          "label": "NONE"
+        },
+        {
+          "id": 65,
+          "floorID": 2,
+          "x": 0.040,
+          "y": 0.037,
+          "label": "NONE"
+        },
+        {
+          "id": 67,
+          "floorID": 1,
+          "x": 0.025,
+          "y": 0.01,
+          "label": "NONE"
+        },
+        {
+          "id": 68,
+          "floorID": 1,
+          "x": 0.05,
+          "y": 0.013,
+          "label": "NONE"
         }
+
+
       ]
     }
   ],
@@ -659,14 +833,24 @@
       "floorsCovered": 2,
       "path": [
         1,
+        60,
         50,
         51,
         2,
         52,
+        6,
+        67,
         3,
+        68,
         53,
         54,
+        59,
+        61,
+        62,
         4,
+        63,
+        64,
+        65,
         55,
         56,
         57,
@@ -700,11 +884,14 @@
       "walkingTimeInMinutes": 30,
       "floorsCovered": 2,
       "path": [
-        3,
-        50,
+        2,
         52,
         53,
-        2
+        54,
+        59,
+        61,
+        62,
+        4
       ]
     },
     {
@@ -734,10 +921,8 @@
       "floorsCovered": 2,
       "path": [
         1,
-        52,
-        53,
-        54,
-        4
+        2,
+        3
       ]
     }
   ],

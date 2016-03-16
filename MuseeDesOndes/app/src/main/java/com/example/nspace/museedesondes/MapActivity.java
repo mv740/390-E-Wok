@@ -160,16 +160,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         HashMap<Integer,ArrayList<Polyline>> floorLineMap = new HashMap<>();
 
-        //initialize storyline manager
-        if(!freeExploration) {
-            storyLineManager.setGoogleMap(googleMap);
-            storyLineManager.setFloorLineMap(floorLineMap);
-            storyLineManager.createEmptyFloorLineMap();
-            storyLineManager.initSegmentListAndFloorLineMap();
-        }
+
 
         mMap = googleMap;
-        mapManager = new MapManager(mMap, this, floorLineMap);
+        mapManager = new MapManager(mMap, this, floorLineMap, freeExploration);
         mMap.setBuildingsEnabled(false);
         mMap.setIndoorEnabled(false);
         mMap.getUiSettings().setZoomControlsEnabled(false);
@@ -178,6 +172,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap.getUiSettings().setRotateGesturesEnabled(false);
         mMap.clear();
         mMap.setOnMarkerClickListener(this);
+
+        //initialize storyline manager
+        if(!freeExploration) {
+            storyLineManager.setGoogleMap(mMap);
+            storyLineManager.setFloorLineMap(floorLineMap);
+            storyLineManager.createEmptyFloorLineMap();
+            storyLineManager.initSegmentListAndFloorLineMap();
+        }
 
         //loading initial map
         mapManager.loadDefaultFloor(information.getFloorPlans(), findViewById(android.R.id.content));

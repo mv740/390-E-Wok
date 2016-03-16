@@ -36,6 +36,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -69,6 +70,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private SeekBar seekBar;
     Handler audioHandler = new Handler();
     PoiPanel panel;
+    private Marker selectedMarker;
 
 
     @Override
@@ -81,7 +83,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         //create storyline manager which handles storyline progression and interaction with the beacons
         information = Map.getInstance(getApplicationContext());
         getStoryLineSelected();
-
 
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -97,6 +98,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
 
         bringButtonsToFront();
         Intent intent = new Intent(this, AudioService.class);
@@ -260,7 +262,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         List<LatLng> nodeLatLngs = new ArrayList<LatLng>();
         for (Node node : nodes) {
             if (node.getFloorID() == floorID) {
-                nodeLatLngs.add(new LatLng(node.getY(),node.getX()));
+                nodeLatLngs.add(new LatLng(node.getY(), node.getX()));
             }
         }
         return nodeLatLngs;
@@ -340,11 +342,23 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public boolean onMarkerClick(Marker marker) {
 
+        selectedMarkerDisplay(marker);
+
         //move camera to marker postion
         LatLng markerLocation = marker.getPosition();
+
         mMap.moveCamera(CameraUpdateFactory.newLatLng(markerLocation));
         panel.update(marker);
         return true;
+    }
+
+    private void selectedMarkerDisplay(Marker marker) {
+        if(selectedMarker !=null)
+        {
+            selectedMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+        }
+        marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+        selectedMarker = marker;
     }
 
     private ServiceConnection audioConnection = new ServiceConnection() {
@@ -390,11 +404,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     };
 
     @Override
-    protected void onDestroy()
-    {
+    protected void onDestroy() {
         super.onDestroy();
-        if(audioService !=null)
-        {
+        if (audioService != null) {
             unbindService(audioConnection);
         }
 
@@ -459,5 +471,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return mapManager;
     }
 
+    @Override
+    public void onBackPressed() {
+        if (panel.isOpen()) {
+            panel.close();
+        } else super.onBackPressed();
 
+    }
 }

@@ -2,6 +2,7 @@ package com.example.nspace.museedesondes.utility;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.TextView;
 
 import com.bluejamesbond.text.DocumentView;
@@ -34,9 +35,23 @@ public class PoiPanel {
     public PoiPanel(MapActivity activity) {
         this.activity = activity;
         this.panel = (SlidingUpPanelLayout) activity.findViewById(R.id.sliding_layout);
+
+        onShadowClick();
+
+    }
+
+    private void onShadowClick() {
+        panel.setFadeOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                panel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+            }
+        });
     }
 
     public void update(Marker marker){
+
+
 
         PointMarker.Information pMarkerInfo = new PointMarker.Information(marker.getSnippet());
 
@@ -102,5 +117,15 @@ public class PoiPanel {
 
     public PointOfInterest getCurrentPointofInterest() {
         return currentPointofInterest;
+    }
+
+    public boolean isOpen()
+    {
+        return panel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED;
+    }
+
+    public  void close()
+    {
+        panel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
     }
 }

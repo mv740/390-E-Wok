@@ -1,22 +1,36 @@
 package com.example.nspace.museedesondes;
 
 import android.app.Activity;
+import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
+import android.support.test.uiautomator.UiDevice;
+import android.support.test.uiautomator.UiObject;
+import android.support.test.uiautomator.UiSelector;
 import android.support.v4.content.ContextCompat;
 import android.test.suitebuilder.annotation.LargeTest;
+import android.util.Log;
 import android.view.View;
+
 import com.example.nspace.museedesondes.utility.MapManager;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.android.gms.maps.model.GroundOverlay;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+
+import static android.support.test.InstrumentationRegistry.getContext;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.runner.lifecycle.Stage.RESUMED;
+
 import junit.framework.Assert;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import java.util.Collection;
+
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.*;
@@ -38,17 +52,15 @@ public class MapActivityTest {
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<MainActivity>(MainActivity.class);
 
     @Before
-    public void initValidLocale()
-    {
+    public void initValidLocale() {
         onView(withId(R.id.begin_tour_button))
                 .check(matches(isDisplayed()))
                 .perform(click());
-        onView(withText(R.string.free_exploration))
-                .check(matches(isDisplayed()))
-                .perform(click());
-        onView(withText("OK"))
-                .check(matches(isDisplayed()))
-                .perform(click());
+        StoryLineActivity storyLineActivity = (StoryLineActivity) getActivityInstance();
+        //always last card = free exploration
+        onView(withId(R.id.material_listview)).perform(RecyclerViewActions.scrollToPosition(storyLineActivity.getCardsNumbers() - 1));
+        onView(withText(R.string.free_exploration)).perform(click());
+        onView(withText("OK")).perform(click());
     }
 
     @Test
@@ -57,7 +69,7 @@ public class MapActivityTest {
         onView(withId(R.id.hamburger))
                 .check(matches(isDisplayed()))
                 .perform(click());
-        onView(withText("Storylines")).check(matches(isDisplayed()));
+        onView(withText("Tours")).check(matches(isDisplayed()));
         onView(withText("Language")).check(matches(isDisplayed()));
     }
 
@@ -102,7 +114,7 @@ public class MapActivityTest {
         });
         onView(withId(R.id.fab2)).perform(click());
         //image changed
-        Assert.assertNotSame(groundOverlay.hashCode(),mapActivity.getMapManager().getGroundOverlayFloorMap().hashCode());
+        Assert.assertNotSame(groundOverlay.hashCode(), mapActivity.getMapManager().getGroundOverlayFloorMap().hashCode());
         Assert.assertEquals(floatingActionButton.getColorNormal(), ContextCompat.getColor(mapActivity.getApplicationContext(), R.color.rca_primary));
 
     }
@@ -131,12 +143,31 @@ public class MapActivityTest {
 
     @Test
     public void testPlayAudioFile() throws Exception {
+    }
+
+
+    @Test
+    public void testClickMarker() throws Exception {
+
+        MapActivity mapActivity = (MapActivity) getActivityInstance();
+        String title = mapActivity.getInformation().getPointOfInterests().get(0).getLocaleDescription(mapActivity.getApplicationContext()).getTitle();
+
+        UiDevice device = UiDevice.getInstance(getInstrumentation());
+        UiObject marker = device.findObject(new UiSelector().descriptionContains(title));
+        marker.click();
+
+
+    }
+
+    @Test
+    public void testFullScreenImage() throws Exception {
+
 
     }
 
     //helper get current activity from https://gist.github.com/elevenetc/df58a6ee4b776edb67c2
     //http://stackoverflow.com/questions/24517291/get-current-activity-in-espresso-android/34084377#34084377
-    public Activity getActivityInstance(){
+    public Activity getActivityInstance() {
 
         final Activity[] currentActivity = new Activity[1];
         getInstrumentation().runOnMainSync(new Runnable() {

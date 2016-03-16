@@ -35,7 +35,7 @@ public class PointMarker {
         CoordinateAdapter coordinateAdapter = new CoordinateAdapter(groundOverlayFloorMapBound);
 
         MarkerOptions node = new MarkerOptions();
-        node.position(new LatLng(coordinateAdapter.convertY(pointOfInterest.getY()),coordinateAdapter.convertX(pointOfInterest.getX())));
+        node.position(new LatLng(coordinateAdapter.convertY(pointOfInterest.getX()),coordinateAdapter.convertX(pointOfInterest.getY())));
         node.title(title);
         node.icon((BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 

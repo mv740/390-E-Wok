@@ -8,12 +8,12 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  */
 @JsonTypeName("FloorPlan")
 public class FloorPlan {
-    private String id;
+    private int id;
     private String imagePath;
     private int imageWidth;
     private int imageHeight;
 
-    public FloorPlan(@JsonProperty("floorID")String id,
+    public FloorPlan(@JsonProperty("floorID")int id,
                      @JsonProperty("imagePath")String imagePath,
                      @JsonProperty("imageWidth")int imageWidth,
                      @JsonProperty("imageHeight")int imageHeight) {
@@ -23,7 +23,7 @@ public class FloorPlan {
         this.imageHeight = imageHeight;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 

@@ -23,7 +23,7 @@ public class Preferences {
        appContext = context;
     }
 
-    public static void savePreferences(String appLanguage) {
+    public static void saveLanguagePreference(String appLanguage) {
         SharedPreferences sharedPrefs = appContext.getApplicationContext().getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPrefs.edit();
         editor.putString("savedLang", appLanguage);

@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,7 +27,6 @@ import com.example.nspace.museedesondes.model.StoryLine;
 import com.example.nspace.museedesondes.utility.MapManager;
 import com.example.nspace.museedesondes.utility.PoiPanel;
 import com.example.nspace.museedesondes.utility.PointMarker;
-import com.example.nspace.museedesondes.utility.Preferences;
 import com.example.nspace.museedesondes.utility.StoryLineManager;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -41,10 +39,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.PolylineOptions;
 
 import com.google.android.gms.maps.model.Polyline;
-import com.example.nspace.museedesondes.model.Node;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,7 +61,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private StoryLine storyLine;
     private boolean freeExploration;
     private List<Marker> markerList;
-    private java.util.Map<String, Polyline> polylineList;
     private MapManager mapManager;
     private SeekBar seekBar;
     Handler audioHandler = new Handler();
@@ -84,6 +79,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         information = Map.getInstance(getApplicationContext());
         getStoryLineSelected();
 
+        if (!freeExploration) {
+            storyLineManager = new StoryLineManager(storyLine, this, panel);
+        }
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -104,10 +102,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         Intent intent = new Intent(this, AudioService.class);
         bindService(intent, audioConnection, Context.BIND_AUTO_CREATE);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
-        if (!freeExploration) {
-            storyLineManager = new StoryLineManager(storyLine, this, panel, mMap);
-        }
-        this.polylineList = new HashMap<>();
     }
 
     //sets the storyline to the one selected in the StoryLineActivity
@@ -166,8 +160,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         information = Map.getInstance(getApplicationContext());
 
+        HashMap<Integer,ArrayList<Polyline>> floorLineMap = new HashMap<>();
+
+
+
         mMap = googleMap;
-        mapManager = new MapManager(mMap, this);
+        mapManager = new MapManager(mMap, this, floorLineMap, freeExploration);
         mMap.setBuildingsEnabled(false);
         mMap.setIndoorEnabled(false);
         mMap.getUiSettings().setZoomControlsEnabled(false);
@@ -177,6 +175,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap.clear();
         mMap.setOnMarkerClickListener(this);
 
+        //initialize storyline manager
+        if(!freeExploration) {
+            storyLineManager.setGoogleMap(mMap);
+            storyLineManager.setFloorLineMap(floorLineMap);
+            storyLineManager.createEmptyFloorLineMap();
+            storyLineManager.initSegmentListAndFloorLineMap();
+        }
+
         //loading initial map
         mapManager.loadDefaultFloor(information.getFloorPlans(), findViewById(android.R.id.content));
         mapManager.initialCameraPosition();
@@ -184,13 +190,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         this.markerList = placeMarkersOnPointsOfInterest(information.getPointOfInterests());
         mapManager.displayCurrentFloorPointOfInterest(1, this.markerList);
-
-
-        // Obtains ALL nodes.
-        List<Node> nodes = information.getNodes();
-
-        // This statement places all the nodes on the map and traces the path between them.
-        tracePath(nodes, 1, this.polylineList);
 
         mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
 
@@ -228,44 +227,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             mMarkerArray.add(marker);
         }
         return mMarkerArray;
-    }
-
-    /**
-     * This function is meant to trace the path between nodes in the arraylist of coordinates
-     * representing each node's latitudinal and longitudinal position respectively.
-     *
-     * @param nodes This is the list of nodes that are to be sorted through. The nodes could be
-     *              either points of interest, points of traversal, or others.
-     */
-    public void tracePath(List<Node> nodes, int floorID, java.util.Map<String, Polyline> polylineList) {
-
-        List<LatLng> nodePositions = listNodeCoordinates(nodes, floorID);
-        Polyline line = mMap.addPolyline(new PolylineOptions()
-                .width(15)
-                .color(Color.parseColor("#99E33C3C")));
-        line.setPoints(nodePositions);
-        polylineList.put("hello", line);
-    }
-
-
-    /**
-     * This method is used to return a list of LatLng coordinates associated with the list of nodes passed as a parameter.
-     *
-     * @param nodes The list of nodes for which coordinates should be derived.
-     * @return The list of LatLng coordinates.
-     */
-    public List<LatLng> listNodeCoordinates(List<Node> nodes, int floorID) {
-        if (nodes == null) {
-            return null;
-        }
-
-        List<LatLng> nodeLatLngs = new ArrayList<LatLng>();
-        for (Node node : nodes) {
-            if (node.getFloorID() == floorID) {
-                nodeLatLngs.add(new LatLng(node.getY(), node.getX()));
-            }
-        }
-        return nodeLatLngs;
     }
 
     @Override
@@ -318,7 +279,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public void changeFloor(int floor) {
-        mapManager.switchFloor(floor, information.getFloorPlans(), this.markerList, this.polylineList);
+        mapManager.switchFloor(floor, information.getFloorPlans(), this.markerList);
         FloatingActionMenu floorButton = (FloatingActionMenu) findViewById(R.id.floor_button);
         floorButton.toggle(true);
     }

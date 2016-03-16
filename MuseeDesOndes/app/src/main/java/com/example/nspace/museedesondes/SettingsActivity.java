@@ -80,7 +80,7 @@ public class SettingsActivity extends AppCompatActivity {
                         if(!getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(selectedLanguageType))
                         {
                             Preferences.setLocale(selectedLanguageType);
-                            Preferences.savePreferences(selectedLanguageType);
+                            Preferences.saveLanguagePreference(selectedLanguageType);
                         }
                         finish();
                     }

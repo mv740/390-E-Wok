@@ -51,7 +51,6 @@ public class StoryLineManager {
         initPOIList();
         this.pointOfInterestIndex = 0;
         nextPOI = pointOfInterestList.get(pointOfInterestIndex);
-        pointOfInterestIndex++;
         this.mapActivity = mapActivity;
         this.panel = panel;
         region = new Region("ranged region", UUID.fromString(DEFAULT_MUSEUM_UUID), null, null);
@@ -71,7 +70,7 @@ public class StoryLineManager {
 
                         panel.updateStoryPanel(storyLine, nextPOI);
                         // TODO: update UI with temp man marker
-                        // TODO: update storyline polyline segments
+                        updateSegmentListColors();
                         updateNextPOI();
                     }
                 }
@@ -94,9 +93,9 @@ public class StoryLineManager {
 
     //updates the next point of interest beacon to listen for, stops listening after the last beacon is discovered
     private void updateNextPOI() {
+        pointOfInterestIndex++;
         if(pointOfInterestIndex < pointOfInterestList.size()){
             nextPOI = pointOfInterestList.get(pointOfInterestIndex);
-            pointOfInterestIndex++;
         } else {
             beaconManager.stopRanging(region);
         }
@@ -139,7 +138,7 @@ public class StoryLineManager {
         for(int i = 0; i < nodeList.size() - 1; i++) {
             if(nodeList.get(i).getFloorID() == nodeList.get(i + 1).getFloorID()) {
                 line = getLineFromNodes(nodeList.get(i),nodeList.get(i + 1));
-                if(nodeList.get(i) instanceof PointOfInterest) {
+                if((nodeList.get(i) instanceof PointOfInterest) && (i != 0)) {
                     segmentList.add(segment);
                     segment = new ArrayList<>();
                 }
@@ -147,6 +146,7 @@ public class StoryLineManager {
                 floorLineMap.get(nodeList.get(i).getFloorID()).add(line);
             }
         }
+        segmentList.add(segment);
     }
 
     public void setFloorLineMap(HashMap<Integer, ArrayList<Polyline>> floorLineMap){
@@ -162,10 +162,21 @@ public class StoryLineManager {
     }
 
     private void updateSegmentListColors(){
-        //TODO:
-        //change colors
-        //redraw current floor?
-//        int segmentColor = ContextCompat.getColor(mapActivity, R.color.rca_explored_segment);
-//        int segmentColor = ContextCompat.getColor(mapActivity, R.color.rca_current_segment);
+
+        //update color for new current segment
+        if(pointOfInterestIndex < pointOfInterestList.size() - 1) {
+            ArrayList<Polyline> currentSegment = segmentList.get(pointOfInterestIndex);
+            for(Polyline line : currentSegment) {
+                line.setColor(ContextCompat.getColor(mapActivity, R.color.rca_current_segment));
+            }
+        }
+
+        //update previous current segment color to the explored color
+        if(pointOfInterestIndex - 1 >= 0) {
+            ArrayList<Polyline> exploredSegment = segmentList.get(pointOfInterestIndex - 1);
+            for(Polyline line : exploredSegment) {
+                line.setColor(ContextCompat.getColor(mapActivity, R.color.rca_explored_segment));
+            }
+        }
     }
 }

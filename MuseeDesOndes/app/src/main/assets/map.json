@@ -115,8 +115,8 @@
           "id": 2,
           "beaconInformation": {
             "UUID": "test_uuid",
-            "major": 1111,
-            "minor": 2222
+            "major": 61111,
+            "minor": 23409
           },
           "title": [
             {
@@ -224,8 +224,8 @@
           "id": 3,
           "beaconInformation": {
             "UUID": "test_uuid",
-            "major": 1111,
-            "minor": 2222
+            "major": 61111,
+            "minor": 23409
           },
           "title": [
             {
@@ -663,6 +663,115 @@
               }
             }
           ]
+        },
+        {
+          "id": 7,
+          "beaconInformation": {
+            "UUID": "test_uuid",
+            "major": 11111,
+            "minor": 22222
+          },
+          "title": [
+            {
+              "language": "fr",
+              "title": "test_titre7"
+            },
+            {
+              "language": "en_US",
+              "title": "test_title7"
+            }
+          ],
+          "description": [
+            {
+              "language": "fr",
+              "description": "Veuillez lire cette description7"
+            },
+            {
+              "language": "en_US",
+              "description": "Please read this description7"
+            }
+          ],
+          "media" : {
+            "video": [
+              {
+                "caption": "video_titre",
+                "language": "fr",
+                "path": "video/FR/test.mp4"
+              },
+              {
+                "caption": "video_title",
+                "language": "en_US",
+                "path": "video/EN/test.mp4"
+              }
+            ],
+            "audio": [
+              {
+                "caption": "audio_titre",
+                "language": "fr",
+                "path": "audio/FR/test_1.mp3"
+              },
+              {
+                "caption": "audio_title",
+                "language": "en_US",
+                "path": "audio/EN/test_1.mp3"
+              }
+            ],
+            "image": [
+              {
+                "caption": "test_title",
+                "language": "en_US",
+                "path": "picture/test_image1.png"
+              },
+              {
+                "caption": "test_titre",
+                "language": "fr",
+                "path": "picture/test_image2.png"
+              }
+            ]
+          },
+          "floorID": 3,
+          "x": 0.048,
+          "y": 0.0365,
+          "storyPoint": [
+            {
+              "storylineID": 2,
+              "title": [
+                {
+                  "language": "fr",
+                  "title": "<title>"
+                }
+              ],
+              "description": [
+                {
+                  "language": "fr",
+                  "description": "<description>"
+                }
+              ],
+              "media": {
+                "image": [
+                  {
+                    "path": "<URL>",
+                    "language": "fr",
+                    "caption": "<caption>"
+                  }
+                ],
+                "video": [
+                  {
+                    "path": "<URL>",
+                    "language": "fr",
+                    "caption": "<caption>"
+                  }
+                ],
+                "audio": [
+                  {
+                    "path": "<URL>",
+                    "language": "fr",
+                    "caption": "<caption>"
+                  }
+                ]
+              }
+            }
+          ]
         }
       ],
       "pot" : [
@@ -726,8 +835,8 @@
           "label": "NONE",
           "id": 58,
           "floorID": 3,
-          "x": 0.03,
-          "y": 0.038
+          "x": 0.02,
+          "y": 0.035
         },
         {
           "id": 59,
@@ -767,14 +876,14 @@
         {
           "id": 64,
           "floorID": 2,
-          "x": 0.040,
+          "x": 0.0405,
           "y": 0.027,
           "label": "NONE"
         },
         {
           "id": 65,
           "floorID": 2,
-          "x": 0.040,
+          "x": 0.0405,
           "y": 0.037,
           "label": "NONE"
         },
@@ -790,6 +899,34 @@
           "floorID": 1,
           "x": 0.05,
           "y": 0.013,
+          "label": "NONE"
+        },
+        {
+          "id": 69,
+          "floorID": 3,
+          "x": 0.039,
+          "y": 0.037,
+          "label": "NONE"
+        },
+        {
+          "id": 70,
+          "floorID": 3,
+          "x": 0.041,
+          "y": 0.039,
+          "label": "NONE"
+        },
+        {
+          "id": 71,
+          "floorID": 3,
+          "x": 0.048,
+          "y": 0.039,
+          "label": "NONE"
+        },
+        {
+          "id": 72,
+          "floorID": 3,
+          "x": 0.065,
+          "y": 0.038,
           "label": "NONE"
         }
 
@@ -855,6 +992,11 @@
         56,
         57,
         58,
+        69,
+        70,
+        71,
+        7,
+        72,
         5
       ]
     },

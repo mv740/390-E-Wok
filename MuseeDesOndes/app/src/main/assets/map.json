@@ -58,12 +58,32 @@
               {
                 "caption": "test_title",
                 "language": "en_US",
-                "path": "picture/test_image1.png"
+                "path": "museum_ex_1"
               },
               {
                 "caption": "test_titre",
                 "language": "fr",
-                "path": "picture/test_image2.png"
+                "path": "museum_ex_1"
+              },
+              {
+                "caption": "test_title",
+                "language": "en_US",
+                "path": "museum_ex_2"
+              },
+              {
+                "caption": "test_titre",
+                "language": "fr",
+                "path": "museum_ex_2"
+              },
+              {
+                "caption": "test_title",
+                "language": "en_US",
+                "path": "museum_ex_3"
+              },
+              {
+                "caption": "test_titre",
+                "language": "fr",
+                "path": "museum_ex_3"
               }
             ]
           },
@@ -167,12 +187,32 @@
               {
                 "caption": "test_title",
                 "language": "en_US",
-                "path": "picture/test_image1.png"
+                "path": "museum_ex_1"
               },
               {
                 "caption": "test_titre",
                 "language": "fr",
-                "path": "picture/test_image2.png"
+                "path": "museum_ex_1"
+              },
+              {
+                "caption": "test_title",
+                "language": "en_US",
+                "path": "museum_ex_2"
+              },
+              {
+                "caption": "test_titre",
+                "language": "fr",
+                "path": "museum_ex_2"
+              },
+              {
+                "caption": "test_title",
+                "language": "en_US",
+                "path": "museum_ex_3"
+              },
+              {
+                "caption": "test_titre",
+                "language": "fr",
+                "path": "museum_ex_3"
               }
             ]
           },
@@ -276,12 +316,32 @@
               {
                 "caption": "test_title",
                 "language": "en_US",
-                "path": "picture/test_image1.png"
+                "path": "museum_ex_1"
               },
               {
                 "caption": "test_titre",
                 "language": "fr",
-                "path": "picture/test_image2.png"
+                "path": "museum_ex_1"
+              },
+              {
+                "caption": "test_title",
+                "language": "en_US",
+                "path": "museum_ex_2"
+              },
+              {
+                "caption": "test_titre",
+                "language": "fr",
+                "path": "museum_ex_2"
+              },
+              {
+                "caption": "test_title",
+                "language": "en_US",
+                "path": "museum_ex_3"
+              },
+              {
+                "caption": "test_titre",
+                "language": "fr",
+                "path": "museum_ex_3"
               }
             ]
           },
@@ -385,12 +445,32 @@
               {
                 "caption": "test_title",
                 "language": "en_US",
-                "path": "picture/test_image1.png"
+                "path": "museum_ex_1"
               },
               {
                 "caption": "test_titre",
                 "language": "fr",
-                "path": "picture/test_image2.png"
+                "path": "museum_ex_1"
+              },
+              {
+                "caption": "test_title",
+                "language": "en_US",
+                "path": "museum_ex_2"
+              },
+              {
+                "caption": "test_titre",
+                "language": "fr",
+                "path": "museum_ex_2"
+              },
+              {
+                "caption": "test_title",
+                "language": "en_US",
+                "path": "museum_ex_3"
+              },
+              {
+                "caption": "test_titre",
+                "language": "fr",
+                "path": "museum_ex_3"
               }
             ]
           },
@@ -494,12 +574,32 @@
               {
                 "caption": "test_title",
                 "language": "en_US",
-                "path": "picture/test_image1.png"
+                "path": "museum_ex_1"
               },
               {
                 "caption": "test_titre",
                 "language": "fr",
-                "path": "picture/test_image2.png"
+                "path": "museum_ex_1"
+              },
+              {
+                "caption": "test_title",
+                "language": "en_US",
+                "path": "museum_ex_2"
+              },
+              {
+                "caption": "test_titre",
+                "language": "fr",
+                "path": "museum_ex_2"
+              },
+              {
+                "caption": "test_title",
+                "language": "en_US",
+                "path": "museum_ex_3"
+              },
+              {
+                "caption": "test_titre",
+                "language": "fr",
+                "path": "museum_ex_3"
               }
             ]
           },
@@ -611,12 +711,32 @@
               {
                 "caption": "test_title",
                 "language": "en_US",
-                "path": "picture/test_image1.png"
+                "path": "museum_ex_1"
               },
               {
                 "caption": "test_titre",
                 "language": "fr",
-                "path": "picture/test_image2.png"
+                "path": "museum_ex_1"
+              },
+              {
+                "caption": "test_title",
+                "language": "en_US",
+                "path": "museum_ex_2"
+              },
+              {
+                "caption": "test_titre",
+                "language": "fr",
+                "path": "museum_ex_2"
+              },
+              {
+                "caption": "test_title",
+                "language": "en_US",
+                "path": "museum_ex_3"
+              },
+              {
+                "caption": "test_titre",
+                "language": "fr",
+                "path": "museum_ex_3"
               }
             ]
           },

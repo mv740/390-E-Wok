@@ -5,6 +5,7 @@
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="500dp"
+    android:id="@+id/poiPanel"
     android:background="#FFE33C3C"
     android:gravity="center|top"
     android:orientation="vertical"

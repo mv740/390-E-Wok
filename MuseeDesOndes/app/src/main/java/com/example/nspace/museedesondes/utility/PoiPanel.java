@@ -2,7 +2,11 @@ package com.example.nspace.museedesondes.utility;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewManager;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bluejamesbond.text.DocumentView;
@@ -62,10 +66,18 @@ public class PoiPanel {
         List<Image> images = pointOfInterest.getLocaleImages(activity.getApplicationContext());
 
         //get test images:
-        images = new ArrayList<>();
-        images.add(new Image("museum_ex_1", Language.en_US, "museum_ex_1"));
-        images.add(new Image("museum_ex_2", Language.en_US, "museum_ex_2"));
-        images.add(new Image("museum_ex_3", Language.en_US, "museum_ex_3"));
+//        images = new ArrayList<>();
+//        images.add(new Image("museum_ex_1", Language.en_US, "museum_ex_1"));
+//        images.add(new Image("museum_ex_2", Language.en_US, "museum_ex_2"));
+//        images.add(new Image("museum_ex_3", Language.en_US, "museum_ex_3"));
+
+        //todo if no image, remove layout
+//       if (currentPointofInterest.getLocaleImages(activity.getApplicationContext()).isEmpty())
+//        {
+//            RelativeLayout v = (RelativeLayout) activity.findViewById(R.id.poiPanel);
+//            v.removeView(activity.findViewById(R.id.my_recycler_view));
+//            Log.v("test");
+//        }
 
         replaceTitle(title);
         replaceDescription(description);
@@ -82,10 +94,10 @@ public class PoiPanel {
         List<Image> images = pointOfInterest.getLocaleImages(activity.getApplicationContext());
 
         //get test images:
-        images = new ArrayList<>();
-        images.add(new Image("museum_ex_1", Language.en_US, "museum_ex_1"));
-        images.add(new Image("museum_ex_2", Language.en_US, "museum_ex_2"));
-        images.add(new Image("museum_ex_3", Language.en_US, "museum_ex_3"));
+//        images = new ArrayList<>();
+//        images.add(new Image("museum_ex_1", Language.en_US, "museum_ex_1"));
+//        images.add(new Image("museum_ex_2", Language.en_US, "museum_ex_2"));
+//        images.add(new Image("museum_ex_3", Language.en_US, "museum_ex_3"));
 
         replaceTitle(title);
         replaceDescription(description);

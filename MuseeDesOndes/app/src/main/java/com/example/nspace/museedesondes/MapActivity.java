@@ -67,7 +67,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     PoiPanel panel;
     private Marker selectedMarker;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +102,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         bindService(intent, audioConnection, Context.BIND_AUTO_CREATE);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
     }
+
+
+
+
 
     //sets the storyline to the one selected in the StoryLineActivity
     private void getStoryLineSelected() {
@@ -206,6 +209,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 Log.v("onCameraChange", "right :" + right);
                 Log.v("onCameraChange", "bottom :" + bottom);
 
+                mapManager.detectingPinchZoom(cameraPosition);
                 mapManager.zoomLimit(cameraPosition);
                 LatLngBounds current = new LatLngBounds(vr.latLngBounds.southwest, vr.latLngBounds.northeast);
                 mapManager.verifyCameraBounds(current);
@@ -453,4 +457,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
 
     }
+
+
 }

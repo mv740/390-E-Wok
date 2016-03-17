@@ -42,14 +42,14 @@ public class MapManager {
     private LatLngBounds groundOverlayFloorMapBound;
     private GroundOverlay groundOverlayFloorMap;
     private int zoomLevel = 1;
-    private HashMap<Integer,ArrayList<Polyline>> floorLineMap;
+    private HashMap<Integer, ArrayList<Polyline>> floorLineMap;
     private int currentFloorID;
     private boolean freeExploration;
     private boolean zoomToFitUsed = false;
+    private boolean pinchZoomUsed = false;
 
 
-    public MapManager(GoogleMap googleMap, Context context, HashMap<Integer,ArrayList<Polyline>> floorLineMap,boolean freeExploration)
-    {
+    public MapManager(GoogleMap googleMap, Context context, HashMap<Integer, ArrayList<Polyline>> floorLineMap, boolean freeExploration) {
         this.mMap = googleMap;
         this.context = context;
         this.floorLineMap = floorLineMap;
@@ -58,21 +58,19 @@ public class MapManager {
 
 
     /**
-     *
      * @param floorPlans
      * @param view
      */
-    public void loadDefaultFloor(List<FloorPlan> floorPlans, View view)
-    {
+    public void loadDefaultFloor(List<FloorPlan> floorPlans, View view) {
         initializeFloatingButtonSettings(view);
 
         BitmapDescriptor imageFloor = BitmapDescriptorFactory.fromResource(getFloorPlanResourceID(floorPlans, 0));
-        LatLng position = new LatLng(0,0);
+        LatLng position = new LatLng(0, 0);
 
 
         GroundOverlayOptions customMap = new GroundOverlayOptions()
                 .image(imageFloor)
-                .position(position, 5520f, 10704f).anchor(0,1)
+                .position(position, 5520f, 10704f).anchor(0, 1)
                 .zIndex(0);
 
         groundOverlayFloorMap = mMap.addGroundOverlay(customMap);
@@ -81,11 +79,11 @@ public class MapManager {
         //add white background under floor map
         GroundOverlayOptions mapBackground = new GroundOverlayOptions()
                 .image(BitmapDescriptorFactory.fromResource(R.drawable.white_background))
-                .position(groundOverlayFloorMapBound.getCenter(),20520f, 25704f)
+                .position(groundOverlayFloorMapBound.getCenter(), 20520f, 25704f)
                 .zIndex(-1);
         mMap.addGroundOverlay(mapBackground);
 
-        if(!freeExploration) {
+        if (!freeExploration) {
             initFloorLines();
         }
     }
@@ -97,21 +95,21 @@ public class MapManager {
     /**
      * set button colors
      * disable button menu animation
+     *
      * @param view
      */
     private void initializeFloatingButtonSettings(View view) {
         FloatingActionMenu floorButton = (FloatingActionMenu) view.findViewById(R.id.floor_button);
         //turn off button rotation on click
 
-        if(floorButton !=null)
-        {
+        if (floorButton != null) {
             floorButton.setIconAnimated(false);
-            FloatingActionButton floorSelected =  (FloatingActionButton)view.findViewById(R.id.fab1);
+            FloatingActionButton floorSelected = (FloatingActionButton) view.findViewById(R.id.fab1);
             floorSelected.setColorNormal(ContextCompat.getColor(context, R.color.rca_primary));
-            FloatingActionButton floor5 =  (FloatingActionButton)view.findViewById(R.id.fab5);
-            FloatingActionButton floor3 =  (FloatingActionButton)view.findViewById(R.id.fab3);
-            FloatingActionButton floor4 =  (FloatingActionButton)view.findViewById(R.id.fab4);
-            FloatingActionButton floor2 =  (FloatingActionButton)view.findViewById(R.id.fab2);
+            FloatingActionButton floor5 = (FloatingActionButton) view.findViewById(R.id.fab5);
+            FloatingActionButton floor3 = (FloatingActionButton) view.findViewById(R.id.fab3);
+            FloatingActionButton floor4 = (FloatingActionButton) view.findViewById(R.id.fab4);
+            FloatingActionButton floor2 = (FloatingActionButton) view.findViewById(R.id.fab2);
             floor5.setColorNormal(ContextCompat.getColor(context, R.color.rca_onclick));
             floor2.setColorNormal(ContextCompat.getColor(context, R.color.rca_onclick));
             floor3.setColorNormal(ContextCompat.getColor(context, R.color.rca_onclick));
@@ -122,20 +120,19 @@ public class MapManager {
     /**
      * Change the image of the floor map
      *
-     * @param floorID floor number
+     * @param floorID    floor number
      * @param floorPlans
      * @param markerList
      */
-    public void switchFloor(int floorID, List<FloorPlan> floorPlans, List<Marker> markerList)
-    {
+    public void switchFloor(int floorID, List<FloorPlan> floorPlans, List<Marker> markerList) {
         //http://stackoverflow.com/questions/16369814/how-to-access-the-drawable-resources-by-name-in-android
-        int index = floorID-1; //Todo if floor object aren't in order then we will need to loop to find the correct one by id
+        int index = floorID - 1; //Todo if floor object aren't in order then we will need to loop to find the correct one by id
 
         Log.d("markerList", String.valueOf(markerList.size()));
 
         displayCurrentFloorPointOfInterest(floorID, markerList);
 
-        if(!freeExploration) {
+        if (!freeExploration) {
             updateFloorLines(floorID);
         }
 
@@ -147,7 +144,7 @@ public class MapManager {
         ArrayList<Polyline> defaultFloorLines = floorLineMap.get(DEFAULT_FLOOR_ID);
         this.currentFloorID = DEFAULT_FLOOR_ID;
 
-        for(Polyline line : defaultFloorLines) {
+        for (Polyline line : defaultFloorLines) {
             line.setVisible(true);
         }
     }
@@ -157,10 +154,10 @@ public class MapManager {
         ArrayList<Polyline> newFloorLines = floorLineMap.get(newFloorID);
         this.currentFloorID = newFloorID;
 
-        for(Polyline line : currentFloorLines) {
+        for (Polyline line : currentFloorLines) {
             line.setVisible(false);
         }
-        for(Polyline line : newFloorLines) {
+        for (Polyline line : newFloorLines) {
             line.setVisible(true);
         }
     }
@@ -172,14 +169,12 @@ public class MapManager {
      * @param markerList
      */
     public void displayCurrentFloorPointOfInterest(int floorID, List<Marker> markerList) {
-        for(Marker marker : markerList)
-        {
+        for (Marker marker : markerList) {
             PointMarker.Information pMarkerInfo = new PointMarker.Information(marker.getSnippet());
 
-            if((pMarkerInfo.getFloorID()) == floorID){
+            if ((pMarkerInfo.getFloorID()) == floorID) {
                 marker.setVisible(true);
-            }else
-            {
+            } else {
                 marker.setVisible(false);
             }
         }
@@ -192,8 +187,7 @@ public class MapManager {
 
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         for (Marker marker : markerList) {
-            if(marker.isVisible())
-            {
+            if (marker.isVisible()) {
                 builder.include(marker.getPosition());
             }
         }
@@ -210,8 +204,7 @@ public class MapManager {
     public void zoomLimit(CameraPosition position) {
         if (position.zoom > ZOOM_MAX)
             mMap.animateCamera(CameraUpdateFactory.zoomTo((float) ZOOM_MAX));
-        if(position.zoom <ZOOM_MIN)
-        {
+        if (position.zoom < ZOOM_MIN) {
             mMap.animateCamera(CameraUpdateFactory.zoomTo((float) ZOOM_MIN));
         }
     }
@@ -219,19 +212,17 @@ public class MapManager {
 
     /**
      * Every time a camera view change, it will verify its position to determine if it is out of bound.
+     *
      * @param current
      */
-    public void verifyCameraBounds(LatLngBounds current)
-    {
-        if(!current.contains(groundOverlayFloorMapBound.getCenter()))
-        {
+    public void verifyCameraBounds(LatLngBounds current) {
+        if (!current.contains(groundOverlayFloorMapBound.getCenter())) {
             //if your zoomed in, then it check if you are inside the overlay map
-            if(!groundOverlayFloorMapBound.contains(current.getCenter())){
+            if (!groundOverlayFloorMapBound.contains(current.getCenter())) {
                 mMap.animateCamera(CameraUpdateFactory.newLatLng(groundOverlayFloorMapBound.getCenter()));
-                Log.d("verifyCameraBounds","YES, view out of bound");
+                Log.d("verifyCameraBounds", "YES, view out of bound");
             }
-        }
-        else {
+        } else {
             Log.d("verifyCameraBounds", "NO, view is correct");
         }
     }
@@ -239,18 +230,14 @@ public class MapManager {
 
     /**
      * zooms in on the map by moving the viewpoint's height closer
-     *
      */
-    public void zoomIn()
-    {
-        if(zoomToFitUsed)
-        {
+    public void zoomIn() {
+        if (zoomToFitUsed || pinchZoomUsed) {
             float zoomValue = mMap.getCameraPosition().zoom;
             zoomFitToZoomLevel(zoomValue);
         }
 
-        if(zoomLevel<5)
-        {
+        if (zoomLevel < 5) {
             zoomLevel++;
             mMap.animateCamera(CameraUpdateFactory.zoomTo(getDesiredZoomLevel(zoomLevel)));
         }
@@ -259,24 +246,21 @@ public class MapManager {
     /**
      * zooms out on the map by moving the viewpoint's height farther away
      */
-    public void zoomOut()
-    {
-        if(zoomToFitUsed)
-        {
+    public void zoomOut() {
+        Log.v("pinch", "floor" + zoomLevel);
+        if (zoomToFitUsed || pinchZoomUsed) {
             float zoomValue = mMap.getCameraPosition().zoom;
             zoomFitToZoomLevel(zoomValue);
         }
 
 
-        if(zoomLevel>1)
-        {
+        if (zoomLevel > 1) {
             zoomLevel--;
             mMap.animateCamera(CameraUpdateFactory.zoomTo(getDesiredZoomLevel(zoomLevel)));
         }
     }
 
-    public void initialCameraPosition()
-    {
+    public void initialCameraPosition() {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(groundOverlayFloorMapBound.getCenter(), (float) ZOOM_MIN));
     }
 
@@ -291,20 +275,24 @@ public class MapManager {
      * @param level
      * @return
      */
-    private float getDesiredZoomLevel(int level)
-    {
+    private float getDesiredZoomLevel(int level) {
         float zoom = 13f;
 
-        switch (level){
-            case 1 : zoom = 13f;
+        switch (level) {
+            case 1:
+                zoom = 13f;
                 break;
-            case 2 : zoom = 13.5f;
+            case 2:
+                zoom = 13.5f;
                 break;
-            case 3 : zoom = 14f;
+            case 3:
+                zoom = 14f;
                 break;
-            case 4 : zoom = 14.5f;
+            case 4:
+                zoom = 14.5f;
                 break;
-            case 5 : zoom = 15.0f;
+            case 5:
+                zoom = 15.0f;
                 break;
         }
 
@@ -316,27 +304,22 @@ public class MapManager {
      *
      * @param zoomValue
      */
-    private void zoomFitToZoomLevel(float zoomValue)
-    {
+    private void zoomFitToZoomLevel(float zoomValue) {
 
 
-        if(zoomValue <= 13.25f)
-        {
-            zoomLevel= 1;
-        }else if(zoomValue <=13.75f && zoomValue > 13.25f)
-        {
-            zoomLevel =2;
-        }else if(zoomValue <=14.25f && zoomValue > 13.75f)
-        {
+        if (zoomValue <= 13.25f) {
+            zoomLevel = 1;
+        } else if (zoomValue <= 13.75f && zoomValue > 13.25f) {
+            zoomLevel = 2;
+        } else if (zoomValue <= 14.25f && zoomValue > 13.75f) {
             zoomLevel = 3;
-        }else if(zoomValue <=14.75f && zoomValue > 14.25f)
-        {
-            zoomLevel= 4;
-        }else if(zoomValue > 14.75f)
-        {
+        } else if (zoomValue <= 14.75f && zoomValue > 14.25f) {
+            zoomLevel = 4;
+        } else if (zoomValue > 14.75f) {
             zoomLevel = 5;
         }
         zoomToFitUsed = false;
+        pinchZoomUsed = false;
 
 
     }
@@ -383,9 +366,30 @@ public class MapManager {
         List<LatLng> nodeLatLngs = new ArrayList<LatLng>();
         for (Node node : nodes) {
             if (node.getFloorID() == floorID) {
-                nodeLatLngs.add(new LatLng(node.getY(),node.getX()));
+                nodeLatLngs.add(new LatLng(node.getY(), node.getX()));
             }
         }
         return nodeLatLngs;
+    }
+
+    public void detectingPinchZoom(CameraPosition cameraPosition) {
+
+        Log.v("pinch", String.valueOf(cameraPosition.zoom));
+        pinchZoomUsed = false;
+        if (cameraPosition.zoom == 13.f) {
+            zoomLevel = 1;
+        } else if (cameraPosition.zoom == 13.5f) {
+            zoomLevel = 2;
+        } else if (cameraPosition.zoom == 14f) {
+            zoomLevel = 3;
+        } else if (cameraPosition.zoom == 14.5f) {
+            zoomLevel = 4;
+        } else if (cameraPosition.zoom == 15f) {
+            zoomLevel = 5;
+        } else {
+            pinchZoomUsed = true;
+            Log.v("pinch", "detected");
+        }
+
     }
 }

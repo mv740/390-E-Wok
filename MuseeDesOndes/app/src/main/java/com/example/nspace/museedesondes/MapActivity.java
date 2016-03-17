@@ -161,7 +161,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         HashMap<Integer, ArrayList<Polyline>> floorLineMap = new HashMap<>();
 
-
         mMap = googleMap;
         mapManager = new MapManager(mMap, this, floorLineMap, freeExploration);
         mMap.setBuildingsEnabled(false);
@@ -185,8 +184,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mapManager.loadDefaultFloor(information.getFloorPlans(), findViewById(android.R.id.content));
         mapManager.initialCameraPosition();
 
-
-        this.markerList = placeMarkersOnPointsOfInterest(information.getPointOfInterests());
+        //load map markers for storyline or all poi markers for free exploration
+        if(freeExploration) {
+            this.markerList = placeMarkersOnPointsOfInterest(information.getPointOfInterests());
+        } else {
+            this.markerList = placeMarkersOnPointsOfInterest(storyLineManager.getPointOfInterestList());
+        }
         mapManager.displayCurrentFloorPointOfInterest(1, this.markerList);
 
         mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {

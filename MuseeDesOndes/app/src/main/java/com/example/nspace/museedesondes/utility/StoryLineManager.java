@@ -109,6 +109,10 @@ public class StoryLineManager {
         return region;
     }
 
+    public List<PointOfInterest> getPointOfInterestList() {
+        return pointOfInterestList;
+    }
+
     public void setGoogleMap(GoogleMap googleMap) {
         this.googleMap = googleMap;
     }

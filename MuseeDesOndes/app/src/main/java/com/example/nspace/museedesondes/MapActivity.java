@@ -27,6 +27,7 @@ import com.example.nspace.museedesondes.model.StoryLine;
 import com.example.nspace.museedesondes.utility.MapManager;
 import com.example.nspace.museedesondes.utility.PoiPanel;
 import com.example.nspace.museedesondes.utility.PointMarker;
+import com.example.nspace.museedesondes.utility.Preferences;
 import com.example.nspace.museedesondes.utility.StoryLineManager;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -386,8 +387,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     protected void onResume() {
         super.onResume();
 
-//        Preferences.setAppContext(this.getApplicationContext());
-//        Preferences.loadLanguagePreference();
+        //changing orientation will modify the language locale to "en"
+        Preferences.setAppContext(this.getApplicationContext());
+        Preferences.loadLanguagePreference();
 
         if (!freeExploration) {
             SystemRequirementsChecker.checkWithDefaultDialogs(this);

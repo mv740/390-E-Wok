@@ -20,21 +20,18 @@ public class VideoActivity extends AppCompatActivity {
 
         videoView = (VideoView) findViewById(R.id.videoView);
 
-        if(mediaController == null){
-            mediaController = new MediaController(this.getBaseContext());
+        if(mediaController == null){//Controls the video
+            mediaController = new MediaController(this);
         }
 
-
+        //Sets the controller to be associated with the Video view
         videoView.setMediaController(mediaController);
 
-        String uri ="android.resource://" + getPackageName() + "/" + R.raw.sample_video_1280x720_1mb;
+        //Gets the path for the video
         videoView.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.sample_video_1280x720_1mb));
 
 
         videoView.requestFocus();
-
         videoView.start();
-        Log.v("URI", uri);
-
     }
 }

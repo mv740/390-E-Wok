@@ -71,9 +71,4 @@ public class MainActivity extends AppCompatActivity{
         startActivity(startStorylines);
     }
 
-    public void settingsOnClick(View view){
-        Intent startSettings = new Intent(MainActivity.this, SettingsActivity.class);
-        startActivity(startSettings);
-    }
-
 }

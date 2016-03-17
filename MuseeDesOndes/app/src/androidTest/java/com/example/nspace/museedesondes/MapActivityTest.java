@@ -10,35 +10,26 @@ import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiSelector;
 import android.support.v4.content.ContextCompat;
 import android.test.suitebuilder.annotation.LargeTest;
-import android.util.Log;
 import android.view.View;
-
 import com.example.nspace.museedesondes.utility.MapManager;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.android.gms.maps.model.GroundOverlay;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-
-import static android.support.test.InstrumentationRegistry.getContext;
-import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
-import static android.support.test.runner.lifecycle.Stage.RESUMED;
-
 import junit.framework.Assert;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import java.util.Collection;
-
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.*;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isClickable;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.junit.Assert.*;
+import static android.support.test.runner.lifecycle.Stage.RESUMED;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by Harrison on 2016-03-01.
@@ -162,6 +153,17 @@ public class MapActivityTest {
     @Test
     public void testFullScreenImage() throws Exception {
 
+        MapActivity mapActivity = (MapActivity) getActivityInstance();
+        String title = mapActivity.getInformation().getPointOfInterests().get(0).getLocaleDescription(mapActivity.getApplicationContext()).getTitle();
+
+        UiDevice device = UiDevice.getInstance(getInstrumentation());
+        UiObject marker = device.findObject(new UiSelector().descriptionContains(title));
+        marker.click();
+        onView(withId(R.id.my_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.fullscreen_imgview)).check(matches(isDisplayed()));
+        onView(withId(R.id.exitFullscreenImg)).check(matches(isDisplayed())).check(matches(isClickable())).perform(click());
+        //onView(withId(R.id.fullscreen_imgview)).check(doesNotExist());
+
 
     }
 
@@ -182,6 +184,5 @@ public class MapActivityTest {
 
         return currentActivity[0];
     }
-
 
 }

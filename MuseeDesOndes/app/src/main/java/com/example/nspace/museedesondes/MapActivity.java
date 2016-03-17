@@ -71,7 +71,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-
         this.panel = new PoiPanel(this);
 
         //create storyline manager which handles storyline progression and interaction with the beacons
@@ -102,9 +101,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         bindService(intent, audioConnection, Context.BIND_AUTO_CREATE);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
     }
-
-
-
 
 
     //sets the storyline to the one selected in the StoryLineActivity
@@ -163,8 +159,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         information = Map.getInstance(getApplicationContext());
 
-        HashMap<Integer,ArrayList<Polyline>> floorLineMap = new HashMap<>();
-
+        HashMap<Integer, ArrayList<Polyline>> floorLineMap = new HashMap<>();
 
 
         mMap = googleMap;
@@ -179,7 +174,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap.setOnMarkerClickListener(this);
 
         //initialize storyline manager
-        if(!freeExploration) {
+        if (!freeExploration) {
             storyLineManager.setGoogleMap(mMap);
             storyLineManager.setFloorLineMap(floorLineMap);
             storyLineManager.createEmptyFloorLineMap();
@@ -238,11 +233,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
-
     public void poiImgOnClick(View v) {
         imgToSendToFullscreenImgActivity = ((BitmapDrawable) ((ImageView) v.findViewById(R.id.poi_panel_pic_item_imageview)).getDrawable()).getBitmap();
-        Intent fullscreenImgActivity = new Intent(MapActivity.this, FullscreenImgActivity.class);
-            startActivity(fullscreenImgActivity);
+        Intent fullscreenImgActivity = new Intent(this, FullscreenImgActivity.class);
+        startActivity(fullscreenImgActivity);
+
     }
 
     public void floorButtonOnClick(View v) {
@@ -293,7 +288,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
-    public void playVideo(View v){
+    public void playVideo(View v) {
         Intent intent = new Intent(this, VideoActivity.class);
         startActivity(intent);
     }
@@ -323,8 +318,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void selectedMarkerDisplay(Marker marker) {
-        if(selectedMarker !=null)
-        {
+        if (selectedMarker != null) {
             selectedMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
         }
         marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
@@ -379,8 +373,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         if (audioService != null) {
             unbindService(audioConnection);
         }
-        if(!freeExploration)
-        {
+        if (!freeExploration) {
             storyLineManager.getBeaconManager().disconnect();
         }
 
@@ -389,6 +382,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     protected void onResume() {
         super.onResume();
+
+//        Preferences.setAppContext(this.getApplicationContext());
+//        Preferences.loadLanguagePreference();
 
         if (!freeExploration) {
             SystemRequirementsChecker.checkWithDefaultDialogs(this);
@@ -449,8 +445,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onBackPressed() {
         if (panel.isOpen()) {
             panel.close();
-        } else
-        {
+        } else {
 
             this.finish();
             //super.onBackPressed();

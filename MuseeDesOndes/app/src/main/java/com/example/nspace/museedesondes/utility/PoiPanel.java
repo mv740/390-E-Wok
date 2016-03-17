@@ -61,6 +61,7 @@ public class PoiPanel {
 
         PointOfInterest pointOfInterest = activity.getInformation().searchPoiById(pMarkerInfo.getNodeID());
         this.currentPointofInterest = pointOfInterest;
+        Log.v("test",activity.getResources().getConfiguration().locale.getLanguage());
         String description = pointOfInterest.getLocaleDescription(activity.getApplicationContext()).getDescription();
         String title = pointOfInterest.getLocaleDescription(activity.getApplicationContext()).getTitle();
         List<Image> images = pointOfInterest.getLocaleImages(activity.getApplicationContext());

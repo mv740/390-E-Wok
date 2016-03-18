@@ -1,11 +1,14 @@
 package com.example.nspace.museedesondes.utility;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewManager;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -32,9 +35,10 @@ import static com.example.nspace.museedesondes.R.id.poi_title;
  */
 public class PoiPanel {
 
-    MapActivity activity;
-    SlidingUpPanelLayout panel;
-    PointOfInterest currentPointofInterest;
+    private MapActivity activity;
+    private SlidingUpPanelLayout panel;
+    private PointOfInterest currentPointofInterest;
+    private int selectedImageId;
 
     public PoiPanel(MapActivity activity) {
         this.activity = activity;
@@ -66,11 +70,6 @@ public class PoiPanel {
         String title = pointOfInterest.getLocaleDescription(activity.getApplicationContext()).getTitle();
         List<Image> images = pointOfInterest.getLocaleImages(activity.getApplicationContext());
 
-        //get test images:
-//        images = new ArrayList<>();
-//        images.add(new Image("museum_ex_1", Language.en_US, "museum_ex_1"));
-//        images.add(new Image("museum_ex_2", Language.en_US, "museum_ex_2"));
-//        images.add(new Image("museum_ex_3", Language.en_US, "museum_ex_3"));
 
         //todo if no image, remove layout
 //       if (currentPointofInterest.getLocaleImages(activity.getApplicationContext()).isEmpty())
@@ -93,12 +92,6 @@ public class PoiPanel {
         String description = pointOfInterest.getStoryRelatedDescription(storyLine.getId(), activity.getApplicationContext()).getDescription();
         String title = pointOfInterest.getStoryRelatedDescription(storyLine.getId(), activity.getApplicationContext()).getTitle();
         List<Image> images = pointOfInterest.getLocaleImages(activity.getApplicationContext());
-
-        //get test images:
-//        images = new ArrayList<>();
-//        images.add(new Image("museum_ex_1", Language.en_US, "museum_ex_1"));
-//        images.add(new Image("museum_ex_2", Language.en_US, "museum_ex_2"));
-//        images.add(new Image("museum_ex_3", Language.en_US, "museum_ex_3"));
 
         replaceTitle(title);
         replaceDescription(description);
@@ -136,9 +129,23 @@ public class PoiPanel {
     {
         return panel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED;
     }
-
     public  void close()
     {
         panel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+    }
+
+    /**
+     * Set the selected image resource reference
+     *
+     * @param v
+     */
+    public void setSelectedImage(View v)
+    {
+        ImageView selectedImage = ((ImageView) v.findViewById(R.id.poi_panel_pic_item_imageview));
+        selectedImageId = Integer.parseInt(selectedImage.getTag().toString());
+    }
+
+    public int getSelectedImageId() {
+        return selectedImageId;
     }
 }

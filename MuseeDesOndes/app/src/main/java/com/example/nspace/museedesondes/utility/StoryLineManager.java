@@ -37,7 +37,7 @@ public class StoryLineManager {
     private StoryLine storyLine;
     private List<PointOfInterest> pointOfInterestList;
     private ArrayList<ArrayList<Polyline>> segmentList;
-    private HashMap<Integer, ArrayList<Polyline>> floorLineMap;
+    private java.util.Map<Integer, ArrayList<Polyline>> floorLineMap;
     private int pointOfInterestIndex;
     private PointOfInterest nextPOI;
     private MapActivity mapActivity;
@@ -153,7 +153,7 @@ public class StoryLineManager {
         segmentList.add(segment);
     }
 
-    public void setFloorLineMap(HashMap<Integer, ArrayList<Polyline>> floorLineMap){
+    public void setFloorLineMap(java.util.Map<Integer, ArrayList<Polyline>> floorLineMap){
         this.floorLineMap = floorLineMap;
     }
 

@@ -11,7 +11,6 @@ import com.example.nspace.museedesondes.MapActivity;
 import com.example.nspace.museedesondes.model.Image;
 import com.example.nspace.museedesondes.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,6 +39,7 @@ import java.util.List;
             Image item = itemsList.get(i);
             int id = mContext.getResources().getIdentifier(item.getPath(), "drawable", mContext.getPackageName());
             holder.imageResource.setImageResource(id);
+            holder.imageResource.setTag(id);
         }
 
         @Override
@@ -57,7 +57,7 @@ import java.util.List;
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mContext.poiImgOnClick(v);
+                        mContext.poiPanelImageOnClick(v);
                     }
                 });
             }

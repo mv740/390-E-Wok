@@ -42,14 +42,14 @@ public class MapManager {
     private LatLngBounds groundOverlayFloorMapBound;
     private GroundOverlay groundOverlayFloorMap;
     private int zoomLevel = 1;
-    private HashMap<Integer, ArrayList<Polyline>> floorLineMap;
+    private Map<Integer, ArrayList<Polyline>> floorLineMap;
     private int currentFloorID;
     private boolean freeExploration;
     private boolean zoomToFitUsed = false;
     private boolean pinchZoomUsed = false;
 
 
-    public MapManager(GoogleMap googleMap, Context context, HashMap<Integer, ArrayList<Polyline>> floorLineMap, boolean freeExploration) {
+    public MapManager(GoogleMap googleMap, Context context, Map<Integer, ArrayList<Polyline>> floorLineMap, boolean freeExploration) {
         this.mMap = googleMap;
         this.context = context;
         this.floorLineMap = floorLineMap;
@@ -141,7 +141,7 @@ public class MapManager {
     }
 
     public void initFloorLines() {
-        ArrayList<Polyline> defaultFloorLines = floorLineMap.get(DEFAULT_FLOOR_ID);
+        List<Polyline> defaultFloorLines = floorLineMap.get(DEFAULT_FLOOR_ID);
         this.currentFloorID = DEFAULT_FLOOR_ID;
 
         for (Polyline line : defaultFloorLines) {
@@ -150,8 +150,8 @@ public class MapManager {
     }
 
     private void updateFloorLines(int newFloorID) {
-        ArrayList<Polyline> currentFloorLines = floorLineMap.get(currentFloorID);
-        ArrayList<Polyline> newFloorLines = floorLineMap.get(newFloorID);
+        List<Polyline> currentFloorLines = floorLineMap.get(currentFloorID);
+        List<Polyline> newFloorLines = floorLineMap.get(newFloorID);
         this.currentFloorID = newFloorID;
 
         for (Polyline line : currentFloorLines) {

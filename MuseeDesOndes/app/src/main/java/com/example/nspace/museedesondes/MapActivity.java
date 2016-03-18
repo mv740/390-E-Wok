@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -15,7 +14,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 
 import com.estimote.sdk.BeaconManager;
@@ -55,7 +53,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private Map information;
-    private static Bitmap imgToSendToFullscreenImgActivity;
     AudioService audioService;
     private int[] floorButtonIdList = {R.id.fab1, R.id.fab2, R.id.fab3, R.id.fab4, R.id.fab5};
     private StoryLineManager storyLineManager;
@@ -65,7 +62,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private MapManager mapManager;
     private SeekBar seekBar;
     Handler audioHandler = new Handler();
-    PoiPanel panel;
+    private PoiPanel panel;
     private Marker selectedMarker;
 
     @Override
@@ -160,18 +157,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         information = Map.getInstance(getApplicationContext());
 
-        HashMap<Integer, ArrayList<Polyline>> floorLineMap = new HashMap<>();
+        java.util.Map<Integer, ArrayList<Polyline>> floorLineMap = new HashMap<>();
 
         mMap = googleMap;
-        mapManager = new MapManager(mMap, this, floorLineMap, freeExploration);
-        mMap.setBuildingsEnabled(false);
-        mMap.setIndoorEnabled(false);
-        mMap.getUiSettings().setZoomControlsEnabled(false);
-        mMap.getUiSettings().setIndoorLevelPickerEnabled(false);
-        mMap.getUiSettings().setMapToolbarEnabled(false);
-        mMap.getUiSettings().setRotateGesturesEnabled(false);
         mMap.clear();
         mMap.setOnMarkerClickListener(this);
+        initializeMapSetting();
+        mapManager = new MapManager(mMap, this, floorLineMap, freeExploration);
 
         //initialize storyline manager
         if (!freeExploration) {
@@ -193,29 +185,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
         mapManager.displayCurrentFloorPointOfInterest(1, this.markerList);
 
-        mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
-
-            public void onCameraChange(CameraPosition cameraPosition) {
-
-                VisibleRegion vr = mMap.getProjection().getVisibleRegion();
-                double left = vr.latLngBounds.southwest.longitude;
-                double top = vr.latLngBounds.northeast.latitude;
-                double right = vr.latLngBounds.northeast.longitude;
-                double bottom = vr.latLngBounds.southwest.latitude;
-
-                Log.v("onCameraChange", "left :" + left);
-                Log.v("onCameraChange", "top :" + top);
-                Log.v("onCameraChange", "right :" + right);
-                Log.v("onCameraChange", "bottom :" + bottom);
-
-                mapManager.detectingPinchZoom(cameraPosition);
-                mapManager.zoomLimit(cameraPosition);
-                LatLngBounds current = new LatLngBounds(vr.latLngBounds.southwest, vr.latLngBounds.northeast);
-                mapManager.verifyCameraBounds(current);
-            }
-        });
+        mMap.setOnCameraChangeListener(new mapOnCameraChangeListener());
     }
-
 
     /**
      * This method places the AZURE markers on the list of points of interest.
@@ -237,9 +208,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
-    public void poiImgOnClick(View v) {
-        imgToSendToFullscreenImgActivity = ((BitmapDrawable) ((ImageView) v.findViewById(R.id.poi_panel_pic_item_imageview)).getDrawable()).getBitmap();
+    public void poiPanelImageOnClick(View v) {
+        panel.setSelectedImage(v);
         Intent fullscreenImgActivity = new Intent(this, FullscreenImgActivity.class);
+        fullscreenImgActivity.putExtra("imageId",panel.getSelectedImageId());
         startActivity(fullscreenImgActivity);
 
     }
@@ -429,11 +401,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mapManager.zoomToFit(markerList);
     }
 
-
-    public static Bitmap getImgToSendToFullscreenImgActivity() {
-        return imgToSendToFullscreenImgActivity;
-    }
-
     public Map getInformation() {
         return information;
     }
@@ -458,5 +425,38 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
+    /**
+     * Custom camera listener, that will verify view boundary,zoom limit, certain specific gesture
+     */
+    private class mapOnCameraChangeListener implements GoogleMap.OnCameraChangeListener
+    {
 
+        @Override
+        public void onCameraChange(CameraPosition cameraPosition) {
+            VisibleRegion vr = mMap.getProjection().getVisibleRegion();
+            double left = vr.latLngBounds.southwest.longitude;
+            double top = vr.latLngBounds.northeast.latitude;
+            double right = vr.latLngBounds.northeast.longitude;
+            double bottom = vr.latLngBounds.southwest.latitude;
+
+            Log.v("onCameraChange", "left :" + left);
+            Log.v("onCameraChange", "top :" + top);
+            Log.v("onCameraChange", "right :" + right);
+            Log.v("onCameraChange", "bottom :" + bottom);
+
+            mapManager.detectingPinchZoom(cameraPosition);
+            mapManager.zoomLimit(cameraPosition);
+            LatLngBounds current = new LatLngBounds(vr.latLngBounds.southwest, vr.latLngBounds.northeast);
+            mapManager.verifyCameraBounds(current);
+        }
+    }
+
+    private void initializeMapSetting() {
+        mMap.setBuildingsEnabled(false);
+        mMap.setIndoorEnabled(false);
+        mMap.getUiSettings().setZoomControlsEnabled(false);
+        mMap.getUiSettings().setIndoorLevelPickerEnabled(false);
+        mMap.getUiSettings().setMapToolbarEnabled(false);
+        mMap.getUiSettings().setRotateGesturesEnabled(false);
+    }
 }

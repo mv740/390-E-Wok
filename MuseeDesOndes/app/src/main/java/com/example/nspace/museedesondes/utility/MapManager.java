@@ -33,9 +33,13 @@ import java.util.Map;
  */
 public class MapManager {
 
-    private static final  double ZOOM_MAX = 15.0;
+    private static final double ZOOM_MAX = 15.0;
     private static final double ZOOM_MIN = 13.0;
     private static final int DEFAULT_FLOOR_ID = 1;
+    private static final float WIDTH = 5520f;
+    private static final float HEIGHT = 10704f;
+    private static final float WIDTH_WHITE_BACKGROUND = 20520f;
+    private static final float HEIGHT_WHITE_BACKGROUND = 25704f;
     private GoogleMap mMap;
     private Context context;
     private LatLngBounds groundOverlayFloorMapBound;
@@ -69,7 +73,7 @@ public class MapManager {
 
         GroundOverlayOptions customMap = new GroundOverlayOptions()
                 .image(imageFloor)
-                .position(position, 5520f, 10704f).anchor(0, 1)
+                .position(position, WIDTH, HEIGHT).anchor(0, 1)
                 .zIndex(0);
 
         groundOverlayFloorMap = mMap.addGroundOverlay(customMap);
@@ -78,7 +82,7 @@ public class MapManager {
         //add white background under floor map
         GroundOverlayOptions mapBackground = new GroundOverlayOptions()
                 .image(BitmapDescriptorFactory.fromResource(R.drawable.white_background))
-                .position(groundOverlayFloorMapBound.getCenter(), 20520f, 25704f)
+                .position(groundOverlayFloorMapBound.getCenter(), WIDTH_WHITE_BACKGROUND, HEIGHT_WHITE_BACKGROUND)
                 .zIndex(-1);
         mMap.addGroundOverlay(mapBackground);
 

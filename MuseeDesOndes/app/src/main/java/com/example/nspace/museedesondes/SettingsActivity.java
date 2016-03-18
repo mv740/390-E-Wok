@@ -97,13 +97,8 @@ public class SettingsActivity extends AppCompatActivity {
                 try {
                     ColorDrawable colorDrawable = new ColorDrawable(color);
                     pf.set(picker, colorDrawable);
-                } catch (IllegalArgumentException e) {
-                    e.printStackTrace();
-                } catch (Resources.NotFoundException e) {
-                    e.printStackTrace();
-                }
-                catch (IllegalAccessException e) {
-                    e.printStackTrace();
+                } catch (IllegalArgumentException | Resources.NotFoundException | IllegalAccessException e) {
+                    Log.e("SettingActivity", Log.getStackTraceString(e));
                 }
                 break;
             }

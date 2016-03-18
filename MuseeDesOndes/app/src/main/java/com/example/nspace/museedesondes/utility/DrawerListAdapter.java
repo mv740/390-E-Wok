@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.nspace.museedesondes.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -21,10 +22,10 @@ import java.util.ArrayList;
 public class DrawerListAdapter extends ArrayAdapter<String> {
 
     private final Activity context;
-    private final ArrayList<String> items;
-    private final ArrayList<Drawable> icons;
+    private final List<String> items;
+    private final List<Drawable> icons;
     public DrawerListAdapter(Activity context,
-                             ArrayList<String> items, ArrayList<Drawable> icons) {
+                             List<String> items, List<Drawable> icons) {
         super(context, R.layout.drawer_list_item, items);
         this.context = context;
         this.items = items;

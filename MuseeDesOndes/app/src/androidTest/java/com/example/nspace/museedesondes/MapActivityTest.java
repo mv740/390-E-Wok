@@ -23,6 +23,7 @@ import java.util.Collection;
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isClickable;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -74,17 +75,11 @@ public class MapActivityTest {
 
     }
 
-    @Test
-    public void testPoiImgOnClick() throws Exception {
-
-    }
 
     @Test
     public void testFloorButtonOnClick() throws Exception {
 
         onView(withId(R.id.floor_button)).check(matches(isDisplayed())).perform(click());
-
-
     }
 
 
@@ -132,9 +127,7 @@ public class MapActivityTest {
 
     }
 
-    @Test
-    public void testPlayAudioFile() throws Exception {
-    }
+
 
 
     @Test
@@ -151,6 +144,23 @@ public class MapActivityTest {
     }
 
     @Test
+    public void testPlayAudioFile() throws Exception {
+        MapActivity mapActivity = (MapActivity) getActivityInstance();
+        String title = mapActivity.getInformation().getPointOfInterests().get(0).getLocaleDescription(mapActivity.getApplicationContext()).getTitle();
+
+        UiDevice device = UiDevice.getInstance(getInstrumentation());
+        UiObject marker = device.findObject(new UiSelector().descriptionContains(title));
+        marker.click();
+
+        assertEquals(false, mapActivity.audioService.isPlaying());
+        onView(withId(R.id.play_button)).check(matches(isDisplayed())).perform(click());
+        assertEquals(true, mapActivity.audioService.isPlaying());
+        onView(withId(R.id.play_button)).check(matches(isDisplayed())).perform(click());
+        assertEquals(false,mapActivity.audioService.isPlaying());
+
+    }
+
+    @Test
     public void testFullScreenImage() throws Exception {
 
         MapActivity mapActivity = (MapActivity) getActivityInstance();
@@ -162,7 +172,7 @@ public class MapActivityTest {
         onView(withId(R.id.my_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.fullscreen_imgview)).check(matches(isDisplayed()));
         onView(withId(R.id.exitFullscreenImg)).check(matches(isDisplayed())).check(matches(isClickable())).perform(click());
-        //onView(withId(R.id.fullscreen_imgview)).check(doesNotExist());
+        onView(withId(R.id.fullscreen_imgview)).check(doesNotExist());
 
 
     }

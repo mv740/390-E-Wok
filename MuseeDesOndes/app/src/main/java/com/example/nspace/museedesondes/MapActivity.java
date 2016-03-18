@@ -157,7 +157,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         information = Map.getInstance(getApplicationContext());
 
-        java.util.Map<Integer, ArrayList<Polyline>> floorLineMap = new HashMap<>();
+        java.util.Map<Integer, List<Polyline>> floorLineMap = new HashMap<>();
 
         mMap = googleMap;
         mMap.clear();

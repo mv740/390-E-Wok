@@ -50,7 +50,7 @@ public class Map {
                     initializeNodes();
 
             } catch (IOException e) {
-                Log.d("JsonHelper", Log.getStackTraceString(e));
+                Log.e("JsonHelper", Log.getStackTraceString(e));
             }
 
         }

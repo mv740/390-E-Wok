@@ -34,22 +34,22 @@ import java.util.Map;
  */
 public class MapManager {
 
-    private static final double ZOOM_MAX = 15.0;
-    private static final double ZOOM_MIN = 13.0;
+    private final double ZOOM_MAX = 15.0;
+    private final double ZOOM_MIN = 13.0;
     private final int DEFAULT_FLOOR_ID = 1;
     private GoogleMap mMap;
     private Context context;
     private LatLngBounds groundOverlayFloorMapBound;
     private GroundOverlay groundOverlayFloorMap;
     private int zoomLevel = 1;
-    private Map<Integer, ArrayList<Polyline>> floorLineMap;
+    private Map<Integer, List<Polyline>> floorLineMap;
     private int currentFloorID;
     private boolean freeExploration;
     private boolean zoomToFitUsed = false;
     private boolean pinchZoomUsed = false;
 
 
-    public MapManager(GoogleMap googleMap, Context context, Map<Integer, ArrayList<Polyline>> floorLineMap, boolean freeExploration) {
+    public MapManager(GoogleMap googleMap, Context context, Map<Integer, List<Polyline>> floorLineMap, boolean freeExploration) {
         this.mMap = googleMap;
         this.context = context;
         this.floorLineMap = floorLineMap;

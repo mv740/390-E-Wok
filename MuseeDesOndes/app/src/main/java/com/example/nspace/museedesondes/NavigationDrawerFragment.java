@@ -29,6 +29,7 @@ import com.example.nspace.museedesondes.utility.DrawerListAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -132,8 +133,8 @@ public class NavigationDrawerFragment extends Fragment {
 
         String[] drawer_ele = getResources().getStringArray(R.array.drawer_ele);
         //have to convert from string array to string array list in order to be able to modify string list elements
-        ArrayList<String> array_list_drawer_ele = new ArrayList<String>(Arrays.asList(drawer_ele));
-        ArrayList<Drawable> array_list_drawer_ele_icons = populateDrawerItemIcons();
+        List<String> array_list_drawer_ele = new ArrayList<String>(Arrays.asList(drawer_ele));
+        List<Drawable> array_list_drawer_ele_icons = populateDrawerItemIcons();
 
         adapter = new DrawerListAdapter(this.getActivity(), array_list_drawer_ele, array_list_drawer_ele_icons);
         mDrawerListView.setAdapter(adapter);
@@ -146,9 +147,9 @@ public class NavigationDrawerFragment extends Fragment {
         return mDrawerListView;
     }
 
-    private ArrayList<Drawable> populateDrawerItemIcons(){
+    private List<Drawable> populateDrawerItemIcons(){
 
-        ArrayList<Drawable> array_list_drawer_ele_icons = new ArrayList<>();
+        List<Drawable> array_list_drawer_ele_icons = new ArrayList<>();
 
         array_list_drawer_ele_icons.add(ContextCompat.getDrawable(getContext(), R.drawable.ic_content_duplicate_white_24dp));
         array_list_drawer_ele_icons.add(ContextCompat.getDrawable(getContext(), R.drawable.ic_language_white_24dp));

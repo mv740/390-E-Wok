@@ -103,6 +103,10 @@ public class AudioService extends Service {
         return mediaPlayer.getDuration();
     }
 
+    public boolean isPlaying() {
+        return mediaPlayer != null && mediaPlayer.isPlaying();
+    }
+
     public boolean isMediaSet(){
         return mediaPlayer !=null;
     }

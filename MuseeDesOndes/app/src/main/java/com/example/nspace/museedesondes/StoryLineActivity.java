@@ -101,9 +101,40 @@ public class StoryLineActivity extends AppCompatActivity {
         cardsNumbers = cards.size();
 
         mListView.getAdapter().addAll(cards);
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
 
         //on storyline click, open confirmation dialog
-        mListView.addOnItemTouchListener(new ConfirmDialog());
+        mListView.addOnItemTouchListener(new RecyclerItemClickListener.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(@NonNull Card card, int position) {
+
+                final Intent startMap = new Intent(StoryLineActivity.this, MapActivity.class);
+                startMap.putExtra("Story line list position", position);
+
+                String message = getResources().getString(R.string.dialogMsg);
+
+                if (card.getTag() == "free_exploration") {
+                    message = getResources().getString(R.string.dialogFree);
+                }
+
+                AlertDialog.Builder builder = dialogBuilder.setTitle(card.getProvider().getTitle())
+                        .setMessage(message)
+                        .setPositiveButton(R.string.dialogOk, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Log.d("AlertDialog", "Positive");
+                                startActivity(startMap);
+                            }
+                        })
+                        .setNegativeButton(R.string.dialogCancel, null);
+                builder.show();
+            }
+
+            @Override
+            public void onItemLongClick(Card card, int position) {
+                Log.d("LONG_CLICK", card.getTag().toString());
+            }
+        });
     }
 
 
@@ -121,39 +152,5 @@ public class StoryLineActivity extends AppCompatActivity {
 
     public int getCardsNumbers() {
         return cardsNumbers;
-    }
-
-    private class ConfirmDialog implements RecyclerItemClickListener.OnItemClickListener {
-        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getApplicationContext(), R.style.AppCompatAlertDialogStyle);
-
-        @Override
-        public void onItemClick(@NonNull Card card, int position) {
-
-            final Intent startMap = new Intent(StoryLineActivity.this, MapActivity.class);
-            startMap.putExtra("Story line list position", position);
-
-            String message = getResources().getString(R.string.dialogMsg);
-
-            if (card.getTag() == "free_exploration") {
-                message = getResources().getString(R.string.dialogFree);
-            }
-
-            AlertDialog.Builder builder = dialogBuilder.setTitle(card.getProvider().getTitle())
-                    .setMessage(message)
-                    .setPositiveButton(R.string.dialogOk, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            Log.d("AlertDialog", "Positive");
-                            startActivity(startMap);
-                        }
-                    })
-                    .setNegativeButton(R.string.dialogCancel, null);
-            builder.show();
-        }
-
-        @Override
-        public void onItemLongClick(@NonNull Card card, int position) {
-            Log.d("LONG_CLICK", card.getTag().toString());
-        }
-
     }
 }

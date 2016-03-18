@@ -33,9 +33,9 @@ import java.util.Map;
  */
 public class MapManager {
 
-    private final double ZOOM_MAX = 15.0;
-    private final double ZOOM_MIN = 13.0;
-    private final int DEFAULT_FLOOR_ID = 1;
+    private static final  double ZOOM_MAX = 15.0;
+    private static final double ZOOM_MIN = 13.0;
+    private static final int DEFAULT_FLOOR_ID = 1;
     private GoogleMap mMap;
     private Context context;
     private LatLngBounds groundOverlayFloorMapBound;
@@ -294,6 +294,8 @@ public class MapManager {
             case 5:
                 zoom = 15.0f;
                 break;
+            default:
+                Log.e("MapManager", "level invalid " + level);
         }
 
         return zoom;

@@ -235,6 +235,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             case R.id.fab5:
                 changeFloor(5);
                 break;
+            default:
+                Log.e("MapActivity", "floor button view invalid " + v.getId());
         }
 
         FloatingActionButton floor;

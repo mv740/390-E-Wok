@@ -27,8 +27,8 @@ public class SettingsActivity extends AppCompatActivity {
 
         final FloatingActionButton okButton = (FloatingActionButton) findViewById(R.id.ok_button);
 
-        final String languagesDisplay[] = { "French", "English" };
-        final String languagesType[] = { "fr", "en_US"};
+        final String[] languagesDisplay = { "French", "English" };
+        final String[] languagesType = { "fr", "en_US"};
 
         int savedChoice = 0;
 
@@ -71,6 +71,8 @@ public class SettingsActivity extends AppCompatActivity {
                                 case 1:
                                     selectedLanguageType = "en_US";
                                     break;
+                                default:
+                                    Log.e("SettingActivity", "selectedLanguage invalid " + selectedLanguage);
                             }
                         }
                         Log.d("Lang", String.valueOf(selectedLanguage));
@@ -97,7 +99,6 @@ public class SettingsActivity extends AppCompatActivity {
                     ColorDrawable colorDrawable = new ColorDrawable(color);
                     pf.set(picker, colorDrawable);
                 } catch (IllegalArgumentException | Resources.NotFoundException | IllegalAccessException e) {
-                    e.printStackTrace();
                     Log.e("SettingActivity", Log.getStackTraceString(e));
                 }
                 break;

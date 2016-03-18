@@ -16,8 +16,8 @@ public class Preferences {
 
     public final static String DEFAULT_LANG = "en_US";
 
-    public static Context appContext;
-    public static String savedLang;
+    private static Context appContext = null;
+    public static String savedLang = null;
 
     public static void setAppContext(Context context) {
        appContext = context;

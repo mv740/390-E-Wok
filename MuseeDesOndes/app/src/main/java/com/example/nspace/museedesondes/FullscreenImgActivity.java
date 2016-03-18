@@ -26,11 +26,10 @@ public class FullscreenImgActivity extends AppCompatActivity {
         bringButtonsToFront();
     }
 
-    private void setProperOrientation(Bitmap bitmap){
+    private void setProperOrientation(Bitmap bitmap) {
         if (isPortrait(bitmap)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
-        else{
+        } else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }
     }

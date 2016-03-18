@@ -1,6 +1,7 @@
 package com.example.nspace.museedesondes.utility;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.nspace.museedesondes.model.LabelledPoint;
 import com.example.nspace.museedesondes.model.PointOfInterest;
@@ -98,6 +99,8 @@ public class PointMarker {
             case WASHROOM:
                 node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
                 break;
+            default:
+                Log.e("PointMarker", "label invalid " + labelledPoint.getLabel());
         }
         googleMap.addMarker(node);
     }

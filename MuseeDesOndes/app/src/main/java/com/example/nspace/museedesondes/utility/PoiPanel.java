@@ -1,33 +1,20 @@
 package com.example.nspace.museedesondes.utility;
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewManager;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.bluejamesbond.text.DocumentView;
-import com.example.nspace.museedesondes.AudioService;
 import com.example.nspace.museedesondes.MapActivity;
 import com.example.nspace.museedesondes.R;
 import com.example.nspace.museedesondes.model.Image;
-import com.example.nspace.museedesondes.model.Language;
 import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.example.nspace.museedesondes.model.StoryLine;
-import com.example.nspace.museedesondes.utility.HorizontalRecycleViewAdapter;
-import com.example.nspace.museedesondes.utility.PointMarker;
 import com.google.android.gms.maps.model.Marker;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-
-import java.util.ArrayList;
 import java.util.List;
-
 import static com.example.nspace.museedesondes.R.id.poi_title;
 
 /**
@@ -141,7 +128,7 @@ public class PoiPanel {
      */
     public void setSelectedImage(View v)
     {
-        ImageView selectedImage = ((ImageView) v.findViewById(R.id.poi_panel_pic_item_imageview));
+        ImageView selectedImage = (ImageView) v.findViewById(R.id.poi_panel_pic_item_imageview);
         selectedImageId = Integer.parseInt(selectedImage.getTag().toString());
     }
 

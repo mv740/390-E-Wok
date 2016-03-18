@@ -44,7 +44,7 @@ import java.util.List;
 
         @Override
         public int getItemCount() {
-            return (null != itemsList ? itemsList.size() : 0);
+            return null != itemsList ? itemsList.size() : 0;
         }
 
         public class SingleItemRowHolder extends RecyclerView.ViewHolder {

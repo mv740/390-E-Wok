@@ -45,7 +45,7 @@ public class Map {
             ObjectMapper mapper = new ObjectMapper();
             mapper.enable(DeserializationFeature. ACCEPT_SINGLE_VALUE_AS_ARRAY);
             try {
-                instance = mapper.readValue((mapSource), Map.class);
+                instance = mapper.readValue(mapSource, Map.class);
                 if (instance != null)
                     initializeNodes();
 

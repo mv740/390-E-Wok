@@ -30,7 +30,7 @@ import java.util.UUID;
 
 public class StoryLineManager {
 
-    private static final String DEFAULT_MUSEUM_UUID = "b9407f30-f5f8-466e-aff9-25556b57fe6d";;
+    private static final String DEFAULT_MUSEUM_UUID = "b9407f30-f5f8-466e-aff9-25556b57fe6d";
 
     private StoryLine storyLine;
     private List<PointOfInterest> pointOfInterestList;

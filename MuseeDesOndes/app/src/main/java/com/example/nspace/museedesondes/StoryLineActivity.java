@@ -103,7 +103,7 @@ public class StoryLineActivity extends AppCompatActivity {
         mListView.getAdapter().addAll(cards);
 
         //on storyline click, open confirmation dialog
-        mListView.addOnItemTouchListener(new confirmationDialog());
+        mListView.addOnItemTouchListener(new ConfirmDialog());
     }
 
 
@@ -123,7 +123,7 @@ public class StoryLineActivity extends AppCompatActivity {
         return cardsNumbers;
     }
 
-    private class confirmationDialog implements RecyclerItemClickListener.OnItemClickListener {
+    private class ConfirmDialog implements RecyclerItemClickListener.OnItemClickListener {
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getApplicationContext(), R.style.AppCompatAlertDialogStyle);
 
         @Override

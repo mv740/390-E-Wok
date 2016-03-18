@@ -1,5 +1,4 @@
 package com.example.nspace.museedesondes.model;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 

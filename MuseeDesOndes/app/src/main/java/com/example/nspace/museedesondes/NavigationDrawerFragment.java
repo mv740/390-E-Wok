@@ -61,7 +61,7 @@ public class NavigationDrawerFragment extends Fragment {
     private ActionBarDrawerToggle mDrawerToggle;
 
     private DrawerLayout mDrawerLayout;
-    public static ListView mDrawerListView;
+    private static ListView mDrawerListView;
     private View mFragmentContainerView;
 
     private int mCurrentSelectedPosition = 0;
@@ -130,12 +130,12 @@ public class NavigationDrawerFragment extends Fragment {
             }
         });
 
-        String[] drawer_ele = getResources().getStringArray(R.array.drawer_ele);
+        String[] drawerElement = getResources().getStringArray(R.array.drawer_ele);
         //have to convert from string array to string array list in order to be able to modify string list elements
-        List<String> array_list_drawer_ele = new ArrayList<String>(Arrays.asList(drawer_ele));
-        List<Drawable> array_list_drawer_ele_icons = populateDrawerItemIcons();
+        List<String> drawerElementList = new ArrayList<String>(Arrays.asList(drawerElement));
+        List<Drawable> drawerIconsList = populateDrawerItemIcons();
 
-        adapter = new DrawerListAdapter(this.getActivity(), array_list_drawer_ele, array_list_drawer_ele_icons);
+        adapter = new DrawerListAdapter(this.getActivity(), drawerElementList, drawerIconsList);
         mDrawerListView.setAdapter(adapter);
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
 

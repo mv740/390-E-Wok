@@ -182,7 +182,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
         mapManager.displayCurrentFloorPointOfInterest(1, this.markerList);
 
-        mMap.setOnCameraChangeListener(new mapOnCameraChangeListener());
+        mMap.setOnCameraChangeListener(new OnCameraChangeListener());
     }
 
     /**
@@ -428,7 +428,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     /**
      * Custom camera listener, that will verify view boundary,zoom limit, certain specific gesture
      */
-    private class mapOnCameraChangeListener implements GoogleMap.OnCameraChangeListener {
+    private class OnCameraChangeListener implements GoogleMap.OnCameraChangeListener {
 
         @Override
         public void onCameraChange(CameraPosition cameraPosition) {

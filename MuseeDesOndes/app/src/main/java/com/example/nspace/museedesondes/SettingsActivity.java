@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
+import android.widget.TextView;
 
 import com.example.nspace.museedesondes.utility.Preferences;
 import com.github.clans.fab.FloatingActionButton;
@@ -41,6 +42,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         NumberPicker myNumberPicker = (NumberPicker) findViewById(R.id.language_selection_view); // new NumberPicker(this);
         myNumberPicker.setMinValue(0);
+
         myNumberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         myNumberPicker.setMaxValue(languagesDisplay.length - 1);
         myNumberPicker.setValue(savedChoice);

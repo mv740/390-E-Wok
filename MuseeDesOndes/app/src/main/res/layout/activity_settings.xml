@@ -47,7 +47,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true" />
 
-        <NumberPicker
+        <com.example.nspace.museedesondes.utility.TextPicker
             android:id="@+id/language_selection_view"
             android:layout_width="200dp"
             android:layout_height="wrap_content"

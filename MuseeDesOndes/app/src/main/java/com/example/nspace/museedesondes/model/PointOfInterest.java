@@ -64,14 +64,11 @@ public class PointOfInterest extends Node {
      * @param context current activity context
      * @return image in locale language
      */
-    public List<Image> getLocaleImages(Context context)
-    {
+    public List<Image> getLocaleImages(Context context) {
         List<Image> images = new ArrayList<>();
-        for (Image image : media.getImages())
-        {
-            if(context.getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(image.getLanguage().name()))
-            {
-                  images.add(image);
+        for (Image image : media.getImages()) {
+            if (context.getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(image.getLanguage().name())) {
+                images.add(image);
             }
         }
         return images;
@@ -83,13 +80,10 @@ public class PointOfInterest extends Node {
      * @param context current activity context
      * @return audio in locale language
      */
-    public List<Audio> getLocaleAudios(Context context)
-    {
+    public List<Audio> getLocaleAudios(Context context) {
         List<Audio> audios = new ArrayList<>();
-        for (Audio audio : media.getAudios())
-        {
-            if(context.getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(audio.getLanguage().name()))
-            {
+        for (Audio audio : media.getAudios()) {
+            if (context.getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(audio.getLanguage().name())) {
                 audios.add(audio);
             }
         }
@@ -102,14 +96,11 @@ public class PointOfInterest extends Node {
      * @param context current activity context
      * @return video in locale language
      */
-    public List<Video> getLocaleVideos(Context context)
-    {
+    public List<Video> getLocaleVideos(Context context) {
         List<Video> videos = new ArrayList<>();
-        for (Video video : media.getVideos())
-        {
-            if(context.getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(video.getLanguage().name()))
-            {
-                  videos.add(video);
+        for (Video video : media.getVideos()) {
+            if (context.getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(video.getLanguage().name())) {
+                videos.add(video);
             }
         }
         return videos;
@@ -121,13 +112,10 @@ public class PointOfInterest extends Node {
      * @param context current activity context
      * @return description in locale language
      */
-    public PointOfInterestDescription getLocaleDescription(Context context)
-    {
-        for (PointOfInterestDescription description : descriptions)
-        {
-            if(context.getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(description.getLanguage().name()))
-            {
-                return  description;
+    public PointOfInterestDescription getLocaleDescription(Context context) {
+        for (PointOfInterestDescription description : descriptions) {
+            if (context.getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(description.getLanguage().name())) {
+                return description;
             }
         }
         return null;
@@ -141,18 +129,13 @@ public class PointOfInterest extends Node {
      * @param context
      * @return
      */
-    public PointOfInterestDescription getStoryRelatedDescription(int storylineID, Context context)
-    {
-        for(StoryPoint storyPoint : this.storyPoints)
-        {
-            if(storyPoint.getStorylineID() == storylineID)
-            {
+    public PointOfInterestDescription getStoryRelatedDescription(int storylineID, Context context) {
+        for (StoryPoint storyPoint : this.storyPoints) {
+            if (storyPoint.getStorylineID() == storylineID) {
 
-                for (PointOfInterestDescription description : storyPoint.getStorylineAssociatedDescription())
-                {
-                    if(context.getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(description.getLanguage().name()))
-                    {
-                        return  description;
+                for (PointOfInterestDescription description : storyPoint.getStorylineAssociatedDescription()) {
+                    if (context.getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(description.getLanguage().name())) {
+                        return description;
                     }
                 }
             }
@@ -169,22 +152,19 @@ public class PointOfInterest extends Node {
      * @param context
      * @return
      */
-    public List<Audio> getStoryRelatedAudios(int storylineID, Context context)
-    {
+    public List<Audio> getStoryRelatedAudios(int storylineID, Context context) {
         List<Audio> relatedAudios = new ArrayList<>();
-        for(StoryPoint storyPoint : this.storyPoints)
-        {
-            if(storyPoint.getStorylineID() == storylineID)
-            {
-                for (Audio audio : storyPoint.getAudios())
-                {
-                    if(context.getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(audio.getLanguage().name()))
-                    {
+        for (StoryPoint storyPoint : this.storyPoints) {
+            if (storyPoint.getStorylineID() == storylineID) {
+                for (Audio audio : storyPoint.getAudios()) {
+                    if (context.getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(audio.getLanguage().name())) {
                         relatedAudios.add(audio);
                     }
                 }
-                if(relatedAudios.size()>0)
+                if (relatedAudios.size() > 0) {
                     return relatedAudios;
+                }
+
             }
         }
 
@@ -198,22 +178,18 @@ public class PointOfInterest extends Node {
      * @param context
      * @return
      */
-    public List<Video> getStoryRelatedVideos(int storylineID, Context context)
-    {
+    public List<Video> getStoryRelatedVideos(int storylineID, Context context) {
         List<Video> relatedVideos = new ArrayList<>();
-        for(StoryPoint storyPoint : this.storyPoints)
-        {
-            if(storyPoint.getStorylineID() == storylineID)
-            {
-                for (Video video : storyPoint.getVideos())
-                {
-                    if(context.getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(video.getLanguage().name()))
-                    {
+        for (StoryPoint storyPoint : this.storyPoints) {
+            if (storyPoint.getStorylineID() == storylineID) {
+                for (Video video : storyPoint.getVideos()) {
+                    if (context.getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(video.getLanguage().name())) {
                         relatedVideos.add(video);
                     }
                 }
-                if(relatedVideos.size()>0)
+                if (relatedVideos.size() > 0) {
                     return relatedVideos;
+                }
             }
         }
 
@@ -227,22 +203,18 @@ public class PointOfInterest extends Node {
      * @param context
      * @return
      */
-    public List<Image> getStoryRelatedImages(int storylineID, Context context)
-    {
+    public List<Image> getStoryRelatedImages(int storylineID, Context context) {
         List<Image> relatedImages = new ArrayList<>();
-        for(StoryPoint storyPoint : this.storyPoints)
-        {
-            if(storyPoint.getStorylineID() == storylineID)
-            {
-                for (Image image : storyPoint.getImages())
-                {
-                    if(context.getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(image.getLanguage().name()))
-                    {
+        for (StoryPoint storyPoint : this.storyPoints) {
+            if (storyPoint.getStorylineID() == storylineID) {
+                for (Image image : storyPoint.getImages()) {
+                    if (context.getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(image.getLanguage().name())) {
                         relatedImages.add(image);
                     }
                 }
-                if(relatedImages.size()>0)
+                if (relatedImages.size() > 0) {
                     return relatedImages;
+                }
             }
         }
 

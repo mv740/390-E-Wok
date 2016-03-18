@@ -25,7 +25,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        final FloatingActionButton ok_button = (FloatingActionButton) findViewById(R.id.ok_button);
+        final FloatingActionButton okButton = (FloatingActionButton) findViewById(R.id.ok_button);
 
         final String languagesDisplay[] = { "French", "English" };
         final String languagesType[] = { "fr", "en_US"};
@@ -58,7 +58,7 @@ public class SettingsActivity extends AppCompatActivity {
         myNumberPicker.setOnValueChangedListener(myValueChangedListener);
 
         //set english or french language
-        ok_button.setOnClickListener(
+        okButton.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View view) {
                         String selectedLanguageType = null;
@@ -77,8 +77,7 @@ public class SettingsActivity extends AppCompatActivity {
                         Log.d("Lang", selectedLanguageType);
 
                         //save if different
-                        if(!getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(selectedLanguageType))
-                        {
+                        if (!getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(selectedLanguageType)) {
                             Preferences.setLocale(selectedLanguageType);
                             Preferences.saveLanguagePreference(selectedLanguageType);
                         }
@@ -98,6 +97,7 @@ public class SettingsActivity extends AppCompatActivity {
                     ColorDrawable colorDrawable = new ColorDrawable(color);
                     pf.set(picker, colorDrawable);
                 } catch (IllegalArgumentException | Resources.NotFoundException | IllegalAccessException e) {
+                    e.printStackTrace();
                     Log.e("SettingActivity", Log.getStackTraceString(e));
                 }
                 break;

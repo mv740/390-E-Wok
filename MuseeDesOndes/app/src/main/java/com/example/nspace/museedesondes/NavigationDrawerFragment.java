@@ -1,19 +1,18 @@
 package com.example.nspace.museedesondes;
 
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -149,13 +148,13 @@ public class NavigationDrawerFragment extends Fragment {
 
     private List<Drawable> populateDrawerItemIcons(){
 
-        List<Drawable> array_list_drawer_ele_icons = new ArrayList<>();
+        List<Drawable> iconsList = new ArrayList<>();
 
-        array_list_drawer_ele_icons.add(ContextCompat.getDrawable(getContext(), R.drawable.ic_content_duplicate_white_24dp));
-        array_list_drawer_ele_icons.add(ContextCompat.getDrawable(getContext(), R.drawable.ic_language_white_24dp));
-        array_list_drawer_ele_icons.add(ContextCompat.getDrawable(getContext(), R.drawable.ic_exit_to_app_white_24dp));
+        iconsList.add(ContextCompat.getDrawable(getContext(), R.drawable.ic_content_duplicate_white_24dp));
+        iconsList.add(ContextCompat.getDrawable(getContext(), R.drawable.ic_language_white_24dp));
+        iconsList.add(ContextCompat.getDrawable(getContext(), R.drawable.ic_exit_to_app_white_24dp));
 
-        return array_list_drawer_ele_icons;
+        return iconsList;
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {

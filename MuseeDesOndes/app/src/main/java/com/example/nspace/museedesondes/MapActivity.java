@@ -5,7 +5,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -38,14 +37,12 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
-
 import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.VisibleRegion;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import com.google.android.gms.maps.model.VisibleRegion;
 
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, NavigationDrawerFragment.NavigationDrawerCallbacks, GoogleMap.OnMarkerClickListener {
@@ -178,7 +175,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mapManager.initialCameraPosition();
 
         //load map markers for storyline or all poi markers for free exploration
-        if(freeExploration) {
+        if (freeExploration) {
             this.markerList = placeMarkersOnPointsOfInterest(information.getPointOfInterests());
         } else {
             this.markerList = placeMarkersOnPointsOfInterest(storyLineManager.getPointOfInterestList());
@@ -211,7 +208,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void poiPanelImageOnClick(View v) {
         panel.setSelectedImage(v);
         Intent fullscreenImgActivity = new Intent(this, FullscreenImgActivity.class);
-        fullscreenImgActivity.putExtra("imageId",panel.getSelectedImageId());
+        fullscreenImgActivity.putExtra("imageId", panel.getSelectedImageId());
         startActivity(fullscreenImgActivity);
 
     }
@@ -249,8 +246,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 floor.setColorNormal(ContextCompat.getColor(this, R.color.rca_onclick));
             }
         }
-        if (freeExploration)
+        if (freeExploration) {
             fitAllMarker.setVisibility(View.VISIBLE);
+        }
     }
 
     public void changeFloor(int floor) {
@@ -428,8 +426,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     /**
      * Custom camera listener, that will verify view boundary,zoom limit, certain specific gesture
      */
-    private class mapOnCameraChangeListener implements GoogleMap.OnCameraChangeListener
-    {
+    private class mapOnCameraChangeListener implements GoogleMap.OnCameraChangeListener {
 
         @Override
         public void onCameraChange(CameraPosition cameraPosition) {

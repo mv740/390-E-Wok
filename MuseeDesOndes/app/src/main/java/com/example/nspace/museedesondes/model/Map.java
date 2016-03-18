@@ -2,10 +2,12 @@ package com.example.nspace.museedesondes.model;
 
 import android.content.Context;
 import android.util.Log;
+
 import com.example.nspace.museedesondes.utility.JsonHelper;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,11 +45,12 @@ public class Map {
         if (instance == null) {
             String mapSource = JsonHelper.loadJSON("map.json", context);
             ObjectMapper mapper = new ObjectMapper();
-            mapper.enable(DeserializationFeature. ACCEPT_SINGLE_VALUE_AS_ARRAY);
+            mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
             try {
                 instance = mapper.readValue(mapSource, Map.class);
-                if (instance != null)
+                if (instance != null) {
                     initializeNodes();
+                }
 
             } catch (IOException e) {
                 Log.e("JsonHelper", Log.getStackTraceString(e));

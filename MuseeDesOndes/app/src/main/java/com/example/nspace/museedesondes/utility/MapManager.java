@@ -6,8 +6,8 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 
-import com.example.nspace.museedesondes.model.FloorPlan;
 import com.example.nspace.museedesondes.R;
+import com.example.nspace.museedesondes.model.FloorPlan;
 import com.example.nspace.museedesondes.model.Node;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -25,7 +25,6 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -202,8 +201,9 @@ public class MapManager {
      * @param position
      */
     public void zoomLimit(CameraPosition position) {
-        if (position.zoom > ZOOM_MAX)
+        if (position.zoom > ZOOM_MAX) {
             mMap.animateCamera(CameraUpdateFactory.zoomTo((float) ZOOM_MAX));
+        }
         if (position.zoom < ZOOM_MIN) {
             mMap.animateCamera(CameraUpdateFactory.zoomTo((float) ZOOM_MIN));
         }

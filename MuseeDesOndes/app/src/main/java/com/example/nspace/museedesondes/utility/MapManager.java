@@ -9,6 +9,8 @@ import android.view.View;
 import com.example.nspace.museedesondes.R;
 import com.example.nspace.museedesondes.model.FloorPlan;
 import com.example.nspace.museedesondes.model.Node;
+import com.example.nspace.museedesondes.model.PointOfInterest;
+import com.example.nspace.museedesondes.model.StoryLine;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -31,7 +33,7 @@ import java.util.Map;
 /**
  * Created by michal on 2/10/2016.
  */
-public class MapManager {
+public class MapManager implements POIBeaconListener {
 
     private static final double ZOOM_MAX = 15.0;
     private static final double ZOOM_MIN = 13.0;
@@ -420,5 +422,16 @@ public class MapManager {
 
     public void setMarkerList(List<Marker> markerList) {
         this.markerList = markerList;
+    }
+
+    public void onPOIBeaconDiscovered(PointOfInterest node, StoryLine storyLine) {
+        //updates poi marker color to red after reaching beacon
+        for(Marker marker : markerList) {
+            PointMarker.Information pMarkerInfo = new PointMarker.Information(marker.getSnippet());
+            if(pMarkerInfo.getNodeID() == node.getId()) {
+                marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                return;
+            }
+        }
     }
 }

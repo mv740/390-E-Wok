@@ -179,6 +179,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             mapManager.setMarkerList(placeMarkersOnPointsOfInterest(information.getPointOfInterests()));
         } else {
             mapManager.setMarkerList(placeMarkersOnPointsOfInterest(storyLineManager.getPointOfInterestList()));
+            storyLineManager.registerObserver(mapManager);
         }
         mapManager.displayCurrentFloorPointOfInterest(1);
 

@@ -73,7 +73,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         getStoryLineSelected();
 
         if (!freeExploration) {
-            storyLineManager = new StoryLineManager(storyLine, this, panel);
+            storyLineManager = new StoryLineManager(storyLine, this);
+            storyLineManager.registerObserver(panel);
         }
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.

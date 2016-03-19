@@ -36,21 +36,21 @@ public class StoryLineManager {
     private List<PointOfInterest> pointOfInterestList;
     private List<List<Polyline>> segmentList;
     private java.util.Map<Integer, List<Polyline>> floorLineMap;
+    private List<POIBeaconListener> poiBeaconListeners;
     private int pointOfInterestIndex;
     private PointOfInterest nextPOI;
     private MapActivity mapActivity;
     private GoogleMap googleMap;
     private BeaconManager beaconManager;
     private Region region;
-    private PoiPanel panel;
 
-    public StoryLineManager(StoryLine storyLine, MapActivity mapActivity, PoiPanel panel) {
+    public StoryLineManager(StoryLine storyLine, MapActivity mapActivity) {
         this.storyLine = storyLine;
         initPOIList();
         this.pointOfInterestIndex = 0;
         nextPOI = pointOfInterestList.get(pointOfInterestIndex);
         this.mapActivity = mapActivity;
-        this.panel = panel;
+        this.poiBeaconListeners= new ArrayList<>();
         region = new Region("ranged region", UUID.fromString(DEFAULT_MUSEUM_UUID), null, null);
         beaconManager = new BeaconManager(mapActivity);
         setBeaconRangeListener();
@@ -66,7 +66,7 @@ public class StoryLineManager {
                             && (nearestBeacon.getMinor() == nextPOI.getBeaconInformation().getMinor())
                             && ((Utils.computeProximity(nearestBeacon)) == Utils.Proximity.NEAR)) {
 
-                        panel.updateStoryPanel(storyLine, nextPOI);
+                        notifyObservers(nextPOI,storyLine);
                         // TODO: update UI with temp man marker
                         updateSegmentListColors();
                         updateNextPOI();
@@ -75,6 +75,16 @@ public class StoryLineManager {
             }
         });
     }
+
+    public void registerObserver(POIBeaconListener observer) {
+        poiBeaconListeners.add(observer);
+    }
+
+   public void notifyObservers(PointOfInterest node, StoryLine storyLine) {
+       for(POIBeaconListener observer : poiBeaconListeners) {
+           observer.onPOIBeaconDiscovered(node,storyLine);
+       }
+   }
 
     private void initPOIList() {
         pointOfInterestList = new ArrayList<PointOfInterest>();

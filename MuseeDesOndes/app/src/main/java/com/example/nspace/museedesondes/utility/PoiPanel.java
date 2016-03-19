@@ -20,7 +20,7 @@ import static com.example.nspace.museedesondes.R.id.poi_title;
 /**
  * Created by Lenovo on 2/18/2016.
  */
-public class PoiPanel {
+public class PoiPanel implements POIBeaconListener {
 
     private MapActivity activity;
     private SlidingUpPanelLayout panel;
@@ -73,7 +73,7 @@ public class PoiPanel {
         panel.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
     }
 
-    public void updateStoryPanel(StoryLine storyLine, PointOfInterest pointOfInterest){
+    public void onPOIBeaconDiscovered(PointOfInterest pointOfInterest, StoryLine storyLine){
 
         this.currentPointofInterest = pointOfInterest;
         String description = pointOfInterest.getStoryRelatedDescription(storyLine.getId(), activity.getApplicationContext()).getDescription();

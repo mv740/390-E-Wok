@@ -17,7 +17,7 @@ public class LabelledPoint extends Node {
                          @JsonProperty("y") double y,
                          @JsonProperty("label") Label label) {
         super(id, floorID, x, y);
-        this.label = label;//Label.getEnum(label);
+        this.label = label;
     }
     public Label getLabel() {
         return label;

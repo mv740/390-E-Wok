@@ -51,24 +51,27 @@ public class MapManager {
     private boolean zoomToFitUsed = false;
     private boolean pinchZoomUsed = false;
     private List<Marker> markerList;
+    private List<FloorPlan> floorPlans;
 
 
-    public MapManager(GoogleMap googleMap, Context context, Map<Integer, List<Polyline>> floorLineMap, boolean freeExploration) {
+    public MapManager(GoogleMap googleMap, Context context, Map<Integer, List<Polyline>> floorLineMap, boolean freeExploration, List<FloorPlan> floorPlans) {
         this.mMap = googleMap;
         this.context = context;
         this.floorLineMap = floorLineMap;
         this.freeExploration = freeExploration;
+        this.floorPlans = floorPlans;
     }
 
 
     /**
-     * @param floorPlans
+     * Load default floor with white background behind it
+     *
      * @param view
      */
-    public void loadDefaultFloor(List<FloorPlan> floorPlans, View view) {
+    public void loadDefaultFloor(View view) {
         initializeFloatingButtonSettings(view);
 
-        BitmapDescriptor imageFloor = BitmapDescriptorFactory.fromResource(getFloorPlanResourceID(floorPlans, 0));
+        BitmapDescriptor imageFloor = BitmapDescriptorFactory.fromResource(getFloorPlanResourceID(0));
         LatLng position = new LatLng(0, 0);
 
 
@@ -92,7 +95,7 @@ public class MapManager {
         }
     }
 
-    private int getFloorPlanResourceID(List<FloorPlan> floorPlans, int index) {
+    private int getFloorPlanResourceID(int index) {
         return context.getResources().getIdentifier(floorPlans.get(index).getImagePath(), "drawable", context.getPackageName());
     }
 
@@ -125,11 +128,12 @@ public class MapManager {
      * Change the image of the floor map
      *
      * @param floorID    floor number
-     * @param floorPlans
      */
-    public void switchFloor(int floorID, List<FloorPlan> floorPlans) {
+    public void switchFloor(int floorID) {
         //http://stackoverflow.com/questions/16369814/how-to-access-the-drawable-resources-by-name-in-android
-        int index = floorID - 1; //Todo if floor object aren't in order then we will need to loop to find the correct one by id
+        //Todo if floor object aren't in order then we will need to loop to find the correct one by id
+
+        int index = floorID - 1;
 
         Log.d("markerList", String.valueOf(markerList.size()));
 
@@ -139,7 +143,7 @@ public class MapManager {
             updateFloorLines(floorID);
         }
 
-        groundOverlayFloorMap.setImage(BitmapDescriptorFactory.fromResource(getFloorPlanResourceID(floorPlans, index)));
+        groundOverlayFloorMap.setImage(BitmapDescriptorFactory.fromResource(getFloorPlanResourceID(index)));
         groundOverlayFloorMapBound = groundOverlayFloorMap.getBounds();
     }
 

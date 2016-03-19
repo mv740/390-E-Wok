@@ -38,7 +38,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         }
 
-        NumberPicker myNumberPicker = (NumberPicker) findViewById(R.id.language_selection_view); // new NumberPicker(this);
+        NumberPicker myNumberPicker = (NumberPicker) findViewById(R.id.language_selection_view);
         myNumberPicker.setMinValue(0);
 
         myNumberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);

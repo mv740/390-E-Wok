@@ -3,13 +3,11 @@ package com.example.nspace.museedesondes;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.NumberPicker;
-import android.widget.TextView;
 
 import com.example.nspace.museedesondes.utility.Preferences;
 import com.github.clans.fab.FloatingActionButton;
@@ -40,7 +38,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         }
 
-        NumberPicker myNumberPicker = (NumberPicker) findViewById(R.id.language_selection_view); // new NumberPicker(this);
+        NumberPicker myNumberPicker = (NumberPicker) findViewById(R.id.language_selection_view);
         myNumberPicker.setMinValue(0);
 
         myNumberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
@@ -59,35 +57,36 @@ public class SettingsActivity extends AppCompatActivity {
         myNumberPicker.setOnValueChangedListener(myValueChangedListener);
 
         //set english or french language
-        okButton.setOnClickListener(
-                new Button.OnClickListener() {
-                    public void onClick(View view) {
-                        String selectedLanguageType = null;
+        okButton.setOnClickListener(new OkButtonListener());
+    }
+
+    private class OkButtonListener implements View.OnClickListener{
+
+        public void onClick(View view) {
+            String selectedLanguageType = null;
 
 
-                        switch (selectedLanguage) {
-                            case 0:
-                                selectedLanguageType = "fr";
-                                break;
-                            case 1:
-                                selectedLanguageType = "en_US";
-                                break;
-                            default:
-                                Log.e("SettingActivity", "selectedLanguage invalid " + selectedLanguage);
-                        }
+            switch (selectedLanguage) {
+                case 0:
+                    selectedLanguageType = "fr";
+                    break;
+                case 1:
+                    selectedLanguageType = "en_US";
+                    break;
+                default:
+                    Log.e("SettingActivity", "selectedLanguage invalid " + selectedLanguage);
+            }
 
-                        Log.v("Lang", String.valueOf(selectedLanguage));
-                        Log.v("Lang", selectedLanguageType);
+            Log.v("Lang", String.valueOf(selectedLanguage));
+            Log.v("Lang", selectedLanguageType);
 
-                        //save if different
-                        if (!getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(selectedLanguageType)) {
-                            Preferences.setLocale(selectedLanguageType);
-                            Preferences.saveLanguagePreference(selectedLanguageType);
-                        }
-                        finish();
-                    }
-                }
-        );
+            //save if different
+            if (!getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(selectedLanguageType)) {
+                Preferences.setLocale(selectedLanguageType);
+                Preferences.saveLanguagePreference(selectedLanguageType);
+            }
+            finish();
+        }
     }
 
     //http://stackoverflow.com/questions/24233556/changing-numberpicker-divider-color

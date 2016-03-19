@@ -51,24 +51,27 @@ public class MapManager {
     private boolean zoomToFitUsed = false;
     private boolean pinchZoomUsed = false;
     private List<Marker> markerList;
+    private List<FloorPlan> floorPlans;
 
 
-    public MapManager(GoogleMap googleMap, Context context, Map<Integer, List<Polyline>> floorLineMap, boolean freeExploration) {
+    public MapManager(GoogleMap googleMap, Context context, Map<Integer, List<Polyline>> floorLineMap, boolean freeExploration, List<FloorPlan> floorPlans) {
         this.mMap = googleMap;
         this.context = context;
         this.floorLineMap = floorLineMap;
         this.freeExploration = freeExploration;
+        this.floorPlans = floorPlans;
     }
 
-
     /**
-     * @param floorPlans
+     * Load default floor with white background behind it
+     *
      * @param view
      */
-    public void loadDefaultFloor(List<FloorPlan> floorPlans, View view) {
+    public void loadDefaultFloor(View view) {
         initializeFloatingButtonSettings(view);
 
-        BitmapDescriptor imageFloor = BitmapDescriptorFactory.fromResource(getFloorPlanResourceID(floorPlans, 0));
+
+        BitmapDescriptor imageFloor = BitmapDescriptorFactory.fromResource(getFloorPlanResourceID(DEFAULT_FLOOR_ID));
         LatLng position = new LatLng(0, 0);
 
 
@@ -90,10 +93,6 @@ public class MapManager {
         if (!freeExploration) {
             initFloorLines();
         }
-    }
-
-    private int getFloorPlanResourceID(List<FloorPlan> floorPlans, int index) {
-        return context.getResources().getIdentifier(floorPlans.get(index).getImagePath(), "drawable", context.getPackageName());
     }
 
     /**
@@ -124,23 +123,40 @@ public class MapManager {
     /**
      * Change the image of the floor map
      *
-     * @param floorID    floor number
-     * @param floorPlans
+     * @param floorID floor number
      */
-    public void switchFloor(int floorID, List<FloorPlan> floorPlans) {
-        //http://stackoverflow.com/questions/16369814/how-to-access-the-drawable-resources-by-name-in-android
-        int index = floorID - 1; //Todo if floor object aren't in order then we will need to loop to find the correct one by id
-
-        Log.d("markerList", String.valueOf(markerList.size()));
+    public void switchFloor(int floorID) {
 
         displayCurrentFloorPointOfInterest(floorID);
 
         if (!freeExploration) {
             updateFloorLines(floorID);
         }
-
-        groundOverlayFloorMap.setImage(BitmapDescriptorFactory.fromResource(getFloorPlanResourceID(floorPlans, index)));
+        //http://stackoverflow.com/questions/16369814/how-to-access-the-drawable-resources-by-name-in-android
+        groundOverlayFloorMap.setImage(BitmapDescriptorFactory.fromResource(getFloorPlanResourceID(floorID)));
         groundOverlayFloorMapBound = groundOverlayFloorMap.getBounds();
+    }
+
+    /**
+     * Search correct floorPlan
+     * floorPlan index is not the floorPlan id,  The Json could have floorPlan 3,5,8,1 in random order
+     *
+     * @param id
+     * @return
+     */
+    private FloorPlan searchFloorPlanById(int id) {
+        for (FloorPlan currentFloor : floorPlans) {
+            if (currentFloor.getId() == id) {
+                return currentFloor;
+            }
+        }
+        return null;
+    }
+
+    private int getFloorPlanResourceID(int id) {
+
+        FloorPlan floorPlan = searchFloorPlanById(id);
+        return context.getResources().getIdentifier(floorPlan.getImagePath(), "drawable", context.getPackageName());
     }
 
     public void initFloorLines() {

@@ -101,7 +101,7 @@ public class NavigationDrawerFragment extends Fragment {
         String currentAppLanguage = getActivity().getResources().getConfiguration().locale.getLanguage();
 
         //recreating the nav drawer list items if language has changed
-        if(!currentAppLanguage.equalsIgnoreCase(navFragmentLang)) {
+        if (!currentAppLanguage.equalsIgnoreCase(navFragmentLang)) {
             navFragmentLang = currentAppLanguage;
             adapter.clear();
             adapter.addAll(getResources().getStringArray(R.array.drawer_ele));
@@ -140,13 +140,13 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
 
         mDrawerList = (ListView) mDrawerListView.findViewById(R.id.drawer_list);
-       mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
 
         return mDrawerListView;
     }
 
-    private List<Drawable> populateDrawerItemIcons(){
+    private List<Drawable> populateDrawerItemIcons() {
 
         List<Drawable> iconsList = new ArrayList<>();
 
@@ -177,27 +177,26 @@ public class NavigationDrawerFragment extends Fragment {
                     break;
             }
 
-         closeDrawer();
+            closeDrawer();
 
         }
     }
 
-    private void closeDrawer(){
+    private void closeDrawer() {
 
         DrawerLayout mDrawerLayout;
         mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
         mDrawerLayout.closeDrawers();
     }
 
-    public static void toggleDrawer(Activity mainActivity){
+    public static void toggleDrawer(Activity mainActivity) {
         DrawerLayout mDrawerLayout;
         mDrawerLayout = (DrawerLayout) mainActivity.findViewById(R.id.drawer_layout);
 
-        if(mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             //drawer is open
             mDrawerLayout.closeDrawers();
-        }
-        else{
+        } else {
             mDrawerLayout.openDrawer(Gravity.LEFT);
         }
     }
@@ -207,7 +206,7 @@ public class NavigationDrawerFragment extends Fragment {
         return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(mFragmentContainerView);
     }
 
-    public void drawerBGtoX(){
+    public void drawerBGtoX() {
 
     }
 
@@ -226,52 +225,7 @@ public class NavigationDrawerFragment extends Fragment {
         // set up the drawer's list view with items and click listener
 
         // between the navigation drawer and the action bar app icon.
-        mDrawerToggle = new ActionBarDrawerToggle(
-                getActivity(),                    /* host Activity */
-                mDrawerLayout,                    /* DrawerLayout object */
-                R.drawable.ic_drawer,             /* nav drawer image to replace 'Up' caret */
-                R.string.navigation_drawer_open,  /* "open drawer" description for accessibility */
-                R.string.navigation_drawer_close  /* "close drawer" description for accessibility */
-        ) {
-
-@Override
-public void onDrawerSlide(View drawerView, float sideOffset){
-}
-
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-               drawerGoingToOpen = true;
-
-                super.onDrawerClosed(drawerView);
-                if (!isAdded()) {
-                    return;
-                }
-
-                getActivity().supportInvalidateOptionsMenu(); // calls onPrepareOptionsMenu()
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                drawerGoingToOpen = false;
-
-                super.onDrawerOpened(drawerView);
-                if (!isAdded()) {
-                    return;
-                }
-
-                if (!mUserLearnedDrawer) {
-                    // The user manually opened the drawer; store this flag to prevent auto-showing
-                    // the navigation drawer automatically in the future.
-                    mUserLearnedDrawer = true;
-                    SharedPreferences sp = PreferenceManager
-                            .getDefaultSharedPreferences(getActivity());
-                    sp.edit().putBoolean(PREF_USER_LEARNED_DRAWER, true).apply();
-                }
-                //commenting this prevent drawer title from generating
-                //getActivity().supportInvalidateOptionsMenu(); // calls onPrepareOptionsMenu()
-            }
-        };
+        mDrawerToggle = new CustomActionBarToggle();
         mDrawerToggle.setDrawerIndicatorEnabled(true);
 
         // If the user hasn't 'learned' about the drawer, open it to introduce them to the drawer,
@@ -290,6 +244,57 @@ public void onDrawerSlide(View drawerView, float sideOffset){
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
+    }
+
+    private class CustomActionBarToggle extends ActionBarDrawerToggle {
+
+        public CustomActionBarToggle() {
+            super(
+                    getActivity(),                    /* host Activity */
+                    mDrawerLayout,                    /* DrawerLayout object */
+                    R.drawable.ic_drawer,             /* nav drawer image to replace 'Up' caret */
+                    R.string.navigation_drawer_open,  /* "open drawer" description for accessibility */
+                    R.string.navigation_drawer_close  /* "close drawer" description for accessibility */);
+
+        }
+
+        @Override
+        public void onDrawerSlide(View drawerView, float sideOffset) {
+        }
+
+
+        @Override
+        public void onDrawerClosed(View drawerView) {
+            drawerGoingToOpen = true;
+
+            super.onDrawerClosed(drawerView);
+            if (!isAdded()) {
+                return;
+            }
+
+            getActivity().supportInvalidateOptionsMenu(); // calls onPrepareOptionsMenu()
+        }
+
+        @Override
+        public void onDrawerOpened(View drawerView) {
+            drawerGoingToOpen = false;
+
+            super.onDrawerOpened(drawerView);
+            if (!isAdded()) {
+                return;
+            }
+
+            if (!mUserLearnedDrawer) {
+                // The user manually opened the drawer; store this flag to prevent auto-showing
+                // the navigation drawer automatically in the future.
+                mUserLearnedDrawer = true;
+                SharedPreferences sp = PreferenceManager
+                        .getDefaultSharedPreferences(getActivity());
+                sp.edit().putBoolean(PREF_USER_LEARNED_DRAWER, true).apply();
+            }
+            //commenting this prevent drawer title from generating
+            //getActivity().supportInvalidateOptionsMenu(); // calls onPrepareOptionsMenu()
+        }
     }
 
     private void selectItem(int position) {
@@ -368,7 +373,7 @@ public void onDrawerSlide(View drawerView, float sideOffset){
 
     private ActionBar getActionBar() {
 
-        return ((AppCompatActivity)getActivity()).getSupportActionBar();
+        return ((AppCompatActivity) getActivity()).getSupportActionBar();
     }
 
     /**

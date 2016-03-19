@@ -81,8 +81,6 @@ public class StoryLineActivity extends AppCompatActivity {
                     .build();
 
             cards.add(card);
-            //mListView.getAdapter().add(card);
-
         }
 
         Card cardFreeExploration = new Card.Builder(this)

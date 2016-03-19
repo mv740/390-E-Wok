@@ -1,20 +1,25 @@
 package com.example.nspace.museedesondes.utility;
 
+import android.graphics.Bitmap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.bluejamesbond.text.DocumentView;
 import com.example.nspace.museedesondes.MapActivity;
 import com.example.nspace.museedesondes.R;
 import com.example.nspace.museedesondes.model.Image;
 import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.example.nspace.museedesondes.model.StoryLine;
+import com.example.nspace.museedesondes.model.Video;
 import com.google.android.gms.maps.model.Marker;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+
 import java.util.List;
+
 import static com.example.nspace.museedesondes.R.id.poi_title;
 
 /**
@@ -26,6 +31,7 @@ public class PoiPanel implements POIBeaconListener {
     private SlidingUpPanelLayout panel;
     private PointOfInterest currentPointofInterest;
     private int selectedImageId;
+    private Bitmap Thumbnails;
 
     public PoiPanel(MapActivity activity) {
         this.activity = activity;
@@ -56,7 +62,7 @@ public class PoiPanel implements POIBeaconListener {
         String description = pointOfInterest.getLocaleDescription(activity.getApplicationContext()).getDescription();
         String title = pointOfInterest.getLocaleDescription(activity.getApplicationContext()).getTitle();
         List<Image> images = pointOfInterest.getLocaleImages(activity.getApplicationContext());
-
+        List<Video> videos = pointOfInterest.getLocaleVideos(activity.getApplicationContext());
 
         //todo if no image, remove layout
 //       if (currentPointofInterest.getLocaleImages(activity.getApplicationContext()).isEmpty())
@@ -68,7 +74,7 @@ public class PoiPanel implements POIBeaconListener {
 
         replaceTitle(title);
         replaceDescription(description);
-        replacePics(images);
+        updateMedia(images, videos);
 
         panel.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
     }
@@ -79,10 +85,11 @@ public class PoiPanel implements POIBeaconListener {
         String description = pointOfInterest.getStoryRelatedDescription(storyLine.getId(), activity.getApplicationContext()).getDescription();
         String title = pointOfInterest.getStoryRelatedDescription(storyLine.getId(), activity.getApplicationContext()).getTitle();
         List<Image> images = pointOfInterest.getLocaleImages(activity.getApplicationContext());
+        List<Video> videos = pointOfInterest.getLocaleVideos(activity.getApplicationContext());
 
         replaceTitle(title);
         replaceDescription(description);
-        replacePics(images);
+        updateMedia(images, videos);
         activity.startAudio(currentPointofInterest);
 
 
@@ -99,10 +106,10 @@ public class PoiPanel implements POIBeaconListener {
         docView.setText(title);
     }
 
-    private void replacePics(List<Image> images){
+    private void updateMedia(List<Image> images, List<Video> videos){
         RecyclerView recyclerView = (RecyclerView) activity.findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
-        HorizontalRecycleViewAdapter adapter = new HorizontalRecycleViewAdapter(activity, images);
+        HorizontalRecycleViewAdapter adapter = new HorizontalRecycleViewAdapter(activity, images, videos);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(adapter);
@@ -134,5 +141,13 @@ public class PoiPanel implements POIBeaconListener {
 
     public int getSelectedImageId() {
         return selectedImageId;
+    }
+
+    public void setThumbnails(Bitmap thumbnails) {
+        Thumbnails = thumbnails;
+    }
+
+    public Bitmap getThumbnails() {
+        return Thumbnails;
     }
 }

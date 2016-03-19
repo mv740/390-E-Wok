@@ -13,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 
 import com.estimote.sdk.BeaconManager;
@@ -58,6 +59,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private MapManager mapManager;
     private SeekBar seekBar;
     Handler audioHandler = new Handler();
+
+    public PoiPanel getPanel() {
+        return panel;
+    }
+
     private PoiPanel panel;
     private Marker selectedMarker;
 
@@ -160,7 +166,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap.clear();
         mMap.setOnMarkerClickListener(this);
         initializeMapSetting();
-        mapManager = new MapManager(mMap, this, floorLineMap, freeExploration,information.getFloorPlans());
+        mapManager = new MapManager(mMap, this, floorLineMap, freeExploration, information.getFloorPlans());
 
         //initialize storyline manager
         if (!freeExploration) {
@@ -206,11 +212,20 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
-    public void poiPanelImageOnClick(View v) {
-        panel.setSelectedImage(v);
-        Intent fullscreenImgActivity = new Intent(this, FullscreenImgActivity.class);
-        fullscreenImgActivity.putExtra("imageId", panel.getSelectedImageId());
-        startActivity(fullscreenImgActivity);
+    public void poiPanelMediaOnClick(View v, ImageView MediaResource, int videoResourceID) {
+
+        Intent intent;
+        if (MediaResource.getTag() == "VIDEO") {
+            intent = new Intent(this, VideoActivity.class);
+            String fileName = String.valueOf(videoResourceID);
+            Log.e("name",fileName);
+            intent.putExtra("File_Name", fileName);
+        } else {
+            panel.setSelectedImage(v);
+            intent = new Intent(this, FullscreenImgActivity.class);
+            intent.putExtra("imageId", panel.getSelectedImageId());
+        }
+        startActivity(intent);
 
     }
 

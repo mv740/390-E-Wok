@@ -6,7 +6,8 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
 import android.test.suitebuilder.annotation.LargeTest;
-import android.widget.NumberPicker;
+
+import com.example.nspace.museedesondes.utility.TextPicker;
 
 import org.hamcrest.Matchers;
 import org.junit.Before;
@@ -60,7 +61,7 @@ public class SettingsActivityTest {
 
     @Test
     public void testLanguageChoices() throws Exception {
-        onView(withClassName(Matchers.equalTo(NumberPicker.class.getName()))).check(matches(isDisplayed()));
+        onView(withClassName(Matchers.equalTo(TextPicker.class.getName()))).check(matches(isDisplayed()));
         onView(withText("English")).check(matches(isDisplayed()));
     }
 

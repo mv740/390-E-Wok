@@ -11,15 +11,20 @@ import android.support.test.uiautomator.UiSelector;
 import android.support.v4.content.ContextCompat;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.view.View;
+
 import com.example.nspace.museedesondes.utility.MapManager;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.android.gms.maps.model.GroundOverlay;
+
 import junit.framework.Assert;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import java.util.Collection;
+
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -75,7 +80,6 @@ public class MapActivityTest {
 
     }
 
-
     @Test
     public void testFloorButtonOnClick() throws Exception {
 
@@ -128,8 +132,6 @@ public class MapActivityTest {
     }
 
 
-
-
     @Test
     public void testClickMarker() throws Exception {
 
@@ -156,7 +158,7 @@ public class MapActivityTest {
         onView(withId(R.id.play_button)).check(matches(isDisplayed())).perform(click());
         assertEquals(true, mapActivity.audioService.isPlaying());
         onView(withId(R.id.play_button)).check(matches(isDisplayed())).perform(click());
-        assertEquals(false,mapActivity.audioService.isPlaying());
+        assertEquals(false, mapActivity.audioService.isPlaying());
 
     }
 
@@ -169,13 +171,23 @@ public class MapActivityTest {
         UiDevice device = UiDevice.getInstance(getInstrumentation());
         UiObject marker = device.findObject(new UiSelector().descriptionContains(title));
         marker.click();
-        onView(withId(R.id.my_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        //item 1 could be video
+        onView(withId(R.id.my_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
         onView(withId(R.id.fullscreen_imgview)).check(matches(isDisplayed()));
         onView(withId(R.id.exitFullscreenImg)).check(matches(isDisplayed())).check(matches(isClickable())).perform(click());
         onView(withId(R.id.fullscreen_imgview)).check(doesNotExist());
 
 
     }
+
+
+    @Test
+    public void testZoomToFit() throws Exception {
+
+        onView(withId(R.id.zoomShowAllMarker)).check(matches(isDisplayed())).perform(click());
+
+    }
+
 
     //helper get current activity from https://gist.github.com/elevenetc/df58a6ee4b776edb67c2
     //http://stackoverflow.com/questions/24517291/get-current-activity-in-espresso-android/34084377#34084377

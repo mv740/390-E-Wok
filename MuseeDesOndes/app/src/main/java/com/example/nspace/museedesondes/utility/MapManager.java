@@ -1,14 +1,12 @@
 package com.example.nspace.museedesondes.utility;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 
 import com.example.nspace.museedesondes.R;
 import com.example.nspace.museedesondes.model.FloorPlan;
-import com.example.nspace.museedesondes.model.Node;
 import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.example.nspace.museedesondes.model.StoryLine;
 import com.github.clans.fab.FloatingActionButton;
@@ -24,9 +22,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -158,7 +154,7 @@ public class MapManager implements POIBeaconListener {
     private int getFloorPlanResourceID(int id) {
 
         FloorPlan floorPlan = searchFloorPlanById(id);
-        return context.getResources().getIdentifier(floorPlan.getImagePath(), "drawable", context.getPackageName());
+        return Resource.getResourceIDFromPath(floorPlan.getImagePath(),context);
     }
 
     public void initFloorLines() {
@@ -359,46 +355,6 @@ public class MapManager implements POIBeaconListener {
         return zoomLevel;
     }
 
-    //TODO: use methods for shortest path user story
-
-    /**
-     * This function is meant to trace the path between nodes in the arraylist of coordinates
-     * representing each node's latitudinal and longitudinal position respectively.
-     *
-     * @param nodes This is the list of nodes that are to be sorted through. The nodes could be
-     *              either points of interest, points of traversal, or others.
-     */
-    public void tracePath(List<Node> nodes, int floorID, java.util.Map<String, Polyline> polylineList) {
-
-        List<LatLng> nodePositions = listNodeCoordinates(nodes, floorID);
-        Polyline line = mMap.addPolyline(new PolylineOptions()
-                .width(10)
-                .color(Color.parseColor("#99E33C3C")));
-        line.setPoints(nodePositions);
-        polylineList.put("hello", line);
-    }
-
-
-    /**
-     * This method is used to return a list of LatLng coordinates associated with the list of nodes passed as a parameter.
-     *
-     * @param nodes The list of nodes for which coordinates should be derived.
-     * @return The list of LatLng coordinates.
-     */
-    public List<LatLng> listNodeCoordinates(List<Node> nodes, int floorID) {
-        if (nodes == null) {
-            return null;
-        }
-
-        List<LatLng> nodeLatLngs = new ArrayList<LatLng>();
-        for (Node node : nodes) {
-            if (node.getFloorID() == floorID) {
-                nodeLatLngs.add(new LatLng(node.getY(), node.getX()));
-            }
-        }
-        return nodeLatLngs;
-    }
-
     public void detectingPinchZoom(CameraPosition cameraPosition) {
 
         Log.v("pinch", String.valueOf(cameraPosition.zoom));
@@ -424,8 +380,13 @@ public class MapManager implements POIBeaconListener {
         this.markerList = markerList;
     }
 
+    /**
+     * updates poi marker color to red after reaching beacon
+     *
+     * @param node
+     * @param storyLine
+     */
     public void onPOIBeaconDiscovered(PointOfInterest node, StoryLine storyLine) {
-        //updates poi marker color to red after reaching beacon
         for(Marker marker : markerList) {
             PointMarker.Information pMarkerInfo = new PointMarker.Information(marker.getSnippet());
             if(pMarkerInfo.getNodeID() == node.getId()) {

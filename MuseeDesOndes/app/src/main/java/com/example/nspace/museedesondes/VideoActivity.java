@@ -1,12 +1,11 @@
 package com.example.nspace.museedesondes;
 
-import android.app.Activity;
 import android.media.MediaPlayer;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.MediaController;
-import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.VideoView;
 
 public class VideoActivity extends AppCompatActivity {

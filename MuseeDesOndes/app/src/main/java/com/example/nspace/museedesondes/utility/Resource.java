@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.media.MediaMetadataRetriever;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
 import com.example.nspace.museedesondes.model.StoryLine;
 
@@ -32,13 +33,12 @@ public class Resource {
         return mContext.getResources().getIdentifier(path, "raw", mContext.getPackageName());
     }
 
-    public static int getImageResourceID(String path, Context mContext) {
+    public static int getResourceIDFromPath(String path, Context mContext) {
         return mContext.getResources().getIdentifier(path, "drawable", mContext.getPackageName());
     }
 
 
     public static Bitmap retriveVideoFrameFromVideo(String p_videoPath)
-            throws Throwable
     {
         Bitmap m_bitmap = null;
         MediaMetadataRetriever m_mediaMetadataRetriever = null;
@@ -50,9 +50,7 @@ public class Resource {
         }
         catch (Exception m_e)
         {
-            throw new Throwable(
-                    "Exception in retriveVideoFrameFromVideo(String p_videoPath)"
-                            + m_e.getMessage());
+            Log.e("ResourceError", Log.getStackTraceString(m_e));
         }
         finally
         {

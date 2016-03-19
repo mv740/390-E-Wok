@@ -50,6 +50,7 @@ public class MapManager {
     private boolean freeExploration;
     private boolean zoomToFitUsed = false;
     private boolean pinchZoomUsed = false;
+    private List<Marker> markerList;
 
 
     public MapManager(GoogleMap googleMap, Context context, Map<Integer, List<Polyline>> floorLineMap, boolean freeExploration) {
@@ -125,15 +126,14 @@ public class MapManager {
      *
      * @param floorID    floor number
      * @param floorPlans
-     * @param markerList
      */
-    public void switchFloor(int floorID, List<FloorPlan> floorPlans, List<Marker> markerList) {
+    public void switchFloor(int floorID, List<FloorPlan> floorPlans) {
         //http://stackoverflow.com/questions/16369814/how-to-access-the-drawable-resources-by-name-in-android
         int index = floorID - 1; //Todo if floor object aren't in order then we will need to loop to find the correct one by id
 
         Log.d("markerList", String.valueOf(markerList.size()));
 
-        displayCurrentFloorPointOfInterest(floorID, markerList);
+        displayCurrentFloorPointOfInterest(floorID);
 
         if (!freeExploration) {
             updateFloorLines(floorID);
@@ -169,9 +169,8 @@ public class MapManager {
      * Show only marker that are meant for the current floor
      *
      * @param floorID
-     * @param markerList
      */
-    public void displayCurrentFloorPointOfInterest(int floorID, List<Marker> markerList) {
+    public void displayCurrentFloorPointOfInterest(int floorID) {
         for (Marker marker : markerList) {
             PointMarker.Information pMarkerInfo = new PointMarker.Information(marker.getSnippet());
 
@@ -186,17 +185,21 @@ public class MapManager {
     /**
      * android Zoom-to-Fit All Markers on Google Map
      */
-    public void zoomToFit(List<Marker> markerList) {
+    public void zoomToFit() {
 
+        int counter = 0;
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         for (Marker marker : markerList) {
             if (marker.isVisible()) {
                 builder.include(marker.getPosition());
+                counter++;
             }
         }
-        LatLngBounds bounds = builder.build();
-        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
-        zoomToFitUsed = true;
+        if (counter > 0) {
+            LatLngBounds bounds = builder.build();
+            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
+            zoomToFitUsed = true;
+        }
     }
 
     /**
@@ -397,5 +400,9 @@ public class MapManager {
             Log.v("pinch", "detected");
         }
 
+    }
+
+    public void setMarkerList(List<Marker> markerList) {
+        this.markerList = markerList;
     }
 }

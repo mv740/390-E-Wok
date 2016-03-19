@@ -55,7 +55,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private StoryLineManager storyLineManager;
     private StoryLine storyLine;
     private boolean freeExploration;
-    private List<Marker> markerList;
+
     private MapManager mapManager;
     private SeekBar seekBar;
     Handler audioHandler = new Handler();
@@ -176,11 +176,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         //load map markers for storyline or all poi markers for free exploration
         if (freeExploration) {
-            this.markerList = placeMarkersOnPointsOfInterest(information.getPointOfInterests());
+            mapManager.setMarkerList(placeMarkersOnPointsOfInterest(information.getPointOfInterests()));
         } else {
-            this.markerList = placeMarkersOnPointsOfInterest(storyLineManager.getPointOfInterestList());
+            mapManager.setMarkerList(placeMarkersOnPointsOfInterest(storyLineManager.getPointOfInterestList()));
         }
-        mapManager.displayCurrentFloorPointOfInterest(1, this.markerList);
+        mapManager.displayCurrentFloorPointOfInterest(1);
 
         mMap.setOnCameraChangeListener(new OnCameraChangeListener());
     }
@@ -254,7 +254,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public void changeFloor(int floor) {
-        mapManager.switchFloor(floor, information.getFloorPlans(), this.markerList);
+        mapManager.switchFloor(floor, information.getFloorPlans());
         FloatingActionMenu floorButton = (FloatingActionMenu) findViewById(R.id.floor_button);
         floorButton.toggle(true);
     }
@@ -398,7 +398,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public void zoomShowAllMarker(View view) {
-        mapManager.zoomToFit(markerList);
+        mapManager.zoomToFit();
     }
 
     public Map getInformation() {

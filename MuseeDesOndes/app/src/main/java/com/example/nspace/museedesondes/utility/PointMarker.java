@@ -76,7 +76,8 @@ public class PointMarker {
 
         switch (labelledPoint.getLabel()) {
             case NONE:
-                node.visible(false); // hide point of transition that are between node of interest
+                // hide point of transition that are between node of interest
+                node.visible(false);
                 break;
             case EMERGENCY_EXIT:
                 node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));

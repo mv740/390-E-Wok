@@ -55,7 +55,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private StoryLineManager storyLineManager;
     private StoryLine storyLine;
     private boolean freeExploration;
-
     private MapManager mapManager;
     private SeekBar seekBar;
     Handler audioHandler = new Handler();
@@ -161,7 +160,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap.clear();
         mMap.setOnMarkerClickListener(this);
         initializeMapSetting();
-        mapManager = new MapManager(mMap, this, floorLineMap, freeExploration);
+        mapManager = new MapManager(mMap, this, floorLineMap, freeExploration,information.getFloorPlans());
 
         //initialize storyline manager
         if (!freeExploration) {
@@ -172,7 +171,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
 
         //loading initial map
-        mapManager.loadDefaultFloor(information.getFloorPlans(), findViewById(android.R.id.content));
+        mapManager.loadDefaultFloor(findViewById(android.R.id.content));
         mapManager.initialCameraPosition();
 
         //load map markers for storyline or all poi markers for free exploration
@@ -255,7 +254,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public void changeFloor(int floor) {
-        mapManager.switchFloor(floor, information.getFloorPlans());
+        mapManager.switchFloor(floor);
         FloatingActionMenu floorButton = (FloatingActionMenu) findViewById(R.id.floor_button);
         floorButton.toggle(true);
     }
@@ -267,6 +266,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     public void playVideo(View v) {
         Intent intent = new Intent(this, VideoActivity.class);
+        String fileName = Integer.toString(R.raw.sample_video_1280x720_1mb);
+        intent.putExtra("File_Name", fileName);
         startActivity(intent);
     }
 
@@ -419,11 +420,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         if (panel.isOpen()) {
             panel.close();
         } else {
-
             this.finish();
-            //super.onBackPressed();
         }
-
     }
 
     /**

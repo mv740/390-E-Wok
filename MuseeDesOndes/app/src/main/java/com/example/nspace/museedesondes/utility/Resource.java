@@ -20,6 +20,7 @@ public class Resource {
         return ContextCompat.getDrawable(context, resourceID);
     }
 
+
     public static int getResourceID(StoryLine storyLine, Context context) {
         Resources resources = context.getResources();
         return resources.getIdentifier(storyLine.getImagePath(), "drawable", context.getPackageName());

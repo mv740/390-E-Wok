@@ -55,7 +55,10 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".VideoActivity"></activity>
+        <activity
+            android:name=".VideoActivity"
+            android:configChanges="orientation"
+            />
     </application>
 
 </manifest>

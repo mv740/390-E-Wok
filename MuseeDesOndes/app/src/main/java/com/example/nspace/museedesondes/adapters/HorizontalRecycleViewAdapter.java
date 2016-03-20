@@ -1,7 +1,6 @@
 package com.example.nspace.museedesondes.adapters;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,13 +54,7 @@ public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter<Horizonta
         //Image item = imageList.get(i);
         Content contentItem = contentList.get(i);
         if (contentItem instanceof Video) {
-            String path = "android.resource://" + mContext.getPackageName() + "/" + Resource.getVideoResourceID(((Video) contentItem).getPath(), mContext);
 
-            //TODO IS IT WORKING ON REAL PHONE?!!
-
-            mContext.getPanel().setThumbnails(Resource.retriveVideoFrameFromVideo(path));
-
-            Log.e("bMap", String.valueOf(mContext.getPanel().getThumbnails()));
             holder.MediaResource.setTag("VIDEO");
             holder.MediaResource.setImageResource(R.drawable.videounlock_thumbnail_small);
             holder.VideoRessourceID = Resource.getVideoResourceID(((Video) contentItem).getPath(), mContext);

@@ -18,12 +18,12 @@ import android.widget.SeekBar;
 
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.SystemRequirementsChecker;
-import com.example.nspace.museedesondes.services.AudioService;
-import com.example.nspace.museedesondes.services.AudioService.AudioBinder;
 import com.example.nspace.museedesondes.fragments.NavigationDrawerFragment;
 import com.example.nspace.museedesondes.model.Map;
 import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.example.nspace.museedesondes.model.StoryLine;
+import com.example.nspace.museedesondes.services.AudioService;
+import com.example.nspace.museedesondes.services.AudioService.AudioBinder;
 import com.example.nspace.museedesondes.utility.MapManager;
 import com.example.nspace.museedesondes.utility.PoiPanelManager;
 import com.example.nspace.museedesondes.utility.PointMarkerFactory;

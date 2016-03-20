@@ -5,15 +5,12 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,12 +18,16 @@ import android.widget.SeekBar;
 
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.SystemRequirementsChecker;
-import com.example.nspace.museedesondes.AudioService.AudioBinder;
+import com.example.nspace.museedesondes.fragments.NavigationDrawerFragment;
 import com.example.nspace.museedesondes.model.Map;
 import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.example.nspace.museedesondes.model.StoryLine;
+import com.example.nspace.museedesondes.services.AudioService;
+import com.example.nspace.museedesondes.services.AudioService.AudioBinder;
 import com.example.nspace.museedesondes.utility.MapManager;
-import com.example.nspace.museedesondes.utility.PointMarker;
+import com.example.nspace.museedesondes.utility.PoiPanelManager;
+import com.example.nspace.museedesondes.utility.PointMarkerFactory;
+import com.example.nspace.museedesondes.utility.Preferences;
 import com.example.nspace.museedesondes.utility.StoryLineManager;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -34,56 +35,54 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.GroundOverlay;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.PolylineOptions;
-
 import com.google.android.gms.maps.model.Polyline;
-import com.example.nspace.museedesondes.model.Node;
+import com.google.android.gms.maps.model.VisibleRegion;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.google.android.gms.maps.model.VisibleRegion;
 
-
-public class MapActivity extends ActionBarActivity implements OnMapReadyCallback, NavigationDrawerFragment.NavigationDrawerCallbacks, GoogleMap.OnMarkerClickListener {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, NavigationDrawerFragment.NavigationDrawerCallbacks, GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
     private NavigationDrawerFragment mNavigationDrawerFragment;
-    private GroundOverlay groundOverlay;
     private Map information;
-    private static Bitmap imgToSendToFullscreenImgActivity;
     AudioService audioService;
     private int[] floorButtonIdList = {R.id.fab1, R.id.fab2, R.id.fab3, R.id.fab4, R.id.fab5};
     private StoryLineManager storyLineManager;
     private StoryLine storyLine;
     private boolean freeExploration;
-    private List<Marker> markerList;
-    private java.util.Map<String, Polyline> polylineList;
     private MapManager mapManager;
     private SeekBar seekBar;
     Handler audioHandler = new Handler();
-    PoiPanel panel;
 
+    public PoiPanelManager getPanel() {
+        return panel;
+    }
+
+    private PoiPanelManager panel;
+    private Marker selectedMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-
-        this.panel = new PoiPanel(this);
+        this.panel = new PoiPanelManager(this);
 
         //create storyline manager which handles storyline progression and interaction with the beacons
         information = Map.getInstance(getApplicationContext());
         getStoryLineSelected();
-        if (!freeExploration) {
-            storyLineManager = new StoryLineManager(storyLine, this, panel, mMap);
-        }
 
+        if (!freeExploration) {
+            storyLineManager = new StoryLineManager(storyLine, this);
+            storyLineManager.registerObserver(panel);
+        }
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -99,14 +98,13 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
+
         bringButtonsToFront();
         Intent intent = new Intent(this, AudioService.class);
         bindService(intent, audioConnection, Context.BIND_AUTO_CREATE);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
-
-
-        this.polylineList = new HashMap<String, Polyline>();
     }
+
 
     //sets the storyline to the one selected in the StoryLineActivity
     private void getStoryLineSelected() {
@@ -114,36 +112,34 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         int position = mIntent.getIntExtra("Story line list position", 0);
         List<StoryLine> storyLineList = information.getStoryLines();
 
-        if (position == 0) {
+        if (position == storyLineList.size()) {
             freeExploration = true;
         } else {
-            storyLine = storyLineList.get(position - 1);
+            storyLine = storyLineList.get(position);
             freeExploration = false;
         }
     }
 
     private void bringButtonsToFront() {
         FloatingActionButton ham = (FloatingActionButton) findViewById(R.id.hamburger);
-        FloatingActionButton search = (FloatingActionButton) findViewById(R.id.search_button);
-        final FloatingActionMenu floor = (FloatingActionMenu) findViewById(R.id.floor_button);
+        final FloatingActionMenu floorMenu = (FloatingActionMenu) findViewById(R.id.floor_button);
+
         FloatingActionButton zoomIn = (FloatingActionButton) findViewById(R.id.zoomInButton);
         FloatingActionButton zoomOut = (FloatingActionButton) findViewById(R.id.zoomOutButton);
 
-        final View fitAllMarker = findViewById(R.id.zoomShowAllMarker);
+        FloatingActionButton fitAllMarker = (FloatingActionButton) findViewById(R.id.zoomShowAllMarker);
         fitAllMarker.setVisibility(View.INVISIBLE);
-        floor.setClosedOnTouchOutside(true);
+        floorMenu.setClosedOnTouchOutside(true);
 
         ham.bringToFront();
-        search.bringToFront();
-        floor.bringToFront();
+        floorMenu.bringToFront();
         zoomIn.bringToFront();
         zoomOut.bringToFront();
 
         //show only fitAllMarker button in free exploration
         if (freeExploration) {
-            FloatingActionButton zoomShowAllMarker = (FloatingActionButton) fitAllMarker;
-            zoomShowAllMarker.bringToFront();
-            zoomShowAllMarker.setVisibility(View.VISIBLE);
+            fitAllMarker.bringToFront();
+            fitAllMarker.setVisibility(View.VISIBLE);
         }
 
     }
@@ -166,127 +162,51 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         information = Map.getInstance(getApplicationContext());
 
+        java.util.Map<Integer, List<Polyline>> floorLineMap = new HashMap<>();
+
         mMap = googleMap;
-        mapManager = new MapManager(mMap, this);
-        mMap.setBuildingsEnabled(false);
-        mMap.setIndoorEnabled(false);
-        mMap.getUiSettings().setZoomControlsEnabled(false);
-        mMap.getUiSettings().setIndoorLevelPickerEnabled(false);
-        mMap.getUiSettings().setMapToolbarEnabled(false);
-        mMap.getUiSettings().setRotateGesturesEnabled(false);
-
-
-        //// TODO: 2/7/2016  need to get the lat/lng of each map et bound the available view screen
-//        final LatLngBounds BOUNDS = new LatLngBounds(new LatLng(0.027,-0.02), new LatLng(41.9667, 12.5938));
-//        final int MAX_ZOOM = 16;
-//        final int MIN_ZOOM = 13;
-
-
-        LatLng custom = new LatLng(0.027, -0.02);
-        LatLng center = new LatLng(0, 0);
-        //mMap.moveCamera(CameraUpdateFactory.newLatLngBounds());
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(center, 14));
         mMap.clear();
         mMap.setOnMarkerClickListener(this);
+        initializeMapSetting();
+        mapManager = new MapManager(mMap, this, floorLineMap, freeExploration, information.getFloorPlans());
 
+        //initialize storyline manager
+        if (!freeExploration) {
+            storyLineManager.setGoogleMap(mMap);
+            storyLineManager.setFloorLineMap(floorLineMap);
+            storyLineManager.createEmptyFloorLineMap();
+            storyLineManager.initSegmentListAndFloorLineMap();
+        }
 
-        //load map and then switch floor to 5
-        // GroundOverlay groundOverlay = MapManager.loadDefaultFloor(mMap, custom);
-        groundOverlay = mapManager.loadDefaultFloor(mMap, custom, information.getFloorPlans(), findViewById(android.R.id.content));
+        //loading initial map
+        mapManager.loadDefaultFloor(findViewById(android.R.id.content));
+        mapManager.initialCameraPosition();
 
-        //need to implement a list view
-        //MapManager.switchFloor(groundOverlay, 5);
+        //load map markers for storyline or all poi markers for free exploration
+        if (freeExploration) {
+            mapManager.setMarkerList(placeMarkersOnPointsOfInterest(information.getPointOfInterests()));
+        } else {
+            mapManager.setMarkerList(placeMarkersOnPointsOfInterest(storyLineManager.getPointOfInterestList()));
+            storyLineManager.registerObserver(mapManager);
+        }
+        mapManager.displayCurrentFloorPointOfInterest(1);
 
-        this.markerList = placeMarkersOnPointsOfInterest(information.getPointOfInterests());
-        mapManager.displayCurrentFloorPointOfInterest(1, this.markerList);
-
-
-        //todo testing currently 2/19/15
-        mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
-            @Override
-            public void onMapLoaded() {
-                mapManager.zoomToFit(markerList);
-            }
-        });
-
-
-        // Obtains ALL nodes.
-        List<Node> nodes = information.getNodes();
-
-        // This statement places all the nodes on the map and traces the path between them.
-        tracePath(nodes, 1, this.polylineList);
-
-        mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
-
-            public void onCameraChange(CameraPosition position) {
-                VisibleRegion vr = mMap.getProjection().getVisibleRegion();
-                double left = vr.latLngBounds.southwest.longitude;
-                double top = vr.latLngBounds.northeast.latitude;
-                double right = vr.latLngBounds.northeast.longitude;
-                double bottom = vr.latLngBounds.southwest.latitude;
-
-
-                Log.v("onCameraChange", "left :" + left);
-                Log.v("onCameraChange", "top :" + top);
-                Log.v("onCameraChange", "right :" + right);
-                Log.v("onCameraChange", "bottom :" + bottom);
-
-                mapManager.zoomLimit(position);
-                mapManager.verifyCameraPosition(left, top, right, bottom);
-            }
-        });
+        mMap.setOnCameraChangeListener(new OnCameraChangeListener());
     }
-
 
     /**
      * This method places the AZURE markers on the list of points of interest.
      *
-     * @param pointsOfInterest List of all points of interest.
+     * @param pointsOfInterestList List of all points of interest.
      */
-    private List<Marker> placeMarkersOnPointsOfInterest(List<PointOfInterest> pointsOfInterest) {
+    private List<Marker> placeMarkersOnPointsOfInterest(List<PointOfInterest> pointsOfInterestList) {
+
         List<Marker> mMarkerArray = new ArrayList<>();
-        for (PointOfInterest pointOfInterest : pointsOfInterest) {
-            PointMarker.singleInterestPointFactory(pointOfInterest, getApplicationContext(), mMap, mMarkerArray);
+        for (PointOfInterest pointOfInterest : pointsOfInterestList) {
+            Marker marker = PointMarkerFactory.singleInterestPointFactory(pointOfInterest, getApplicationContext(), mMap, mapManager.getGroundOverlayFloorMapBound());
+            mMarkerArray.add(marker);
         }
         return mMarkerArray;
-    }
-
-    /**
-     * This function is meant to trace the path between nodes in the arraylist of coordinates
-     * representing each node's latitudinal and longitudinal position respectively.
-     *
-     * @param nodes This is the list of nodes that are to be sorted through. The nodes could be
-     *              either points of interest, points of traversal, or others.
-     */
-    public void tracePath(List<Node> nodes, int floorID, java.util.Map<String, Polyline> polylineList) {
-
-        List<LatLng> nodePositions = listNodeCoordinates(nodes, floorID);
-        Polyline line = mMap.addPolyline(new PolylineOptions()
-                .width(15)
-                .color(Color.parseColor("#99E33C3C")));
-        line.setPoints(nodePositions);
-        polylineList.put("hello", line);
-    }
-
-
-    /**
-     * This method is used to return a list of LatLng coordinates associated with the list of nodes passed as a parameter.
-     *
-     * @param nodes The list of nodes for which coordinates should be derived.
-     * @return The list of LatLng coordinates.
-     */
-    public List<LatLng> listNodeCoordinates(List<Node> nodes, int floorID) {
-        if (nodes == null) {
-            return null;
-        }
-
-        List<LatLng> nodeLatLngs = new ArrayList<LatLng>();
-        for (Node node : nodes) {
-            if (node.getFloorID() == floorID) {
-                nodeLatLngs.add(new LatLng(node.getX(), node.getY()));
-            }
-        }
-        return nodeLatLngs;
     }
 
     @Override
@@ -294,11 +214,21 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
     }
 
+    public void poiPanelMediaOnClick(View v, ImageView MediaResource, int videoResourceID) {
 
-    public void poiImgOnClick(View v) {
-        imgToSendToFullscreenImgActivity = ((BitmapDrawable) ((ImageView) v.findViewById(R.id.poi_panel_pic_item_imageview)).getDrawable()).getBitmap();
-        Intent fullscreenImgActivity = new Intent(MapActivity.this, FullscreenImgActivity.class);
-        startActivity(fullscreenImgActivity);
+        Intent intent;
+        if (MediaResource.getTag() == "VIDEO") {
+            intent = new Intent(this, VideoActivity.class);
+            String fileName = String.valueOf(videoResourceID);
+            Log.e("name",fileName);
+            intent.putExtra("File_Name", fileName);
+        } else {
+            panel.setSelectedImage(v);
+            intent = new Intent(this, FullscreenImgActivity.class);
+            intent.putExtra("imageId", panel.getSelectedImageId());
+        }
+        startActivity(intent);
+
     }
 
     public void floorButtonOnClick(View v) {
@@ -323,6 +253,8 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
             case R.id.fab5:
                 changeFloor(5);
                 break;
+            default:
+                Log.e("MapActivity", "floor button view invalid " + v.getId());
         }
 
         FloatingActionButton floor;
@@ -334,38 +266,59 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
                 floor.setColorNormal(ContextCompat.getColor(this, R.color.rca_onclick));
             }
         }
-        if (freeExploration)
+        if (freeExploration) {
             fitAllMarker.setVisibility(View.VISIBLE);
+        }
     }
 
     public void changeFloor(int floor) {
-        mapManager.switchFloor(groundOverlay, floor, information.getFloorPlans(), this.markerList, this.polylineList);
+        mapManager.switchFloor(floor);
         FloatingActionMenu floorButton = (FloatingActionMenu) findViewById(R.id.floor_button);
         floorButton.toggle(true);
     }
 
     public void playAudioFile(View v) {
+        startAudio(panel.getCurrentPointOfInterest());
+
+    }
+
+    public void playVideo(View v) {
+        Intent intent = new Intent(this, VideoActivity.class);
+        String fileName = Integer.toString(R.raw.sample_video_1280x720_1mb);
+        intent.putExtra("File_Name", fileName);
+        startActivity(intent);
+    }
+
+    public void startAudio(PointOfInterest pointOfInterest) {
         audioService.setAudio();
         int audioDuration = audioService.getAudioDuration();
         SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);
         seekBar.setMax(audioDuration / 1000);
         audioRunnable.run();
-        audioService.toggleAudioOnOff(v);
 
+        View view = findViewById(R.id.play_button);
+        audioService.toggleAudioOnOff(view);
     }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
 
+        selectedMarkerDisplay(marker);
+
         //move camera to marker postion
         LatLng markerLocation = marker.getPosition();
+
         mMap.moveCamera(CameraUpdateFactory.newLatLng(markerLocation));
-
-        //update SlidingPanel to selected point of interest
-
-
         panel.update(marker);
         return true;
+    }
+
+    private void selectedMarkerDisplay(Marker marker) {
+        if (selectedMarker != null) {
+            selectedMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+        }
+        marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+        selectedMarker = marker;
     }
 
     private ServiceConnection audioConnection = new ServiceConnection() {
@@ -411,8 +364,25 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     };
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (audioService != null) {
+            unbindService(audioConnection);
+        }
+        if (!freeExploration) {
+            storyLineManager.getBeaconManager().disconnect();
+        }
+
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
+
+        //changing orientation will modify the language locale to "en"
+        Preferences.setAppContext(this.getApplicationContext());
+        Preferences.loadLanguagePreference();
+
         if (!freeExploration) {
             SystemRequirementsChecker.checkWithDefaultDialogs(this);
             storyLineManager.getBeaconManager().connect(new BeaconManager.ServiceReadyCallback() {
@@ -432,28 +402,81 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         super.onPause();
     }
 
+    protected void onStop() {
+        super.onStop();
+        if (audioService != null) {
+            audioService.releaseAudio();
+        }
+    }
+
     public void zoomInButtonClick(View view) {
-        mapManager.zoomIn(mMap.getCameraPosition());
+        mapManager.zoomIn();
     }
 
     public void zoomOutButtonClick(View view) {
-        mapManager.zoomOut(mMap.getCameraPosition());
+        mapManager.zoomOut();
     }
 
     public void zoomShowAllMarker(View view) {
-        mapManager.zoomToFit(markerList);
-    }
-
-    public void floorMenuButton(View view) {
-        View fitAllMarker = findViewById(R.id.zoomShowAllMarker);
-        fitAllMarker.setVisibility(View.INVISIBLE);
-    }
-
-    public static Bitmap getImgToSendToFullscreenImgActivity() {
-        return imgToSendToFullscreenImgActivity;
+        mapManager.zoomToFit();
     }
 
     public Map getInformation() {
         return information;
+    }
+
+    public GoogleMap getmMap() {
+        return mMap;
+    }
+
+    public MapManager getMapManager() {
+        return mapManager;
+    }
+
+    public StoryLineManager getStoryLineManager() {
+        return storyLineManager;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (panel.isOpen()) {
+            panel.close();
+        } else {
+            this.finish();
+        }
+    }
+
+    /**
+     * Custom camera listener, that will verify view boundary,zoom limit, certain specific gesture
+     */
+    private class OnCameraChangeListener implements GoogleMap.OnCameraChangeListener {
+
+        @Override
+        public void onCameraChange(CameraPosition cameraPosition) {
+            VisibleRegion vr = mMap.getProjection().getVisibleRegion();
+            double left = vr.latLngBounds.southwest.longitude;
+            double top = vr.latLngBounds.northeast.latitude;
+            double right = vr.latLngBounds.northeast.longitude;
+            double bottom = vr.latLngBounds.southwest.latitude;
+
+            Log.v("onCameraChange", "left :" + left);
+            Log.v("onCameraChange", "top :" + top);
+            Log.v("onCameraChange", "right :" + right);
+            Log.v("onCameraChange", "bottom :" + bottom);
+
+            mapManager.detectingPinchZoom(cameraPosition);
+            mapManager.zoomLimit(cameraPosition);
+            LatLngBounds current = new LatLngBounds(vr.latLngBounds.southwest, vr.latLngBounds.northeast);
+            mapManager.verifyCameraBounds(current);
+        }
+    }
+
+    private void initializeMapSetting() {
+        mMap.setBuildingsEnabled(false);
+        mMap.setIndoorEnabled(false);
+        mMap.getUiSettings().setZoomControlsEnabled(false);
+        mMap.getUiSettings().setIndoorLevelPickerEnabled(false);
+        mMap.getUiSettings().setMapToolbarEnabled(false);
+        mMap.getUiSettings().setRotateGesturesEnabled(false);
     }
 }

@@ -1,76 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    tools:context="com.example.nspace.museedesondes.Settings">
+    tools:context=".SettingsActivity">
 
     <RelativeLayout
+        android:id="@+id/settings_title_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="15dp"
-        android:id="@+id/settings_title_box"
+        android:background="@color/rca_primary"
         android:gravity="end"
-        android:background="@color/rca_primary">
+        android:padding="15dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/settings_activity"
-            android:layout_marginRight="10dp"
-            android:textSize = "32sp"
-            android:textColor = "#FFFFFF"
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true" />
+            android:layout_marginRight="10dp"
+            android:text="@string/settings_activity"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#FFFFFF"
+            android:textSize="32sp" />
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/settings_title_box"
-        android:background="@color/rca_primary">
+        android:background="@color/grey_title"
+        android:layout_below="@+id/settings_title_box">
 
-    <RadioGroup
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/language_radios"
-        android:layout_marginLeft="24dp">
-
-        <TextView
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/ok_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/language_title"
-            android:id="@+id/textView2"
-            android:layout_above="@+id/language_radios"
-            android:layout_alignParentStart="true" />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/english_radio"
-            android:id="@+id/english_button"
-            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="118dp"
+            android:src="@drawable/ic_done_black_24dp"
+            fab:fab_colorNormal="#FFFFFFFF"
+            fab:fab_colorPressed="#FFFE7070"
+            fab:fab_colorRipple="#FFFE7070"
+            fab:fab_label="@string/ok_button"
+            fab:menu_shadowColor="#444"
+            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true" />
 
-        <RadioButton
-            android:layout_width="wrap_content"
+        <com.example.nspace.museedesondes.utility.TextPicker
+            android:id="@+id/language_selection_view"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:text="@string/french_radio"
-            android:id="@+id/french_button" />
-
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:text="@string/ok_button"
-            android:id="@+id/ok_button"
-            android:gravity="center"
-            android:textColor="#000000"
-            android:background="@drawable/square_button_with_shadow"/>
-
-    </RadioGroup>
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="47dp"
+            android:solidColor="@color/grey_title"
+            android:layout_above="@+id/ok_button"
+            android:layout_centerHorizontal="true" />
 
     </RelativeLayout>
 

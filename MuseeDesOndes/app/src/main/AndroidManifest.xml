@@ -16,7 +16,8 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,9 +26,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Settings"
+            android:name=".SettingsActivity"
             android:configChanges="locale|orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -43,16 +44,21 @@
         <activity
             android:name=".MapActivity"
             android:label="@string/title_activity_map"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".StoryLineActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
-            android:name=".FullscreenImgActivity"/>
+            android:name=".StoryLineActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".FullscreenImgActivity" />
 
         <service
-            android:name=".AudioService"
+            android:name=".services.AudioService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <activity
+            android:name=".VideoActivity"
+            android:configChanges="orientation"
+            />
     </application>
 
 </manifest>

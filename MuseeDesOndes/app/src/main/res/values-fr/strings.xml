@@ -9,21 +9,22 @@
     <string name="english_radio">Anglais</string>
     <string name="ok_button">OK</string>
     <string name="storyline_activity">SCÉNARIO</string>
-    <string name="settings_activity">RÉGLAGES</string>
-    <string name="begin_tour_button_text">SÉLECTIONNER VOTRE SCÉNARIO</string>
+    <string name="settings_activity">LANGAGES</string>
+    <string name="begin_tour_button_text">SÉLECTIONNER LA VISITE</string>
 
     <string name="navigation_drawer_open">Ouvrir menu navigation</string>
     <string name="navigation_drawer_close">Fermer menu navigation</string>
 
+    <string name="start_storyline">Commencer</string>
+
     <string-array name="drawer_ele">
-        <item>Expositions</item>
         <item>Scénario</item>
-        <item>Profil</item>
+        <item>Langue</item>
         <item>Trouver la sortie</item>
     </string-array>
 
     <string name="dialogTitle">Bienvenu</string>
-    <string name="dialogMsg">Vous allez débuter le scénario suivant \n</string>
+    <string name="dialogMsg">Ete vous sure? \n</string>
     <string name="dialogOk">OK</string>
     <string name="dialogCancel">Annuler</string>
     <string name="dialogFree">Vous aller pouvoir explorer librement tous les point d\'intérêts du musée</string>

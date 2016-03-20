@@ -32,21 +32,6 @@
                 fab:menu_shadowColor="#444"
                 android:onClick="onHamClick"/>
 
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/search_button"
-                android:src="@drawable/search_icon"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right"
-                fab:fab_colorNormal="@color/rca_primary"
-                fab:fab_colorPressed="#FFFE7070"
-                fab:fab_colorRipple="#FFFE7070"
-                fab:menu_shadowColor="#444"
-                android:layout_toStartOf="@+id/floor_button"
-                />
-
             <com.github.clans.fab.FloatingActionMenu
                 android:id="@+id/floor_button"
                 fab:menu_icon="@drawable/floor_icon"
@@ -55,16 +40,16 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
                 fab:menu_labels_showAnimation="@anim/show_from_bottom"
                 fab:menu_labels_hideAnimation="@anim/jump_to_down"
                 fab:menu_openDirection="down"
                 fab:menu_animationDelayPerItem="0"
                 fab:menu_shadowColor="#444"
-                fab:menu_buttonSpacing="-5dp"
+                fab:menu_buttonSpacing="-8dp"
                 fab:menu_colorNormal="@color/rca_primary"
                 fab:menu_colorPressed="#FFFE7070"
-                fab:menu_colorRipple="#FFFE7070">
+                fab:menu_colorRipple="#FFFE7070"
+                android:layout_alignParentEnd="true">
 
                 <com.github.clans.fab.FloatingActionButton
                     android:id="@+id/fab1"
@@ -119,7 +104,7 @@
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/zoomShowAllMarker"
                 android:src="@drawable/ic_map_marker_multiple_white_36dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginRight="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right"
@@ -127,10 +112,10 @@
                 fab:fab_colorPressed="#FFFE7070"
                 fab:fab_colorRipple="#FFFE7070"
                 fab:menu_shadowColor="#444"
-                fab:fab_size="mini"
+                fab:fab_size="normal"
                 android:onClick="zoomShowAllMarker"
-                android:layout_above="@+id/zoomInButton"
-                android:layout_alignStart="@+id/zoomInButton" />
+                android:layout_alignTop="@+id/floor_button"
+                android:layout_toStartOf="@+id/zoomInButton" />
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/zoomInButton"
@@ -191,7 +176,7 @@
         android:layout_width="220dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:name="com.example.nspace.museedesondes.NavigationDrawerFragment"
+        android:name="com.example.nspace.museedesondes.fragments.NavigationDrawerFragment"
         tools:layout="@layout/fragment_navigation_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

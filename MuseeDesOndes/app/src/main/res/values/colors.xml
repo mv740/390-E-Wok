@@ -4,5 +4,8 @@
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#FF4081</color>
     <color name="rca_primary">#FFE33C3C</color>
+    <color name="rca_explored_segment">#4be33c3c</color>
+    <color name="rca_current_segment">#FFE33C3C</color>
+    <color name="rca_unexplored_segment">#FF6495ED</color>
     <color name="rca_onclick">#FFFFA8A8</color>
 </resources>

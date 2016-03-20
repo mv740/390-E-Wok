@@ -9,24 +9,26 @@
     <string name="french_radio">French</string>
     <string name="ok_button">OK</string>
     <string name="title_activity_map">Map</string>
-    <string name="storyline_activity">STORYLINES</string>
-    <string name="settings_activity">SETTINGS</string>
-    <string name="begin_tour_button_text">SELECT YOUR STORYLINE</string>
+    <string name="storyline_activity">TOURS</string>
+    <string name="settings_activity">LANGUAGE</string>
+    <string name="begin_tour_button_text">SELECT TOUR</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
 
+    <string name="start_storyline">Start</string>
+
+
 
     <string-array name="drawer_ele">
-        <item>Exhibits</item>
-        <item>Storylines</item>
-        <item>Profile</item>
+        <item>Tours</item>
+        <item>Language</item>
         <item>Find exit</item>
     </string-array>
 
     <string name="dialogTitle">Welcome</string>
-    <string name="dialogMsg">You will begin the following storyline \n</string>
+    <string name="dialogMsg">Are you sure? \n</string>
     <string name="dialogOk">OK</string>
     <string name="dialogCancel">Cancel</string>
     <string name="dialogFree">You will be able to freely explore any point of interests of the museum </string>

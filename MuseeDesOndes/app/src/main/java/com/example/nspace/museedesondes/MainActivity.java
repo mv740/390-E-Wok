@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
+import com.example.nspace.museedesondes.model.Map;
 import com.example.nspace.museedesondes.utility.Preferences;
 
 
@@ -37,9 +38,7 @@ public class MainActivity extends AppCompatActivity{
             loadReplaceMeWith(R.layout.welcome_begin_tour);
         }
 
-        //Todo will need to see if loading information on first page will make the map loading less laggy
-        // need to test it further if it does have a impact or not
-        //Map.getInstance(getApplicationContext());
+        Map.getInstance(getApplicationContext());
     }
 
     private void loadReplaceMeWith(int id){
@@ -64,17 +63,12 @@ public class MainActivity extends AppCompatActivity{
 
     private void changeLanguage(String lang){
         Preferences.setLocale(lang);
-        Preferences.savePreferences(lang);
+        Preferences.saveLanguagePreference(lang);
     }
 
     public void beginTourOnClick(View view) {
         Intent  startStorylines = new Intent(MainActivity.this, StoryLineActivity.class);
         startActivity(startStorylines);
-    }
-
-    public void settingsOnClick(View view){
-        Intent startSettings = new Intent(MainActivity.this, Settings.class);
-        startActivity(startSettings);
     }
 
 }

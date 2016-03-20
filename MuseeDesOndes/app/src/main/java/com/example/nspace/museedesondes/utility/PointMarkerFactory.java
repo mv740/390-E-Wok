@@ -3,6 +3,7 @@ package com.example.nspace.museedesondes.utility;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.nspace.museedesondes.adapters.CoordinateAdapter;
 import com.example.nspace.museedesondes.model.LabelledPoint;
 import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.google.android.gms.maps.GoogleMap;
@@ -15,7 +16,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 /**
  * Created by michal on 2/15/2016.
  */
-public class PointMarker {
+public class PointMarkerFactory {
 
 
     /**
@@ -101,7 +102,7 @@ public class PointMarker {
                 node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
                 break;
             default:
-                Log.e("PointMarker", "label invalid " + labelledPoint.getLabel());
+                Log.e("PointMarkerFactory", "label invalid " + labelledPoint.getLabel());
         }
         googleMap.addMarker(node);
     }

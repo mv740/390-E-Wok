@@ -51,7 +51,7 @@
         <activity android:name=".FullscreenImgActivity" />
 
         <service
-            android:name=".AudioService"
+            android:name=".services.AudioService"
             android:enabled="true"
             android:exported="true" />
 

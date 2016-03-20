@@ -186,7 +186,7 @@ public class MapManager implements POIBeaconListener {
      */
     public void displayCurrentFloorPointOfInterest(int floorID) {
         for (Marker marker : markerList) {
-            PointMarker.Information pMarkerInfo = new PointMarker.Information(marker.getSnippet());
+            PointMarkerFactory.Information pMarkerInfo = new PointMarkerFactory.Information(marker.getSnippet());
 
             if ((pMarkerInfo.getFloorID()) == floorID) {
                 marker.setVisible(true);
@@ -355,6 +355,12 @@ public class MapManager implements POIBeaconListener {
         return zoomLevel;
     }
 
+    /**
+     * Verifying if the zoom value correspond to one of the existing level value.
+     * if it doesn't then pinch gesture were used to zoom in/out.
+     *
+     * @param cameraPosition
+     */
     public void detectingPinchZoom(CameraPosition cameraPosition) {
 
         Log.v("pinch", String.valueOf(cameraPosition.zoom));
@@ -388,7 +394,7 @@ public class MapManager implements POIBeaconListener {
      */
     public void onPOIBeaconDiscovered(PointOfInterest node, StoryLine storyLine) {
         for(Marker marker : markerList) {
-            PointMarker.Information pMarkerInfo = new PointMarker.Information(marker.getSnippet());
+            PointMarkerFactory.Information pMarkerInfo = new PointMarkerFactory.Information(marker.getSnippet());
             if(pMarkerInfo.getNodeID() == node.getId()) {
                 marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
                 return;

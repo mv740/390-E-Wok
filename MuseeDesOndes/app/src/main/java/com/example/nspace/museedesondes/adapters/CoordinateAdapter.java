@@ -1,4 +1,4 @@
-package com.example.nspace.museedesondes.utility;
+package com.example.nspace.museedesondes.adapters;
 
 import com.google.android.gms.maps.model.LatLngBounds;
 

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bluejamesbond.text.DocumentView;
 import com.example.nspace.museedesondes.MapActivity;
 import com.example.nspace.museedesondes.R;
+import com.example.nspace.museedesondes.adapters.HorizontalRecycleViewAdapter;
 import com.example.nspace.museedesondes.model.Image;
 import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.example.nspace.museedesondes.model.StoryLine;
@@ -25,15 +26,15 @@ import static com.example.nspace.museedesondes.R.id.poi_title;
 /**
  * Created by Lenovo on 2/18/2016.
  */
-public class PoiPanel implements POIBeaconListener {
+public class PoiPanelManager implements POIBeaconListener {
 
     private MapActivity activity;
     private SlidingUpPanelLayout panel;
-    private PointOfInterest currentPointofInterest;
+    private PointOfInterest currentPointOfInterest;
     private int selectedImageId;
     private Bitmap Thumbnails;
 
-    public PoiPanel(MapActivity activity) {
+    public PoiPanelManager(MapActivity activity) {
         this.activity = activity;
         this.panel = (SlidingUpPanelLayout) activity.findViewById(R.id.sliding_layout);
 
@@ -52,12 +53,10 @@ public class PoiPanel implements POIBeaconListener {
 
     public void update(Marker marker){
 
-
-
-        PointMarker.Information pMarkerInfo = new PointMarker.Information(marker.getSnippet());
+        PointMarkerFactory.Information pMarkerInfo = new PointMarkerFactory.Information(marker.getSnippet());
 
         PointOfInterest pointOfInterest = activity.getInformation().searchPoiById(pMarkerInfo.getNodeID());
-        this.currentPointofInterest = pointOfInterest;
+        this.currentPointOfInterest = pointOfInterest;
         Log.v("test",activity.getResources().getConfiguration().locale.getLanguage());
         String description = pointOfInterest.getLocaleDescription(activity.getApplicationContext()).getDescription();
         String title = pointOfInterest.getLocaleDescription(activity.getApplicationContext()).getTitle();
@@ -65,7 +64,7 @@ public class PoiPanel implements POIBeaconListener {
         List<Video> videos = pointOfInterest.getLocaleVideos(activity.getApplicationContext());
 
         //todo if no image, remove layout
-//       if (currentPointofInterest.getLocaleImages(activity.getApplicationContext()).isEmpty())
+//       if (currentPointOfInterest.getLocaleImages(activity.getApplicationContext()).isEmpty())
 //        {
 //            RelativeLayout v = (RelativeLayout) activity.findViewById(R.id.poiPanel);
 //            v.removeView(activity.findViewById(R.id.my_recycler_view));
@@ -81,16 +80,16 @@ public class PoiPanel implements POIBeaconListener {
 
     public void onPOIBeaconDiscovered(PointOfInterest pointOfInterest, StoryLine storyLine){
 
-        this.currentPointofInterest = pointOfInterest;
+        this.currentPointOfInterest = pointOfInterest;
         String description = pointOfInterest.getStoryRelatedDescription(storyLine.getId(), activity.getApplicationContext()).getDescription();
         String title = pointOfInterest.getStoryRelatedDescription(storyLine.getId(), activity.getApplicationContext()).getTitle();
-        List<Image> images = pointOfInterest.getLocaleImages(activity.getApplicationContext());
-        List<Video> videos = pointOfInterest.getLocaleVideos(activity.getApplicationContext());
+        List<Image> images = pointOfInterest.getStoryRelatedImages(storyLine.getId(), activity.getApplicationContext());
+        List<Video> videos = pointOfInterest.getStoryRelatedVideos(storyLine.getId(),activity.getApplicationContext());
 
         replaceTitle(title);
         replaceDescription(description);
         updateMedia(images, videos);
-        activity.startAudio(currentPointofInterest);
+        activity.startAudio(currentPointOfInterest);
 
 
         panel.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
@@ -115,8 +114,8 @@ public class PoiPanel implements POIBeaconListener {
         recyclerView.setAdapter(adapter);
     }
 
-    public PointOfInterest getCurrentPointofInterest() {
-        return currentPointofInterest;
+    public PointOfInterest getCurrentPointOfInterest() {
+        return currentPointOfInterest;
     }
 
     public boolean isOpen()

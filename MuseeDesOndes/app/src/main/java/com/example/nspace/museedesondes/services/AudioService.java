@@ -1,4 +1,4 @@
-package com.example.nspace.museedesondes;
+package com.example.nspace.museedesondes.services;
 
 import android.app.Service;
 import android.content.Intent;
@@ -9,6 +9,8 @@ import android.os.IBinder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.SeekBar;
+
+import com.example.nspace.museedesondes.R;
 
 public class AudioService extends Service {
 
@@ -78,7 +80,7 @@ public class AudioService extends Service {
 
     public class AudioBinder extends Binder{
 
-        AudioService getAudioService(){
+        public AudioService getAudioService(){
             return AudioService.this;
         }
     }

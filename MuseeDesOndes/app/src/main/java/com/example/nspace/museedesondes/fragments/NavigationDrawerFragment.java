@@ -1,4 +1,4 @@
-package com.example.nspace.museedesondes;
+package com.example.nspace.museedesondes.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -24,7 +24,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.example.nspace.museedesondes.utility.DrawerListAdapter;
+import com.example.nspace.museedesondes.R;
+import com.example.nspace.museedesondes.SettingsActivity;
+import com.example.nspace.museedesondes.adapters.DrawerListAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;

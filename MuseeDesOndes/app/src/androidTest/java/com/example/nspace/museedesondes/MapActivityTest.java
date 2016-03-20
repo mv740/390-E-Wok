@@ -12,6 +12,9 @@ import android.support.v4.content.ContextCompat;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.view.View;
 
+import com.example.nspace.museedesondes.model.Node;
+import com.example.nspace.museedesondes.model.PointOfInterest;
+import com.example.nspace.museedesondes.model.StoryLine;
 import com.example.nspace.museedesondes.utility.MapManager;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.android.gms.maps.model.GroundOverlay;
@@ -53,8 +56,16 @@ public class MapActivityTest {
         onView(withId(R.id.begin_tour_button))
                 .check(matches(isDisplayed()))
                 .perform(click());
+    }
+
+    private void storylineMode()
+    {
+        onView(withId(R.id.material_listview)).perform(RecyclerViewActions.scrollToPosition(0),click());
+        onView(withText("OK")).perform(click());
+    }
+
+    private void freeExplorationMode() {
         StoryLineActivity storyLineActivity = (StoryLineActivity) getActivityInstance();
-        //always last card = free exploration
         onView(withId(R.id.material_listview)).perform(RecyclerViewActions.scrollToPosition(storyLineActivity.getCardsNumbers() - 1));
         onView(withText(R.string.free_exploration)).perform(click());
         onView(withText("OK")).perform(click());
@@ -62,7 +73,7 @@ public class MapActivityTest {
 
     @Test
     public void testOnHamClick() throws Exception {
-
+        freeExplorationMode();
         onView(withId(R.id.hamburger))
                 .check(matches(isDisplayed()))
                 .perform(click());
@@ -70,25 +81,18 @@ public class MapActivityTest {
         onView(withText("Language")).check(matches(isDisplayed()));
     }
 
-    @Test
-    public void testTracePath() throws Exception {
 
-    }
-
-    @Test
-    public void testListNodeCoordinates() throws Exception {
-
-    }
 
     @Test
     public void testFloorButtonOnClick() throws Exception {
-
+        freeExplorationMode();
         onView(withId(R.id.floor_button)).check(matches(isDisplayed())).perform(click());
     }
 
 
     @Test
     public void testChangeFloor() throws Exception {
+        freeExplorationMode();
         MapActivity mapActivity = (MapActivity) getActivityInstance();
 
         final FloatingActionButton floatingActionButton = (FloatingActionButton) mapActivity.findViewById(R.id.fab2);
@@ -111,7 +115,7 @@ public class MapActivityTest {
 
     @Test
     public void testZoomIn() throws Exception {
-
+        freeExplorationMode();
         MapActivity mapActivity = (MapActivity) getActivityInstance();
         MapManager mapManager = mapActivity.getMapManager();
         assertEquals(mapManager.getZoomLevel(), 1);
@@ -121,6 +125,7 @@ public class MapActivityTest {
 
     @Test
     public void testZoomOut() throws Exception {
+        freeExplorationMode();
         MapActivity mapActivity = (MapActivity) getActivityInstance();
         MapManager mapManager = mapActivity.getMapManager();
         assertEquals(mapManager.getZoomLevel(), 1);
@@ -134,6 +139,7 @@ public class MapActivityTest {
 
     @Test
     public void testClickMarker() throws Exception {
+        freeExplorationMode();
 
         MapActivity mapActivity = (MapActivity) getActivityInstance();
         String title = mapActivity.getInformation().getPointOfInterests().get(0).getLocaleDescription(mapActivity.getApplicationContext()).getTitle();
@@ -147,6 +153,7 @@ public class MapActivityTest {
 
     @Test
     public void testPlayAudioFile() throws Exception {
+        freeExplorationMode();
         MapActivity mapActivity = (MapActivity) getActivityInstance();
         String title = mapActivity.getInformation().getPointOfInterests().get(0).getLocaleDescription(mapActivity.getApplicationContext()).getTitle();
 
@@ -164,6 +171,7 @@ public class MapActivityTest {
 
     @Test
     public void testFullScreenImage() throws Exception {
+        freeExplorationMode();
 
         MapActivity mapActivity = (MapActivity) getActivityInstance();
         String title = mapActivity.getInformation().getPointOfInterests().get(0).getLocaleDescription(mapActivity.getApplicationContext()).getTitle();
@@ -183,11 +191,33 @@ public class MapActivityTest {
 
     @Test
     public void testZoomToFit() throws Exception {
-
+        freeExplorationMode();
         onView(withId(R.id.zoomShowAllMarker)).check(matches(isDisplayed())).perform(click());
-
     }
 
+    @Test
+    public void testPointOfInterestDetection() throws Exception {
+        storylineMode();
+        final MapActivity mapActivity = (MapActivity) getActivityInstance();
+        final StoryLine storyLine = mapActivity.getInformation().getStoryLines().get(0);
+        final Node node = storyLine.getNodes().get(0);
+
+        mapActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(node instanceof PointOfInterest)
+                {
+                    mapActivity.getStoryLineManager().notifyObservers((PointOfInterest) node,storyLine);
+                    assertEquals(true,mapActivity.getPanel().isOpen());
+                }
+            }
+        });
+
+
+
+
+
+    }
 
     //helper get current activity from https://gist.github.com/elevenetc/df58a6ee4b776edb67c2
     //http://stackoverflow.com/questions/24517291/get-current-activity-in-espresso-android/34084377#34084377

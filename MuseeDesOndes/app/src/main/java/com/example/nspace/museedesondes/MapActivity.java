@@ -18,13 +18,15 @@ import android.widget.SeekBar;
 
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.SystemRequirementsChecker;
-import com.example.nspace.museedesondes.AudioService.AudioBinder;
+import com.example.nspace.museedesondes.services.AudioService;
+import com.example.nspace.museedesondes.services.AudioService.AudioBinder;
+import com.example.nspace.museedesondes.fragments.NavigationDrawerFragment;
 import com.example.nspace.museedesondes.model.Map;
 import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.example.nspace.museedesondes.model.StoryLine;
 import com.example.nspace.museedesondes.utility.MapManager;
-import com.example.nspace.museedesondes.utility.PoiPanel;
-import com.example.nspace.museedesondes.utility.PointMarker;
+import com.example.nspace.museedesondes.utility.PoiPanelManager;
+import com.example.nspace.museedesondes.utility.PointMarkerFactory;
 import com.example.nspace.museedesondes.utility.Preferences;
 import com.example.nspace.museedesondes.utility.StoryLineManager;
 import com.github.clans.fab.FloatingActionButton;
@@ -60,18 +62,18 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private SeekBar seekBar;
     Handler audioHandler = new Handler();
 
-    public PoiPanel getPanel() {
+    public PoiPanelManager getPanel() {
         return panel;
     }
 
-    private PoiPanel panel;
+    private PoiPanelManager panel;
     private Marker selectedMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-        this.panel = new PoiPanel(this);
+        this.panel = new PoiPanelManager(this);
 
         //create storyline manager which handles storyline progression and interaction with the beacons
         information = Map.getInstance(getApplicationContext());
@@ -201,7 +203,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         List<Marker> mMarkerArray = new ArrayList<>();
         for (PointOfInterest pointOfInterest : pointsOfInterestList) {
-            Marker marker = PointMarker.singleInterestPointFactory(pointOfInterest, getApplicationContext(), mMap, mapManager.getGroundOverlayFloorMapBound());
+            Marker marker = PointMarkerFactory.singleInterestPointFactory(pointOfInterest, getApplicationContext(), mMap, mapManager.getGroundOverlayFloorMapBound());
             mMarkerArray.add(marker);
         }
         return mMarkerArray;
@@ -276,7 +278,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public void playAudioFile(View v) {
-        startAudio(panel.getCurrentPointofInterest());
+        startAudio(panel.getCurrentPointOfInterest());
 
     }
 
@@ -429,6 +431,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     public MapManager getMapManager() {
         return mapManager;
+    }
+
+    public StoryLineManager getStoryLineManager() {
+        return storyLineManager;
     }
 
     @Override

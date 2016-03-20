@@ -1,4 +1,4 @@
-package com.example.nspace.museedesondes.utility;
+package com.example.nspace.museedesondes.adapters;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;

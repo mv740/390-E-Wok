@@ -1,4 +1,4 @@
-package com.example.nspace.museedesondes.utility;
+package com.example.nspace.museedesondes.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,6 +14,7 @@ import com.example.nspace.museedesondes.model.Content;
 import com.example.nspace.museedesondes.model.Image;
 import com.example.nspace.museedesondes.model.Language;
 import com.example.nspace.museedesondes.model.Video;
+import com.example.nspace.museedesondes.utility.Resource;
 
 import java.util.ArrayList;
 import java.util.List;

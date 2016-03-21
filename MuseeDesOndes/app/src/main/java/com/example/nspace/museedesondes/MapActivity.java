@@ -131,10 +131,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         fitAllMarker.setVisibility(View.INVISIBLE);
         floorMenu.setClosedOnTouchOutside(true);
 
+        FloatingActionButton getDirections = (FloatingActionButton) findViewById(R.id.get_directions_button);
+
         ham.bringToFront();
         floorMenu.bringToFront();
         zoomIn.bringToFront();
         zoomOut.bringToFront();
+        getDirections.bringToFront();
 
         //show only fitAllMarker button in free exploration
         if (freeExploration) {

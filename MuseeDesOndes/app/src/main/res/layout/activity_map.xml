@@ -1,6 +1,7 @@
 <android.support.v4.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:sothree="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
@@ -14,7 +15,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom"
-        android:clipChildren="false">
+        android:clipChildren="false"
+        sothree:umanoShadowHeight="0dp">
 
         <RelativeLayout android:id="@+id/mapContainer"
             android:layout_width="match_parent"
@@ -27,7 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="6dp"
                 android:layout_marginTop="5dp"
                 fab:fab_colorNormal="@color/rca_primary"
                 fab:fab_colorPressed="#FFFE7070"
@@ -40,7 +42,7 @@
                 fab:menu_icon="@drawable/floor_icon"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="6dp"
                 android:layout_marginTop="5dp"
                 android:layout_alignParentTop="true"
                 fab:menu_labels_showAnimation="@anim/show_from_bottom"
@@ -123,7 +125,7 @@
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/zoomInButton"
                 android:src="@drawable/ic_plus_white_36dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginRight="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right"
@@ -139,7 +141,7 @@
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/zoomOutButton"
                 android:src="@drawable/ic_minus_white_36dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginRight="8dp"
                 android:layout_marginBottom="30dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

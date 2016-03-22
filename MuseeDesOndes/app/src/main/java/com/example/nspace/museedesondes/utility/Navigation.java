@@ -86,9 +86,9 @@ public class Navigation {
 
         List<Edge> list = new ArrayList<>();
         for (DefaultWeightedEdge defaultWeightedEdge : edgeList) {
-            for (Edge edge1 : map.getEdges()) {
-                if (edge1.getStartID() == getEdgeSource(defaultWeightedEdge) && edge1.getEndID() == getEdgeTarget(defaultWeightedEdge)) {
-                    list.add(edge1);
+            for (Edge currentEdge : map.getEdges()) {
+                if (currentEdge.getStartID() == getEdgeSource(defaultWeightedEdge) && currentEdge.getEndID() == getEdgeTarget(defaultWeightedEdge)) {
+                    list.add(currentEdge);
                 }
             }
         }
@@ -96,5 +96,10 @@ public class Navigation {
         return list;
     }
 
-
+    public boolean doesPathExist(List<DefaultWeightedEdge> list)
+    {
+        return list != null;
+    }
 }
+
+

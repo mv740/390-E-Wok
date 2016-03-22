@@ -302,39 +302,20 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void getDirections(View v) {
         boolean navigationDone = false;
 
-        if(!navigationMode)
-        {
-            navigationManager = new Navigation(information);
-        }
-        //fetch start and end nodes
-        PointOfInterest destinationNode = panel.getCurrentPointOfInterest();
-
-        //TODO get starting node (beacon or screen select) testing with static node 3
-        //PointOfInterest startingNode = information.searchPoiById(3);
-        int  startingNode = navigationManager.getUserLocation();
-
-
-        //get edge sequence from start node to end node, exits function if no path found
-
-        if(navigationMode)
-        {
-            List<DefaultWeightedEdge> defaultWeightedEdgeList = navigationManager.findShortestPath(startingNode, destinationNode.getId());
-            if (!navigationManager.doesPathExist(defaultWeightedEdgeList)) {
-                return;
-            }
-            List<Edge> edgeList = navigationManager.getCorrespondingEdgesFromPathSequence(defaultWeightedEdgeList);
-
-            //clear existing lines and set new floor lines to display the shortest path
+        if (navigationMode) {
             mapManager.clearFloorLines();
-            mapManager.initShortestPathFloorLineMap(edgeList);
-            mapManager.displayFloorLines(mapManager.getCurrentFloorID(), true);
-
             navigationDone = true;
-
-            
+            navigationManager.stopNavigationMode(panel.getPanel());
+        } else {
+            navigationManager = new Navigation(information);
+            navigationManager.startNavigationMode(panel);
         }
 
         navigationMode = !navigationDone;
+        if (navigationDone) {
+            navigationManager.clear();
+            navigationMode = false;
+        }
 
     }
 
@@ -351,20 +332,34 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        if (!navigationMode) {
-            selectedMarkerDisplay(marker);
+        if (navigationMode) {
 
+            PointMarkerFactory.Information pMarkerInfo = new PointMarkerFactory.Information(marker.getSnippet());
+            navigationManager.setUserLocation(pMarkerInfo.getNodeID());
+            navigationManager.selectedStart(marker);
+            Log.e("navigation", "set currentLocation");
+
+            PointOfInterest destinationNode = panel.getCurrentPointOfInterest();
+            List<DefaultWeightedEdge> defaultWeightedEdgeList = navigationManager.findShortestPath(navigationManager.getUserLocation(), destinationNode.getId());
+            if (!navigationManager.doesPathExist(defaultWeightedEdgeList)) {
+                mapManager.clearFloorLines();
+                return true;
+            }
+            List<Edge> edgeList = navigationManager.getCorrespondingEdgesFromPathSequence(defaultWeightedEdgeList);
+
+            //clear existing lines and set new floor lines to display the shortest path
+            mapManager.clearFloorLines();
+            mapManager.initShortestPathFloorLineMap(edgeList);
+            mapManager.displayFloorLines(mapManager.getCurrentFloorID(), true);
+
+
+        } else {
+            selectedMarkerDisplay(marker);
             //move camera to marker postion
             LatLng markerLocation = marker.getPosition();
 
             mMap.moveCamera(CameraUpdateFactory.newLatLng(markerLocation));
             panel.update(marker);
-        } else {
-
-            PointMarkerFactory.Information pMarkerInfo = new PointMarkerFactory.Information(marker.getSnippet());
-            navigationManager.setUserLocation(pMarkerInfo.getNodeID());
-            //navigationMode = false;
-            Log.e("hello", "set currentLocation");
         }
 
         return true;

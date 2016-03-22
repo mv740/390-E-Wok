@@ -5,6 +5,9 @@ import android.util.Log;
 import com.example.nspace.museedesondes.model.Edge;
 import com.example.nspace.museedesondes.model.Map;
 import com.example.nspace.museedesondes.model.Node;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Marker;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import org.jgrapht.alg.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
@@ -23,6 +26,7 @@ public class Navigation {
     private Map map;
     private int userLocation;
     private boolean userLocaltionConfigured = false;
+    private Marker selectedStartMarker;
 
     public Navigation(Map map) {
         this.graph = new SimpleWeightedGraph<>(DefaultWeightedEdge.class);
@@ -123,6 +127,30 @@ public class Navigation {
 
     public int getUserLocation() {
         return userLocation;
+    }
+
+    public void selectedStart(Marker marker) {
+        if (selectedStartMarker != null) {
+            selectedStartMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+        }
+        marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+        selectedStartMarker = marker;
+    }
+
+    public void clear()
+    {
+        selectedStartMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+    }
+
+    public void startNavigationMode(PoiPanelManager panelManager)
+    {
+        panelManager.close();
+        panelManager.getPanel().setTouchEnabled(false);
+    }
+
+    public void stopNavigationMode(SlidingUpPanelLayout panel)
+    {
+        panel.setTouchEnabled(true);
     }
 }
 

@@ -149,4 +149,8 @@ public class PoiPanelManager implements POIBeaconListener {
     public Bitmap getThumbnails() {
         return Thumbnails;
     }
+
+    public SlidingUpPanelLayout getPanel() {
+        return panel;
+    }
 }

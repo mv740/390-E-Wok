@@ -69,17 +69,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     Handler audioHandler = new Handler();
 
     public PoiPanelManager getPanel() {
-        return panel;
+        return panelManager;
     }
 
-    private PoiPanelManager panel;
+    private PoiPanelManager panelManager;
     private Marker selectedMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-        this.panel = new PoiPanelManager(this);
+        this.panelManager = new PoiPanelManager(this);
 
         //create storyline manager which handles storyline progression and interaction with the beacons
         information = Map.getInstance(getApplicationContext());
@@ -87,7 +87,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         if (!freeExploration) {
             storyLineManager = new StoryLineManager(storyLine, this);
-            storyLineManager.registerObserver(panel);
+            storyLineManager.registerObserver(panelManager);
         }
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -233,9 +233,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             Log.e("name", fileName);
             intent.putExtra("File_Name", fileName);
         } else {
-            panel.setSelectedImage(v);
+            panelManager.setSelectedImage(v);
             intent = new Intent(this, FullscreenImgActivity.class);
-            intent.putExtra("imageId", panel.getSelectedImageId());
+            intent.putExtra("imageId", panelManager.getSelectedImageId());
         }
         startActivity(intent);
 
@@ -288,7 +288,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public void playAudioFile(View v) {
-        startAudio(panel.getCurrentPointOfInterest());
+        startAudio(panelManager.getCurrentPointOfInterest());
 
     }
 
@@ -305,10 +305,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         if (navigationMode) {
             mapManager.clearFloorLines();
             navigationDone = true;
-            navigationManager.stopNavigationMode(panel.getPanel());
+            navigationManager.stopNavigationMode();
         } else {
             navigationManager = new Navigation(information);
-            navigationManager.startNavigationMode(panel);
+            navigationManager.startNavigationMode(panelManager);
         }
 
         navigationMode = !navigationDone;
@@ -339,7 +339,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             navigationManager.selectedStart(marker);
             Log.e("navigation", "set currentLocation");
 
-            PointOfInterest destinationNode = panel.getCurrentPointOfInterest();
+            PointOfInterest destinationNode = panelManager.getCurrentPointOfInterest();
             List<DefaultWeightedEdge> defaultWeightedEdgeList = navigationManager.findShortestPath(navigationManager.getUserLocation(), destinationNode.getId());
             if (!navigationManager.doesPathExist(defaultWeightedEdgeList)) {
                 mapManager.clearFloorLines();
@@ -359,7 +359,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             LatLng markerLocation = marker.getPosition();
 
             mMap.moveCamera(CameraUpdateFactory.newLatLng(markerLocation));
-            panel.update(marker);
+            panelManager.update(marker);
         }
 
         return true;
@@ -491,8 +491,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void onBackPressed() {
-        if (panel.isOpen()) {
-            panel.close();
+        if (panelManager.isOpen()) {
+            panelManager.close();
         } else {
             this.finish();
         }

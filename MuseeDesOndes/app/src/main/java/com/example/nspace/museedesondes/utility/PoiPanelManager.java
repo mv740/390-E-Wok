@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bluejamesbond.text.DocumentView;
@@ -33,13 +34,14 @@ public class PoiPanelManager implements POIBeaconListener {
     private PointOfInterest currentPointOfInterest;
     private int selectedImageId;
     private Bitmap Thumbnails;
+    private RelativeLayout poiPanelLayout;
 
     public PoiPanelManager(MapActivity activity) {
         this.activity = activity;
         this.panel = (SlidingUpPanelLayout) activity.findViewById(R.id.sliding_layout);
+        this.poiPanelLayout = (RelativeLayout) activity.findViewById(R.id.poiPanel);
 
         onShadowClick();
-
     }
 
     private void onShadowClick() {
@@ -100,9 +102,15 @@ public class PoiPanelManager implements POIBeaconListener {
         docView.setText(description);
     }
 
-    private void replaceTitle(String title){
+    public void replaceTitle(String title){
         TextView docView = (TextView) panel.findViewById(poi_title);
         docView.setText(title);
+    }
+
+    public String getTitle()
+    {
+        TextView docView = (TextView) panel.findViewById(poi_title);
+        return docView.getText().toString();
     }
 
     private void updateMedia(List<Image> images, List<Video> videos){
@@ -152,5 +160,9 @@ public class PoiPanelManager implements POIBeaconListener {
 
     public SlidingUpPanelLayout getPanel() {
         return panel;
+    }
+
+    public RelativeLayout getPoiPanelLayout() {
+        return poiPanelLayout;
     }
 }

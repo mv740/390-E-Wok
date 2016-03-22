@@ -1,18 +1,15 @@
 package com.example.nspace.museedesondes.utility;
 
+import android.graphics.Color;
 import android.util.Log;
-
 import com.example.nspace.museedesondes.model.Edge;
 import com.example.nspace.museedesondes.model.Map;
 import com.example.nspace.museedesondes.model.Node;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-
 import org.jgrapht.alg.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,8 +22,9 @@ public class Navigation {
     private SimpleWeightedGraph<Integer, DefaultWeightedEdge> graph;
     private Map map;
     private int userLocation;
-    private boolean userLocaltionConfigured = false;
     private Marker selectedStartMarker;
+    private String panelTitle;
+    private PoiPanelManager currentPanelManager;
 
     public Navigation(Map map) {
         this.graph = new SimpleWeightedGraph<>(DefaultWeightedEdge.class);
@@ -121,10 +119,6 @@ public class Navigation {
         this.userLocation = userLocation;
     }
 
-    public void setUserLocaltionConfigured(boolean userLocaltionConfigured) {
-        this.userLocaltionConfigured = userLocaltionConfigured;
-    }
-
     public int getUserLocation() {
         return userLocation;
     }
@@ -144,14 +138,22 @@ public class Navigation {
 
     public void startNavigationMode(PoiPanelManager panelManager)
     {
-        panelManager.close();
-        panelManager.getPanel().setTouchEnabled(false);
+        this.currentPanelManager = panelManager;
+        currentPanelManager.close();
+        //poiPanelLayout.back
+        currentPanelManager.getPoiPanelLayout().setBackgroundColor(Color.DKGRAY);
+        panelTitle = currentPanelManager.getTitle();
+        currentPanelManager.replaceTitle("NAVIGATION");
+        currentPanelManager.getPanel().setTouchEnabled(false);
     }
 
-    public void stopNavigationMode(SlidingUpPanelLayout panel)
+    public void stopNavigationMode()
     {
-        panel.setTouchEnabled(true);
+        currentPanelManager.getPoiPanelLayout().setBackgroundColor(Color.parseColor("#FFE33C3C"));
+        currentPanelManager.replaceTitle(panelTitle);
+        currentPanelManager.getPanel().setTouchEnabled(true);
     }
+
 }
 
 

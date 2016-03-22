@@ -306,7 +306,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         //get edge sequence from start node to end node, exits function if no path found
         Navigation navigation = new Navigation(information);
         List<DefaultWeightedEdge> defaultWeightedEdgeList = navigation.findShortestPath(startNode.getId(), endNode.getId());
-        if(defaultWeightedEdgeList == null) {
+        if(!navigation.doesPathExist(defaultWeightedEdgeList)) {
             return;
         }
         List<Edge> edgeList = navigation.getCorrespondingEdgesFromPathSequence(defaultWeightedEdgeList);

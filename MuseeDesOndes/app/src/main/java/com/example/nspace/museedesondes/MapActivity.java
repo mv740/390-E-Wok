@@ -62,6 +62,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private StoryLineManager storyLineManager;
     private StoryLine storyLine;
     private boolean freeExploration;
+    private boolean navigationMode;
+    private Navigation navigationManager;
     private MapManager mapManager;
     private SeekBar seekBar;
     Handler audioHandler = new Handler();
@@ -107,6 +109,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         Intent intent = new Intent(this, AudioService.class);
         bindService(intent, audioConnection, Context.BIND_AUTO_CREATE);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
+        navigationMode = false;
     }
 
 
@@ -227,7 +230,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         if (MediaResource.getTag() == "VIDEO") {
             intent = new Intent(this, VideoActivity.class);
             String fileName = String.valueOf(videoResourceID);
-            Log.e("name",fileName);
+            Log.e("name", fileName);
             intent.putExtra("File_Name", fileName);
         } else {
             panel.setSelectedImage(v);
@@ -297,24 +300,42 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public void getDirections(View v) {
-        //fetch start and end nodes
-        PointOfInterest startNode = panel.getCurrentPointOfInterest();
+        boolean navigationDone = false;
 
-        //TODO get ending node (beacon or screen select) testing with static node 3
-        PointOfInterest endNode = information.searchPoiById(3);
+        if(!navigationMode)
+        {
+            navigationManager = new Navigation(information);
+        }
+        //fetch start and end nodes
+        PointOfInterest destinationNode = panel.getCurrentPointOfInterest();
+
+        //TODO get starting node (beacon or screen select) testing with static node 3
+        //PointOfInterest startingNode = information.searchPoiById(3);
+        int  startingNode = navigationManager.getUserLocation();
+
 
         //get edge sequence from start node to end node, exits function if no path found
-        Navigation navigation = new Navigation(information);
-        List<DefaultWeightedEdge> defaultWeightedEdgeList = navigation.findShortestPath(startNode.getId(), endNode.getId());
-        if(!navigation.doesPathExist(defaultWeightedEdgeList)) {
-            return;
-        }
-        List<Edge> edgeList = navigation.getCorrespondingEdgesFromPathSequence(defaultWeightedEdgeList);
 
-        //clear existing lines and set new floor lines to display the shortest path
-        mapManager.clearFloorLines();
-        mapManager.initShortestPathFloorLineMap(edgeList);
-        mapManager.displayFloorLines(mapManager.getCurrentFloorID(), true);
+        if(navigationMode)
+        {
+            List<DefaultWeightedEdge> defaultWeightedEdgeList = navigationManager.findShortestPath(startingNode, destinationNode.getId());
+            if (!navigationManager.doesPathExist(defaultWeightedEdgeList)) {
+                return;
+            }
+            List<Edge> edgeList = navigationManager.getCorrespondingEdgesFromPathSequence(defaultWeightedEdgeList);
+
+            //clear existing lines and set new floor lines to display the shortest path
+            mapManager.clearFloorLines();
+            mapManager.initShortestPathFloorLineMap(edgeList);
+            mapManager.displayFloorLines(mapManager.getCurrentFloorID(), true);
+
+            navigationDone = true;
+
+            
+        }
+
+        navigationMode = !navigationDone;
+
     }
 
     public void startAudio(PointOfInterest pointOfInterest) {
@@ -330,14 +351,22 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public boolean onMarkerClick(Marker marker) {
+        if (!navigationMode) {
+            selectedMarkerDisplay(marker);
 
-        selectedMarkerDisplay(marker);
+            //move camera to marker postion
+            LatLng markerLocation = marker.getPosition();
 
-        //move camera to marker postion
-        LatLng markerLocation = marker.getPosition();
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(markerLocation));
+            panel.update(marker);
+        } else {
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(markerLocation));
-        panel.update(marker);
+            PointMarkerFactory.Information pMarkerInfo = new PointMarkerFactory.Information(marker.getSnippet());
+            navigationManager.setUserLocation(pMarkerInfo.getNodeID());
+            //navigationMode = false;
+            Log.e("hello", "set currentLocation");
+        }
+
         return true;
     }
 

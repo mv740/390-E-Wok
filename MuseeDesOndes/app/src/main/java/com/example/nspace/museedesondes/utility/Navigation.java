@@ -21,6 +21,8 @@ public class Navigation {
     public static final String NAVIGATIONLOG = "Navigation";
     private SimpleWeightedGraph<Integer, DefaultWeightedEdge> graph;
     private Map map;
+    private int userLocation;
+    private boolean userLocaltionConfigured = false;
 
     public Navigation(Map map) {
         this.graph = new SimpleWeightedGraph<>(DefaultWeightedEdge.class);
@@ -96,9 +98,31 @@ public class Navigation {
         return list;
     }
 
+    public int getPathDistance(List<DefaultWeightedEdge> weightedEdgeList)
+    {
+        int distance = 0;
+        for(DefaultWeightedEdge edge : weightedEdgeList)
+        {
+            distance += getEdgeWeight(edge);
+        }
+        return distance;
+    }
+
     public boolean doesPathExist(List<DefaultWeightedEdge> list)
     {
         return list != null;
+    }
+
+    public void setUserLocation(int userLocation) {
+        this.userLocation = userLocation;
+    }
+
+    public void setUserLocaltionConfigured(boolean userLocaltionConfigured) {
+        this.userLocaltionConfigured = userLocaltionConfigured;
+    }
+
+    public int getUserLocation() {
+        return userLocation;
     }
 }
 

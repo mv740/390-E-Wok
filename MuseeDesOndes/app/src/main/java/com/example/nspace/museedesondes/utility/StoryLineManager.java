@@ -165,14 +165,6 @@ public class StoryLineManager {
         this.floorLineMap = floorLineMap;
     }
 
-    public void createEmptyFloorLineMap() {
-        List<FloorPlan> floorPlans = Map.getInstance(mapActivity).getFloorPlans();
-        for(FloorPlan floorPlan : floorPlans) {
-            List<Polyline> lineList = new ArrayList<>();
-            floorLineMap.put(floorPlan.getId(),lineList);
-        }
-    }
-
     private void updateSegmentListColors(){
 
         //update color for new current segment

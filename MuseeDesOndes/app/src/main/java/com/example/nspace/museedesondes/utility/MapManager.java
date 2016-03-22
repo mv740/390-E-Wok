@@ -6,7 +6,9 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.nspace.museedesondes.R;
+import com.example.nspace.museedesondes.model.Edge;
 import com.example.nspace.museedesondes.model.FloorPlan;
+import com.example.nspace.museedesondes.model.Node;
 import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.example.nspace.museedesondes.model.StoryLine;
 import com.github.clans.fab.FloatingActionButton;
@@ -22,7 +24,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -90,7 +94,7 @@ public class MapManager implements POIBeaconListener {
         mMap.addGroundOverlay(mapBackground);
 
         if (!freeExploration) {
-            initFloorLines();
+            initFloorLines(DEFAULT_FLOOR_ID);
         }
     }
 
@@ -127,10 +131,8 @@ public class MapManager implements POIBeaconListener {
     public void switchFloor(int floorID) {
 
         displayCurrentFloorPointOfInterest(floorID);
+        updateFloorLines(floorID);
 
-        if (!freeExploration) {
-            updateFloorLines(floorID);
-        }
         //http://stackoverflow.com/questions/16369814/how-to-access-the-drawable-resources-by-name-in-android
         groundOverlayFloorMap.setImage(BitmapDescriptorFactory.fromResource(getFloorPlanResourceID(floorID)));
         groundOverlayFloorMapBound = groundOverlayFloorMap.getBounds();
@@ -158,8 +160,8 @@ public class MapManager implements POIBeaconListener {
         return Resource.getResourceIDFromPath(floorPlan.getImagePath(),context);
     }
 
-    public void initFloorLines() {
-        List<Polyline> defaultFloorLines = floorLineMap.get(DEFAULT_FLOOR_ID);
+    public void initFloorLines(Integer floorID) {
+        List<Polyline> defaultFloorLines = floorLineMap.get(floorID);
 
         for (Polyline line : defaultFloorLines) {
             line.setVisible(true);
@@ -177,6 +179,49 @@ public class MapManager implements POIBeaconListener {
         for (Polyline line : newFloorLines) {
             line.setVisible(true);
         }
+    }
+
+    public void createEmptyFloorLineMap() {
+        List<FloorPlan> floorPlans = com.example.nspace.museedesondes.model.Map.getInstance(context).getFloorPlans();
+        for(FloorPlan floorPlan : floorPlans) {
+            List<Polyline> lineList = new ArrayList<>();
+            floorLineMap.put(floorPlan.getId(), lineList);
+        }
+    }
+
+    public void clearFloorLines(){
+        for(List<Polyline> floorLines : floorLineMap.values()){
+            for(Polyline line : floorLines) {
+                line.remove();
+            }
+        }
+    }
+
+    public void initShortestPathFloorLineMap(List<Edge> edgeList) {
+
+
+        Node node1;
+        Node node2;
+        Polyline line;
+
+        for(Edge edge : edgeList) {
+            node1 = edge.getStart();
+            node2 = edge.getEnd();
+            if(node1.getFloorID() == node2.getFloorID()) {
+                line = getLineFromNodes(node1, node2);
+                floorLineMap.get(node1.getFloorID()).add(line);
+            }
+
+        }
+    }
+
+    private Polyline getLineFromNodes(Node node1, Node node2) {
+        Polyline line = mMap.addPolyline(new PolylineOptions()
+                .add(new LatLng(node1.getX(), node1.getY()), new LatLng(node2.getX(), node2.getY()))
+                .color(ContextCompat.getColor(context, R.color.rca_unexplored_segment))
+                .width(10));
+        line.setVisible(false);
+        return line;
     }
 
     /**
@@ -400,5 +445,9 @@ public class MapManager implements POIBeaconListener {
                 return;
             }
         }
+    }
+
+    public int getCurrentFloorID() {
+        return currentFloorID;
     }
 }

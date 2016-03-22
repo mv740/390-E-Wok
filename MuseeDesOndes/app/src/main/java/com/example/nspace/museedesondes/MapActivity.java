@@ -19,6 +19,7 @@ import android.widget.SeekBar;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.SystemRequirementsChecker;
 import com.example.nspace.museedesondes.fragments.NavigationDrawerFragment;
+import com.example.nspace.museedesondes.model.Edge;
 import com.example.nspace.museedesondes.model.Map;
 import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.example.nspace.museedesondes.model.StoryLine;
@@ -43,6 +44,8 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.VisibleRegion;
+
+import org.jgrapht.graph.DefaultWeightedEdge;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -173,12 +176,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap.setOnMarkerClickListener(this);
         initializeMapSetting();
         mapManager = new MapManager(mMap, this, floorLineMap, freeExploration, information.getFloorPlans());
+        mapManager.createEmptyFloorLineMap();
 
         //initialize storyline manager
         if (!freeExploration) {
             storyLineManager.setGoogleMap(mMap);
             storyLineManager.setFloorLineMap(floorLineMap);
-            storyLineManager.createEmptyFloorLineMap();
             storyLineManager.initSegmentListAndFloorLineMap();
         }
 
@@ -294,19 +297,24 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public void getDirections(View v) {
+        //fetch start and end nodes
         PointOfInterest startNode = panel.getCurrentPointOfInterest();
 
-        //TODO get ending node (beacon or screen select)
-        //TODO testing with static node
+        //TODO get ending node (beacon or screen select) testing with static node 3
         PointOfInterest endNode = information.searchPoiById(3);
 
+        //get edge sequence from start node to end node, exits function if no path found
         Navigation navigation = new Navigation(information);
+        List<DefaultWeightedEdge> defaultWeightedEdgeList = navigation.findShortestPath(startNode.getId(), endNode.getId());
+        if(defaultWeightedEdgeList == null) {
+            return;
+        }
+        List<Edge> edgeList = navigation.getCorrespondingEdgesFromPathSequence(defaultWeightedEdgeList);
 
-        //TODO get node path list from navigation
-
-        //TODO update floor line map in map manager
-        //display lines
-
+        //clear existing lines and set new floor lines to display the shortest path
+        mapManager.clearFloorLines();
+        mapManager.initShortestPathFloorLineMap(edgeList);
+        mapManager.initFloorLines(mapManager.getCurrentFloorID());
     }
 
     public void startAudio(PointOfInterest pointOfInterest) {

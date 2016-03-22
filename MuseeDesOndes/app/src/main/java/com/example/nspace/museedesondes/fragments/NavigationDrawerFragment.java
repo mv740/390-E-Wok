@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.nspace.museedesondes.MapActivity;
 import com.example.nspace.museedesondes.R;
 import com.example.nspace.museedesondes.SettingsActivity;
 import com.example.nspace.museedesondes.adapters.DrawerListAdapter;
@@ -165,14 +166,17 @@ public class NavigationDrawerFragment extends Fragment {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
             switch (position) {
-                case 0:
+                case 0: //"tours"
                     getActivity().finish();
                     return;
-                case 1:
+                case 1: //"language"
                     Intent startSettings = new Intent(parent.getContext(), SettingsActivity.class);
                     startActivity(startSettings);
                     return;
-                case 2:
+                case 2: //"find exit"
+                    //TODO "find exit"
+                    MapActivity mapActivity = (MapActivity) getActivity();
+                    mapActivity.getMapManager();
                     return;
                 default:
 

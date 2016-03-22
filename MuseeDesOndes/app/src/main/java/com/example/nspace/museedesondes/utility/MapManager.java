@@ -94,7 +94,7 @@ public class MapManager implements POIBeaconListener {
         mMap.addGroundOverlay(mapBackground);
 
         if (!freeExploration) {
-            initFloorLines(DEFAULT_FLOOR_ID);
+            displayFloorLines(DEFAULT_FLOOR_ID, true);
         }
     }
 
@@ -160,25 +160,18 @@ public class MapManager implements POIBeaconListener {
         return Resource.getResourceIDFromPath(floorPlan.getImagePath(),context);
     }
 
-    public void initFloorLines(Integer floorID) {
-        List<Polyline> defaultFloorLines = floorLineMap.get(floorID);
+    public void displayFloorLines(Integer floorID, boolean visibility) {
+        List<Polyline> floorLines = floorLineMap.get(floorID);
 
-        for (Polyline line : defaultFloorLines) {
-            line.setVisible(true);
+        for (Polyline line : floorLines) {
+            line.setVisible(visibility);
         }
     }
 
     private void updateFloorLines(int newFloorID) {
-        List<Polyline> currentFloorLines = floorLineMap.get(currentFloorID);
-        List<Polyline> newFloorLines = floorLineMap.get(newFloorID);
+        displayFloorLines(currentFloorID, false);
+        displayFloorLines(newFloorID, true);
         this.currentFloorID = newFloorID;
-
-        for (Polyline line : currentFloorLines) {
-            line.setVisible(false);
-        }
-        for (Polyline line : newFloorLines) {
-            line.setVisible(true);
-        }
     }
 
     public void createEmptyFloorLineMap() {
@@ -198,10 +191,7 @@ public class MapManager implements POIBeaconListener {
     }
 
     public void initShortestPathFloorLineMap(List<Edge> edgeList) {
-
-
-        Node node1;
-        Node node2;
+        Node node1, node2;
         Polyline line;
 
         for(Edge edge : edgeList) {

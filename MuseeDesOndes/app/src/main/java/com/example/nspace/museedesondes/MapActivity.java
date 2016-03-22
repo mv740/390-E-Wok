@@ -314,7 +314,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         //clear existing lines and set new floor lines to display the shortest path
         mapManager.clearFloorLines();
         mapManager.initShortestPathFloorLineMap(edgeList);
-        mapManager.initFloorLines(mapManager.getCurrentFloorID());
+        mapManager.displayFloorLines(mapManager.getCurrentFloorID(), true);
     }
 
     public void startAudio(PointOfInterest pointOfInterest) {

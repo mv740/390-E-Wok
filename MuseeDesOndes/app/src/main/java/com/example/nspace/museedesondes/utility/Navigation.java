@@ -10,6 +10,7 @@ import org.jgrapht.alg.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,13 +19,13 @@ import java.util.List;
 public class Navigation {
 
     public static final String NAVIGATIONLOG = "Navigation";
-    private SimpleWeightedGraph<Integer,DefaultWeightedEdge> graph;
+    private SimpleWeightedGraph<Integer, DefaultWeightedEdge> graph;
     private Map map;
 
     public Navigation(Map map) {
         this.graph = new SimpleWeightedGraph<>(DefaultWeightedEdge.class);
         this.map = map;
-       initializeGraph();
+        initializeGraph();
     }
 
 
@@ -33,12 +34,10 @@ public class Navigation {
         List<Edge> edgeList = map.getEdges();
         List<Node> nodeList = map.getNodes();
 
-        for(Node node : nodeList)
-        {
+        for (Node node : nodeList) {
             graph.addVertex(node.getId());
         }
-        for(Edge edge :edgeList)
-        {
+        for (Edge edge : edgeList) {
             DefaultWeightedEdge weightedEdge = graph.addEdge(edge.getStartID(), edge.getEndID());
             graph.setEdgeWeight(weightedEdge, edge.getDistance());
         }
@@ -48,20 +47,54 @@ public class Navigation {
      * Find shortest path from vertex start to vertex end, if none found return null
      *
      * @param start vertex
-     * @param end vertex
+     * @param end   vertex
      * @return path
      */
-    public List findShortestPath(int start, int end)
-    {
+    public List<DefaultWeightedEdge> findShortestPath(int start, int end) {
 
-        List shortestPath =   DijkstraShortestPath.findPathBetween(graph, start, end);
-        if(shortestPath != null)
-        {
+        List<DefaultWeightedEdge> shortestPath = DijkstraShortestPath.findPathBetween(graph, start, end);
+        if (shortestPath != null) {
             Log.v(NAVIGATIONLOG, shortestPath.toString());
-        }else
-        {
+        } else {
             Log.v(NAVIGATIONLOG, "no path found");
         }
+
         return shortestPath;
     }
+
+
+    public Integer getEdgeSource(DefaultWeightedEdge edge) {
+        return graph.getEdgeSource(edge);
+    }
+
+    public Integer getEdgeTarget(DefaultWeightedEdge edge) {
+        return graph.getEdgeTarget(edge);
+    }
+
+    public Integer getEdgeWeight(DefaultWeightedEdge edge) {
+        Double d = graph.getEdgeWeight(edge);
+        return d.intValue();
+    }
+
+    /**
+     * From the list of edge from the shortest path, get the corresponding edges from the map edge list
+     *
+     * @param edgeList
+     * @return
+     */
+    public List<Edge> getCorrespondingEdgesFromPathSequence(List<DefaultWeightedEdge> edgeList) {
+
+        List<Edge> list = new ArrayList<>();
+        for (DefaultWeightedEdge defaultWeightedEdge : edgeList) {
+            for (Edge edge1 : map.getEdges()) {
+                if (edge1.getStartID() == getEdgeSource(defaultWeightedEdge) && edge1.getEndID() == getEdgeTarget(defaultWeightedEdge)) {
+                    list.add(edge1);
+                }
+            }
+        }
+
+        return list;
+    }
+
+
 }

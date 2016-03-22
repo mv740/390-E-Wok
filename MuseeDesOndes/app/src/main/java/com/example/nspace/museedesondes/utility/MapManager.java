@@ -8,6 +8,8 @@ import android.view.View;
 import com.example.nspace.museedesondes.R;
 import com.example.nspace.museedesondes.model.Edge;
 import com.example.nspace.museedesondes.model.FloorPlan;
+import com.example.nspace.museedesondes.model.Label;
+import com.example.nspace.museedesondes.model.LabelledPoint;
 import com.example.nspace.museedesondes.model.Node;
 import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.example.nspace.museedesondes.model.StoryLine;
@@ -25,6 +27,8 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+
+import org.jgrapht.graph.DefaultWeightedEdge;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -203,6 +207,25 @@ public class MapManager implements POIBeaconListener {
             }
 
         }
+    }
+
+    public void findExitPath() {
+        com.example.nspace.museedesondes.model.Map information = com.example.nspace.museedesondes.model.Map.getInstance(context);
+        Navigation navigation = new Navigation(information);
+
+        //TODO get starting node (beacon or screen select) testing with static node 3
+        PointOfInterest startNode = information.searchPoiById(3);
+
+        List<DefaultWeightedEdge> shortestWeightedEdgeList = navigation.getShortestExitPath(startNode);
+
+        if(!navigation.doesPathExist(shortestWeightedEdgeList )) {
+            return;
+        }
+        List<Edge> shortestExitPath = navigation.getCorrespondingEdgesFromPathSequence(shortestWeightedEdgeList );
+
+        clearFloorLines();
+        initShortestPathFloorLineMap(shortestExitPath);
+        displayFloorLines(currentFloorID, true);
     }
 
     private Polyline getLineFromNodes(Node node1, Node node2) {

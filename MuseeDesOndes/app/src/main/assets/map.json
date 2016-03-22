@@ -1177,6 +1177,13 @@
           "x": 0.065,
           "y": 0.038,
           "label": "NONE"
+        },
+        {
+          "id": 73,
+          "floorID": 1,
+          "x": 0.065,
+          "y": 0.038,
+          "label": "EXIT"
         }
 
 
@@ -1205,6 +1212,12 @@
     {
       "startNode": 8,
       "endNode": 3,
+      "floorNumber": 1,
+      "distance": 20
+    },
+    {
+      "startNode": 3,
+      "endNode": 73,
       "floorNumber": 1,
       "distance": 20
     }

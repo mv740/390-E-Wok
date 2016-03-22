@@ -7,6 +7,9 @@ import com.example.nspace.museedesondes.model.Label;
 import com.example.nspace.museedesondes.model.LabelledPoint;
 import com.example.nspace.museedesondes.model.Map;
 import com.example.nspace.museedesondes.model.Node;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Marker;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import org.jgrapht.alg.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
@@ -25,6 +28,7 @@ public class Navigation {
     private Map map;
     private int userLocation;
     private boolean userLocaltionConfigured = false;
+    private Marker selectedStartMarker;
 
     public Navigation(Map map) {
         this.graph = new SimpleWeightedGraph<>(DefaultWeightedEdge.class);
@@ -126,7 +130,7 @@ public class Navigation {
     public int getUserLocation() {
         return userLocation;
     }
-
+    
     public List<DefaultWeightedEdge> getShortestExitPath(Node startNode) {
         List<DefaultWeightedEdge> currentWeightedEdgeList;
         List<DefaultWeightedEdge> shortestWeightedEdgeList = null;
@@ -134,17 +138,41 @@ public class Navigation {
         int currentDistance;
 
         //compute shortest path to each exit and find one with min distance
-        for(LabelledPoint labelledPoint : map.getLabelledPoints()) {
-            if(labelledPoint.getLabel() == Label.EXIT) {
+        for (LabelledPoint labelledPoint : map.getLabelledPoints()) {
+            if (labelledPoint.getLabel() == Label.EXIT) {
                 currentWeightedEdgeList = findShortestPath(startNode.getId(), labelledPoint.getId());
                 currentDistance = getPathDistance(currentWeightedEdgeList);
-                if(currentDistance < minDistance) {
+                if (currentDistance < minDistance) {
                     shortestWeightedEdgeList = currentWeightedEdgeList;
                     minDistance = currentDistance;
                 }
             }
         }
         return shortestWeightedEdgeList;
+    }
+
+    public void selectedStart(Marker marker) {
+        if (selectedStartMarker != null) {
+            selectedStartMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+        }
+        marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+        selectedStartMarker = marker;
+    }
+
+    public void clear()
+    {
+        selectedStartMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+    }
+
+    public void startNavigationMode(PoiPanelManager panelManager)
+    {
+        panelManager.close();
+        panelManager.getPanel().setTouchEnabled(false);
+    }
+
+    public void stopNavigationMode(SlidingUpPanelLayout panel)
+    {
+        panel.setTouchEnabled(true);
     }
 }
 

@@ -98,6 +98,16 @@ public class Navigation {
         return list;
     }
 
+    public int getPathDistance(List<DefaultWeightedEdge> weightedEdgeList)
+    {
+        int distance = 0;
+        for(DefaultWeightedEdge edge : weightedEdgeList)
+        {
+            distance += getEdgeWeight(edge);
+        }
+        return distance;
+    }
+
     public boolean doesPathExist(List<DefaultWeightedEdge> list)
     {
         return list != null;

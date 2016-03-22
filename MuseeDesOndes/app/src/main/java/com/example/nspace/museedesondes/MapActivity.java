@@ -25,6 +25,7 @@ import com.example.nspace.museedesondes.model.StoryLine;
 import com.example.nspace.museedesondes.services.AudioService;
 import com.example.nspace.museedesondes.services.AudioService.AudioBinder;
 import com.example.nspace.museedesondes.utility.MapManager;
+import com.example.nspace.museedesondes.utility.Navigation;
 import com.example.nspace.museedesondes.utility.PoiPanelManager;
 import com.example.nspace.museedesondes.utility.PointMarkerFactory;
 import com.example.nspace.museedesondes.utility.Preferences;
@@ -290,6 +291,22 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         String fileName = Integer.toString(R.raw.sample_video_1280x720_1mb);
         intent.putExtra("File_Name", fileName);
         startActivity(intent);
+    }
+
+    public void getDirections(View v) {
+        PointOfInterest startNode = panel.getCurrentPointOfInterest();
+
+        //TODO get ending node (beacon or screen select)
+        //TODO testing with static node
+        PointOfInterest endNode = information.searchPoiById(3);
+
+        Navigation navigation = new Navigation(information);
+
+        //TODO get node path list from navigation
+
+        //TODO update floor line map in map manager
+        //display lines
+
     }
 
     public void startAudio(PointOfInterest pointOfInterest) {

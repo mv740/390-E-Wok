@@ -38,7 +38,8 @@
         fab:fab_colorRipple="#FFFE7070"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        app:fab_shadowColor="#000000"/>
+        app:fab_shadowColor="#000000"
+        android:onClick="getDirections"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/my_recycler_view"

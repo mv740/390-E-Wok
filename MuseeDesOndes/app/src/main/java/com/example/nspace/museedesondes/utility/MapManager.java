@@ -58,6 +58,7 @@ public class MapManager implements POIBeaconListener {
         this.floorLineMap = floorLineMap;
         this.freeExploration = freeExploration;
         this.floorPlans = floorPlans;
+        this.currentFloorID = DEFAULT_FLOOR_ID;
     }
 
     /**
@@ -159,7 +160,6 @@ public class MapManager implements POIBeaconListener {
 
     public void initFloorLines() {
         List<Polyline> defaultFloorLines = floorLineMap.get(DEFAULT_FLOOR_ID);
-        this.currentFloorID = DEFAULT_FLOOR_ID;
 
         for (Polyline line : defaultFloorLines) {
             line.setVisible(true);

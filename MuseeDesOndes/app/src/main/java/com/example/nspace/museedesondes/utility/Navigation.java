@@ -3,6 +3,8 @@ package com.example.nspace.museedesondes.utility;
 import android.util.Log;
 
 import com.example.nspace.museedesondes.model.Edge;
+import com.example.nspace.museedesondes.model.Label;
+import com.example.nspace.museedesondes.model.LabelledPoint;
 import com.example.nspace.museedesondes.model.Map;
 import com.example.nspace.museedesondes.model.Node;
 
@@ -123,6 +125,26 @@ public class Navigation {
 
     public int getUserLocation() {
         return userLocation;
+    }
+
+    public List<DefaultWeightedEdge> getShortestExitPath(Node startNode) {
+        List<DefaultWeightedEdge> currentWeightedEdgeList;
+        List<DefaultWeightedEdge> shortestWeightedEdgeList = null;
+        int minDistance = Integer.MAX_VALUE;
+        int currentDistance;
+
+        //compute shortest path to each exit and find one with min distance
+        for(LabelledPoint labelledPoint : map.getLabelledPoints()) {
+            if(labelledPoint.getLabel() == Label.EXIT) {
+                currentWeightedEdgeList = findShortestPath(startNode.getId(), labelledPoint.getId());
+                currentDistance = getPathDistance(currentWeightedEdgeList);
+                if(currentDistance < minDistance) {
+                    shortestWeightedEdgeList = currentWeightedEdgeList;
+                    minDistance = currentDistance;
+                }
+            }
+        }
+        return shortestWeightedEdgeList;
     }
 }
 

@@ -212,36 +212,18 @@ public class MapManager implements POIBeaconListener {
     public void findExitPath() {
         com.example.nspace.museedesondes.model.Map information = com.example.nspace.museedesondes.model.Map.getInstance(context);
         Navigation navigation = new Navigation(information);
-        List<DefaultWeightedEdge> defaultWeightedEdgeList = null;
-        List<DefaultWeightedEdge> shortestDefaultWeightedEdgeList = null;
-        List<LabelledPoint> exitList = new ArrayList<LabelledPoint>();
-        int minDistance = Integer.MAX_VALUE;
-        int currentDistance;
 
         //TODO get starting node (beacon or screen select) testing with static node 3
         PointOfInterest startNode = information.searchPoiById(3);
 
-        clearFloorLines();
+        List<DefaultWeightedEdge> shortestWeightedEdgeList = navigation.getShortestExitPath(startNode);
 
-        //compute shortest path to each exit and find one with min distance
-        for(LabelledPoint labelledPoint : information.getLabelledPoints()) {
-            if(labelledPoint.getLabel() == Label.EXIT) {
-                defaultWeightedEdgeList = navigation.findShortestPath(startNode.getId(), labelledPoint.getId());
-                //TODO: get distance from weighted edge list
-//                currentDistane = defaultWeightedEdgeList.GETDISTANCE
-//                if( currentDistance < minDistane) {
-//                    shortestDefaultWeightedEdgeList = defaultWeightedEdgeList;
-//                    minDistance = currentDistance;
-//                }
-
-            }
-        }
-
-        if(navigation.doesPathExist(shortestDefaultWeightedEdgeList)) {
+        if(!navigation.doesPathExist(shortestWeightedEdgeList )) {
             return;
         }
+        List<Edge> shortestExitPath = navigation.getCorrespondingEdgesFromPathSequence(shortestWeightedEdgeList );
 
-        List<Edge> shortestExitPath = navigation.getCorrespondingEdgesFromPathSequence(shortestDefaultWeightedEdgeList);
+        clearFloorLines();
         initShortestPathFloorLineMap(shortestExitPath);
         displayFloorLines(currentFloorID, true);
     }

@@ -300,23 +300,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public void getDirections(View v) {
-        boolean navigationDone = false;
-
         if (navigationMode) {
             mapManager.clearFloorLines();
-            navigationDone = true;
             navigationManager.stopNavigationMode();
+            navigationManager.clear();
+            navigationMode = false;
         } else {
             navigationManager = new Navigation(information);
             navigationManager.startNavigationMode(panelManager);
+            navigationMode = true;
         }
-
-        navigationMode = !navigationDone;
-        if (navigationDone) {
-            navigationManager.clear();
-            navigationMode = false;
-        }
-
     }
 
     public void startAudio(PointOfInterest pointOfInterest) {

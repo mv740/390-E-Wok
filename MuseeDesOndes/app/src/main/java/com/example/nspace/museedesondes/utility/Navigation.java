@@ -1,7 +1,10 @@
 package com.example.nspace.museedesondes.utility;
 
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
+
+import com.example.nspace.museedesondes.R;
 import com.example.nspace.museedesondes.model.Edge;
 import com.example.nspace.museedesondes.model.Label;
 import com.example.nspace.museedesondes.model.LabelledPoint;
@@ -9,9 +12,11 @@ import com.example.nspace.museedesondes.model.Map;
 import com.example.nspace.museedesondes.model.Node;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
+
 import org.jgrapht.alg.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -149,13 +154,16 @@ public class Navigation {
         if (selectedStartMarker != null) {
             selectedStartMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
         }
-        marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+        marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.walk));
         selectedStartMarker = marker;
     }
 
     public void clear()
     {
-        selectedStartMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+        if(selectedStartMarker != null)
+        {
+            selectedStartMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+        }
     }
 
     public void startNavigationMode(PoiPanelManager panelManager)
@@ -167,6 +175,8 @@ public class Navigation {
         panelTitle = currentPanelManager.getTitle();
         currentPanelManager.replaceTitle("NAVIGATION");
         currentPanelManager.getPanel().setTouchEnabled(false);
+        currentPanelManager.getNavigationButton().setColorNormal(ContextCompat.getColor(currentPanelManager.getActivity(), R.color.rca_primary));
+        currentPanelManager.getNavigationButton().setImageResource(R.drawable.ic_exit_to_app_white_24dp);
     }
 
     public void stopNavigationMode()
@@ -174,6 +184,8 @@ public class Navigation {
         currentPanelManager.getPoiPanelLayout().setBackgroundColor(Color.parseColor("#FFE33C3C"));
         currentPanelManager.replaceTitle(panelTitle);
         currentPanelManager.getPanel().setTouchEnabled(true);
+        currentPanelManager.getNavigationButton().setImageResource(R.drawable.location_icon);
+        currentPanelManager.getNavigationButton().setColorNormal(Color.WHITE);
     }
 
 }

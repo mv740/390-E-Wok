@@ -17,6 +17,7 @@ import com.example.nspace.museedesondes.model.Image;
 import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.example.nspace.museedesondes.model.StoryLine;
 import com.example.nspace.museedesondes.model.Video;
+import com.github.clans.fab.FloatingActionButton;
 import com.google.android.gms.maps.model.Marker;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
@@ -35,11 +36,15 @@ public class PoiPanelManager implements POIBeaconListener {
     private int selectedImageId;
     private Bitmap Thumbnails;
     private RelativeLayout poiPanelLayout;
+    private boolean initialState;
+    private FloatingActionButton navigationButton;
 
     public PoiPanelManager(MapActivity activity) {
         this.activity = activity;
         this.panel = (SlidingUpPanelLayout) activity.findViewById(R.id.sliding_layout);
         this.poiPanelLayout = (RelativeLayout) activity.findViewById(R.id.poiPanel);
+        this.navigationButton = (FloatingActionButton) activity.findViewById(R.id.get_directions_button);
+        initialState();
 
         onShadowClick();
     }
@@ -53,13 +58,13 @@ public class PoiPanelManager implements POIBeaconListener {
         });
     }
 
-    public void update(Marker marker){
+    public void update(Marker marker) {
 
         PointMarkerFactory.Information pMarkerInfo = new PointMarkerFactory.Information(marker.getSnippet());
 
         PointOfInterest pointOfInterest = activity.getInformation().searchPoiById(pMarkerInfo.getNodeID());
         this.currentPointOfInterest = pointOfInterest;
-        Log.v("test",activity.getResources().getConfiguration().locale.getLanguage());
+        Log.v("test", activity.getResources().getConfiguration().locale.getLanguage());
         String description = pointOfInterest.getLocaleDescription(activity.getApplicationContext()).getDescription();
         String title = pointOfInterest.getLocaleDescription(activity.getApplicationContext()).getTitle();
         List<Image> images = pointOfInterest.getLocaleImages(activity.getApplicationContext());
@@ -80,13 +85,13 @@ public class PoiPanelManager implements POIBeaconListener {
         panel.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
     }
 
-    public void onPOIBeaconDiscovered(PointOfInterest pointOfInterest, StoryLine storyLine){
+    public void onPOIBeaconDiscovered(PointOfInterest pointOfInterest, StoryLine storyLine) {
 
         this.currentPointOfInterest = pointOfInterest;
         String description = pointOfInterest.getStoryRelatedDescription(storyLine.getId(), activity.getApplicationContext()).getDescription();
         String title = pointOfInterest.getStoryRelatedDescription(storyLine.getId(), activity.getApplicationContext()).getTitle();
         List<Image> images = pointOfInterest.getStoryRelatedImages(storyLine.getId(), activity.getApplicationContext());
-        List<Video> videos = pointOfInterest.getStoryRelatedVideos(storyLine.getId(),activity.getApplicationContext());
+        List<Video> videos = pointOfInterest.getStoryRelatedVideos(storyLine.getId(), activity.getApplicationContext());
 
         replaceTitle(title);
         replaceDescription(description);
@@ -97,23 +102,22 @@ public class PoiPanelManager implements POIBeaconListener {
         panel.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
     }
 
-    private void replaceDescription(String description){
+    private void replaceDescription(String description) {
         DocumentView docView = (DocumentView) panel.findViewById(R.id.poi_text);
         docView.setText(description);
     }
 
-    public void replaceTitle(String title){
+    public void replaceTitle(String title) {
         TextView docView = (TextView) panel.findViewById(poi_title);
         docView.setText(title);
     }
 
-    public String getTitle()
-    {
+    public String getTitle() {
         TextView docView = (TextView) panel.findViewById(poi_title);
         return docView.getText().toString();
     }
 
-    private void updateMedia(List<Image> images, List<Video> videos){
+    private void updateMedia(List<Image> images, List<Video> videos) {
         RecyclerView recyclerView = (RecyclerView) activity.findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
         HorizontalRecycleViewAdapter adapter = new HorizontalRecycleViewAdapter(activity, images, videos);
@@ -126,12 +130,11 @@ public class PoiPanelManager implements POIBeaconListener {
         return currentPointOfInterest;
     }
 
-    public boolean isOpen()
-    {
+    public boolean isOpen() {
         return panel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED;
     }
-    public  void close()
-    {
+
+    public void close() {
         panel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
     }
 
@@ -140,8 +143,7 @@ public class PoiPanelManager implements POIBeaconListener {
      *
      * @param v
      */
-    public void setSelectedImage(View v)
-    {
+    public void setSelectedImage(View v) {
         ImageView selectedImage = (ImageView) v.findViewById(R.id.poi_panel_pic_item_imageview);
         selectedImageId = Integer.parseInt(selectedImage.getTag().toString());
     }
@@ -164,5 +166,33 @@ public class PoiPanelManager implements POIBeaconListener {
 
     public RelativeLayout getPoiPanelLayout() {
         return poiPanelLayout;
+    }
+
+    public void initialState() {
+        initialState = true;
+        panel.setTouchEnabled(false);
+        replaceTitle("");
+        navigationButton.setVisibility(View.INVISIBLE);
+    }
+
+    public void loadPanel() {
+        initialState = false;
+        panel.setTouchEnabled(true);
+        if(activity.isFreeExploration())
+        {
+            navigationButton.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public boolean isInitialState() {
+        return initialState;
+    }
+
+    public FloatingActionButton getNavigationButton() {
+        return navigationButton;
+    }
+
+    public MapActivity getActivity() {
+        return activity;
     }
 }

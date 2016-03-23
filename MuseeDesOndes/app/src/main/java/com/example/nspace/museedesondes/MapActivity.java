@@ -67,11 +67,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private MapManager mapManager;
     private SeekBar seekBar;
     Handler audioHandler = new Handler();
-
     public PoiPanelManager getPanel() {
         return panelManager;
     }
-
     private PoiPanelManager panelManager;
     private Marker selectedMarker;
 
@@ -337,7 +335,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             PointMarkerFactory.Information pMarkerInfo = new PointMarkerFactory.Information(marker.getSnippet());
             navigationManager.setUserLocation(pMarkerInfo.getNodeID());
             navigationManager.selectedStart(marker);
-            Log.e("navigation", "set currentLocation");
 
             PointOfInterest destinationNode = panelManager.getCurrentPointOfInterest();
             List<DefaultWeightedEdge> defaultWeightedEdgeList = navigationManager.findShortestPath(navigationManager.getUserLocation(), destinationNode.getId());
@@ -354,6 +351,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
         } else {
+
+            if(panelManager.isInitialState())
+            {
+                panelManager.loadPanel();
+            }
             selectedMarkerDisplay(marker);
             //move camera to marker postion
             LatLng markerLocation = marker.getPosition();
@@ -530,5 +532,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap.getUiSettings().setIndoorLevelPickerEnabled(false);
         mMap.getUiSettings().setMapToolbarEnabled(false);
         mMap.getUiSettings().setRotateGesturesEnabled(false);
+    }
+
+    public boolean isFreeExploration() {
+        return freeExploration;
     }
 }

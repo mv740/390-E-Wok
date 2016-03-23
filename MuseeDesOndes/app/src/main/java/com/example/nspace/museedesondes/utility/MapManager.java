@@ -209,22 +209,26 @@ public class MapManager implements POIBeaconListener {
         }
     }
 
-    public void findExitPath(int startNodeID) {
+    public void displayShortestPath(int startNodeID, int destinationNodeID, boolean searchingExit) {
         com.example.nspace.museedesondes.model.Map information = com.example.nspace.museedesondes.model.Map.getInstance(context);
         Navigation navigation = new Navigation(information);
+        List<DefaultWeightedEdge> weightedEdgeList;
 
-        //TODO get starting node (beacon or screen select) testing with static node 3
-        //PointOfInterest startNode = information.searchPoiById(3);
+        if(searchingExit) {
+            weightedEdgeList = navigation.getShortestExitPath(startNodeID);
+        } else {
+            weightedEdgeList = navigation.findShortestPath(startNodeID, destinationNodeID);
+        }
 
-        List<DefaultWeightedEdge> shortestWeightedEdgeList = navigation.getShortestExitPath(startNodeID);
-
-        if(!navigation.doesPathExist(shortestWeightedEdgeList )) {
+        if(!navigation.doesPathExist(weightedEdgeList )) {
+            clearFloorLines();
             return;
         }
-        List<Edge> shortestExitPath = navigation.getCorrespondingEdgesFromPathSequence(shortestWeightedEdgeList );
+        List<Edge> shortestPath = navigation.getCorrespondingEdgesFromPathSequence(weightedEdgeList );
 
+        //clear existing lines and set new floor lines to display the shortest path
         clearFloorLines();
-        initShortestPathFloorLineMap(shortestExitPath);
+        initShortestPathFloorLineMap(shortestPath);
         displayFloorLines(currentFloorID, true);
     }
 

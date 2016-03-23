@@ -332,24 +332,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             navigationManager.setUserLocation(pMarkerInfo.getNodeID());
             navigationManager.selectedStart(marker);
 
-            if(searchingExit) {
-                mapManager.findExitPath(pMarkerInfo.getNodeID());
-            } else {
-                PointOfInterest destinationNode = panelManager.getCurrentPointOfInterest();
-                List<DefaultWeightedEdge> defaultWeightedEdgeList = navigationManager.findShortestPath(navigationManager.getUserLocation(), destinationNode.getId());
-                if (!navigationManager.doesPathExist(defaultWeightedEdgeList)) {
-                    mapManager.clearFloorLines();
-                    return true;
-                }
-                List<Edge> edgeList = navigationManager.getCorrespondingEdgesFromPathSequence(defaultWeightedEdgeList);
-
-                //clear existing lines and set new floor lines to display the shortest path
-                mapManager.clearFloorLines();
-                mapManager.initShortestPathFloorLineMap(edgeList);
-                mapManager.displayFloorLines(mapManager.getCurrentFloorID(), true);
-            }
-
-
+            PointOfInterest destinationNode = panelManager.getCurrentPointOfInterest();
+            mapManager.displayShortestPath(pMarkerInfo.getNodeID(), destinationNode.getId(), searchingExit);
 
         } else {
 

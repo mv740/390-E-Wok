@@ -333,7 +333,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             navigationManager.selectedStart(marker);
 
             PointOfInterest destinationNode = panelManager.getCurrentPointOfInterest();
-            mapManager.displayShortestPath(pMarkerInfo.getNodeID(), destinationNode.getId(), searchingExit);
+            mapManager.displayShortestPath(pMarkerInfo.getNodeID(), destinationNode, searchingExit);
 
         } else {
 

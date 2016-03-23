@@ -209,7 +209,7 @@ public class MapManager implements POIBeaconListener {
         }
     }
 
-    public void displayShortestPath(int startNodeID, int destinationNodeID, boolean searchingExit) {
+    public void displayShortestPath(int startNodeID, Node destinationNode, boolean searchingExit) {
         com.example.nspace.museedesondes.model.Map information = com.example.nspace.museedesondes.model.Map.getInstance(context);
         Navigation navigation = new Navigation(information);
         List<DefaultWeightedEdge> weightedEdgeList;
@@ -217,6 +217,7 @@ public class MapManager implements POIBeaconListener {
         if(searchingExit) {
             weightedEdgeList = navigation.getShortestExitPath(startNodeID);
         } else {
+            int destinationNodeID = destinationNode.getId();
             weightedEdgeList = navigation.findShortestPath(startNodeID, destinationNodeID);
         }
 

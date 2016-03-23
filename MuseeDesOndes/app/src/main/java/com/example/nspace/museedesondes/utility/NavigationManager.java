@@ -23,9 +23,9 @@ import java.util.List;
 /**
  * Created by michal on 3/20/2016.
  */
-public class Navigation {
+public class NavigationManager {
 
-    public static final String NAVIGATIONLOG = "Navigation";
+    public static final String NAVIGATIONLOG = "NavigationManager";
     private SimpleWeightedGraph<Integer, DefaultWeightedEdge> graph;
     private Map map;
     private int userLocation;
@@ -33,7 +33,7 @@ public class Navigation {
     private String panelTitle;
     private PoiPanelManager currentPanelManager;
 
-    public Navigation(Map map) {
+    public NavigationManager(Map map) {
         this.graph = new SimpleWeightedGraph<>(DefaultWeightedEdge.class);
         this.map = map;
         initializeGraph();

@@ -19,14 +19,13 @@ import android.widget.SeekBar;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.SystemRequirementsChecker;
 import com.example.nspace.museedesondes.fragments.NavigationDrawerFragment;
-import com.example.nspace.museedesondes.model.Edge;
 import com.example.nspace.museedesondes.model.Map;
 import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.example.nspace.museedesondes.model.StoryLine;
 import com.example.nspace.museedesondes.services.AudioService;
 import com.example.nspace.museedesondes.services.AudioService.AudioBinder;
 import com.example.nspace.museedesondes.utility.MapManager;
-import com.example.nspace.museedesondes.utility.Navigation;
+import com.example.nspace.museedesondes.utility.NavigationManager;
 import com.example.nspace.museedesondes.utility.PoiPanelManager;
 import com.example.nspace.museedesondes.utility.PointMarkerFactory;
 import com.example.nspace.museedesondes.utility.Preferences;
@@ -45,8 +44,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.VisibleRegion;
 
-import org.jgrapht.graph.DefaultWeightedEdge;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -64,7 +61,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private boolean freeExploration;
     private boolean navigationMode;
     private boolean searchingExit;
-    private Navigation navigationManager;
+    private NavigationManager navigationManager;
     private MapManager mapManager;
     private SeekBar seekBar;
     Handler audioHandler = new Handler();
@@ -109,7 +106,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         bindService(intent, audioConnection, Context.BIND_AUTO_CREATE);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
 
-        this.navigationManager = new Navigation(information);
+        this.navigationManager = new NavigationManager(information);
         this.navigationMode = false;
     }
 
@@ -324,6 +321,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         audioService.toggleAudioOnOff(view);
     }
 
+    /**
+     * This method is called when a marker is selected. If the user is in navigation mode, the
+     * user will have already indicated the destination point. The method will proceed to generate
+     * the shortest path between the already selected marker and the marker selected in navigation
+     * mode, .
+     *
+     * If the user is not in navigation mode, the method registers the marker as the
+     * "currentPointOfInterest" and changes the color of the marker to red.
+     * @param marker
+     * @return
+     */
     @Override
     public boolean onMarkerClick(Marker marker) {
         if (navigationMode) {
@@ -342,7 +350,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 panelManager.loadPanel();
             }
             selectedMarkerDisplay(marker);
-            //move camera to marker postion
+            //move camera to marker position
             LatLng markerLocation = marker.getPosition();
 
             mMap.moveCamera(CameraUpdateFactory.newLatLng(markerLocation));
@@ -352,6 +360,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return true;
     }
 
+    /**
+     * Change point of interest marker color to red when selected.
+     * @param marker The selected marker.
+     */
     private void selectedMarkerDisplay(Marker marker) {
         if (selectedMarker != null) {
             selectedMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
@@ -531,7 +543,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         this.navigationMode = navigationMode;
     }
 
-    public Navigation getNavigationManager() {
+    public NavigationManager getNavigationManager() {
         return navigationManager;
     }
 

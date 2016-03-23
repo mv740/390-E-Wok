@@ -63,6 +63,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private StoryLine storyLine;
     private boolean freeExploration;
     private boolean navigationMode;
+    private boolean searchingExit;
     private Navigation navigationManager;
     private MapManager mapManager;
     private SeekBar seekBar;
@@ -107,7 +108,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         Intent intent = new Intent(this, AudioService.class);
         bindService(intent, audioConnection, Context.BIND_AUTO_CREATE);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
-        navigationMode = false;
+
+        this.navigationManager = new Navigation(information);
+        this.navigationMode = false;
     }
 
 
@@ -303,8 +306,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             navigationManager.stopNavigationMode();
             navigationManager.clear();
             navigationMode = false;
+            searchingExit = false;
         } else {
-            navigationManager = new Navigation(information);
             navigationManager.startNavigationMode(panelManager);
             navigationMode = true;
         }
@@ -329,18 +332,23 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             navigationManager.setUserLocation(pMarkerInfo.getNodeID());
             navigationManager.selectedStart(marker);
 
-            PointOfInterest destinationNode = panelManager.getCurrentPointOfInterest();
-            List<DefaultWeightedEdge> defaultWeightedEdgeList = navigationManager.findShortestPath(navigationManager.getUserLocation(), destinationNode.getId());
-            if (!navigationManager.doesPathExist(defaultWeightedEdgeList)) {
-                mapManager.clearFloorLines();
-                return true;
-            }
-            List<Edge> edgeList = navigationManager.getCorrespondingEdgesFromPathSequence(defaultWeightedEdgeList);
+            if(searchingExit) {
+                mapManager.findExitPath(pMarkerInfo.getNodeID());
+            } else {
+                PointOfInterest destinationNode = panelManager.getCurrentPointOfInterest();
+                List<DefaultWeightedEdge> defaultWeightedEdgeList = navigationManager.findShortestPath(navigationManager.getUserLocation(), destinationNode.getId());
+                if (!navigationManager.doesPathExist(defaultWeightedEdgeList)) {
+                    mapManager.clearFloorLines();
+                    return true;
+                }
+                List<Edge> edgeList = navigationManager.getCorrespondingEdgesFromPathSequence(defaultWeightedEdgeList);
 
-            //clear existing lines and set new floor lines to display the shortest path
-            mapManager.clearFloorLines();
-            mapManager.initShortestPathFloorLineMap(edgeList);
-            mapManager.displayFloorLines(mapManager.getCurrentFloorID(), true);
+                //clear existing lines and set new floor lines to display the shortest path
+                mapManager.clearFloorLines();
+                mapManager.initShortestPathFloorLineMap(edgeList);
+                mapManager.displayFloorLines(mapManager.getCurrentFloorID(), true);
+            }
+
 
 
         } else {
@@ -529,5 +537,21 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     public boolean isFreeExploration() {
         return freeExploration;
+    }
+
+    public void setSearchingExit(boolean searchingExit) {
+        this.searchingExit = searchingExit;
+    }
+
+    public void setNavigationMode(boolean navigationMode) {
+        this.navigationMode = navigationMode;
+    }
+
+    public Navigation getNavigationManager() {
+        return navigationManager;
+    }
+
+    public PoiPanelManager getPanelManager() {
+        return panelManager;
     }
 }

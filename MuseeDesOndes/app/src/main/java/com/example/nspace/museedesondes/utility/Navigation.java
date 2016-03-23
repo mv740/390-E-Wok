@@ -130,7 +130,7 @@ public class Navigation {
         return userLocation;
     }
     
-    public List<DefaultWeightedEdge> getShortestExitPath(Node startNode) {
+    public List<DefaultWeightedEdge> getShortestExitPath(int startNodeID) {
         List<DefaultWeightedEdge> currentWeightedEdgeList;
         List<DefaultWeightedEdge> shortestWeightedEdgeList = null;
         int minDistance = Integer.MAX_VALUE;
@@ -139,11 +139,13 @@ public class Navigation {
         //compute shortest path to each exit and find one with min distance
         for (LabelledPoint labelledPoint : map.getLabelledPoints()) {
             if (labelledPoint.getLabel() == Label.EXIT) {
-                currentWeightedEdgeList = findShortestPath(startNode.getId(), labelledPoint.getId());
-                currentDistance = getPathDistance(currentWeightedEdgeList);
-                if (currentDistance < minDistance) {
-                    shortestWeightedEdgeList = currentWeightedEdgeList;
-                    minDistance = currentDistance;
+                currentWeightedEdgeList = findShortestPath(startNodeID, labelledPoint.getId());
+                if(currentWeightedEdgeList != null) {
+                    currentDistance = getPathDistance(currentWeightedEdgeList);
+                    if (currentDistance < minDistance) {
+                        shortestWeightedEdgeList = currentWeightedEdgeList;
+                        minDistance = currentDistance;
+                    }
                 }
             }
         }

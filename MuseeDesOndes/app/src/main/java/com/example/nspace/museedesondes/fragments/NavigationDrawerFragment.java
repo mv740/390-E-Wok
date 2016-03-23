@@ -174,8 +174,12 @@ public class NavigationDrawerFragment extends Fragment {
                     startActivity(startSettings);
                     return;
                 case 2: //"find exit"
+                    //TODO: prompt user to select starting location
                     MapActivity mapActivity = (MapActivity) getActivity();
-                    mapActivity.getMapManager().findExitPath();
+                    mapActivity.getNavigationManager().startNavigationMode(mapActivity.getPanelManager());
+                    mapActivity.setSearchingExit(true);
+                    mapActivity.setNavigationMode(true);
+                    closeDrawer();
                     return;
                 default:
 

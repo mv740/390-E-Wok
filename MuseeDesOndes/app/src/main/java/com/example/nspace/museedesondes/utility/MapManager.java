@@ -183,7 +183,7 @@ public class MapManager implements POIBeaconListener {
     public void initFloorPOTMarkerMap(List<LabelledPoint> labelledPointList) {
         Marker marker;
         for (LabelledPoint labelledPoint : labelledPointList) {
-            marker = PointMarkerFactory.singleTransitionPointFactory(labelledPoint, mMap);
+            marker = PointMarkerFactory.singleTransitionPointFactory(labelledPoint, mMap, getGroundOverlayFloorMapBound());
             floorMarkerMap.get(labelledPoint.getFloorID()).add(marker);
         }
     }

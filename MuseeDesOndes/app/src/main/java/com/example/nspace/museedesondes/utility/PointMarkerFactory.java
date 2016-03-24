@@ -33,7 +33,7 @@ public class PointMarkerFactory {
         CoordinateAdapter coordinateAdapter = new CoordinateAdapter(groundOverlayFloorMapBound);
 
         MarkerOptions node = new MarkerOptions();
-        node.position(new LatLng(coordinateAdapter.convertY(pointOfInterest.getX()),coordinateAdapter.convertX(pointOfInterest.getY())));
+        node.position(new LatLng(coordinateAdapter.convertY(pointOfInterest.getX()),coordinateAdapter.convertX(pointOfInterest.getY()))); //TODO: convert check getX, getY and coordinate adapter are mismatched
         node.title(title);
         node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
 
@@ -69,10 +69,12 @@ public class PointMarkerFactory {
         }
     }
 
-    public static Marker singleTransitionPointFactory(LabelledPoint labelledPoint, GoogleMap googleMap) {
+    public static Marker singleTransitionPointFactory(LabelledPoint labelledPoint, GoogleMap googleMap, LatLngBounds groundOverlayFloorMapBound) {
+        CoordinateAdapter coordinateAdapter = new CoordinateAdapter(groundOverlayFloorMapBound);
+
         String title = labelledPoint.getLabel().name();
         MarkerOptions node = new MarkerOptions();
-        node.position(new LatLng(labelledPoint.getX(), labelledPoint.getY())); //TODO: convert
+        node.position(new LatLng(coordinateAdapter.convertY(labelledPoint.getX()), coordinateAdapter.convertX(labelledPoint.getY())));  //TODO: convert check getX, getY and coordinate adapter are mismatched
         node.title(title);
 
         switch (labelledPoint.getLabel()) {

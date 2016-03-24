@@ -12,9 +12,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.SystemRequirementsChecker;
@@ -340,12 +342,25 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public boolean onMarkerClick(Marker marker) {
         if (navigationMode) {
 
-            PointMarkerFactory.Information pMarkerInfo = new PointMarkerFactory.Information(marker.getSnippet());
-            navigationManager.setUserLocation(pMarkerInfo.getNodeID());
-            navigationManager.selectedStart(marker);
+            Log.e("marker",marker.getId());
+            Log.e("markerSelect",selectedMarker.getId());
+            if(selectedMarker.equals(marker))
+            {
+                //todo refactoring to use R.String
+                Toast toast = Toast.makeText(getApplicationContext(), "This is your destination", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.BOTTOM| Gravity.CENTER, 0, 200);
+                toast.show();
 
-            PointOfInterest destinationNode = panelManager.getCurrentPointOfInterest();
-            mapManager.displayShortestPath(pMarkerInfo.getNodeID(), destinationNode, searchingExit);
+
+            }else {
+                PointMarkerFactory.Information pMarkerInfo = new PointMarkerFactory.Information(marker.getSnippet());
+                navigationManager.setUserLocation(pMarkerInfo.getNodeID());
+                navigationManager.selectedStart(marker);
+
+                PointOfInterest destinationNode = panelManager.getCurrentPointOfInterest();
+                mapManager.displayShortestPath(pMarkerInfo.getNodeID(), destinationNode, searchingExit);
+            }
+
 
         } else {
 

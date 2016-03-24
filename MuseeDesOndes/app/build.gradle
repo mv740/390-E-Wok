@@ -61,4 +61,5 @@ dependencies {
     }
     def jgraphtVersion = '0.9.1'
     compile "org.jgrapht:jgrapht-core:$jgraphtVersion"
+    compile 'com.github.deano2390:MaterialShowcaseView:1.1.0@aar'
 }

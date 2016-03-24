@@ -82,9 +82,6 @@ public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter<Horizonta
         public SingleItemRowHolder(View view) {
             super(view);
             this.MediaResource = (ImageView) view.findViewById(R.id.poi_panel_pic_item_imageview);
-            if (MediaResource.getTag() == "VIDEO") {
-                MediaResource.setImageBitmap(mContext.getPanel().getThumbnails());
-            }
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

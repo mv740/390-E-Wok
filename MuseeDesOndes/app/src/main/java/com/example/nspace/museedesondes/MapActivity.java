@@ -65,9 +65,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private MapManager mapManager;
     private SeekBar seekBar;
     Handler audioHandler = new Handler();
+
     public PoiPanelManager getPanel() {
         return panelManager;
     }
+
     private PoiPanelManager panelManager;
     private Marker selectedMarker;
 
@@ -298,6 +300,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public void getDirections(View v) {
+
         if (navigationMode) {
             mapManager.clearFloorLines();
             navigationManager.stopNavigationMode();
@@ -326,9 +329,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      * user will have already indicated the destination point. The method will proceed to generate
      * the shortest path between the already selected marker and the marker selected in navigation
      * mode, .
-     *
+     * <p/>
      * If the user is not in navigation mode, the method registers the marker as the
      * "currentPointOfInterest" and changes the color of the marker to red.
+     *
      * @param marker
      * @return
      */
@@ -345,8 +349,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         } else {
 
-            if(panelManager.isInitialState())
-            {
+            if (panelManager.isInitialState()) {
                 panelManager.loadPanel();
             }
             selectedMarkerDisplay(marker);
@@ -362,6 +365,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     /**
      * Change point of interest marker color to red when selected.
+     *
      * @param marker The selected marker.
      */
     private void selectedMarkerDisplay(Marker marker) {
@@ -537,6 +541,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     public void setSearchingExit(boolean searchingExit) {
         this.searchingExit = searchingExit;
+    }
+
+    public boolean isSearchingExit() {
+        return searchingExit;
     }
 
     public void setNavigationMode(boolean navigationMode) {

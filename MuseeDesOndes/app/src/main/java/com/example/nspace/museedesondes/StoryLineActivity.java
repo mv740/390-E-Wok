@@ -16,7 +16,7 @@ import com.dexafree.materialList.card.action.TextViewAction;
 import com.dexafree.materialList.card.provider.ListCardProvider;
 import com.dexafree.materialList.listeners.RecyclerItemClickListener;
 import com.dexafree.materialList.view.MaterialListView;
-import com.example.nspace.museedesondes.model.Map;
+import com.example.nspace.museedesondes.model.MuseumMap;
 import com.example.nspace.museedesondes.model.StoryLine;
 import com.example.nspace.museedesondes.model.StoryLineDescription;
 import com.example.nspace.museedesondes.utility.Resource;
@@ -31,7 +31,7 @@ import java.util.Locale;
 
 public class StoryLineActivity extends AppCompatActivity {
 
-    Map information;
+    MuseumMap information;
     String storyLineActivityLang;
     int cardsNumbers;
 
@@ -40,7 +40,7 @@ public class StoryLineActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_storyline);
 
-        information = Map.getInstance(getApplicationContext());
+        information = MuseumMap.getInstance(getApplicationContext());
 
         Locale currentLocale = getResources().getConfiguration().locale;
         storyLineActivityLang = currentLocale.getLanguage();

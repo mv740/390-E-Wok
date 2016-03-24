@@ -8,6 +8,7 @@ import android.view.View;
 import com.example.nspace.museedesondes.R;
 import com.example.nspace.museedesondes.model.Edge;
 import com.example.nspace.museedesondes.model.FloorPlan;
+import com.example.nspace.museedesondes.model.MuseumMap;
 import com.example.nspace.museedesondes.model.Node;
 import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.example.nspace.museedesondes.model.StoryLine;
@@ -177,7 +178,7 @@ public class MapManager implements POIBeaconListener {
     }
 
     public void createEmptyFloorLineMap() {
-        List<FloorPlan> floorPlans = com.example.nspace.museedesondes.model.Map.getInstance(context).getFloorPlans();
+        List<FloorPlan> floorPlans = MuseumMap.getInstance(context).getFloorPlans();
         for(FloorPlan floorPlan : floorPlans) {
             List<Polyline> lineList = new ArrayList<>();
             floorLineMap.put(floorPlan.getId(), lineList);
@@ -208,7 +209,7 @@ public class MapManager implements POIBeaconListener {
     }
 
     public void displayShortestPath(int startNodeID, Node destinationNode, boolean searchingExit) {
-        com.example.nspace.museedesondes.model.Map information = com.example.nspace.museedesondes.model.Map.getInstance(context);
+        MuseumMap information = MuseumMap.getInstance(context);
         NavigationManager navigation = new NavigationManager(information);
         List<DefaultWeightedEdge> weightedEdgeList;
 
@@ -258,7 +259,7 @@ public class MapManager implements POIBeaconListener {
     }
 
     /**
-     * android Zoom-to-Fit All Markers on Google Map
+     * android Zoom-to-Fit All Markers on Google MuseumMap
      */
     public void zoomToFit() {
 

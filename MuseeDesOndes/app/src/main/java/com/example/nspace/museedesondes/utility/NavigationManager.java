@@ -9,7 +9,7 @@ import com.example.nspace.museedesondes.R;
 import com.example.nspace.museedesondes.model.Edge;
 import com.example.nspace.museedesondes.model.Label;
 import com.example.nspace.museedesondes.model.LabelledPoint;
-import com.example.nspace.museedesondes.model.Map;
+import com.example.nspace.museedesondes.model.MuseumMap;
 import com.example.nspace.museedesondes.model.Node;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
@@ -30,13 +30,13 @@ public class NavigationManager {
 
     public static final String NAVIGATIONLOG = "NavigationManager";
     private SimpleWeightedGraph<Integer, DefaultWeightedEdge> graph;
-    private Map map;
+    private MuseumMap map;
     private int userLocation;
     private Marker selectedStartMarker;
     private String panelTitle;
     private PoiPanelManager currentPanelManager;
 
-    public NavigationManager(Map map) {
+    public NavigationManager(MuseumMap map) {
         this.graph = new SimpleWeightedGraph<>(DefaultWeightedEdge.class);
         this.map = map;
         initializeGraph();

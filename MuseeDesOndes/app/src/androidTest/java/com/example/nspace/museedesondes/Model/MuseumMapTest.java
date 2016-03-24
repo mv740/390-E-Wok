@@ -10,11 +10,11 @@ import com.example.nspace.museedesondes.MainActivity;
 /**
  * Created by michal on 1/30/2016.
  */
-public class MapTest extends ActivityInstrumentationTestCase2<MainActivity> {
+public class MuseumMapTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
     private Context context;
 
-    public MapTest() {
+    public MuseumMapTest() {
         super(MainActivity.class);
     }
 
@@ -26,7 +26,7 @@ public class MapTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
 
     public void testGetNodes() {
-        Map map = Map.getInstance(context);
+        MuseumMap map = MuseumMap.getInstance(context);
         assertNotNull("error map is null", map);
 
         Node testNode = new Node(1234, 1234, 1234, 1234);
@@ -37,7 +37,7 @@ public class MapTest extends ActivityInstrumentationTestCase2<MainActivity> {
     }
 
     public void testGetPointOfInterests() {
-        Map map = Map.getInstance(context);
+        MuseumMap map = MuseumMap.getInstance(context);
         assertNotNull("error map is null", map);
 
         PointOfInterest test = new PointOfInterest(1234, 1234, 1234, 1234, null, null, null, null);
@@ -49,7 +49,7 @@ public class MapTest extends ActivityInstrumentationTestCase2<MainActivity> {
     }
 
     public void testGetEdges() {
-        Map map = Map.getInstance(context);
+        MuseumMap map = MuseumMap.getInstance(context);
         assertNotNull("error map is null", map);
 
         Edge edge = new Edge(1234, 4567, 1234, 1);
@@ -61,7 +61,7 @@ public class MapTest extends ActivityInstrumentationTestCase2<MainActivity> {
     }
 
     public void testGetStoryLines() {
-        Map map = Map.getInstance(context);
+        MuseumMap map = MuseumMap.getInstance(context);
         assertNotNull("error map is null", map);
 
         StoryLine storyLineTest = new StoryLine(1234, "test", null, 1234, 1234, null);
@@ -72,7 +72,7 @@ public class MapTest extends ActivityInstrumentationTestCase2<MainActivity> {
     }
 
     public void testGetLabelledPoints() {
-        Map map = Map.getInstance(context);
+        MuseumMap map = MuseumMap.getInstance(context);
         assertNotNull("error map is null", map);
 
         LabelledPoint labelledPoint = new LabelledPoint(1234, 1234, 1234, 1234, Label.ENTRANCE);
@@ -83,7 +83,7 @@ public class MapTest extends ActivityInstrumentationTestCase2<MainActivity> {
     }
 
     public void testGetFloorPlans() {
-        Map map = Map.getInstance(context);
+        MuseumMap map = MuseumMap.getInstance(context);
         assertNotNull("error map is null", map);
 
         FloorPlan floorPlan = new FloorPlan(1234, "hello world", 1234, 1234);
@@ -96,7 +96,7 @@ public class MapTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
     //test methods
     public void testSearchNodeById() {
-        Map map = Map.getInstance(context);
+        MuseumMap map = MuseumMap.getInstance(context);
         Node node = new Node(100, 1, 1.0, 1.0);
         map.getNodes().add(node);
         assertNotNull("error map is null", map);
@@ -107,7 +107,7 @@ public class MapTest extends ActivityInstrumentationTestCase2<MainActivity> {
     }
 
     public void testSearchPoiById() {
-        Map map = Map.getInstance(context);
+        MuseumMap map = MuseumMap.getInstance(context);
         assertNotNull("error map is null", map);
         PointOfInterest pointOfInterest = new PointOfInterest(10, 10, 10.0, 10.0, null, null, null, null);
         map.getPointOfInterests().add(pointOfInterest);
@@ -118,7 +118,7 @@ public class MapTest extends ActivityInstrumentationTestCase2<MainActivity> {
     }
 
     public void testGetPointOfInterestsCurrentFloor() {
-        Map map = Map.getInstance(context);
+        MuseumMap map = MuseumMap.getInstance(context);
         assertNotNull("error map is null", map);
 
         PointOfInterest pointOfInterest = new PointOfInterest(1234, 1111, 1234.0, 1234.0, null, null, null, null);
@@ -130,7 +130,7 @@ public class MapTest extends ActivityInstrumentationTestCase2<MainActivity> {
     }
 
     public void testGetLabelledPointsCurrentFloor() {
-        Map map = Map.getInstance(context);
+        MuseumMap map = MuseumMap.getInstance(context);
         assertNotNull("error map is null", map);
 
         LabelledPoint labelledPointTest = new LabelledPoint(1234, 3333, 1234, 1234, Label.ENTRANCE);

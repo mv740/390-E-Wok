@@ -5,9 +5,12 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 
+import com.example.nspace.museedesondes.MapActivity;
 import com.example.nspace.museedesondes.R;
 import com.example.nspace.museedesondes.model.Edge;
 import com.example.nspace.museedesondes.model.FloorPlan;
+import com.example.nspace.museedesondes.model.Label;
+import com.example.nspace.museedesondes.model.LabelledPoint;
 import com.example.nspace.museedesondes.model.MuseumMap;
 import com.example.nspace.museedesondes.model.Node;
 import com.example.nspace.museedesondes.model.PointOfInterest;
@@ -30,8 +33,10 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import org.jgrapht.graph.DefaultWeightedEdge;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by michal on 2/10/2016.
@@ -46,11 +51,12 @@ public class MapManager implements POIBeaconListener {
     private static final float WIDTH_WHITE_BACKGROUND = 20520f;
     private static final float HEIGHT_WHITE_BACKGROUND = 25704f;
     private GoogleMap mMap;
-    private Context context;
+    private MapActivity context;
     private LatLngBounds groundOverlayFloorMapBound;
     private GroundOverlay groundOverlayFloorMap;
     private int zoomLevel = 1;
     private Map<Integer, List<Polyline>> floorLineMap;
+    private Map<Integer, List<Marker>> floorMarkerMap;
     private int currentFloorID;
     private boolean freeExploration;
     private boolean zoomToFitUsed = false;
@@ -59,13 +65,15 @@ public class MapManager implements POIBeaconListener {
     private List<FloorPlan> floorPlans;
 
 
-    public MapManager(GoogleMap googleMap, Context context, Map<Integer, List<Polyline>> floorLineMap, boolean freeExploration, List<FloorPlan> floorPlans) {
+    public MapManager(GoogleMap googleMap, MapActivity context, Map<Integer, List<Polyline>> floorLineMap, boolean freeExploration, List<FloorPlan> floorPlans) {
         this.mMap = googleMap;
         this.context = context;
         this.floorLineMap = floorLineMap;
+        this.floorMarkerMap = new HashMap<>();
         this.freeExploration = freeExploration;
         this.floorPlans = floorPlans;
         this.currentFloorID = DEFAULT_FLOOR_ID;
+        createEmptyFloorLineAndMarkerMaps();
     }
 
     /**
@@ -96,9 +104,7 @@ public class MapManager implements POIBeaconListener {
                 .zIndex(-1);
         mMap.addGroundOverlay(mapBackground);
 
-        if (!freeExploration) {
-            displayFloorLines(DEFAULT_FLOOR_ID, true);
-        }
+        displayFloorLinesAndMarkers(DEFAULT_FLOOR_ID, true);
     }
 
     /**
@@ -133,8 +139,7 @@ public class MapManager implements POIBeaconListener {
      */
     public void switchFloor(int floorID) {
 
-        displayCurrentFloorPointOfInterest(floorID);
-        updateFloorLines(floorID);
+        updateFloorLinesAndMarkers(floorID);
 
         //http://stackoverflow.com/questions/16369814/how-to-access-the-drawable-resources-by-name-in-android
         groundOverlayFloorMap.setImage(BitmapDescriptorFactory.fromResource(getFloorPlanResourceID(floorID)));
@@ -163,27 +168,59 @@ public class MapManager implements POIBeaconListener {
         return Resource.getResourceIDFromPath(floorPlan.getImagePath(),context);
     }
 
-    public void displayFloorLines(Integer floorID, boolean visibility) {
+    /*** FLOOR MARKER METHODS ***/
+
+    //maps floor id to markers for displaying, also initializes map from marker -> node for on marker click events
+    public void initFloorPOIMarkerMap(List<PointOfInterest> pointsOfInterestList, Map<Marker, PointOfInterest> markerPOIMap) {
+        Marker marker;
+        for(PointOfInterest pointOfInterest : pointsOfInterestList) {
+            marker = PointMarkerFactory.singleInterestPointFactory(pointOfInterest, context, mMap, getGroundOverlayFloorMapBound());
+            floorMarkerMap.get(pointOfInterest.getFloorID()).add(marker);
+            markerPOIMap.put(marker, pointOfInterest);
+        }
+    }
+
+    public void initFloorPOTMarkerMap(List<LabelledPoint> labelledPointList) {
+        Marker marker;
+        for (LabelledPoint labelledPoint : labelledPointList) {
+            if(labelledPoint.getLabel() != Label.NONE) {
+                marker = PointMarkerFactory.singleTransitionPointFactory(labelledPoint, mMap, getGroundOverlayFloorMapBound());
+                floorMarkerMap.get(labelledPoint.getFloorID()).add(marker);
+            }
+        }
+    }
+
+    /*** FLOOR POLYLINE + MARKER METHODS ***/
+
+    public void displayFloorLinesAndMarkers(Integer floorID, boolean visibility) {
         List<Polyline> floorLines = floorLineMap.get(floorID);
+        List<Marker> markerList = floorMarkerMap.get(floorID);
 
         for (Polyline line : floorLines) {
             line.setVisible(visibility);
         }
+        for (Marker marker : markerList) {
+            marker.setVisible(visibility);
+        }
     }
 
-    private void updateFloorLines(int newFloorID) {
-        displayFloorLines(currentFloorID, false);
-        displayFloorLines(newFloorID, true);
+    private void updateFloorLinesAndMarkers(int newFloorID) {
+        displayFloorLinesAndMarkers(currentFloorID, false);
+        displayFloorLinesAndMarkers(newFloorID, true);
         this.currentFloorID = newFloorID;
     }
 
-    public void createEmptyFloorLineMap() {
+    public void createEmptyFloorLineAndMarkerMaps() {
         List<FloorPlan> floorPlans = MuseumMap.getInstance(context).getFloorPlans();
         for(FloorPlan floorPlan : floorPlans) {
             List<Polyline> lineList = new ArrayList<>();
+            List<Marker> markerList = new ArrayList<>();
             floorLineMap.put(floorPlan.getId(), lineList);
+            floorMarkerMap.put(floorPlan.getId(), markerList);
         }
     }
+
+    /*** FLOOR MARKER METHODS ***/
 
     public void clearFloorLines(){
         for(List<Polyline> floorLines : floorLineMap.values()){
@@ -229,7 +266,7 @@ public class MapManager implements POIBeaconListener {
         //clear existing lines and set new floor lines to display the shortest path
         clearFloorLines();
         initShortestPathFloorLineMap(shortestPath);
-        displayFloorLines(currentFloorID, true);
+        displayFloorLinesAndMarkers(currentFloorID, true);
     }
 
     private Polyline getLineFromNodes(Node node1, Node node2) {
@@ -241,22 +278,7 @@ public class MapManager implements POIBeaconListener {
         return line;
     }
 
-    /**
-     * Show only marker that are meant for the current floor
-     *
-     * @param floorID
-     */
-    public void displayCurrentFloorPointOfInterest(int floorID) {
-        for (Marker marker : markerList) {
-            PointMarkerFactory.Information pMarkerInfo = new PointMarkerFactory.Information(marker.getSnippet());
-
-            if ((pMarkerInfo.getFloorID()) == floorID) {
-                marker.setVisible(true);
-            } else {
-                marker.setVisible(false);
-            }
-        }
-    }
+    /*** CAMERA METHODS ***/
 
     /**
      * android Zoom-to-Fit All Markers on Google MuseumMap
@@ -441,7 +463,6 @@ public class MapManager implements POIBeaconListener {
             pinchZoomUsed = true;
             Log.v("pinch", "detected");
         }
-
     }
 
     public void setMarkerList(List<Marker> markerList) {
@@ -455,9 +476,13 @@ public class MapManager implements POIBeaconListener {
      * @param storyLine
      */
     public void onPOIBeaconDiscovered(PointOfInterest node, StoryLine storyLine) {
-        for(Marker marker : markerList) {
-            PointMarkerFactory.Information pMarkerInfo = new PointMarkerFactory.Information(marker.getSnippet());
-            if(pMarkerInfo.getNodeID() == node.getId()) {
+        Map<Marker, PointOfInterest> markerPOIMap = context.getMarkerPointOfInterestMap();
+        Marker marker;
+
+        //fetching marker from node in the marker->node map in map activity
+        for (Map.Entry<Marker, PointOfInterest> entry : markerPOIMap.entrySet()) {
+            if (entry.getValue().equals(node)) {
+                marker = entry.getKey();
                 marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
                 return;
             }

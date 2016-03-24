@@ -57,11 +57,8 @@ public class PoiPanelManager implements POIBeaconListener {
         });
     }
 
-    public void update(Marker marker) {
+    public void update(PointOfInterest pointOfInterest) {
 
-        PointMarkerFactory.Information pMarkerInfo = new PointMarkerFactory.Information(marker.getSnippet());
-
-        PointOfInterest pointOfInterest = activity.getInformation().searchPoiById(pMarkerInfo.getNodeID());
         this.currentPointOfInterest = pointOfInterest;
         Log.v("test", activity.getResources().getConfiguration().locale.getLanguage());
         String description = pointOfInterest.getLocaleDescription(activity.getApplicationContext()).getDescription();

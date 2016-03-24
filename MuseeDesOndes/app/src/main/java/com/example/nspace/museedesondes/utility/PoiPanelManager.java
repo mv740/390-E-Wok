@@ -3,6 +3,7 @@ package com.example.nspace.museedesondes.utility;
 import android.graphics.Bitmap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -108,12 +109,12 @@ public class PoiPanelManager implements POIBeaconListener {
 
     private void replaceDescription(String description) {
         DocumentView docView = (DocumentView) panel.findViewById(R.id.poi_text);
-        docView.setText(description);
+        docView.setText(Html.fromHtml(description));
     }
 
     public void replaceTitle(String title) {
         TextView docView = (TextView) panel.findViewById(poi_title);
-        docView.setText(title);
+        docView.setText(Html.fromHtml(title));
     }
 
     public String getTitle() {

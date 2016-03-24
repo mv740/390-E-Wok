@@ -51,7 +51,7 @@ public class NavigationTest extends ActivityInstrumentationTestCase2<MainActivit
         information.getEdges().add(new Edge(1, 3, 5, 0));
         information.getEdges().add(new Edge(3, 4, 10, 0));
 
-        Navigation navigation = new Navigation(information);
+        NavigationManager navigation = new NavigationManager(information);
 
         //mockup graph
         List list = new ArrayList();
@@ -89,7 +89,7 @@ public class NavigationTest extends ActivityInstrumentationTestCase2<MainActivit
         information.getEdges().add(new Edge(1, 3, 5, 0));
         information.getEdges().add(new Edge(3, 4, 10, 0));
 
-        Navigation navigation = new Navigation(information);
+        NavigationManager navigation = new NavigationManager(information);
 
         assertEquals(null, navigation.findShortestPath(1, 5));
     }
@@ -112,7 +112,7 @@ public class NavigationTest extends ActivityInstrumentationTestCase2<MainActivit
         information.getEdges().add(new Edge(1, 3, 5, 0));
         information.getEdges().add(new Edge(3, 4, 10, 0));
 
-        Navigation navigation = new Navigation(information);
+        NavigationManager navigation = new NavigationManager(information);
 
         List<DefaultWeightedEdge> defaultWeightedEdgeList = navigation.findShortestPath(4, 1);
 
@@ -140,7 +140,7 @@ public class NavigationTest extends ActivityInstrumentationTestCase2<MainActivit
         information.getEdges().add(new Edge(1, 3, 5, 0));
         information.getEdges().add(new Edge(3, 4, 10, 0));
 
-        Navigation navigation = new Navigation(information);
+        NavigationManager navigation = new NavigationManager(information);
 
         List<DefaultWeightedEdge> defaultWeightedEdgeList = navigation.findShortestPath(4, 1);
         List<Edge> edgeList = navigation.getCorrespondingEdgesFromPathSequence(defaultWeightedEdgeList);

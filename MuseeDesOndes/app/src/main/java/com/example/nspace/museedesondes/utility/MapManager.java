@@ -8,8 +8,6 @@ import android.view.View;
 import com.example.nspace.museedesondes.R;
 import com.example.nspace.museedesondes.model.Edge;
 import com.example.nspace.museedesondes.model.FloorPlan;
-import com.example.nspace.museedesondes.model.Label;
-import com.example.nspace.museedesondes.model.LabelledPoint;
 import com.example.nspace.museedesondes.model.Node;
 import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.example.nspace.museedesondes.model.StoryLine;
@@ -211,7 +209,7 @@ public class MapManager implements POIBeaconListener {
 
     public void displayShortestPath(int startNodeID, Node destinationNode, boolean searchingExit) {
         com.example.nspace.museedesondes.model.Map information = com.example.nspace.museedesondes.model.Map.getInstance(context);
-        Navigation navigation = new Navigation(information);
+        NavigationManager navigation = new NavigationManager(information);
         List<DefaultWeightedEdge> weightedEdgeList;
 
         if(searchingExit) {

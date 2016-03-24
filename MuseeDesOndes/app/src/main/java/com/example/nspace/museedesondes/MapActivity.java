@@ -19,7 +19,7 @@ import android.widget.SeekBar;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.SystemRequirementsChecker;
 import com.example.nspace.museedesondes.fragments.NavigationDrawerFragment;
-import com.example.nspace.museedesondes.model.Map;
+import com.example.nspace.museedesondes.model.MuseumMap;
 import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.example.nspace.museedesondes.model.StoryLine;
 import com.example.nspace.museedesondes.services.AudioService;
@@ -53,7 +53,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private NavigationDrawerFragment mNavigationDrawerFragment;
-    private Map information;
+    private MuseumMap information;
     AudioService audioService;
     private int[] floorButtonIdList = {R.id.fab1, R.id.fab2, R.id.fab3, R.id.fab4, R.id.fab5};
     private StoryLineManager storyLineManager;
@@ -65,9 +65,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private MapManager mapManager;
     private SeekBar seekBar;
     Handler audioHandler = new Handler();
+
     public PoiPanelManager getPanel() {
         return panelManager;
     }
+
     private PoiPanelManager panelManager;
     private Marker selectedMarker;
 
@@ -78,7 +80,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         this.panelManager = new PoiPanelManager(this);
 
         //create storyline manager which handles storyline progression and interaction with the beacons
-        information = Map.getInstance(getApplicationContext());
+        information = MuseumMap.getInstance(getApplicationContext());
         getStoryLineSelected();
 
         if (!freeExploration) {
@@ -168,7 +170,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        information = Map.getInstance(getApplicationContext());
+        information = MuseumMap.getInstance(getApplicationContext());
 
         java.util.Map<Integer, List<Polyline>> floorLineMap = new HashMap<>();
 
@@ -298,6 +300,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public void getDirections(View v) {
+
         if (navigationMode) {
             mapManager.clearFloorLines();
             navigationManager.stopNavigationMode();
@@ -326,9 +329,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      * user will have already indicated the destination point. The method will proceed to generate
      * the shortest path between the already selected marker and the marker selected in navigation
      * mode, .
-     *
+     * <p/>
      * If the user is not in navigation mode, the method registers the marker as the
      * "currentPointOfInterest" and changes the color of the marker to red.
+     *
      * @param marker
      * @return
      */
@@ -345,8 +349,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         } else {
 
-            if(panelManager.isInitialState())
-            {
+            if (panelManager.isInitialState()) {
                 panelManager.loadPanel();
             }
             selectedMarkerDisplay(marker);
@@ -362,6 +365,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     /**
      * Change point of interest marker color to red when selected.
+     *
      * @param marker The selected marker.
      */
     private void selectedMarkerDisplay(Marker marker) {
@@ -472,7 +476,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mapManager.zoomToFit();
     }
 
-    public Map getInformation() {
+    public MuseumMap getInformation() {
         return information;
     }
 
@@ -537,6 +541,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     public void setSearchingExit(boolean searchingExit) {
         this.searchingExit = searchingExit;
+    }
+
+    public boolean isSearchingExit() {
+        return searchingExit;
     }
 
     public void setNavigationMode(boolean navigationMode) {

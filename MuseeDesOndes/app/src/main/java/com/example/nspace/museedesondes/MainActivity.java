@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
-import com.example.nspace.museedesondes.model.Map;
+import com.example.nspace.museedesondes.model.MuseumMap;
 import com.example.nspace.museedesondes.utility.Preferences;
 
 
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity{
             loadReplaceMeWith(R.layout.welcome_begin_tour);
         }
 
-        Map.getInstance(getApplicationContext());
+        MuseumMap.getInstance(getApplicationContext());
     }
 
     private void loadReplaceMeWith(int id){

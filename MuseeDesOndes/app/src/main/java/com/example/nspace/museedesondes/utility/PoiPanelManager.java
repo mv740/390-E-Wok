@@ -1,6 +1,5 @@
 package com.example.nspace.museedesondes.utility;
 
-import android.graphics.Bitmap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -35,7 +34,6 @@ public class PoiPanelManager implements POIBeaconListener {
     private SlidingUpPanelLayout panel;
     private PointOfInterest currentPointOfInterest;
     private int selectedImageId;
-    private Bitmap Thumbnails;
     private RelativeLayout poiPanelLayout;
     private boolean initialState;
     private FloatingActionButton navigationButton;
@@ -87,6 +85,10 @@ public class PoiPanelManager implements POIBeaconListener {
     }
 
     public void onPOIBeaconDiscovered(PointOfInterest pointOfInterest, StoryLine storyLine) {
+
+        if (isInitialState()) {
+            loadPanel();
+        }
 
         this.currentPointOfInterest = pointOfInterest;
         String description = pointOfInterest.getStoryRelatedDescription(storyLine.getId(), activity.getApplicationContext()).getDescription();
@@ -157,14 +159,6 @@ public class PoiPanelManager implements POIBeaconListener {
         return selectedImageId;
     }
 
-    public void setThumbnails(Bitmap thumbnails) {
-        Thumbnails = thumbnails;
-    }
-
-    public Bitmap getThumbnails() {
-        return Thumbnails;
-    }
-
     public SlidingUpPanelLayout getPanel() {
         return panel;
     }
@@ -183,8 +177,7 @@ public class PoiPanelManager implements POIBeaconListener {
     public void loadPanel() {
         initialState = false;
         panel.setTouchEnabled(true);
-        if(activity.isFreeExploration())
-        {
+        if (activity.isFreeExploration()) {
             navigationButton.setVisibility(View.VISIBLE);
         }
     }

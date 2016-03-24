@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by michal on 1/28/2016.
  */
-public class Map {
+public class MuseumMap {
     private List<Node> nodes;
     private List<Edge> edges;
     private List<StoryLine> storyLines;
@@ -25,12 +25,12 @@ public class Map {
     private List<Point> point;
 
 
-    private static Map instance = null;
+    private static MuseumMap instance = null;
 
-    private Map(@JsonProperty("node") ArrayList<Point> point,
-                @JsonProperty("edge") ArrayList<Edge> edges,
-                @JsonProperty("storyLine") ArrayList<StoryLine> storyLines,
-                @JsonProperty("floorPlan") ArrayList<FloorPlan> floorPlans) {
+    private MuseumMap(@JsonProperty("node") ArrayList<Point> point,
+                      @JsonProperty("edge") ArrayList<Edge> edges,
+                      @JsonProperty("storyLine") ArrayList<StoryLine> storyLines,
+                      @JsonProperty("floorPlan") ArrayList<FloorPlan> floorPlans) {
 
         this.point = point;
         this.edges = edges;
@@ -41,13 +41,13 @@ public class Map {
         this.nodes = new ArrayList<>();
     }
 
-    public static Map getInstance(Context context) {
+    public static MuseumMap getInstance(Context context) {
         if (instance == null) {
             String mapSource = JsonHelper.loadJSON("map.json", context);
             ObjectMapper mapper = new ObjectMapper();
             mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
             try {
-                instance = mapper.readValue(mapSource, Map.class);
+                instance = mapper.readValue(mapSource, MuseumMap.class);
                 if (instance != null) {
                     initializeNodes();
                 }

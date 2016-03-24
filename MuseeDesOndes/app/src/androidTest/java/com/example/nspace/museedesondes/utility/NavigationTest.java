@@ -5,7 +5,7 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import com.example.nspace.museedesondes.MainActivity;
 import com.example.nspace.museedesondes.model.Edge;
-import com.example.nspace.museedesondes.model.Map;
+import com.example.nspace.museedesondes.model.MuseumMap;
 import com.example.nspace.museedesondes.model.PointOfInterest;
 
 import junit.framework.Assert;
@@ -37,7 +37,7 @@ public class NavigationTest extends ActivityInstrumentationTestCase2<MainActivit
     @Test
     public void testFindShortestPath() throws Exception {
 
-        Map information = Map.getInstance(context);
+        MuseumMap information = MuseumMap.getInstance(context);
         information.getEdges().clear();
         information.getNodes().clear();
 
@@ -73,7 +73,7 @@ public class NavigationTest extends ActivityInstrumentationTestCase2<MainActivit
     public void testPathNotFound() throws Exception {
 
 
-        Map information = Map.getInstance(context);
+        MuseumMap information = MuseumMap.getInstance(context);
         information.getEdges().clear();
         information.getNodes().clear();
 
@@ -96,7 +96,7 @@ public class NavigationTest extends ActivityInstrumentationTestCase2<MainActivit
 
     public void testGetNodeInformationFromPath() throws Exception {
 
-        Map information = Map.getInstance(context);
+        MuseumMap information = MuseumMap.getInstance(context);
         information.getEdges().clear();
         information.getNodes().clear();
 
@@ -124,7 +124,7 @@ public class NavigationTest extends ActivityInstrumentationTestCase2<MainActivit
 
     public void testConvertToModelEdges() throws Exception {
 
-        Map information = Map.getInstance(context);
+        MuseumMap information = MuseumMap.getInstance(context);
         information.getEdges().clear();
         information.getNodes().clear();
 

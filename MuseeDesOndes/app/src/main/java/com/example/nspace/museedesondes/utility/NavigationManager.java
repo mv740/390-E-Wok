@@ -3,12 +3,13 @@ package com.example.nspace.museedesondes.utility;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.View;
 
 import com.example.nspace.museedesondes.R;
 import com.example.nspace.museedesondes.model.Edge;
 import com.example.nspace.museedesondes.model.Label;
 import com.example.nspace.museedesondes.model.LabelledPoint;
-import com.example.nspace.museedesondes.model.Map;
+import com.example.nspace.museedesondes.model.MuseumMap;
 import com.example.nspace.museedesondes.model.Node;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
@@ -27,13 +28,13 @@ public class NavigationManager {
 
     public static final String NAVIGATIONLOG = "NavigationManager";
     private SimpleWeightedGraph<Integer, DefaultWeightedEdge> graph;
-    private Map map;
+    private MuseumMap map;
     private int userLocation;
     private Marker selectedStartMarker;
     private String panelTitle;
     private PoiPanelManager currentPanelManager;
 
-    public NavigationManager(Map map) {
+    public NavigationManager(MuseumMap map) {
         this.graph = new SimpleWeightedGraph<>(DefaultWeightedEdge.class);
         this.map = map;
         initializeGraph();
@@ -107,18 +108,15 @@ public class NavigationManager {
         return list;
     }
 
-    public int getPathDistance(List<DefaultWeightedEdge> weightedEdgeList)
-    {
+    public int getPathDistance(List<DefaultWeightedEdge> weightedEdgeList) {
         int distance = 0;
-        for(DefaultWeightedEdge edge : weightedEdgeList)
-        {
+        for (DefaultWeightedEdge edge : weightedEdgeList) {
             distance += getEdgeWeight(edge);
         }
         return distance;
     }
 
-    public boolean doesPathExist(List<DefaultWeightedEdge> list)
-    {
+    public boolean doesPathExist(List<DefaultWeightedEdge> list) {
         return list != null;
     }
 
@@ -129,7 +127,7 @@ public class NavigationManager {
     public int getUserLocation() {
         return userLocation;
     }
-    
+
     public List<DefaultWeightedEdge> getShortestExitPath(int startNodeID) {
         List<DefaultWeightedEdge> currentWeightedEdgeList;
         List<DefaultWeightedEdge> shortestWeightedEdgeList = null;
@@ -140,7 +138,7 @@ public class NavigationManager {
         for (LabelledPoint labelledPoint : map.getLabelledPoints()) {
             if (labelledPoint.getLabel() == Label.EXIT) {
                 currentWeightedEdgeList = findShortestPath(startNodeID, labelledPoint.getId());
-                if(currentWeightedEdgeList != null) {
+                if (currentWeightedEdgeList != null) {
                     currentDistance = getPathDistance(currentWeightedEdgeList);
                     if (currentDistance < minDistance) {
                         shortestWeightedEdgeList = currentWeightedEdgeList;
@@ -160,16 +158,13 @@ public class NavigationManager {
         selectedStartMarker = marker;
     }
 
-    public void clear()
-    {
-        if(selectedStartMarker != null)
-        {
+    public void clear() {
+        if (selectedStartMarker != null) {
             selectedStartMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
         }
     }
 
-    public void startNavigationMode(PoiPanelManager panelManager)
-    {
+    public void startNavigationMode(PoiPanelManager panelManager) {
         this.currentPanelManager = panelManager;
         currentPanelManager.close();
         //poiPanelLayout.back
@@ -177,18 +172,27 @@ public class NavigationManager {
         panelTitle = currentPanelManager.getTitle();
         currentPanelManager.replaceTitle("NAVIGATION");
         currentPanelManager.getPanel().setTouchEnabled(false);
+        if (currentPanelManager.getActivity().isSearchingExit()) {
+            currentPanelManager.getNavigationButton().setVisibility(View.VISIBLE);
+        }
         currentPanelManager.getNavigationButton().setColorNormal(ContextCompat.getColor(currentPanelManager.getActivity(), R.color.rca_primary));
         currentPanelManager.getNavigationButton().setImageResource(R.drawable.ic_exit_to_app_white_24dp);
+
+
     }
 
-    public void stopNavigationMode()
-    {
+    public void stopNavigationMode() {
         currentPanelManager.getPoiPanelLayout().setBackgroundColor(Color.parseColor("#FFE33C3C"));
         currentPanelManager.replaceTitle(panelTitle);
         currentPanelManager.getPanel().setTouchEnabled(true);
         currentPanelManager.getNavigationButton().setImageResource(R.drawable.location_icon);
         currentPanelManager.getNavigationButton().setColorNormal(Color.WHITE);
+
+        if (currentPanelManager.getActivity().isSearchingExit()) {
+            currentPanelManager.getNavigationButton().setVisibility(View.INVISIBLE);
+        }
     }
+
 
 }
 

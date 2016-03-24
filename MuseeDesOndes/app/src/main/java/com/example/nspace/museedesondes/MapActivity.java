@@ -12,9 +12,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.SystemRequirementsChecker;
@@ -27,7 +29,6 @@ import com.example.nspace.museedesondes.services.AudioService.AudioBinder;
 import com.example.nspace.museedesondes.utility.MapManager;
 import com.example.nspace.museedesondes.utility.NavigationManager;
 import com.example.nspace.museedesondes.utility.PoiPanelManager;
-import com.example.nspace.museedesondes.utility.PointMarkerFactory;
 import com.example.nspace.museedesondes.utility.Preferences;
 import com.example.nspace.museedesondes.utility.StoryLineManager;
 import com.github.clans.fab.FloatingActionButton;
@@ -44,7 +45,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.VisibleRegion;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,6 +67,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private SeekBar seekBar;
     Handler audioHandler = new Handler();
     private Map<Marker, PointOfInterest> markerPointOfInterestMap;
+
     public PoiPanelManager getPanel() {
         return panelManager;
     }
@@ -315,15 +316,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     /**
      * This method is called when a marker is selected.
-     *
+     * <p/>
      * If the marker selected is not a point of interest it is instead a labelled point (ex stairs,
      * exit, washroom) and no interaction with poi panel or navigation occurs.
-     *
+     * <p/>
      * If the user is in navigation mode, the
      * user will have already indicated the destination point. The method will proceed to generate
      * the shortest path between the already selected marker and the marker selected in navigation
      * mode, .
-     *
+     * <p/>
      * If the user is not in navigation mode, the method registers the marker as the
      * "currentPointOfInterest" and changes the color of the marker to red.
      *
@@ -332,15 +333,22 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      */
     @Override
     public boolean onMarkerClick(Marker marker) {
-        if(markerPointOfInterestMap.containsKey(marker)) {
+        if (markerPointOfInterestMap.containsKey(marker)) {
             PointOfInterest pointOfInterest = markerPointOfInterestMap.get(marker);
 
             if (navigationMode) {
-                navigationManager.setUserLocation(pointOfInterest.getId());
-                navigationManager.selectedStart(marker);
 
-                PointOfInterest destinationNode = panelManager.getCurrentPointOfInterest();
-                mapManager.displayShortestPath(pointOfInterest.getId(), destinationNode, searchingExit);
+                if (marker.equals(selectedMarker)) {
+                    Toast toast = Toast.makeText(getApplicationContext(), "This is your destination", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.BOTTOM | Gravity.CENTER, 0, 250);
+                    toast.show();
+                } else {
+                    navigationManager.setUserLocation(pointOfInterest.getId());
+                    navigationManager.selectedStart(marker);
+
+                    PointOfInterest destinationNode = panelManager.getCurrentPointOfInterest();
+                    mapManager.displayShortestPath(pointOfInterest.getId(), destinationNode, searchingExit);
+                }
 
             } else {
 

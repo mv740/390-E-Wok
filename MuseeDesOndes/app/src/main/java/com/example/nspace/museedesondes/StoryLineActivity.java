@@ -55,7 +55,7 @@ public class StoryLineActivity extends AppCompatActivity {
 
 
         SharedPreferences sharedPrefs = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
-        if (sharedPrefs.getBoolean("firstrun", true) || true) {
+        if (sharedPrefs.getBoolean("firstrun", true)) {
             sharedPrefs.edit().putBoolean("firstrun", false).commit();
 
             MaterialShowcaseView.Builder tutorial =  new MaterialShowcaseView.Builder(this)

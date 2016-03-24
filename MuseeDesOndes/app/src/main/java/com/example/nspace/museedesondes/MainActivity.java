@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity{
 
         SharedPreferences sharedPrefs = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         if (sharedPrefs.getBoolean("firstrun", true)) {
-            sharedPrefs.edit().putBoolean("firstrun", false).commit();
+            //sharedPrefs.edit().putBoolean("firstrun", false).commit();
             loadReplaceMeWith(R.layout.welcome_language);
         } else {
             loadReplaceMeWith(R.layout.welcome_begin_tour);

@@ -21,6 +21,8 @@ import org.jgrapht.graph.SimpleWeightedGraph;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
+
 /**
  * Created by michal on 3/20/2016.
  */
@@ -172,6 +174,21 @@ public class NavigationManager {
         panelTitle = currentPanelManager.getTitle();
         currentPanelManager.replaceTitle("NAVIGATION");
         currentPanelManager.getPanel().setTouchEnabled(false);
+
+        //todo refactoring to use R.String for message 
+        new MaterialShowcaseView.Builder(panelManager.getActivity())
+                .setTarget(panelManager.getActivity().findViewById(R.id.map))
+                .setTitleText("Navigation Helper")
+                .withRectangleShape(true)
+                .setShapePadding(-370)
+                .setDismissOnTouch(true)
+                .setMaskColour(Color.parseColor("#E6444444"))
+                .setDismissText("CONTINUE")
+                .setContentText("Please select a marker as your starting location")
+                //.setDelay(withDelay) // optional but starting animations immediately in onCreate can make them choppy
+                //singleUse(SHOWCASE_ID) // provide a unique ID used to ensure it is only shown once
+                .show();
+
         if (currentPanelManager.getActivity().isSearchingExit()) {
             currentPanelManager.getNavigationButton().setVisibility(View.VISIBLE);
         }

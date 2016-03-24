@@ -28,46 +28,16 @@ public class PointMarkerFactory {
      */
     public static Marker singleInterestPointFactory(PointOfInterest pointOfInterest, Context context, GoogleMap googleMap, LatLngBounds groundOverlayFloorMapBound) {
 
-        String title = "error";
-        title = pointOfInterest.getLocaleDescription(context).getTitle();
         CoordinateAdapter coordinateAdapter = new CoordinateAdapter(groundOverlayFloorMapBound);
 
         MarkerOptions node = new MarkerOptions();
         node.position(new LatLng(coordinateAdapter.convertY(pointOfInterest.getX()),coordinateAdapter.convertX(pointOfInterest.getY()))); //TODO: convert check getX, getY and coordinate adapter are mismatched
-        node.title(title);
         node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-
-        //storing information in marker snippet
-        String floorID = String.valueOf(pointOfInterest.getFloorID());
-        String nodeID = String.valueOf(pointOfInterest.getId());
-        String data = floorID+"/"+nodeID;
-        node.snippet(data);
 
         Marker createdMarker = googleMap.addMarker(node);
         createdMarker.setVisible(false);
 
         return createdMarker;
-    }
-
-    // used to easily extract information from a string
-    public static class Information{
-        private int floorID;
-        private int nodeID;
-
-        public Information(String data)
-        {
-            String[] tokens = data.split("/");
-            floorID = Integer.parseInt(tokens[0]);
-            nodeID = Integer.parseInt(tokens[1]);
-        }
-
-        public int getFloorID() {
-            return floorID;
-        }
-
-        public int getNodeID() {
-            return nodeID;
-        }
     }
 
     public static Marker singleTransitionPointFactory(LabelledPoint labelledPoint, GoogleMap googleMap, LatLngBounds groundOverlayFloorMapBound) {

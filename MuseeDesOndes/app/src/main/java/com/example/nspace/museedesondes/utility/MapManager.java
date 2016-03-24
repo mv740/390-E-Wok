@@ -139,7 +139,6 @@ public class MapManager implements POIBeaconListener {
      */
     public void switchFloor(int floorID) {
 
-        //displayCurrentFloorPointOfInterest(floorID);
         updateFloorLinesAndMarkers(floorID);
 
         //http://stackoverflow.com/questions/16369814/how-to-access-the-drawable-resources-by-name-in-android
@@ -279,22 +278,7 @@ public class MapManager implements POIBeaconListener {
         return line;
     }
 
-    /**
-     * Show only marker that are meant for the current floor
-     *
-     * @param floorID
-     */
-//    public void displayCurrentFloorPointOfInterest(int floorID) {
-//        for (Marker marker : markerList) {
-//            PointMarkerFactory.Information pMarkerInfo = new PointMarkerFactory.Information(marker.getSnippet());
-//
-//            if ((pMarkerInfo.getFloorID()) == floorID) {
-//                marker.setVisible(true);
-//            } else {
-//                marker.setVisible(false);
-//            }
-//        }
-//    }
+    /*** CAMERA METHODS ***/
 
     /**
      * android Zoom-to-Fit All Markers on Google MuseumMap
@@ -479,7 +463,6 @@ public class MapManager implements POIBeaconListener {
             pinchZoomUsed = true;
             Log.v("pinch", "detected");
         }
-
     }
 
     public void setMarkerList(List<Marker> markerList) {

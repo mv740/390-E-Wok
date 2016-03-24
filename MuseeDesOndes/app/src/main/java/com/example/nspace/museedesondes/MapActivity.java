@@ -174,14 +174,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         information = MuseumMap.getInstance(getApplicationContext());
 
-        java.util.Map<Integer, List<Polyline>> floorLineMap = new HashMap<>();
+        Map<Integer, List<Polyline>> floorLineMap = new HashMap<>();
 
         mMap = googleMap;
         mMap.clear();
         mMap.setOnMarkerClickListener(this);
         initializeMapSetting();
         mapManager = new MapManager(mMap, this, floorLineMap, freeExploration, information.getFloorPlans());
-
 
         //initialize storyline manager
         if (!freeExploration) {
@@ -193,13 +192,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         //initialize markers for labelled points on floor
         mapManager.initFloorPOTMarkerMap(information.getLabelledPoints());
 
-        //load map markers for storyline or all poi markers for free exploration //TODO: remove after refactoring
+        //load map markers for storyline or all poi markers for free exploration
         if (freeExploration) {
             mapManager.initFloorPOIMarkerMap(information.getPointOfInterests(), markerPointOfInterestMap);
-           //mapManager.setMarkerList(placeMarkersOnPointsOfInterest(information.getPointOfInterests()));
         } else {
             mapManager.initFloorPOIMarkerMap(storyLineManager.getPointOfInterestList(), markerPointOfInterestMap);
-            //mapManager.setMarkerList(placeMarkersOnPointsOfInterest(storyLineManager.getPointOfInterestList()));
             storyLineManager.registerObserver(mapManager);
         }
 
@@ -210,21 +207,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         mMap.setOnCameraChangeListener(new OnCameraChangeListener());
     }
-
-//    /**
-//     * This method places the AZURE markers on the list of points of interest.
-//     *
-//     * @param pointsOfInterestList List of all points of interest.
-//     */
-//    private List<Marker> placeMarkersOnPointsOfInterest(List<PointOfInterest> pointsOfInterestList) {
-//
-//        List<Marker> mMarkerArray = new ArrayList<>();
-//        for (PointOfInterest pointOfInterest : pointsOfInterestList) {
-//            Marker marker = PointMarkerFactory.singleInterestPointFactory(pointOfInterest, getApplicationContext(), mMap, mapManager.getGroundOverlayFloorMapBound());
-//            mMarkerArray.add(marker);
-//        }
-//        return mMarkerArray;
-//    }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
@@ -351,14 +333,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public boolean onMarkerClick(Marker marker) {
         if(markerPointOfInterestMap.containsKey(marker)) {
-            if (navigationMode) {
+            PointOfInterest pointOfInterest = markerPointOfInterestMap.get(marker);
 
-                PointMarkerFactory.Information pMarkerInfo = new PointMarkerFactory.Information(marker.getSnippet());
-                navigationManager.setUserLocation(pMarkerInfo.getNodeID());
+            if (navigationMode) {
+                navigationManager.setUserLocation(pointOfInterest.getId());
                 navigationManager.selectedStart(marker);
 
                 PointOfInterest destinationNode = panelManager.getCurrentPointOfInterest();
-                mapManager.displayShortestPath(pMarkerInfo.getNodeID(), destinationNode, searchingExit);
+                mapManager.displayShortestPath(pointOfInterest.getId(), destinationNode, searchingExit);
 
             } else {
 
@@ -370,7 +352,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 LatLng markerLocation = marker.getPosition();
 
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(markerLocation));
-                panelManager.update(markerPointOfInterestMap.get(marker));
+                panelManager.update(pointOfInterest);
             }
         }
         return true;

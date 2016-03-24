@@ -341,7 +341,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      * user will have already indicated the destination point. The method will proceed to generate
      * the shortest path between the already selected marker and the marker selected in navigation
      * mode, .
-     * 
+     *
      * If the user is not in navigation mode, the method registers the marker as the
      * "currentPointOfInterest" and changes the color of the marker to red.
      *
@@ -370,7 +370,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 LatLng markerLocation = marker.getPosition();
 
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(markerLocation));
-                panelManager.update(marker);
+                panelManager.update(markerPointOfInterestMap.get(marker));
             }
         }
         return true;

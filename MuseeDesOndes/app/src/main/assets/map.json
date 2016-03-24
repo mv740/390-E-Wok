@@ -399,11 +399,11 @@
           "title": [
             {
               "language": "fr",
-              "title": "test_titre3"
+              "title": "test_titre4"
             },
             {
               "language": "en_US",
-              "title": "test_title3"
+              "title": "test_title4"
             }
           ],
           "description": [
@@ -903,11 +903,11 @@
           "title": [
             {
               "language": "fr",
-              "title": "test_titre3"
+              "title": "test_titre8"
             },
             {
               "language": "en_US",
-              "title": "test_title3"
+              "title": "test_title8"
             }
           ],
           "description": [

@@ -505,7 +505,7 @@ public class MapManager implements POIBeaconListener {
             }
         }
     }
-    
+
     public int getCurrentFloorID() {
         return currentFloorID;
     }

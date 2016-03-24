@@ -332,11 +332,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     /**
-     * This method is called when a marker is selected. If the user is in navigation mode, the
+     * This method is called when a marker is selected.
+     *
+     * If the marker selected is not a point of interest it is instead a labelled point (ex stairs,
+     * exit, washroom) and no interaction with poi panel or navigation occurs.
+     *
+     * If the user is in navigation mode, the
      * user will have already indicated the destination point. The method will proceed to generate
      * the shortest path between the already selected marker and the marker selected in navigation
      * mode, .
-     * <p/>
+     * 
      * If the user is not in navigation mode, the method registers the marker as the
      * "currentPointOfInterest" and changes the color of the marker to red.
      *
@@ -345,28 +350,29 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      */
     @Override
     public boolean onMarkerClick(Marker marker) {
-        if (navigationMode) {
+        if(markerPointOfInterestMap.containsKey(marker)) {
+            if (navigationMode) {
 
-            PointMarkerFactory.Information pMarkerInfo = new PointMarkerFactory.Information(marker.getSnippet());
-            navigationManager.setUserLocation(pMarkerInfo.getNodeID());
-            navigationManager.selectedStart(marker);
+                PointMarkerFactory.Information pMarkerInfo = new PointMarkerFactory.Information(marker.getSnippet());
+                navigationManager.setUserLocation(pMarkerInfo.getNodeID());
+                navigationManager.selectedStart(marker);
 
-            PointOfInterest destinationNode = panelManager.getCurrentPointOfInterest();
-            mapManager.displayShortestPath(pMarkerInfo.getNodeID(), destinationNode, searchingExit);
+                PointOfInterest destinationNode = panelManager.getCurrentPointOfInterest();
+                mapManager.displayShortestPath(pMarkerInfo.getNodeID(), destinationNode, searchingExit);
 
-        } else {
+            } else {
 
-            if (panelManager.isInitialState()) {
-                panelManager.loadPanel();
+                if (panelManager.isInitialState()) {
+                    panelManager.loadPanel();
+                }
+                selectedMarkerDisplay(marker);
+                //move camera to marker position
+                LatLng markerLocation = marker.getPosition();
+
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(markerLocation));
+                panelManager.update(marker);
             }
-            selectedMarkerDisplay(marker);
-            //move camera to marker position
-            LatLng markerLocation = marker.getPosition();
-
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(markerLocation));
-            panelManager.update(marker);
         }
-
         return true;
     }
 

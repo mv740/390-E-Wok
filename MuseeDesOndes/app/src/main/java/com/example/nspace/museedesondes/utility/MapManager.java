@@ -5,6 +5,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 
+import com.example.nspace.museedesondes.MapActivity;
 import com.example.nspace.museedesondes.R;
 import com.example.nspace.museedesondes.model.Edge;
 import com.example.nspace.museedesondes.model.FloorPlan;
@@ -35,6 +36,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by michal on 2/10/2016.
@@ -49,7 +51,7 @@ public class MapManager implements POIBeaconListener {
     private static final float WIDTH_WHITE_BACKGROUND = 20520f;
     private static final float HEIGHT_WHITE_BACKGROUND = 25704f;
     private GoogleMap mMap;
-    private Context context;
+    private MapActivity context;
     private LatLngBounds groundOverlayFloorMapBound;
     private GroundOverlay groundOverlayFloorMap;
     private int zoomLevel = 1;
@@ -63,7 +65,7 @@ public class MapManager implements POIBeaconListener {
     private List<FloorPlan> floorPlans;
 
 
-    public MapManager(GoogleMap googleMap, Context context, Map<Integer, List<Polyline>> floorLineMap, boolean freeExploration, List<FloorPlan> floorPlans) {
+    public MapManager(GoogleMap googleMap, MapActivity context, Map<Integer, List<Polyline>> floorLineMap, boolean freeExploration, List<FloorPlan> floorPlans) {
         this.mMap = googleMap;
         this.context = context;
         this.floorLineMap = floorLineMap;
@@ -491,16 +493,19 @@ public class MapManager implements POIBeaconListener {
      * @param storyLine
      */
     public void onPOIBeaconDiscovered(PointOfInterest node, StoryLine storyLine) {
-    //TODO: get node -> marker from MapActivity map
-//        for(Marker marker : markerList) {
-//            PointMarkerFactory.Information pMarkerInfo = new PointMarkerFactory.Information(marker.getSnippet());
-//            if(pMarkerInfo.getNodeID() == node.getId()) {
-//                marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-//                return;
-//            }
-//        }
-    }
+        Map<Marker, PointOfInterest> markerPOIMap = context.getMarkerPointOfInterestMap();
+        Marker marker;
 
+        //fetching marker from node in the marker->node map in map activity
+        for (Map.Entry<Marker, PointOfInterest> entry : markerPOIMap.entrySet()) {
+            if (entry.getValue().equals(node)) {
+                marker = entry.getKey();
+                marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                return;
+            }
+        }
+    }
+    
     public int getCurrentFloorID() {
         return currentFloorID;
     }

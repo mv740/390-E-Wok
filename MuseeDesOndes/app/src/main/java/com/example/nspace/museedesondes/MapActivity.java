@@ -565,4 +565,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public PoiPanelManager getPanelManager() {
         return panelManager;
     }
+
+    public Map<Marker, PointOfInterest> getMarkerPointOfInterestMap() {
+        return markerPointOfInterestMap;
+    }
 }

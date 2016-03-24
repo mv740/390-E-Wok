@@ -1184,6 +1184,34 @@
           "x": 0.065,
           "y": 0.038,
           "label": "EXIT"
+        },
+        {
+          "id": 74,
+          "floorID": 1,
+          "x": 0.04,
+          "y": 0.04,
+          "label": "WASHROOM"
+        },
+        {
+          "id": 75,
+          "floorID": 3,
+          "x": 0.02,
+          "y": 0.025,
+          "label": "WASHROOM"
+        },
+        {
+          "id": 76,
+          "floorID": 3,
+          "x": 0.02,
+          "y": 0.025,
+          "label": "EMERGENCY_EXIT"
+        },
+        {
+          "id": 77,
+          "floorID": 4,
+          "x": 0.04,
+          "y": 0.04,
+          "label": "ELEVATOR"
         }
 
 

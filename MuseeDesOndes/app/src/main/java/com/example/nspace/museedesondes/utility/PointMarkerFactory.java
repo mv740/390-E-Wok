@@ -3,6 +3,7 @@ package com.example.nspace.museedesondes.utility;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.nspace.museedesondes.R;
 import com.example.nspace.museedesondes.adapters.CoordinateAdapter;
 import com.example.nspace.museedesondes.model.LabelledPoint;
 import com.example.nspace.museedesondes.model.PointOfInterest;
@@ -50,25 +51,25 @@ public class PointMarkerFactory {
 
         switch (labelledPoint.getLabel()) {
             case EMERGENCY_EXIT:
-                node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+                node.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_emergency_exit));
                 break;
             case ENTRANCE:
-                node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+                node.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_entrance));
                 break;
             case EXIT:
-                node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+                node.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_exit));
                 break;
             case ELEVATOR:
-                node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+                node.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_elevator));
                 break;
             case RAMP:
-                node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+                node.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_disability));
                 break;
             case STAIRS:
-                node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                node.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_stairs));
                 break;
             case WASHROOM:
-                node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+                node.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_toilets));
                 break;
             default:
                 Log.e("PointMarkerFactory", "label invalid " + labelledPoint.getLabel());

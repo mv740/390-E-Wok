@@ -19,7 +19,7 @@ import android.widget.SeekBar;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.SystemRequirementsChecker;
 import com.example.nspace.museedesondes.fragments.NavigationDrawerFragment;
-import com.example.nspace.museedesondes.model.Map;
+import com.example.nspace.museedesondes.model.MuseumMap;
 import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.example.nspace.museedesondes.model.StoryLine;
 import com.example.nspace.museedesondes.services.AudioService;
@@ -53,7 +53,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private NavigationDrawerFragment mNavigationDrawerFragment;
-    private Map information;
+    private MuseumMap information;
     AudioService audioService;
     private int[] floorButtonIdList = {R.id.fab1, R.id.fab2, R.id.fab3, R.id.fab4, R.id.fab5};
     private StoryLineManager storyLineManager;
@@ -80,7 +80,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         this.panelManager = new PoiPanelManager(this);
 
         //create storyline manager which handles storyline progression and interaction with the beacons
-        information = Map.getInstance(getApplicationContext());
+        information = MuseumMap.getInstance(getApplicationContext());
         getStoryLineSelected();
 
         if (!freeExploration) {
@@ -170,7 +170,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        information = Map.getInstance(getApplicationContext());
+        information = MuseumMap.getInstance(getApplicationContext());
 
         java.util.Map<Integer, List<Polyline>> floorLineMap = new HashMap<>();
 
@@ -476,7 +476,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mapManager.zoomToFit();
     }
 
-    public Map getInformation() {
+    public MuseumMap getInformation() {
         return information;
     }
 

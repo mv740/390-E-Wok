@@ -8,8 +8,6 @@ import com.estimote.sdk.Region;
 import com.estimote.sdk.Utils;
 import com.example.nspace.museedesondes.MapActivity;
 import com.example.nspace.museedesondes.R;
-import com.example.nspace.museedesondes.model.FloorPlan;
-import com.example.nspace.museedesondes.model.Map;
 import com.example.nspace.museedesondes.model.Node;
 import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.example.nspace.museedesondes.model.StoryLine;

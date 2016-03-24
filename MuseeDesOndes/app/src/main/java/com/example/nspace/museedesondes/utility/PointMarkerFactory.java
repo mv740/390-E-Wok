@@ -44,7 +44,8 @@ public class PointMarkerFactory {
         node.snippet(data);
 
         Marker createdMarker = googleMap.addMarker(node);
-        //createdMarker.setVisible(false); TODO:
+        createdMarker.setVisible(false);
+
         return createdMarker;
     }
 
@@ -78,10 +79,6 @@ public class PointMarkerFactory {
         node.title(title);
 
         switch (labelledPoint.getLabel()) {
-            case NONE:
-                // hide point of transition that are between node of interest
-                node.visible(false);
-                break;
             case EMERGENCY_EXIT:
                 node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
                 break;
@@ -108,7 +105,8 @@ public class PointMarkerFactory {
         }
 
         Marker createdMarker = googleMap.addMarker(node);
-        //createdMarker.setVisible(false); TODO:
+        createdMarker.setVisible(false);
+
         return createdMarker;
     }
 }

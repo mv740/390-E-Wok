@@ -190,41 +190,41 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             storyLineManager.initSegmentListAndFloorLineMap();
         }
 
-        //loading initial map
-        mapManager.loadDefaultFloor(findViewById(android.R.id.content));
-        mapManager.initialCameraPosition();
-
         //initialize markers for labelled points on floor
         mapManager.initFloorPOTMarkerMap(information.getLabelledPoints());
 
         //load map markers for storyline or all poi markers for free exploration //TODO: remove after refactoring
         if (freeExploration) {
             mapManager.initFloorPOIMarkerMap(information.getPointOfInterests(), markerPointOfInterestMap);
-            mapManager.setMarkerList(placeMarkersOnPointsOfInterest(information.getPointOfInterests()));
+           //mapManager.setMarkerList(placeMarkersOnPointsOfInterest(information.getPointOfInterests()));
         } else {
-            mapManager.initFloorPOIMarkerMap(information.getPointOfInterests(), markerPointOfInterestMap);
-            mapManager.setMarkerList(placeMarkersOnPointsOfInterest(storyLineManager.getPointOfInterestList()));
+            mapManager.initFloorPOIMarkerMap(storyLineManager.getPointOfInterestList(), markerPointOfInterestMap);
+            //mapManager.setMarkerList(placeMarkersOnPointsOfInterest(storyLineManager.getPointOfInterestList()));
             storyLineManager.registerObserver(mapManager);
         }
-        mapManager.displayCurrentFloorPointOfInterest(1);
+
+        //loading initial map
+        mapManager.loadDefaultFloor(findViewById(android.R.id.content));
+        mapManager.initialCameraPosition();
+
 
         mMap.setOnCameraChangeListener(new OnCameraChangeListener());
     }
 
-    /**
-     * This method places the AZURE markers on the list of points of interest.
-     *
-     * @param pointsOfInterestList List of all points of interest.
-     */
-    private List<Marker> placeMarkersOnPointsOfInterest(List<PointOfInterest> pointsOfInterestList) {
-
-        List<Marker> mMarkerArray = new ArrayList<>();
-        for (PointOfInterest pointOfInterest : pointsOfInterestList) {
-            Marker marker = PointMarkerFactory.singleInterestPointFactory(pointOfInterest, getApplicationContext(), mMap, mapManager.getGroundOverlayFloorMapBound());
-            mMarkerArray.add(marker);
-        }
-        return mMarkerArray;
-    }
+//    /**
+//     * This method places the AZURE markers on the list of points of interest.
+//     *
+//     * @param pointsOfInterestList List of all points of interest.
+//     */
+//    private List<Marker> placeMarkersOnPointsOfInterest(List<PointOfInterest> pointsOfInterestList) {
+//
+//        List<Marker> mMarkerArray = new ArrayList<>();
+//        for (PointOfInterest pointOfInterest : pointsOfInterestList) {
+//            Marker marker = PointMarkerFactory.singleInterestPointFactory(pointOfInterest, getApplicationContext(), mMap, mapManager.getGroundOverlayFloorMapBound());
+//            mMarkerArray.add(marker);
+//        }
+//        return mMarkerArray;
+//    }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {

@@ -44,7 +44,7 @@ public class PointMarkerFactory {
         node.snippet(data);
 
         Marker createdMarker = googleMap.addMarker(node);
-
+        //createdMarker.setVisible(false); TODO:
         return createdMarker;
     }
 
@@ -69,10 +69,10 @@ public class PointMarkerFactory {
         }
     }
 
-    public static void singleTransitionPointFactory(LabelledPoint labelledPoint, GoogleMap googleMap) {
+    public static Marker singleTransitionPointFactory(LabelledPoint labelledPoint, GoogleMap googleMap) {
         String title = labelledPoint.getLabel().name();
         MarkerOptions node = new MarkerOptions();
-        node.position(new LatLng(labelledPoint.getX(), labelledPoint.getY()));
+        node.position(new LatLng(labelledPoint.getX(), labelledPoint.getY())); //TODO: convert
         node.title(title);
 
         switch (labelledPoint.getLabel()) {
@@ -81,29 +81,32 @@ public class PointMarkerFactory {
                 node.visible(false);
                 break;
             case EMERGENCY_EXIT:
-                node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                break;
-            case ENTRANCE:
-                node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-                break;
-            case EXIT:
                 node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
                 break;
-            case ELEVATOR:
-                node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+            case ENTRANCE:
+                node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
                 break;
-            case RAMP:
-                node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
-                break;
-            case STAIRS:
+            case EXIT:
                 node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
                 break;
+            case ELEVATOR:
+                node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+                break;
+            case RAMP:
+                node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+                break;
+            case STAIRS:
+                node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                break;
             case WASHROOM:
-                node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+                node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
                 break;
             default:
                 Log.e("PointMarkerFactory", "label invalid " + labelledPoint.getLabel());
         }
-        googleMap.addMarker(node);
+
+        Marker createdMarker = googleMap.addMarker(node);
+        //createdMarker.setVisible(false); TODO:
+        return createdMarker;
     }
 }

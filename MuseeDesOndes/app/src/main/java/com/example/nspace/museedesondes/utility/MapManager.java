@@ -8,6 +8,7 @@ import android.view.View;
 import com.example.nspace.museedesondes.R;
 import com.example.nspace.museedesondes.model.Edge;
 import com.example.nspace.museedesondes.model.FloorPlan;
+import com.example.nspace.museedesondes.model.LabelledPoint;
 import com.example.nspace.museedesondes.model.MuseumMap;
 import com.example.nspace.museedesondes.model.Node;
 import com.example.nspace.museedesondes.model.PointOfInterest;
@@ -30,6 +31,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import org.jgrapht.graph.DefaultWeightedEdge;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -51,6 +53,7 @@ public class MapManager implements POIBeaconListener {
     private GroundOverlay groundOverlayFloorMap;
     private int zoomLevel = 1;
     private Map<Integer, List<Polyline>> floorLineMap;
+    private Map<Integer, List<Marker>> floorMarkerMap;
     private int currentFloorID;
     private boolean freeExploration;
     private boolean zoomToFitUsed = false;
@@ -63,9 +66,11 @@ public class MapManager implements POIBeaconListener {
         this.mMap = googleMap;
         this.context = context;
         this.floorLineMap = floorLineMap;
+        this.floorMarkerMap = new HashMap<>();
         this.freeExploration = freeExploration;
         this.floorPlans = floorPlans;
         this.currentFloorID = DEFAULT_FLOOR_ID;
+        createEmptyFloorLineAndMarkerMaps();
     }
 
     /**
@@ -163,6 +168,28 @@ public class MapManager implements POIBeaconListener {
         return Resource.getResourceIDFromPath(floorPlan.getImagePath(),context);
     }
 
+    /*** FLOOR MARKER METHODS ***/
+
+    //maps floor id to markers for displaying, also initializes map from marker -> node for on marker click events
+    public void initFloorPOIMarkerMap(List<PointOfInterest> pointsOfInterestList, Map<Marker, PointOfInterest> markerPOIMap) {
+        Marker marker;
+        for(PointOfInterest pointOfInterest : pointsOfInterestList) {
+            marker = PointMarkerFactory.singleInterestPointFactory(pointOfInterest, context, mMap, getGroundOverlayFloorMapBound());
+            floorMarkerMap.get(pointOfInterest.getFloorID()).add(marker);
+            markerPOIMap.put(marker, pointOfInterest);
+        }
+    }
+
+    public void initFloorPOTMarkerMap(List<LabelledPoint> labelledPointList) {
+        Marker marker;
+        for (LabelledPoint labelledPoint : labelledPointList) {
+            marker = PointMarkerFactory.singleTransitionPointFactory(labelledPoint, mMap);
+            floorMarkerMap.get(labelledPoint.getFloorID()).add(marker);
+        }
+    }
+
+    /*** FLOOR POLYLINE METHODS ***/
+
     public void displayFloorLines(Integer floorID, boolean visibility) {
         List<Polyline> floorLines = floorLineMap.get(floorID);
 
@@ -177,11 +204,13 @@ public class MapManager implements POIBeaconListener {
         this.currentFloorID = newFloorID;
     }
 
-    public void createEmptyFloorLineMap() {
+    public void createEmptyFloorLineAndMarkerMaps() {
         List<FloorPlan> floorPlans = MuseumMap.getInstance(context).getFloorPlans();
         for(FloorPlan floorPlan : floorPlans) {
             List<Polyline> lineList = new ArrayList<>();
+            List<Marker> markerList = new ArrayList<>();
             floorLineMap.put(floorPlan.getId(), lineList);
+            floorMarkerMap.put(floorPlan.getId(), markerList);
         }
     }
 

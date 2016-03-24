@@ -47,6 +47,7 @@ import com.google.android.gms.maps.model.VisibleRegion;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, NavigationDrawerFragment.NavigationDrawerCallbacks, GoogleMap.OnMarkerClickListener {
@@ -65,7 +66,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private MapManager mapManager;
     private SeekBar seekBar;
     Handler audioHandler = new Handler();
-
+    private Map<Marker, PointOfInterest> markerPointOfInterestMap;
     public PoiPanelManager getPanel() {
         return panelManager;
     }
@@ -78,6 +79,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         this.panelManager = new PoiPanelManager(this);
+        this.markerPointOfInterestMap = new HashMap<>();
 
         //create storyline manager which handles storyline progression and interaction with the beacons
         information = MuseumMap.getInstance(getApplicationContext());
@@ -179,7 +181,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap.setOnMarkerClickListener(this);
         initializeMapSetting();
         mapManager = new MapManager(mMap, this, floorLineMap, freeExploration, information.getFloorPlans());
-        mapManager.createEmptyFloorLineMap();
+
 
         //initialize storyline manager
         if (!freeExploration) {
@@ -192,10 +194,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mapManager.loadDefaultFloor(findViewById(android.R.id.content));
         mapManager.initialCameraPosition();
 
-        //load map markers for storyline or all poi markers for free exploration
+        //initialize markers for labelled points on floor
+        mapManager.initFloorPOTMarkerMap(information.getLabelledPoints());
+
+        //load map markers for storyline or all poi markers for free exploration //TODO: remove after refactoring
         if (freeExploration) {
+            mapManager.initFloorPOIMarkerMap(information.getPointOfInterests(), markerPointOfInterestMap);
             mapManager.setMarkerList(placeMarkersOnPointsOfInterest(information.getPointOfInterests()));
         } else {
+            mapManager.initFloorPOIMarkerMap(information.getPointOfInterests(), markerPointOfInterestMap);
             mapManager.setMarkerList(placeMarkersOnPointsOfInterest(storyLineManager.getPointOfInterestList()));
             storyLineManager.registerObserver(mapManager);
         }

@@ -103,6 +103,10 @@ public class PoiPanelManager implements POIBeaconListener {
 
 
         panel.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+
+        if (isInitialState()) {
+            loadPanel();
+        }
     }
 
     private void replaceDescription(String description) {

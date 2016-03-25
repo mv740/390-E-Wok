@@ -1,6 +1,5 @@
 package com.example.nspace.museedesondes.utility;
 
-import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
@@ -36,7 +35,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Created by michal on 2/10/2016.
@@ -177,6 +175,7 @@ public class MapManager implements POIBeaconListener {
             marker = PointMarkerFactory.singleInterestPointFactory(pointOfInterest, context, mMap, getGroundOverlayFloorMapBound());
             floorMarkerMap.get(pointOfInterest.getFloorID()).add(marker);
             markerPOIMap.put(marker, pointOfInterest);
+
         }
     }
 
@@ -194,7 +193,7 @@ public class MapManager implements POIBeaconListener {
 
     public void displayFloorLinesAndMarkers(Integer floorID, boolean visibility) {
         List<Polyline> floorLines = floorLineMap.get(floorID);
-        List<Marker> markerList = floorMarkerMap.get(floorID);
+        markerList = floorMarkerMap.get(floorID);
 
         for (Polyline line : floorLines) {
             line.setVisible(visibility);

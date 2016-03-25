@@ -35,6 +35,7 @@ public class NavigationManager {
     private Marker selectedStartMarker;
     private String panelTitle;
     private PoiPanelManager currentPanelManager;
+    private boolean endTour;
 
     public NavigationManager(MuseumMap map) {
         this.graph = new SimpleWeightedGraph<>(DefaultWeightedEdge.class);
@@ -189,7 +190,12 @@ public class NavigationManager {
             currentPanelManager.getNavigationButton().setVisibility(View.VISIBLE);
             tutorial.setTitleText("Find Exit");
         }
-        tutorial.show();
+
+        if(!endTour)
+        {
+            tutorial.show();
+            endTour = false;
+        }
 
         currentPanelManager.getNavigationButton().setColorNormal(ContextCompat.getColor(currentPanelManager.getActivity(), R.color.rca_primary));
         currentPanelManager.getNavigationButton().setImageResource(R.drawable.ic_exit_to_app_white_24dp);
@@ -212,6 +218,9 @@ public class NavigationManager {
     }
 
 
+    public void setEndTour() {
+        endTour = true;
+    }
 }
 
 

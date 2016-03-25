@@ -1,6 +1,9 @@
 package com.example.nspace.museedesondes.utility;
 
+import android.content.DialogInterface;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
@@ -103,7 +106,31 @@ public class StoryLineManager {
             nextPOI = pointOfInterestList.get(pointOfInterestIndex);
         } else {
             beaconManager.stopRanging(region);
+            endOfTourDialog();
         }
+    }
+
+    public void endOfTourDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(mapActivity, R.style.AppCompatAlertDialogStyle)
+                .setTitle(R.string.endOfTourTitle)
+                .setMessage(R.string.endOfTourMsg)
+                .setPositiveButton(R.string.endOfTourOption2, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.d("AlertDialog", "new tour");
+                    }
+                })
+                .setNegativeButton(R.string.endOfTourOption1, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.d("AlertDialog", "exit");
+                        mapActivity.setSearchingExit(true);
+                        mapActivity.setNavigationMode(true);
+                        mapActivity.getNavigationManager().setEndTour();
+                        mapActivity.getNavigationManager().startNavigationMode(mapActivity.getPanelManager());
+
+                    }
+                });
+        builder.show();
     }
 
     public BeaconManager getBeaconManager() {

@@ -1,5 +1,7 @@
 package com.example.nspace.museedesondes.utility;
 
+import android.graphics.BitmapFactory;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
@@ -44,8 +46,6 @@ public class MapManager implements POIBeaconListener {
     private static final double ZOOM_MAX = 15.0;
     private static final double ZOOM_MIN = 13.0;
     private static final int DEFAULT_FLOOR_ID = 1;
-    private static final float WIDTH = 5520f;
-    private static final float HEIGHT = 10704f;
     private static final float WIDTH_WHITE_BACKGROUND = 20520f;
     private static final float HEIGHT_WHITE_BACKGROUND = 25704f;
     private GoogleMap mMap;
@@ -83,13 +83,32 @@ public class MapManager implements POIBeaconListener {
         initializeFloatingButtonSettings(view);
 
 
-        BitmapDescriptor imageFloor = BitmapDescriptorFactory.fromResource(getFloorPlanResourceID(DEFAULT_FLOOR_ID));
+        BitmapDescriptor imageFloor;
+        BitmapFactory.Options options;
+        if(defaultFloorExist())
+        {
+            imageFloor = BitmapDescriptorFactory.fromResource(getFloorPlanResourceID(DEFAULT_FLOOR_ID));
+            options = getFloorImageDimensionOptions(DEFAULT_FLOOR_ID);
+        }
+        else
+        {
+            imageFloor = BitmapDescriptorFactory.fromResource(getFloorPlanResourceID(floorPlans.get(0).getId()));
+            options = getFloorImageDimensionOptions(floorPlans.get(0).getId());
+        }
+
         LatLng position = new LatLng(0, 0);
+
+
+        float width = scaleDimension(options.outWidth);
+        float height = scaleDimension(options.outHeight);
+
+        Log.e("width", String.valueOf(width));
+        Log.e("height", String.valueOf(height));
 
 
         GroundOverlayOptions customMap = new GroundOverlayOptions()
                 .image(imageFloor)
-                .position(position, WIDTH, HEIGHT).anchor(0, 1)
+                .position(position, width, height).anchor(0, 1)
                 .zIndex(0);
 
         groundOverlayFloorMap = mMap.addGroundOverlay(customMap);
@@ -103,6 +122,14 @@ public class MapManager implements POIBeaconListener {
         mMap.addGroundOverlay(mapBackground);
 
         displayFloorLinesAndMarkers(DEFAULT_FLOOR_ID, true);
+    }
+
+    @NonNull
+    private BitmapFactory.Options getFloorImageDimensionOptions(int floorId) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(context.getResources(), getFloorPlanResourceID(floorId), options);
+        return options;
     }
 
     /**
@@ -141,6 +168,10 @@ public class MapManager implements POIBeaconListener {
 
         //http://stackoverflow.com/questions/16369814/how-to-access-the-drawable-resources-by-name-in-android
         groundOverlayFloorMap.setImage(BitmapDescriptorFactory.fromResource(getFloorPlanResourceID(floorID)));
+        BitmapFactory.Options  options = getFloorImageDimensionOptions(floorID);
+        float width = scaleDimension(options.outWidth);
+        float height = scaleDimension(options.outHeight);
+        groundOverlayFloorMap.setDimensions(width,height);
         groundOverlayFloorMapBound = groundOverlayFloorMap.getBounds();
     }
 
@@ -164,6 +195,35 @@ public class MapManager implements POIBeaconListener {
 
         FloorPlan floorPlan = searchFloorPlanById(id);
         return Resource.getResourceIDFromPath(floorPlan.getImagePath(),context);
+    }
+
+    private FloorPlan getFloor(int currentFloorID)
+    {
+        for(FloorPlan floorPlan : floorPlans)
+        {
+            if(floorPlan.getId() == currentFloorID)
+            {
+                return  floorPlan;
+            }
+        }
+        return null;
+    }
+
+    private boolean defaultFloorExist()
+    {
+        for(FloorPlan floorPlan : floorPlans)
+        {
+            if(floorPlan.getId() == DEFAULT_FLOOR_ID)
+            {
+                return  true;
+            }
+        }
+        return false;
+    }
+
+    private float scaleDimension(float value)
+    {
+        return value*3;
     }
 
     /*** FLOOR MARKER METHODS ***/

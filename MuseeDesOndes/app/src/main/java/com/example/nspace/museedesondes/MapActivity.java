@@ -318,7 +318,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      * This method is called when a marker is selected.
      * <p/>
      * If the marker selected is not a point of interest it is instead a labelled point (ex stairs,
-     * exit, washroom) and no interaction with poi panel or navigation occurs.
+     * exit, washroom) and no interaction with poi panel or navigation occurs. This also occurs in
+     * storyline mode when a visitor has not yet discovered a poi beacon.
      * <p/>
      * If the user is in navigation mode, the
      * user will have already indicated the destination point. The method will proceed to generate
@@ -335,6 +336,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public boolean onMarkerClick(Marker marker) {
         if (markerPointOfInterestMap.containsKey(marker)) {
             PointOfInterest pointOfInterest = markerPointOfInterestMap.get(marker);
+
+            if(!freeExploration && !storyLineManager.hasVisitedPOI(pointOfInterest)) {
+                return true;
+            }
 
             if (navigationMode) {
 

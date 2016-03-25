@@ -40,6 +40,7 @@ public class NavigationManager {
     public NavigationManager(MuseumMap map) {
         this.graph = new SimpleWeightedGraph<>(DefaultWeightedEdge.class);
         this.map = map;
+        this.endTour = false;
         initializeGraph();
     }
 
@@ -220,6 +221,10 @@ public class NavigationManager {
 
     public void setEndTour() {
         endTour = true;
+    }
+
+    public boolean isEndTour() {
+        return endTour;
     }
 }
 

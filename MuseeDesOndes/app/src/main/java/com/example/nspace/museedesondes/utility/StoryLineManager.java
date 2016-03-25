@@ -106,7 +106,7 @@ public class StoryLineManager {
             nextPOI = pointOfInterestList.get(pointOfInterestIndex);
         } else {
             beaconManager.stopRanging(region);
-            endOfTourDialog();
+            mapActivity.getNavigationManager().setEndTour();
         }
     }
 
@@ -125,7 +125,6 @@ public class StoryLineManager {
                         Log.d("AlertDialog", "exit");
                         mapActivity.setSearchingExit(true);
                         mapActivity.setNavigationMode(true);
-                        mapActivity.getNavigationManager().setEndTour();
                         mapActivity.getNavigationManager().startNavigationMode(mapActivity.getPanelManager());
 
                     }

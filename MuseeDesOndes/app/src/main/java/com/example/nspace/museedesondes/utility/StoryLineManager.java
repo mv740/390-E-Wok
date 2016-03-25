@@ -1,6 +1,9 @@
 package com.example.nspace.museedesondes.utility;
 
+import android.content.DialogInterface;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
@@ -18,6 +21,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -32,8 +36,9 @@ public class StoryLineManager {
 
     private StoryLine storyLine;
     private List<PointOfInterest> pointOfInterestList;
+    private List<PointOfInterest> visitedPOIList;
     private List<List<Polyline>> segmentList;
-    private java.util.Map<Integer, List<Polyline>> floorLineMap;
+    private Map<Integer, List<Polyline>> floorLineMap;
     private List<POIBeaconListener> poiBeaconListeners;
     private int pointOfInterestIndex;
     private PointOfInterest nextPOI;
@@ -44,6 +49,7 @@ public class StoryLineManager {
 
     public StoryLineManager(StoryLine storyLine, MapActivity mapActivity) {
         this.storyLine = storyLine;
+        this.visitedPOIList = new ArrayList<>();
         initPOIList();
         this.pointOfInterestIndex = 0;
         nextPOI = pointOfInterestList.get(pointOfInterestIndex);
@@ -65,7 +71,7 @@ public class StoryLineManager {
                             && ((Utils.computeProximity(nearestBeacon)) == Utils.Proximity.NEAR)) {
 
                         notifyObservers(nextPOI,storyLine);
-                        // TODO: update UI with temp man marker
+                        visitedPOIList.add(nextPOI);
                         updateSegmentListColors();
                         updateNextPOI();
                     }
@@ -93,10 +99,6 @@ public class StoryLineManager {
         }
     }
 
-    private void updateManMarker() {
-
-    }
-
     //updates the next point of interest beacon to listen for, stops listening after the last beacon is discovered
     private void updateNextPOI() {
         pointOfInterestIndex++;
@@ -104,7 +106,31 @@ public class StoryLineManager {
             nextPOI = pointOfInterestList.get(pointOfInterestIndex);
         } else {
             beaconManager.stopRanging(region);
+            endOfTourDialog();
         }
+    }
+
+    public void endOfTourDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(mapActivity, R.style.AppCompatAlertDialogStyle)
+                .setTitle(R.string.endOfTourTitle)
+                .setMessage(R.string.endOfTourMsg)
+                .setPositiveButton(R.string.endOfTourOption2, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.d("AlertDialog", "new tour");
+                    }
+                })
+                .setNegativeButton(R.string.endOfTourOption1, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.d("AlertDialog", "exit");
+                        mapActivity.setSearchingExit(true);
+                        mapActivity.setNavigationMode(true);
+                        mapActivity.getNavigationManager().setEndTour();
+                        mapActivity.getNavigationManager().startNavigationMode(mapActivity.getPanelManager());
+
+                    }
+                });
+        builder.show();
     }
 
     public BeaconManager getBeaconManager() {
@@ -180,5 +206,9 @@ public class StoryLineManager {
                 line.setColor(ContextCompat.getColor(mapActivity, R.color.rca_explored_segment));
             }
         }
+    }
+
+    public boolean hasVisitedPOI(PointOfInterest pointOfInterest) {
+        return visitedPOIList.contains(pointOfInterest);
     }
 }

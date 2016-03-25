@@ -35,6 +35,7 @@ public class NavigationManager {
     private Marker selectedStartMarker;
     private String panelTitle;
     private PoiPanelManager currentPanelManager;
+    private boolean endTour;
 
     public NavigationManager(MuseumMap map) {
         this.graph = new SimpleWeightedGraph<>(DefaultWeightedEdge.class);
@@ -176,26 +177,28 @@ public class NavigationManager {
         currentPanelManager.getPanel().setTouchEnabled(false);
 
         //todo refactoring to use R.String for message 
-        new MaterialShowcaseView.Builder(panelManager.getActivity())
+        MaterialShowcaseView.Builder tutorial =  new MaterialShowcaseView.Builder(panelManager.getActivity())
                 .setTarget(panelManager.getActivity().findViewById(R.id.map))
                 .setTitleText("Navigation Helper")
                 .withRectangleShape(true)
                 .setShapePadding(-370)
                 .setDismissOnTouch(true)
                 .setMaskColour(Color.parseColor("#E6444444"))
-                .setDismissText("CONTINUE")
-                .setContentText("Please select a marker as your starting location")
-                //.setDelay(withDelay) // optional but starting animations immediately in onCreate can make them choppy
-                //singleUse(SHOWCASE_ID) // provide a unique ID used to ensure it is only shown once
-                .show();
+                .setContentText("Please select a marker as your starting location");
 
         if (currentPanelManager.getActivity().isSearchingExit()) {
             currentPanelManager.getNavigationButton().setVisibility(View.VISIBLE);
+            tutorial.setTitleText("Find Exit");
         }
+
+        if(!endTour)
+        {
+            tutorial.show();
+            endTour = false;
+        }
+
         currentPanelManager.getNavigationButton().setColorNormal(ContextCompat.getColor(currentPanelManager.getActivity(), R.color.rca_primary));
         currentPanelManager.getNavigationButton().setImageResource(R.drawable.ic_exit_to_app_white_24dp);
-
-
     }
 
     public void stopNavigationMode() {
@@ -207,10 +210,17 @@ public class NavigationManager {
 
         if (currentPanelManager.getActivity().isSearchingExit()) {
             currentPanelManager.getNavigationButton().setVisibility(View.INVISIBLE);
+            if(currentPanelManager.getActivity().isFreeExploration())
+            {
+                currentPanelManager.getNavigationButton().setVisibility(View.VISIBLE);
+            }
         }
     }
 
 
+    public void setEndTour() {
+        endTour = true;
+    }
 }
 
 

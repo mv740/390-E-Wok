@@ -1,7 +1,9 @@
 package com.example.nspace.museedesondes;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,6 +26,8 @@ import com.example.nspace.museedesondes.utility.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 
 /**
  * Created by sebastian on 2016-02-08.
@@ -48,6 +52,24 @@ public class StoryLineActivity extends AppCompatActivity {
         List<StoryLine> storyLineList = information.getStoryLines();
 
         buildStorylineList(storyLineList);
+
+
+        SharedPreferences sharedPrefs = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        if (sharedPrefs.getBoolean("firstrun", true)) {
+            sharedPrefs.edit().putBoolean("firstrun", false).commit();
+
+            MaterialShowcaseView.Builder tutorial =  new MaterialShowcaseView.Builder(this)
+                    .setTarget(findViewById(R.id.material_listview))
+                    .setTitleText("Tour selection")
+                    .withCircleShape()
+                    .setShapePadding(-250)
+                    .setDismissOnTouch(true)
+                    .setMaskColour(Color.parseColor("#E6444444"))
+                    .setContentText("Please select a tour by clicking on start");
+            tutorial.show();
+
+        }
+
     }
 
     /**

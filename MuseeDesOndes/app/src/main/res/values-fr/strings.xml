@@ -29,4 +29,8 @@
     <string name="dialogCancel">Annuler</string>
     <string name="dialogFree">Vous aller pouvoir explorer librement tous les point d\'intérêts du musée</string>
 
+    <string name="endOfTourTitle">Visite terminée</string>
+    <string name="endOfTourMsg">Voulez vous trouver la sortie la plus proche ou est-ce que vous allez debuter une nouvelle visite?</string>
+    <string name="endOfTourOption1">Trouver la sortie</string>
+    <string name="endOfTourOption2">Nouvelle vistie</string>
 </resources>

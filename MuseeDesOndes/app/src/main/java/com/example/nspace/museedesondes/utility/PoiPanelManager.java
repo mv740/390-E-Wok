@@ -18,7 +18,6 @@ import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.example.nspace.museedesondes.model.StoryLine;
 import com.example.nspace.museedesondes.model.Video;
 import com.github.clans.fab.FloatingActionButton;
-import com.google.android.gms.maps.model.Marker;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.List;
@@ -46,6 +45,32 @@ public class PoiPanelManager implements POIBeaconListener {
         initialState();
 
         onShadowClick();
+        onStateChange();
+
+    }
+
+    private void onStateChange() {
+        panel.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+
+            }
+
+            @Override
+            public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
+
+                Log.e("Statechanged","yes");
+                if(newState == SlidingUpPanelLayout.PanelState.COLLAPSED)
+                {
+                    if(activity.getNavigationManager().isEndTour())
+                    {
+                        activity.getStoryLineManager().endOfTourDialog();
+                    }
+                }
+            }
+        });
+
+
     }
 
     private void onShadowClick() {
@@ -53,6 +78,10 @@ public class PoiPanelManager implements POIBeaconListener {
             @Override
             public void onClick(View view) {
                 panel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                if(activity.getNavigationManager().isEndTour())
+                {
+                    activity.getStoryLineManager().endOfTourDialog();
+                }
             }
         });
     }
@@ -82,10 +111,6 @@ public class PoiPanelManager implements POIBeaconListener {
     }
 
     public void onPOIBeaconDiscovered(PointOfInterest pointOfInterest, StoryLine storyLine) {
-
-        if (isInitialState()) {
-            loadPanel();
-        }
 
         this.currentPointOfInterest = pointOfInterest;
         String description = pointOfInterest.getStoryRelatedDescription(storyLine.getId(), activity.getApplicationContext()).getDescription();

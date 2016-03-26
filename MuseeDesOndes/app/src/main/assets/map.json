@@ -46,12 +46,12 @@
               {
                 "caption": "audio_titre",
                 "language": "fr",
-                "path": "audio/FR/test_1.mp3"
+                "path": "sampleaudio"
               },
               {
                 "caption": "audio_title",
                 "language": "en_US",
-                "path": "audio/EN/test_1.mp3"
+                "path": "sampleaudio"
               }
             ],
             "image": [
@@ -175,12 +175,12 @@
               {
                 "caption": "audio_titre",
                 "language": "fr",
-                "path": "audio/FR/test_1.mp3"
+                "path": "sampleaudio"
               },
               {
                 "caption": "audio_title",
                 "language": "en_US",
-                "path": "audio/EN/test_1.mp3"
+                "path": "sampleaudio"
               }
             ],
             "image": [

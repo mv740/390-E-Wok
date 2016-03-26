@@ -224,7 +224,14 @@ public class MapManager implements POIBeaconListener {
 
     public void defaultFloorLinesAndMarker()
     {
-        updateFloorLinesAndMarkers(DEFAULT_FLOOR_ID);
+        if(defaultFloorExist())
+        {
+            updateFloorLinesAndMarkers(DEFAULT_FLOOR_ID);
+        }else
+        {
+            updateFloorLinesAndMarkers(floorPlans.get(0).getId());
+        }
+        
     }
 
     private void updateFloorLinesAndMarkers(int newFloorID) {

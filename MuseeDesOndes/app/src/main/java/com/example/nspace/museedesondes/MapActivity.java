@@ -401,11 +401,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      * @param marker The selected marker.
      */
     private void selectedMarkerDisplay(Marker marker) {
-        if (selectedMarker != null) {
-            selectedMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+        if(freeExploration) {
+            if (selectedMarker != null) {
+                selectedMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+            }
+            marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+            selectedMarker = marker;
         }
-        marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-        selectedMarker = marker;
     }
 
     private ServiceConnection audioConnection = new ServiceConnection() {

@@ -5,7 +5,7 @@
         {
           "id": 1,
           "beaconInformation": {
-            "UUID": "test_uuid",
+            "UUID": "b9407f30-f5f8-466e-aff9-25556b57fe6d",
             "major": 61111,
             "minor": 23409
           },
@@ -134,7 +134,7 @@
         {
           "id": 2,
           "beaconInformation": {
-            "UUID": "test_uuid",
+            "UUID": "b9407f30-f5f8-466e-aff9-25556b57fe6d",
             "major": 61111,
             "minor": 23409
           },
@@ -263,7 +263,7 @@
         {
           "id": 3,
           "beaconInformation": {
-            "UUID": "test_uuid",
+            "UUID": "b9407f30-f5f8-466e-aff9-25556b57fe6d",
             "major": 61111,
             "minor": 23409
           },
@@ -392,7 +392,7 @@
         {
           "id": 4,
           "beaconInformation": {
-            "UUID": "test_uuid",
+            "UUID": "b9407f30-f5f8-466e-aff9-25556b57fe6d",
             "major": 1111,
             "minor": 2222
           },
@@ -521,7 +521,7 @@
         {
           "id": 5,
           "beaconInformation": {
-            "UUID": "test_uuid",
+            "UUID": "b9407f30-f5f8-466e-aff9-25556b57fe6d",
             "major": 61111,
             "minor": 23409
           },
@@ -658,7 +658,7 @@
         {
           "id": 6,
           "beaconInformation": {
-            "UUID": "test_uuid",
+            "UUID": "b9407f30-f5f8-466e-aff9-25556b57fe6d",
             "major": 11111,
             "minor": 22222
           },
@@ -787,7 +787,7 @@
         {
           "id": 7,
           "beaconInformation": {
-            "UUID": "test_uuid",
+            "UUID": "b9407f30-f5f8-466e-aff9-25556b57fe6d",
             "major": 11111,
             "minor": 22222
           },
@@ -896,7 +896,7 @@
         {
           "id": 8,
           "beaconInformation": {
-            "UUID": "test_uuid",
+            "UUID": "b9407f30-f5f8-466e-aff9-25556b57fe6d",
             "major": 1111,
             "minor": 2222
           },

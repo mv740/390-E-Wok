@@ -196,6 +196,7 @@ public class PoiPanelManager implements POIBeaconListener {
         panel.setTouchEnabled(false);
         replaceTitle("");
         navigationButton.setVisibility(View.INVISIBLE);
+        poiPanelLayout.setVisibility(View.INVISIBLE);
     }
 
     public void loadPanel() {
@@ -204,6 +205,7 @@ public class PoiPanelManager implements POIBeaconListener {
         if (activity.isFreeExploration()) {
             navigationButton.setVisibility(View.VISIBLE);
         }
+        poiPanelLayout.setVisibility(View.VISIBLE);
     }
 
     public boolean isInitialState() {

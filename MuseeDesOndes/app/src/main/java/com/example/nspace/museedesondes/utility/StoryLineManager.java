@@ -55,7 +55,7 @@ public class StoryLineManager {
         nextPOI = pointOfInterestList.get(pointOfInterestIndex);
         this.mapActivity = mapActivity;
         this.poiBeaconListeners= new ArrayList<>();
-        region = new Region("ranged region", UUID.fromString(DEFAULT_MUSEUM_UUID), null, null);
+        region = new Region("ranged region", null, null, null);
         beaconManager = new BeaconManager(mapActivity);
         setBeaconRangeListener();
     }
@@ -66,7 +66,9 @@ public class StoryLineManager {
             public void onBeaconsDiscovered(Region region, List<Beacon> list) {
                 if (!list.isEmpty()) {
                     Beacon nearestBeacon = list.get(0);
-                    if ((nearestBeacon.getMajor() == nextPOI.getBeaconInformation().getMajor())
+                    String beaconUUID = nearestBeacon.getProximityUUID().toString();
+                    if (beaconUUID.equalsIgnoreCase(nextPOI.getBeaconInformation().getUUID())
+                            && (nearestBeacon.getMajor() == nextPOI.getBeaconInformation().getMajor())
                             && (nearestBeacon.getMinor() == nextPOI.getBeaconInformation().getMinor())
                             && ((Utils.computeProximity(nearestBeacon)) == Utils.Proximity.NEAR)) {
 

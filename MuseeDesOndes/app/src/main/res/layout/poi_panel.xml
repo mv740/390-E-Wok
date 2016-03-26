@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ext="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="500dp"
+    android:layout_height="wrap_content"
     android:id="@+id/poiPanel"
     android:background="#FFE33C3C"
-    android:gravity="center|top"
-    android:orientation="vertical"
+    android:layout_alignParentBottom="true"
+    android:layout_gravity="bottom"
+    android:gravity="bottom"
     android:textSize="10dp"
     android:clipToPadding="false"
     android:clipChildren="false">
@@ -74,18 +75,11 @@
         android:minHeight="100dp"
         android:scrollbarSize="50dp" />
 
-    <Button
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_below="@+id/seekBar"
-        android:text="Play Video"
-        android:onClick="playVideo"/>
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/play_button"

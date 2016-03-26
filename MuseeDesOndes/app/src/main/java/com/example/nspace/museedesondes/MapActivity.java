@@ -46,9 +46,11 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.VisibleRegion;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, NavigationDrawerFragment.NavigationDrawerCallbacks, GoogleMap.OnMarkerClickListener {
@@ -184,6 +186,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         initializeMapSetting();
         mapManager = new MapManager(mMap, this, floorLineMap, freeExploration, information.getFloorPlans());
 
+        //loading initial map
+        mapManager.loadDefaultFloor(findViewById(android.R.id.content));
+
         //initialize storyline manager
         if (!freeExploration) {
             storyLineManager.setGoogleMap(mMap);
@@ -202,12 +207,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             storyLineManager.registerObserver(mapManager);
         }
 
-        //loading initial map
-        mapManager.loadDefaultFloor(findViewById(android.R.id.content));
+        mapManager.defaultFloorLinesAndMarker();
         mapManager.initialCameraPosition();
 
 
         mMap.setOnCameraChangeListener(new OnCameraChangeListener());
+//preloading the panel with a random point of interest avoid a bug where the rest of the screen is grey when displaying panel with setting to match_content
+        initPanel();
     }
 
     @Override
@@ -380,9 +386,24 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(markerLocation));
                 panelManager.update(pointOfInterest);
+                panelManager.slideUp();
             }
         }
         return true;
+    }
+
+    private void initPanel(){
+//load random poi
+        Random random    = new Random();
+        List<Marker> keys      = new ArrayList<Marker>(markerPointOfInterestMap.keySet());
+        Marker marker = keys.get(random.nextInt(keys.size()) );
+        PointOfInterest       pointOfInterest     = markerPointOfInterestMap.get(marker);
+        if (panelManager.isInitialState()) {
+            panelManager.loadPanel();
+        }
+        selectedMarkerDisplay(marker);
+        panelManager.update(pointOfInterest);
+
     }
 
     /**

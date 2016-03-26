@@ -1,6 +1,5 @@
 package com.example.nspace.museedesondes.utility;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.example.nspace.museedesondes.R;
@@ -10,7 +9,6 @@ import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -23,16 +21,14 @@ public class PointMarkerFactory {
     /**
      * Create a point of interest marker and drop it on the map on the specified coordinate
      * @param pointOfInterest
-     * @param context
      * @param googleMap MapPlan
-     * @param groundOverlayFloorMapBound
      */
-    public static Marker singleInterestPointFactory(PointOfInterest pointOfInterest, Context context, GoogleMap googleMap, LatLngBounds groundOverlayFloorMapBound) {
+    public static Marker singleInterestPointFactory(PointOfInterest pointOfInterest, GoogleMap googleMap, MapManager mapManager) {
 
-        CoordinateAdapter coordinateAdapter = new CoordinateAdapter(groundOverlayFloorMapBound);
+        CoordinateAdapter coordinateAdapter = new CoordinateAdapter(mapManager);
 
         MarkerOptions node = new MarkerOptions();
-        node.position(new LatLng(coordinateAdapter.convertY(pointOfInterest.getX()),coordinateAdapter.convertX(pointOfInterest.getY()))); //TODO: convert check getX, getY and coordinate adapter are mismatched
+        node.position(new LatLng(coordinateAdapter.convertY(pointOfInterest),coordinateAdapter.convertX(pointOfInterest))); //TODO: convert check getX, getY and coordinate adapter are mismatched
         node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
 
         Marker createdMarker = googleMap.addMarker(node);
@@ -41,12 +37,12 @@ public class PointMarkerFactory {
         return createdMarker;
     }
 
-    public static Marker singleTransitionPointFactory(LabelledPoint labelledPoint, GoogleMap googleMap, LatLngBounds groundOverlayFloorMapBound) {
-        CoordinateAdapter coordinateAdapter = new CoordinateAdapter(groundOverlayFloorMapBound);
+    public static Marker singleTransitionPointFactory(LabelledPoint labelledPoint, GoogleMap googleMap, MapManager mapManager) {
+        CoordinateAdapter coordinateAdapter = new CoordinateAdapter(mapManager);
 
         String title = labelledPoint.getLabel().name();
         MarkerOptions node = new MarkerOptions();
-        node.position(new LatLng(coordinateAdapter.convertY(labelledPoint.getX()), coordinateAdapter.convertX(labelledPoint.getY())));  //TODO: convert check getX, getY and coordinate adapter are mismatched
+        node.position(new LatLng(coordinateAdapter.convertY(labelledPoint), coordinateAdapter.convertX(labelledPoint)));  //TODO: convert check getX, getY and coordinate adapter are mismatched
         node.title(title);
 
         switch (labelledPoint.getLabel()) {

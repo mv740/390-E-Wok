@@ -151,10 +151,17 @@ public class PoiPanelManager implements POIBeaconListener {
     private void updateMedia(List<Image> images, List<Video> videos) {
         RecyclerView recyclerView = (RecyclerView) activity.findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
-        HorizontalRecycleViewAdapter adapter = new HorizontalRecycleViewAdapter(activity, images, videos);
-        recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
-        recyclerView.setNestedScrollingEnabled(false);
-        recyclerView.setAdapter(adapter);
+
+        if (images.size() + videos.size() == 0){
+            recyclerView.setVisibility(View.GONE);
+        }
+        else {
+            recyclerView.setVisibility(View.VISIBLE);
+            HorizontalRecycleViewAdapter adapter = new HorizontalRecycleViewAdapter(activity, images, videos);
+            recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
+            recyclerView.setNestedScrollingEnabled(false);
+            recyclerView.setAdapter(adapter);
+        }
     }
 
     public PointOfInterest getCurrentPointOfInterest() {

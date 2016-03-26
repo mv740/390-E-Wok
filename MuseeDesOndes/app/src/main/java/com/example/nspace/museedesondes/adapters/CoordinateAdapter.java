@@ -1,10 +1,10 @@
 package com.example.nspace.museedesondes.adapters;
 
-import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.example.nspace.museedesondes.model.FloorPlan;
 import com.example.nspace.museedesondes.model.Node;
+import com.google.android.gms.maps.model.LatLngBounds;
 
 /**
  * Created by michal on 3/12/2016.
@@ -18,10 +18,10 @@ public class CoordinateAdapter {
     private double height;
     private FloorPlan floorPlan;
 
-    public CoordinateAdapter(BitmapFactory.Options options, FloorPlan floorPlan)
+    public CoordinateAdapter(FloorPlan floorPlan, LatLngBounds bounds)
     {
-        this.width = options.outWidth;
-        this.height = options.outHeight;
+        this.width = Math.abs(bounds.southwest.latitude - bounds.northeast.latitude);
+        this.height = Math.abs(bounds.southwest.longitude - bounds.northeast.longitude);
         this.floorPlan = floorPlan;
         Log.e("CoordinateAdapter", "width: "+String.valueOf(width));
         Log.e("CoordinateAdapter", "height: "+String.valueOf(height));
@@ -30,7 +30,9 @@ public class CoordinateAdapter {
     public double convertX(Node node)
     {
 
-        double ratio =   floorPlan.getImageWidth()/width;
+        double ratio =   node.getX()/floorPlan.getImageWidth();
+        double newX = ratio*width;
+
 
         //todo test this
 
@@ -39,7 +41,8 @@ public class CoordinateAdapter {
     }
     public double convertY(Node node)
     {
-        double ratio = floorPlan.getImageHeight()/ height;
+        double ratio = node.getY()/ floorPlan.getImageHeight();
+        double newY = ratio*height;
 
         //todo test this
 

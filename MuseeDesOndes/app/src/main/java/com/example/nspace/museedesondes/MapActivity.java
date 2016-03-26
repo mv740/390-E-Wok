@@ -190,6 +190,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             storyLineManager.initSegmentListAndFloorLineMap();
         }
 
+        //loading initial map
+        mapManager.loadDefaultFloor(findViewById(android.R.id.content));
+
         //initialize markers for labelled points on floor
         mapManager.initFloorPOTMarkerMap(information.getLabelledPoints());
 
@@ -201,8 +204,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             storyLineManager.registerObserver(mapManager);
         }
 
-        //loading initial map
-        mapManager.loadDefaultFloor(findViewById(android.R.id.content));
+        mapManager.defaultFloorLinesAndMarker();
         mapManager.initialCameraPosition();
 
 

@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.example.nspace.museedesondes.MapActivity;
 import com.example.nspace.museedesondes.R;
+import com.example.nspace.museedesondes.adapters.CoordinateAdapter;
 import com.example.nspace.museedesondes.model.Edge;
 import com.example.nspace.museedesondes.model.FloorPlan;
 import com.example.nspace.museedesondes.model.Label;
@@ -197,7 +198,7 @@ public class MapManager implements POIBeaconListener {
         return Resource.getResourceIDFromPath(floorPlan.getImagePath(),context);
     }
 
-    private FloorPlan getFloor(int currentFloorID)
+    public FloorPlan getFloor(int currentFloorID)
     {
         for(FloorPlan floorPlan : floorPlans)
         {
@@ -232,7 +233,7 @@ public class MapManager implements POIBeaconListener {
     public void initFloorPOIMarkerMap(List<PointOfInterest> pointsOfInterestList, Map<Marker, PointOfInterest> markerPOIMap) {
         Marker marker;
         for(PointOfInterest pointOfInterest : pointsOfInterestList) {
-            marker = PointMarkerFactory.singleInterestPointFactory(pointOfInterest, context, mMap, getGroundOverlayFloorMapBound());
+            marker = PointMarkerFactory.singleInterestPointFactory(pointOfInterest, mMap,this);
             floorMarkerMap.get(pointOfInterest.getFloorID()).add(marker);
             markerPOIMap.put(marker, pointOfInterest);
 
@@ -243,7 +244,7 @@ public class MapManager implements POIBeaconListener {
         Marker marker;
         for (LabelledPoint labelledPoint : labelledPointList) {
             if(labelledPoint.getLabel() != Label.NONE) {
-                marker = PointMarkerFactory.singleTransitionPointFactory(labelledPoint, mMap, getGroundOverlayFloorMapBound());
+                marker = PointMarkerFactory.singleTransitionPointFactory(labelledPoint, mMap, this);
                 floorMarkerMap.get(labelledPoint.getFloorID()).add(marker);
             }
         }
@@ -261,6 +262,11 @@ public class MapManager implements POIBeaconListener {
         for (Marker marker : markerList) {
             marker.setVisible(visibility);
         }
+    }
+
+    public void defaultFloorLinesAndMarker()
+    {
+        updateFloorLinesAndMarkers(DEFAULT_FLOOR_ID);
     }
 
     private void updateFloorLinesAndMarkers(int newFloorID) {
@@ -329,8 +335,9 @@ public class MapManager implements POIBeaconListener {
     }
 
     private Polyline getLineFromNodes(Node node1, Node node2) {
+        CoordinateAdapter coordinateAdapter = new CoordinateAdapter(this);
         Polyline line = mMap.addPolyline(new PolylineOptions()
-                .add(new LatLng(node1.getX(), node1.getY()), new LatLng(node2.getX(), node2.getY()))
+                .add(new LatLng(coordinateAdapter.convertY(node1),coordinateAdapter.convertX(node1)), new LatLng(coordinateAdapter.convertY(node2),coordinateAdapter.convertX(node2)))
                 .color(ContextCompat.getColor(context, R.color.rca_unexplored_segment))
                 .width(10));
         line.setVisible(false);
@@ -550,5 +557,9 @@ public class MapManager implements POIBeaconListener {
 
     public int getCurrentFloorID() {
         return currentFloorID;
+    }
+
+    public List<FloorPlan> getFloorPlans() {
+        return floorPlans;
     }
 }

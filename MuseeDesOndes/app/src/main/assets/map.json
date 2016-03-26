@@ -34,12 +34,12 @@
               {
                 "caption": "video_titre",
                 "language": "fr",
-                "path": "video/FR/test.mp4"
+                "path": "moeb_point_1_small"
               },
               {
                 "caption": "video_title",
                 "language": "en_US",
-                "path": "video/EN/test.mp4"
+                "path": "moeb_point_1_small"
               }
             ],
             "audio": [
@@ -163,12 +163,12 @@
               {
                 "caption": "video_titre",
                 "language": "fr",
-                "path": "video/FR/test.mp4"
+                "path": "moeb_point_1_small"
               },
               {
                 "caption": "video_title",
                 "language": "en_US",
-                "path": "video/EN/test.mp4"
+                "path": "moeb_point_1_small"
               }
             ],
             "audio": [

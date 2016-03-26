@@ -31,7 +31,6 @@ public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter<Horizonta
 
     public HorizontalRecycleViewAdapter(MapActivity context, List<Image> imageList, List<Video> videoList) {
         this.imageList = imageList;
-        // Video test = new Video("sample_video_1280x720_1mb", Language.en_US, "sample_video_1280x720_1mb");     TO BE REMOVED!!!!! Harrison 23/03/2016
         this.videoList = new ArrayList<>();
         this.videoList.addAll(videoList);
         this.contentList = new ArrayList<>();
@@ -82,6 +81,7 @@ public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter<Horizonta
         public SingleItemRowHolder(View view) {
             super(view);
             this.MediaResource = (ImageView) view.findViewById(R.id.poi_panel_pic_item_imageview);
+
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -16,7 +16,7 @@ import com.example.nspace.museedesondes.model.PointOfInterest;
 public class MediaService extends Service {
 
     private final IBinder audioBinder = new AudioBinder();
-    private MediaPlayer mediaPlayer; //todo will need to mediaPlayer.release();  when menu is closed to release ram
+    private MediaPlayer mediaPlayer;
     private SeekBar seekBar;
     private Handler audioHandler = new Handler();
     LayoutInflater inflater;
@@ -36,7 +36,7 @@ public class MediaService extends Service {
      */
     public void setAudio(int fileID) {
         if (mediaPlayer == null) {
-            mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sampleaudio);
+            mediaPlayer = MediaPlayer.create(getApplicationContext(), fileID);
         }
     }
 

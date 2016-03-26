@@ -305,8 +305,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     /**
-     * This method sets media files associated with the current storyline (if applicable, default
-     * otherwise), and plays the
+     * This method sets audio files associated with the current storyline (if applicable, default
+     * otherwise), and plays them.
      * @param pointOfInterest
      */
     public void startAudio(PointOfInterest pointOfInterest) {
@@ -314,9 +314,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         String fileName = pointOfInterest.getLocaleAudios(getApplicationContext()).get(0).getPath();
 
         // gets the ID associated with the fileName.
-        int fileID = Resource.getVideoResourceID(fileName, getApplication());
+        int fileID = Resource.getVideoResourceID(fileName, getApplicationContext());
 
-        //
+        // associates the ID to the media player of the media service
         mediaService.setAudio(fileID);
 
         int audioDuration = mediaService.getAudioDuration();
@@ -420,8 +420,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         public void onServiceConnected(ComponentName name, IBinder service) {
             AudioBinder binder = (AudioBinder) service;
             mediaService = binder.getAudioService();
-
-
         }
 
         @Override

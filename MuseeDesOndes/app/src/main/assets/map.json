@@ -34,12 +34,12 @@
               {
                 "caption": "video_titre",
                 "language": "fr",
-                "path": "moeb_point_1_small"
+                "path": "moeb_introduction_small"
               },
               {
                 "caption": "video_title",
                 "language": "en_US",
-                "path": "moeb_point_1_small"
+                "path": "moeb_introduction_small"
               }
             ],
             "audio": [
@@ -96,37 +96,38 @@
               "title": [
                 {
                   "language": "fr",
-                  "title": "<title>"
+                  "title": "mega_test_title"
+                },
+                {
+                  "language": "en_US",
+                  "title": "mega_test_title"
                 }
               ],
               "description": [
                 {
                   "language": "fr",
-                  "description": "<description>"
+                  "description": "such description"
+                },
+                {
+                  "language": "en_US",
+                  "description": "such description"
                 }
               ],
               "media": {
-                "image": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ],
+                "image": [],
                 "video": [
                   {
-                    "path": "<URL>",
+                    "path": "moeb_point_4_small",
                     "language": "fr",
-                    "caption": "<caption>"
+                    "caption": "bruh"
+                  },
+                  {
+                    "path": "moeb_point_4_small",
+                    "language": "en_US",
+                    "caption": "bruh"
                   }
                 ],
-                "audio": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ]
+                "audio": []
               }
             }
           ]
@@ -222,40 +223,12 @@
           "storyPoint": [
             {
               "storylineID": 1,
-              "title": [
-                {
-                  "language": "fr",
-                  "title": "<title>"
-                }
-              ],
-              "description": [
-                {
-                  "language": "fr",
-                  "description": "<description>"
-                }
-              ],
+              "title": [],
+              "description": [],
               "media": {
-                "image": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ],
-                "video": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ],
-                "audio": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ]
+                "image": [],
+                "video": [],
+                "audio": []
               }
             }
           ]
@@ -292,24 +265,24 @@
               {
                 "caption": "video_titre",
                 "language": "fr",
-                "path": "video/FR/test.mp4"
+                "path": "moeb_point_2_small"
               },
               {
                 "caption": "video_title",
                 "language": "en_US",
-                "path": "video/EN/test.mp4"
+                "path": "moeb_point_2_small"
               }
             ],
             "audio": [
               {
                 "caption": "audio_titre",
                 "language": "fr",
-                "path": "audio/FR/test_1.mp3"
+                "path": "sampleaudio"
               },
               {
                 "caption": "audio_title",
                 "language": "en_US",
-                "path": "audio/EN/test_1.mp3"
+                "path": "sampleaudio"
               }
             ],
             "image": [
@@ -351,40 +324,12 @@
           "storyPoint": [
             {
               "storylineID": 1,
-              "title": [
-                {
-                  "language": "fr",
-                  "title": "<title>"
-                }
-              ],
-              "description": [
-                {
-                  "language": "fr",
-                  "description": "<description>"
-                }
-              ],
+              "title": [],
+              "description": [],
               "media": {
-                "image": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ],
-                "video": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ],
-                "audio": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ]
+                "image": [],
+                "video": [],
+                "audio": []
               }
             }
           ]
@@ -421,24 +366,24 @@
               {
                 "caption": "video_titre",
                 "language": "fr",
-                "path": "video/FR/test.mp4"
+                "path": "moeb_point_3_small"
               },
               {
                 "caption": "video_title",
                 "language": "en_US",
-                "path": "video/EN/test.mp4"
+                "path": "moeb_point_3_small"
               }
             ],
             "audio": [
               {
                 "caption": "audio_titre",
                 "language": "fr",
-                "path": "audio/FR/test_1.mp3"
+                "path": "sampleaudio"
               },
               {
                 "caption": "audio_title",
                 "language": "en_US",
-                "path": "audio/EN/test_1.mp3"
+                "path": "sampleaudio"
               }
             ],
             "image": [
@@ -480,40 +425,12 @@
           "storyPoint": [
             {
               "storylineID": 1,
-              "title": [
-                {
-                  "language": "fr",
-                  "title": "<title>"
-                }
-              ],
-              "description": [
-                {
-                  "language": "fr",
-                  "description": "<description>"
-                }
-              ],
+              "title": [],
+              "description": [],
               "media": {
-                "image": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ],
-                "video": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ],
-                "audio": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ]
+                "image": [],
+                "video": [],
+                "audio": []
               }
             }
           ]
@@ -550,24 +467,24 @@
               {
                 "caption": "video_titre",
                 "language": "fr",
-                "path": "video/FR/test.mp4"
+                "path": "moeb_point_4_small"
               },
               {
                 "caption": "video_title",
                 "language": "en_US",
-                "path": "video/EN/test.mp4"
+                "path": "moeb_point_4_small"
               }
             ],
             "audio": [
               {
                 "caption": "audio_titre",
                 "language": "fr",
-                "path": "audio/FR/test_1.mp3"
+                "path": "sampleaudio"
               },
               {
                 "caption": "audio_title",
                 "language": "en_US",
-                "path": "audio/EN/test_1.mp3"
+                "path": "sampleaudio"
               }
             ],
             "image": [
@@ -609,48 +526,12 @@
           "storyPoint": [
             {
               "storylineID": 66,
-              "title": [
-                {
-                  "language": "fr",
-                  "title": "FR STORY POINT TITLE!"
-                },
-                {
-                  "language": "en_US",
-                  "title": "EN STORY POINT TITLE!"
-                }
-              ],
-              "description": [
-                {
-                  "language": "fr",
-                  "description": "FR STORY POINT DESC!"
-                },
-                {
-                  "language": "en_US",
-                  "description": "EN STORY POINT DESC!"
-                }
-              ],
+              "title": [],
+              "description": [],
               "media": {
-                "image": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ],
-                "video": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ],
-                "audio": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ]
+                "image": [],
+                "video": [],
+                "audio": []
               }
             }
           ]
@@ -687,12 +568,12 @@
               {
                 "caption": "video_titre",
                 "language": "fr",
-                "path": "video/FR/test.mp4"
+                "path": "moeb_point_5_small"
               },
               {
                 "caption": "video_title",
                 "language": "en_US",
-                "path": "video/EN/test.mp4"
+                "path": "moeb_point_5_small"
               }
             ],
             "audio": [
@@ -746,40 +627,12 @@
           "storyPoint": [
             {
               "storylineID": 2,
-              "title": [
-                {
-                  "language": "fr",
-                  "title": "<title>"
-                }
-              ],
-              "description": [
-                {
-                  "language": "fr",
-                  "description": "<description>"
-                }
-              ],
+              "title": [],
+              "description": [],
               "media": {
-                "image": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ],
-                "video": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ],
-                "audio": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ]
+                "image": [],
+                "video": [],
+                "audio": []
               }
             }
           ]
@@ -855,40 +708,12 @@
           "storyPoint": [
             {
               "storylineID": 2,
-              "title": [
-                {
-                  "language": "fr",
-                  "title": "<title>"
-                }
-              ],
-              "description": [
-                {
-                  "language": "fr",
-                  "description": "<description>"
-                }
-              ],
+              "title": [],
+              "description": [],
               "media": {
-                "image": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ],
-                "video": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ],
-                "audio": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ]
+                "image": [],
+                "video": [],
+                "audio": []
               }
             }
           ]
@@ -984,40 +809,12 @@
           "storyPoint": [
             {
               "storylineID": 1,
-              "title": [
-                {
-                  "language": "fr",
-                  "title": "<title>"
-                }
-              ],
-              "description": [
-                {
-                  "language": "fr",
-                  "description": "<description>"
-                }
-              ],
+              "title": [],
+              "description": [],
               "media": {
-                "image": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ],
-                "video": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ],
-                "audio": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ]
+                "image": [],
+                "video": [],
+                "audio": []
               }
             }
           ]

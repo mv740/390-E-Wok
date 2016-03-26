@@ -568,24 +568,24 @@
               {
                 "caption": "video_titre",
                 "language": "fr",
-                "path": "moeb_point_5_small"
+                "path": "moeb_point_4_small"
               },
               {
                 "caption": "video_title",
                 "language": "en_US",
-                "path": "moeb_point_5_small"
+                "path": "moeb_point_4_small"
               }
             ],
             "audio": [
               {
                 "caption": "audio_titre",
                 "language": "fr",
-                "path": "audio/FR/test_1.mp3"
+                "path": "sampleaudio"
               },
               {
                 "caption": "audio_title",
                 "language": "en_US",
-                "path": "audio/EN/test_1.mp3"
+                "path": "sampleaudio"
               }
             ],
             "image": [
@@ -669,36 +669,56 @@
               {
                 "caption": "video_titre",
                 "language": "fr",
-                "path": "video/FR/test.mp4"
+                "path": "moeb_point_4_small"
               },
               {
                 "caption": "video_title",
                 "language": "en_US",
-                "path": "video/EN/test.mp4"
+                "path": "moeb_point_4_small"
               }
             ],
             "audio": [
               {
                 "caption": "audio_titre",
                 "language": "fr",
-                "path": "audio/FR/test_1.mp3"
+                "path": "sampleaudio"
               },
               {
                 "caption": "audio_title",
                 "language": "en_US",
-                "path": "audio/EN/test_1.mp3"
+                "path": "sampleaudio"
               }
             ],
             "image": [
               {
                 "caption": "test_title",
                 "language": "en_US",
-                "path": "picture/test_image1.png"
+                "path": "museum_ex_1"
               },
               {
                 "caption": "test_titre",
                 "language": "fr",
-                "path": "picture/test_image2.png"
+                "path": "museum_ex_1"
+              },
+              {
+                "caption": "test_title",
+                "language": "en_US",
+                "path": "museum_ex_2"
+              },
+              {
+                "caption": "test_titre",
+                "language": "fr",
+                "path": "museum_ex_2"
+              },
+              {
+                "caption": "test_title",
+                "language": "en_US",
+                "path": "museum_ex_3"
+              },
+              {
+                "caption": "test_titre",
+                "language": "fr",
+                "path": "museum_ex_3"
               }
             ]
           },
@@ -750,24 +770,24 @@
               {
                 "caption": "video_titre",
                 "language": "fr",
-                "path": "video/FR/test.mp4"
+                "path": "moeb_point_4_small"
               },
               {
                 "caption": "video_title",
                 "language": "en_US",
-                "path": "video/EN/test.mp4"
+                "path": "moeb_point_4_small"
               }
             ],
             "audio": [
               {
                 "caption": "audio_titre",
                 "language": "fr",
-                "path": "audio/FR/test_1.mp3"
+                "path": "sampleaudio"
               },
               {
                 "caption": "audio_title",
                 "language": "en_US",
-                "path": "audio/EN/test_1.mp3"
+                "path": "sampleaudio"
               }
             ],
             "image": [

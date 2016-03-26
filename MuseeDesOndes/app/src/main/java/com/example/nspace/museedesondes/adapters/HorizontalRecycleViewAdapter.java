@@ -25,16 +25,11 @@ import java.util.List;
 public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter<HorizontalRecycleViewAdapter.SingleItemRowHolder> {
 
     private List<Content> contentList;
-    private List<Image> imageList;
-    private List<Video> videoList;
     private MapActivity mContext;
 
     public HorizontalRecycleViewAdapter(MapActivity context, List<Image> imageList, List<Video> videoList) {
-        this.imageList = imageList;
-        this.videoList = new ArrayList<>();
-        this.videoList.addAll(videoList);
         this.contentList = new ArrayList<>();
-        this.contentList.addAll(this.videoList);
+        this.contentList.addAll(videoList);
         this.contentList.addAll(imageList);
         this.mContext = context;
     }

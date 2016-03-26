@@ -28,8 +28,8 @@ import com.example.nspace.museedesondes.model.MuseumMap;
 import com.example.nspace.museedesondes.model.Node;
 import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.example.nspace.museedesondes.model.StoryLine;
-import com.example.nspace.museedesondes.services.AudioService;
-import com.example.nspace.museedesondes.services.AudioService.AudioBinder;
+import com.example.nspace.museedesondes.services.MediaService;
+import com.example.nspace.museedesondes.services.MediaService.AudioBinder;
 import com.example.nspace.museedesondes.utility.MapManager;
 import com.example.nspace.museedesondes.utility.NavigationManager;
 import com.example.nspace.museedesondes.utility.PoiPanelManager;
@@ -65,7 +65,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private MuseumMap information;
-    AudioService audioService;
+    MediaService mediaService;
     private int[] floorButtonIdList = {R.id.fab1, R.id.fab2, R.id.fab3, R.id.fab4, R.id.fab5};
     private StoryLineManager storyLineManager;
     private StoryLine storyLine;
@@ -118,7 +118,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
         bringButtonsToFront();
-        Intent intent = new Intent(this, AudioService.class);
+        Intent intent = new Intent(this, MediaService.class);
         bindService(intent, audioConnection, Context.BIND_AUTO_CREATE);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
 
@@ -326,13 +326,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
-    public void playVideo(View v) {
-        Intent intent = new Intent(this, VideoActivity.class);
-        String fileName = Integer.toString(R.raw.sample_video_1280x720_1mb);
-        intent.putExtra("File_Name", fileName);
-        startActivity(intent);
-    }
-
     public void getDirections(View v) {
 
         if (navigationMode) {
@@ -347,15 +340,28 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
+    /**
+     * This method sets audio files associated with the current storyline (if applicable, default
+     * otherwise), and plays them.
+     * @param pointOfInterest
+     */
     public void startAudio(PointOfInterest pointOfInterest) {
-        audioService.setAudio();
-        int audioDuration = audioService.getAudioDuration();
+        // get the audio files associated with a point of interest.
+        String fileName = pointOfInterest.getLocaleAudios(getApplicationContext()).get(0).getPath();
+
+        // gets the ID associated with the fileName.
+        int fileID = Resource.getVideoResourceID(fileName, getApplicationContext());
+
+        // associates the ID to the media player of the media service
+        mediaService.setAudio(fileID);
+
+        int audioDuration = mediaService.getAudioDuration();
         SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);
         seekBar.setMax(audioDuration / 1000);
         audioRunnable.run();
 
         View view = findViewById(R.id.play_button);
-        audioService.toggleAudioOnOff(view);
+        mediaService.toggleAudioOnOff(view);
     }
 
     /**
@@ -451,9 +457,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             AudioBinder binder = (AudioBinder) service;
-            audioService = binder.getAudioService();
-
-
+            mediaService = binder.getAudioService();
         }
 
         @Override
@@ -465,13 +469,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private Runnable audioRunnable = new Runnable() {
         @Override
         public void run() {
-            int currentPosition = audioService.getCurrentPosition();
+            int currentPosition = mediaService.getCurrentPosition();
             seekBar.setProgress(currentPosition);
             seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    if (audioService.isMediaSet() && fromUser) {
-                        audioService.setAudioPosition(progress * 1000);
+                    if (mediaService.isMediaSet() && fromUser) {
+                        mediaService.setAudioPosition(progress * 1000);
                     }
                 }
 
@@ -492,7 +496,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (audioService != null) {
+        if (mediaService != null) {
             unbindService(audioConnection);
         }
         if (!freeExploration) {
@@ -530,8 +534,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     protected void onStop() {
         super.onStop();
-        if (audioService != null) {
-            audioService.releaseAudio();
+        if (mediaService != null) {
+            mediaService.releaseAudio();
         }
     }
 

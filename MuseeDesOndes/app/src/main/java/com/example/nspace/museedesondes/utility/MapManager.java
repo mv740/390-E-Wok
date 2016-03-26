@@ -110,6 +110,7 @@ public class MapManager implements POIBeaconListener {
                 .position(position, width, height).anchor(0, 1)
                 .zIndex(0);
 
+
         groundOverlayFloorMap = mMap.addGroundOverlay(customMap);
         groundOverlayFloorMapBound = groundOverlayFloorMap.getBounds();
 

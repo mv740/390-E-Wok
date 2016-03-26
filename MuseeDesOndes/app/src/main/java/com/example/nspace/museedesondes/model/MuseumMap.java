@@ -1,18 +1,11 @@
 package com.example.nspace.museedesondes.model;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 
-import com.example.nspace.museedesondes.adapters.CoordinateAdapter;
 import com.example.nspace.museedesondes.utility.JsonHelper;
-import com.example.nspace.museedesondes.utility.Resource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.GroundOverlayOptions;
-import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -56,7 +49,6 @@ public class MuseumMap {
                 instance = mapper.readValue(mapSource, MuseumMap.class);
                 if (instance != null) {
                     initializeNodes();
-                    convertCoordinate(context);
                 }
 
             } catch (IOException e) {
@@ -65,31 +57,6 @@ public class MuseumMap {
 
         }
         return instance;
-    }
-
-    private static void convertCoordinate(Context context)
-    {
-        List<Node> nodeList = new ArrayList<>();
-        nodeList.addAll(instance.pointOfInterests);
-        nodeList.addAll(instance.labelledPoints);
-
-        for(Node currentP : nodeList)
-        {
-            int floorId = currentP.getFloorID();
-            BitmapFactory.Options options = Resource.getFloorImageDimensionOptions(floorId, instance.floorPlans, context);
-
-            BitmapDescriptor imageFloor = BitmapDescriptorFactory.fromResource(Resource.getFloorPlanResourceID(floorId, instance.floorPlans, context));
-            GroundOverlayOptions customMap = new GroundOverlayOptions()
-                    .image(imageFloor)
-                    .position(new LatLng(0,0), options.outWidth*3, options.outHeight*3).anchor(0, 1)
-                    .zIndex(0);
-
-
-            FloorPlan floorPlan = Resource.searchFloorPlanById(floorId,instance.floorPlans);
-            CoordinateAdapter coordinateAdapter = new CoordinateAdapter(floorPlan, customMap.getBounds());
-            currentP.setY(coordinateAdapter.convertY(currentP));
-            currentP.setX(coordinateAdapter.convertX(currentP));
-        }
     }
 
     private static void initializeNodes() {

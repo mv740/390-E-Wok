@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -20,8 +21,11 @@ import android.widget.Toast;
 
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.SystemRequirementsChecker;
+import com.example.nspace.museedesondes.adapters.CoordinateAdapter;
 import com.example.nspace.museedesondes.fragments.NavigationDrawerFragment;
+import com.example.nspace.museedesondes.model.FloorPlan;
 import com.example.nspace.museedesondes.model.MuseumMap;
+import com.example.nspace.museedesondes.model.Node;
 import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.example.nspace.museedesondes.model.StoryLine;
 import com.example.nspace.museedesondes.services.AudioService;
@@ -30,6 +34,7 @@ import com.example.nspace.museedesondes.utility.MapManager;
 import com.example.nspace.museedesondes.utility.NavigationManager;
 import com.example.nspace.museedesondes.utility.PoiPanelManager;
 import com.example.nspace.museedesondes.utility.Preferences;
+import com.example.nspace.museedesondes.utility.Resource;
 import com.example.nspace.museedesondes.utility.StoryLineManager;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -37,8 +42,11 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.GroundOverlay;
+import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -88,6 +96,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         information = MuseumMap.getInstance(getApplicationContext());
         getStoryLineSelected();
 
+
         if (!freeExploration) {
             storyLineManager = new StoryLineManager(storyLine, this);
             storyLineManager.registerObserver(panelManager);
@@ -115,6 +124,33 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         this.navigationManager = new NavigationManager(information);
         this.navigationMode = false;
+    }
+
+
+    private void convertCoordinate(MuseumMap information, GoogleMap googleMap)
+    {
+        List<Node> nodeList = new ArrayList<>();
+        nodeList.addAll(information.getLabelledPoints());
+        nodeList.addAll(information.getPointOfInterests());
+
+        for(Node currentP : nodeList)
+        {
+            int floorId = currentP.getFloorID();
+            BitmapFactory.Options options = Resource.getFloorImageDimensionOptions(floorId, information.getFloorPlans(), getApplicationContext());
+
+            int id = Resource.getFloorPlanResourceID(floorId, information.getFloorPlans(),this);
+            BitmapDescriptor imageFloor = BitmapDescriptorFactory.fromResource(id);
+
+            GroundOverlayOptions customMap = new GroundOverlayOptions()
+                    .image(imageFloor)
+                    .position(new LatLng(0,0), options.outWidth*3, options.outHeight*3);
+
+            GroundOverlay groundOverlayFloorMap = googleMap.addGroundOverlay(customMap);
+            FloorPlan floorPlan = Resource.searchFloorPlanById(floorId,information.getFloorPlans());
+            CoordinateAdapter coordinateAdapter = new CoordinateAdapter(floorPlan, groundOverlayFloorMap.getBounds());
+            currentP.setY(coordinateAdapter.convertY(currentP));
+            currentP.setX(coordinateAdapter.convertX(currentP));
+        }
     }
 
 
@@ -177,6 +213,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         information = MuseumMap.getInstance(getApplicationContext());
+        convertCoordinate(information, googleMap);
 
         Map<Integer, List<Polyline>> floorLineMap = new HashMap<>();
 

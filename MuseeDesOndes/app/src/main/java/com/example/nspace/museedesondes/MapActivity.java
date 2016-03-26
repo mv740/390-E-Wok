@@ -185,15 +185,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         initializeMapSetting();
         mapManager = new MapManager(mMap, this, floorLineMap, freeExploration, information.getFloorPlans());
 
+        //loading initial map
+        mapManager.loadDefaultFloor(findViewById(android.R.id.content));
+
         //initialize storyline manager
         if (!freeExploration) {
             storyLineManager.setGoogleMap(mMap);
             storyLineManager.setFloorLineMap(floorLineMap);
             storyLineManager.initSegmentListAndFloorLineMap();
         }
-
-        //loading initial map
-        mapManager.loadDefaultFloor(findViewById(android.R.id.content));
 
         //initialize markers for labelled points on floor
         mapManager.initFloorPOTMarkerMap(information.getLabelledPoints());

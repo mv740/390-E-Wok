@@ -1,14 +1,12 @@
 package com.example.nspace.museedesondes.utility;
 
 import android.graphics.BitmapFactory;
-import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 
 import com.example.nspace.museedesondes.MapActivity;
 import com.example.nspace.museedesondes.R;
-import com.example.nspace.museedesondes.adapters.CoordinateAdapter;
 import com.example.nspace.museedesondes.model.Edge;
 import com.example.nspace.museedesondes.model.FloorPlan;
 import com.example.nspace.museedesondes.model.Label;
@@ -88,13 +86,13 @@ public class MapManager implements POIBeaconListener {
         BitmapFactory.Options options;
         if(defaultFloorExist())
         {
-            imageFloor = BitmapDescriptorFactory.fromResource(getFloorPlanResourceID(DEFAULT_FLOOR_ID));
-            options = getFloorImageDimensionOptions(DEFAULT_FLOOR_ID);
+            imageFloor = BitmapDescriptorFactory.fromResource(Resource.getFloorPlanResourceID(DEFAULT_FLOOR_ID, floorPlans, context));
+            options = Resource.getFloorImageDimensionOptions(DEFAULT_FLOOR_ID, floorPlans, context);
         }
         else
         {
-            imageFloor = BitmapDescriptorFactory.fromResource(getFloorPlanResourceID(floorPlans.get(0).getId()));
-            options = getFloorImageDimensionOptions(floorPlans.get(0).getId());
+            imageFloor = BitmapDescriptorFactory.fromResource(Resource.getFloorPlanResourceID(floorPlans.get(0).getId(), floorPlans, context));
+            options = Resource.getFloorImageDimensionOptions(floorPlans.get(0).getId(), floorPlans, context);
         }
 
         LatLng position = new LatLng(0, 0);
@@ -123,14 +121,6 @@ public class MapManager implements POIBeaconListener {
         mMap.addGroundOverlay(mapBackground);
 
         displayFloorLinesAndMarkers(DEFAULT_FLOOR_ID, true);
-    }
-
-    @NonNull
-    private BitmapFactory.Options getFloorImageDimensionOptions(int floorId) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeResource(context.getResources(), getFloorPlanResourceID(floorId), options);
-        return options;
     }
 
     /**
@@ -168,47 +158,14 @@ public class MapManager implements POIBeaconListener {
         updateFloorLinesAndMarkers(floorID);
 
         //http://stackoverflow.com/questions/16369814/how-to-access-the-drawable-resources-by-name-in-android
-        groundOverlayFloorMap.setImage(BitmapDescriptorFactory.fromResource(getFloorPlanResourceID(floorID)));
-        BitmapFactory.Options  options = getFloorImageDimensionOptions(floorID);
+        groundOverlayFloorMap.setImage(BitmapDescriptorFactory.fromResource(Resource.getFloorPlanResourceID(floorID, floorPlans, context)));
+        BitmapFactory.Options  options = Resource.getFloorImageDimensionOptions(floorID, floorPlans, context);
         float width = scaleDimension(options.outWidth);
         float height = scaleDimension(options.outHeight);
         groundOverlayFloorMap.setDimensions(width,height);
         groundOverlayFloorMapBound = groundOverlayFloorMap.getBounds();
     }
 
-    /**
-     * Search correct floorPlan
-     * floorPlan index is not the floorPlan id,  The Json could have floorPlan 3,5,8,1 in random order
-     *
-     * @param id
-     * @return
-     */
-    private FloorPlan searchFloorPlanById(int id) {
-        for (FloorPlan currentFloor : floorPlans) {
-            if (currentFloor.getId() == id) {
-                return currentFloor;
-            }
-        }
-        return null;
-    }
-
-    private int getFloorPlanResourceID(int id) {
-
-        FloorPlan floorPlan = searchFloorPlanById(id);
-        return Resource.getResourceIDFromPath(floorPlan.getImagePath(),context);
-    }
-
-    public FloorPlan getFloor(int currentFloorID)
-    {
-        for(FloorPlan floorPlan : floorPlans)
-        {
-            if(floorPlan.getId() == currentFloorID)
-            {
-                return  floorPlan;
-            }
-        }
-        return null;
-    }
 
     private boolean defaultFloorExist()
     {
@@ -233,7 +190,7 @@ public class MapManager implements POIBeaconListener {
     public void initFloorPOIMarkerMap(List<PointOfInterest> pointsOfInterestList, Map<Marker, PointOfInterest> markerPOIMap) {
         Marker marker;
         for(PointOfInterest pointOfInterest : pointsOfInterestList) {
-            marker = PointMarkerFactory.singleInterestPointFactory(pointOfInterest, mMap,this);
+            marker = PointMarkerFactory.singleInterestPointFactory(pointOfInterest, mMap);
             floorMarkerMap.get(pointOfInterest.getFloorID()).add(marker);
             markerPOIMap.put(marker, pointOfInterest);
 
@@ -244,7 +201,7 @@ public class MapManager implements POIBeaconListener {
         Marker marker;
         for (LabelledPoint labelledPoint : labelledPointList) {
             if(labelledPoint.getLabel() != Label.NONE) {
-                marker = PointMarkerFactory.singleTransitionPointFactory(labelledPoint, mMap, this);
+                marker = PointMarkerFactory.singleTransitionPointFactory(labelledPoint, mMap);
                 floorMarkerMap.get(labelledPoint.getFloorID()).add(marker);
             }
         }
@@ -335,9 +292,8 @@ public class MapManager implements POIBeaconListener {
     }
 
     private Polyline getLineFromNodes(Node node1, Node node2) {
-        CoordinateAdapter coordinateAdapter = new CoordinateAdapter(this);
         Polyline line = mMap.addPolyline(new PolylineOptions()
-                .add(new LatLng(coordinateAdapter.convertY(node1),coordinateAdapter.convertX(node1)), new LatLng(coordinateAdapter.convertY(node2),coordinateAdapter.convertX(node2)))
+                .add(new LatLng(node1.getY(), node1.getX()), new LatLng(node2.getY(), node2.getX()))
                 .color(ContextCompat.getColor(context, R.color.rca_unexplored_segment))
                 .width(10));
         line.setVisible(false);

@@ -1,11 +1,13 @@
 package com.example.nspace.museedesondes.model;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import com.example.nspace.museedesondes.adapters.CoordinateAdapter;
 import com.example.nspace.museedesondes.utility.JsonHelper;
+import com.example.nspace.museedesondes.utility.Resource;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -45,11 +47,12 @@ public class MuseumMap {
         if (instance == null) {
             String mapSource = JsonHelper.loadJSON("map.json", context);
             ObjectMapper mapper = new ObjectMapper();
-            mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+
             try {
                 instance = mapper.readValue(mapSource, MuseumMap.class);
                 if (instance != null) {
                     initializeNodes();
+                    convertCoordinate(context);
                 }
 
             } catch (IOException e) {
@@ -58,6 +61,23 @@ public class MuseumMap {
 
         }
         return instance;
+    }
+
+    private static void convertCoordinate(Context context)
+    {
+        List<Node> nodeList = new ArrayList<>();
+        nodeList.addAll(instance.pointOfInterests);
+        nodeList.addAll(instance.labelledPoints);
+
+        for(Node currentP : nodeList)
+        {
+            int floorId = currentP.getFloorID();
+            BitmapFactory.Options options = Resource.getFloorImageDimensionOptions(floorId, instance.floorPlans, context);
+            FloorPlan floorPlan = Resource.searchFloorPlanById(floorId,instance.floorPlans);
+            CoordinateAdapter coordinateAdapter = new CoordinateAdapter(options, floorPlan);
+            currentP.setY(coordinateAdapter.convertY(currentP));
+            currentP.setX(coordinateAdapter.convertX(currentP));
+        }
     }
 
     private static void initializeNodes() {

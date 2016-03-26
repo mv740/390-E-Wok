@@ -11,7 +11,6 @@ import com.estimote.sdk.Region;
 import com.estimote.sdk.Utils;
 import com.example.nspace.museedesondes.MapActivity;
 import com.example.nspace.museedesondes.R;
-import com.example.nspace.museedesondes.adapters.CoordinateAdapter;
 import com.example.nspace.museedesondes.model.Node;
 import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.example.nspace.museedesondes.model.StoryLine;
@@ -158,10 +157,9 @@ public class StoryLineManager {
 
     private Polyline getLineFromNodes(Node node1, Node node2) {
 
-        CoordinateAdapter coordinateAdapter = new CoordinateAdapter(mapActivity.getMapManager());
 
         Polyline line = googleMap.addPolyline(new PolylineOptions()
-                .add(new LatLng(coordinateAdapter.convertY(node1),coordinateAdapter.convertX(node1) ), new LatLng(coordinateAdapter.convertY(node2),coordinateAdapter.convertX(node2)))
+                .add(new LatLng(node1.getY(),node1.getX() ), new LatLng(node2.getY(),node2.getX()))
                         .color(ContextCompat.getColor(mapActivity, R.color.rca_unexplored_segment))
                         .width(10));
         line.setVisible(false);

@@ -221,4 +221,6 @@ public class PointOfInterest extends Node {
         return getLocaleImages(context);
     }
 
+
+
 }

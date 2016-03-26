@@ -161,11 +161,11 @@ public class MapActivityTest {
         UiObject marker = device.findObject(new UiSelector().descriptionContains(title));
         marker.click();
 
-        assertEquals(false, mapActivity.audioService.isPlaying());
+        assertEquals(false, mapActivity.mediaService.isPlaying());
         onView(withId(R.id.play_button)).check(matches(isDisplayed())).perform(click());
-        assertEquals(true, mapActivity.audioService.isPlaying());
+        assertEquals(true, mapActivity.mediaService.isPlaying());
         onView(withId(R.id.play_button)).check(matches(isDisplayed())).perform(click());
-        assertEquals(false, mapActivity.audioService.isPlaying());
+        assertEquals(false, mapActivity.mediaService.isPlaying());
 
     }
 

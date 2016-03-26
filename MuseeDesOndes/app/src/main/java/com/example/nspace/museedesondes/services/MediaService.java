@@ -11,8 +11,9 @@ import android.view.View;
 import android.widget.SeekBar;
 
 import com.example.nspace.museedesondes.R;
+import com.example.nspace.museedesondes.model.PointOfInterest;
 
-public class AudioService extends Service {
+public class MediaService extends Service {
 
     private final IBinder audioBinder = new AudioBinder();
     private MediaPlayer mediaPlayer; //todo will need to mediaPlayer.release();  when menu is closed to release ram
@@ -22,7 +23,7 @@ public class AudioService extends Service {
     private boolean isPlaying = false;
 
 
-    public AudioService() {
+    public MediaService() {
     }
 
     @Override
@@ -30,7 +31,10 @@ public class AudioService extends Service {
         return audioBinder;
     }
 
-    public void setAudio() {
+    /**
+     * This method sets the audio in the raw folder according to the path provided.
+     */
+    public void setAudio(int fileID) {
         if (mediaPlayer == null) {
             mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sampleaudio);
         }
@@ -80,8 +84,8 @@ public class AudioService extends Service {
 
     public class AudioBinder extends Binder{
 
-        public AudioService getAudioService(){
-            return AudioService.this;
+        public MediaService getAudioService(){
+            return MediaService.this;
         }
     }
 

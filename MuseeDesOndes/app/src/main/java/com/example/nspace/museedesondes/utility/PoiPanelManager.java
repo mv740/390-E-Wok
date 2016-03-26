@@ -49,6 +49,7 @@ public class PoiPanelManager implements POIBeaconListener {
 
     }
 
+
     private void onStateChange() {
         panel.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
@@ -59,11 +60,9 @@ public class PoiPanelManager implements POIBeaconListener {
             @Override
             public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
 
-                Log.e("Statechanged","yes");
-                if(newState == SlidingUpPanelLayout.PanelState.COLLAPSED)
-                {
-                    if(activity.getNavigationManager().isEndTour())
-                    {
+                Log.e("Statechanged", "yes");
+                if (newState == SlidingUpPanelLayout.PanelState.COLLAPSED) {
+                    if (activity.getNavigationManager().isEndTour()) {
                         activity.getStoryLineManager().endOfTourDialog();
                     }
                 }
@@ -78,8 +77,7 @@ public class PoiPanelManager implements POIBeaconListener {
             @Override
             public void onClick(View view) {
                 panel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-                if(activity.getNavigationManager().isEndTour())
-                {
+                if (activity.getNavigationManager().isEndTour()) {
                     activity.getStoryLineManager().endOfTourDialog();
                 }
             }
@@ -107,6 +105,10 @@ public class PoiPanelManager implements POIBeaconListener {
         replaceDescription(description);
         updateMedia(images, videos);
 
+
+    }
+
+    public void slideUp(){
         panel.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
     }
 
@@ -149,10 +151,17 @@ public class PoiPanelManager implements POIBeaconListener {
     private void updateMedia(List<Image> images, List<Video> videos) {
         RecyclerView recyclerView = (RecyclerView) activity.findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
-        HorizontalRecycleViewAdapter adapter = new HorizontalRecycleViewAdapter(activity, images, videos);
-        recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
-        recyclerView.setNestedScrollingEnabled(false);
-        recyclerView.setAdapter(adapter);
+
+        if (images.size() + videos.size() == 0){
+            recyclerView.setVisibility(View.GONE);
+        }
+        else {
+            recyclerView.setVisibility(View.VISIBLE);
+            HorizontalRecycleViewAdapter adapter = new HorizontalRecycleViewAdapter(activity, images, videos);
+            recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
+            recyclerView.setNestedScrollingEnabled(false);
+            recyclerView.setAdapter(adapter);
+        }
     }
 
     public PointOfInterest getCurrentPointOfInterest() {

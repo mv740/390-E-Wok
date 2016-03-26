@@ -1,6 +1,10 @@
 package com.example.nspace.museedesondes.adapters;
 
-import com.google.android.gms.maps.model.LatLngBounds;
+import android.util.Log;
+
+import com.example.nspace.museedesondes.model.FloorPlan;
+import com.example.nspace.museedesondes.model.Node;
+import com.example.nspace.museedesondes.utility.MapManager;
 
 /**
  * Created by michal on 3/12/2016.
@@ -10,23 +14,39 @@ import com.google.android.gms.maps.model.LatLngBounds;
  */
 public class CoordinateAdapter {
 
-    private LatLngBounds floorPlanBounds;
+    private double width;
+    private double height;
+    private MapManager mapManager;
 
-    public CoordinateAdapter(LatLngBounds floorPlanBounds)
+    public CoordinateAdapter(MapManager mapManager)
     {
-        this.floorPlanBounds = floorPlanBounds;
+        this.mapManager = mapManager;
+        width = this.mapManager.getGroundOverlayFloorMapBound().southwest.longitude - this.mapManager.getGroundOverlayFloorMapBound().northeast.latitude;
+        height = this.mapManager.getGroundOverlayFloorMapBound().southwest.latitude - this.mapManager.getGroundOverlayFloorMapBound().northeast.longitude;
+        Log.e("CoordinateAdapter", String.valueOf(width));
+        Log.e("CoordinateAdapter", String.valueOf(height));
     }
 
-    public double convertX(double x)
+    public double convertX(Node node)
     {
+
+        FloorPlan current =  this.mapManager.getFloor(node.getFloorID());
+        double ratio =   current.getImageWidth()/width;
+
+        //todo test this
 
         //longitude : west-est
-         return x;
+         return node.getX();
     }
-    public double convertY(double y)
+    public double convertY(Node node)
     {
+        FloorPlan current = this.mapManager.getFloor(node.getFloorID());
+        double ratio = current.getImageHeight()/ height;
+
+        //todo test this
+
         //latitude : north-south
-        return y;
+        return node.getY();
     }
 
 }

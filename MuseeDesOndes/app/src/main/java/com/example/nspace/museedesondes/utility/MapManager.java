@@ -1,11 +1,14 @@
 package com.example.nspace.museedesondes.utility;
 
+import android.graphics.BitmapFactory;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 
 import com.example.nspace.museedesondes.MapActivity;
 import com.example.nspace.museedesondes.R;
+import com.example.nspace.museedesondes.adapters.CoordinateAdapter;
 import com.example.nspace.museedesondes.model.Edge;
 import com.example.nspace.museedesondes.model.FloorPlan;
 import com.example.nspace.museedesondes.model.Label;
@@ -44,8 +47,6 @@ public class MapManager implements POIBeaconListener {
     private static final double ZOOM_MAX = 15.0;
     private static final double ZOOM_MIN = 13.0;
     private static final int DEFAULT_FLOOR_ID = 1;
-    private static final float WIDTH = 5520f;
-    private static final float HEIGHT = 10704f;
     private static final float WIDTH_WHITE_BACKGROUND = 20520f;
     private static final float HEIGHT_WHITE_BACKGROUND = 25704f;
     private GoogleMap mMap;
@@ -83,13 +84,32 @@ public class MapManager implements POIBeaconListener {
         initializeFloatingButtonSettings(view);
 
 
-        BitmapDescriptor imageFloor = BitmapDescriptorFactory.fromResource(getFloorPlanResourceID(DEFAULT_FLOOR_ID));
+        BitmapDescriptor imageFloor;
+        BitmapFactory.Options options;
+        if(defaultFloorExist())
+        {
+            imageFloor = BitmapDescriptorFactory.fromResource(getFloorPlanResourceID(DEFAULT_FLOOR_ID));
+            options = getFloorImageDimensionOptions(DEFAULT_FLOOR_ID);
+        }
+        else
+        {
+            imageFloor = BitmapDescriptorFactory.fromResource(getFloorPlanResourceID(floorPlans.get(0).getId()));
+            options = getFloorImageDimensionOptions(floorPlans.get(0).getId());
+        }
+
         LatLng position = new LatLng(0, 0);
+
+
+        float width = scaleDimension(options.outWidth);
+        float height = scaleDimension(options.outHeight);
+
+        Log.e("width", String.valueOf(width));
+        Log.e("height", String.valueOf(height));
 
 
         GroundOverlayOptions customMap = new GroundOverlayOptions()
                 .image(imageFloor)
-                .position(position, WIDTH, HEIGHT).anchor(0, 1)
+                .position(position, width, height).anchor(0, 1)
                 .zIndex(0);
 
         groundOverlayFloorMap = mMap.addGroundOverlay(customMap);
@@ -103,6 +123,14 @@ public class MapManager implements POIBeaconListener {
         mMap.addGroundOverlay(mapBackground);
 
         displayFloorLinesAndMarkers(DEFAULT_FLOOR_ID, true);
+    }
+
+    @NonNull
+    private BitmapFactory.Options getFloorImageDimensionOptions(int floorId) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(context.getResources(), getFloorPlanResourceID(floorId), options);
+        return options;
     }
 
     /**
@@ -141,6 +169,10 @@ public class MapManager implements POIBeaconListener {
 
         //http://stackoverflow.com/questions/16369814/how-to-access-the-drawable-resources-by-name-in-android
         groundOverlayFloorMap.setImage(BitmapDescriptorFactory.fromResource(getFloorPlanResourceID(floorID)));
+        BitmapFactory.Options  options = getFloorImageDimensionOptions(floorID);
+        float width = scaleDimension(options.outWidth);
+        float height = scaleDimension(options.outHeight);
+        groundOverlayFloorMap.setDimensions(width,height);
         groundOverlayFloorMapBound = groundOverlayFloorMap.getBounds();
     }
 
@@ -166,13 +198,42 @@ public class MapManager implements POIBeaconListener {
         return Resource.getResourceIDFromPath(floorPlan.getImagePath(),context);
     }
 
+    public FloorPlan getFloor(int currentFloorID)
+    {
+        for(FloorPlan floorPlan : floorPlans)
+        {
+            if(floorPlan.getId() == currentFloorID)
+            {
+                return  floorPlan;
+            }
+        }
+        return null;
+    }
+
+    private boolean defaultFloorExist()
+    {
+        for(FloorPlan floorPlan : floorPlans)
+        {
+            if(floorPlan.getId() == DEFAULT_FLOOR_ID)
+            {
+                return  true;
+            }
+        }
+        return false;
+    }
+
+    private float scaleDimension(float value)
+    {
+        return value*3;
+    }
+
     /*** FLOOR MARKER METHODS ***/
 
     //maps floor id to markers for displaying, also initializes map from marker -> node for on marker click events
     public void initFloorPOIMarkerMap(List<PointOfInterest> pointsOfInterestList, Map<Marker, PointOfInterest> markerPOIMap) {
         Marker marker;
         for(PointOfInterest pointOfInterest : pointsOfInterestList) {
-            marker = PointMarkerFactory.singleInterestPointFactory(pointOfInterest, context, mMap, getGroundOverlayFloorMapBound());
+            marker = PointMarkerFactory.singleInterestPointFactory(pointOfInterest, mMap,this);
             floorMarkerMap.get(pointOfInterest.getFloorID()).add(marker);
             markerPOIMap.put(marker, pointOfInterest);
 
@@ -183,7 +244,7 @@ public class MapManager implements POIBeaconListener {
         Marker marker;
         for (LabelledPoint labelledPoint : labelledPointList) {
             if(labelledPoint.getLabel() != Label.NONE) {
-                marker = PointMarkerFactory.singleTransitionPointFactory(labelledPoint, mMap, getGroundOverlayFloorMapBound());
+                marker = PointMarkerFactory.singleTransitionPointFactory(labelledPoint, mMap, this);
                 floorMarkerMap.get(labelledPoint.getFloorID()).add(marker);
             }
         }
@@ -201,6 +262,11 @@ public class MapManager implements POIBeaconListener {
         for (Marker marker : markerList) {
             marker.setVisible(visibility);
         }
+    }
+
+    public void defaultFloorLinesAndMarker()
+    {
+        updateFloorLinesAndMarkers(DEFAULT_FLOOR_ID);
     }
 
     private void updateFloorLinesAndMarkers(int newFloorID) {
@@ -269,8 +335,9 @@ public class MapManager implements POIBeaconListener {
     }
 
     private Polyline getLineFromNodes(Node node1, Node node2) {
+        CoordinateAdapter coordinateAdapter = new CoordinateAdapter(this);
         Polyline line = mMap.addPolyline(new PolylineOptions()
-                .add(new LatLng(node1.getX(), node1.getY()), new LatLng(node2.getX(), node2.getY()))
+                .add(new LatLng(coordinateAdapter.convertY(node1),coordinateAdapter.convertX(node1)), new LatLng(coordinateAdapter.convertY(node2),coordinateAdapter.convertX(node2)))
                 .color(ContextCompat.getColor(context, R.color.rca_unexplored_segment))
                 .width(10));
         line.setVisible(false);
@@ -490,5 +557,9 @@ public class MapManager implements POIBeaconListener {
 
     public int getCurrentFloorID() {
         return currentFloorID;
+    }
+
+    public List<FloorPlan> getFloorPlans() {
+        return floorPlans;
     }
 }

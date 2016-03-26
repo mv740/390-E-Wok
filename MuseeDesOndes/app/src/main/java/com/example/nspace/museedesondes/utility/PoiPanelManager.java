@@ -50,6 +50,7 @@ public class PoiPanelManager implements POIBeaconListener {
     }
 
 
+
     private void onStateChange() {
         panel.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
@@ -92,14 +93,6 @@ public class PoiPanelManager implements POIBeaconListener {
         String title = pointOfInterest.getLocaleDescription(activity.getApplicationContext()).getTitle();
         List<Image> images = pointOfInterest.getLocaleImages(activity.getApplicationContext());
         List<Video> videos = pointOfInterest.getLocaleVideos(activity.getApplicationContext());
-
-        //todo if no image, remove layout
-//       if (currentPointOfInterest.getLocaleImages(activity.getApplicationContext()).isEmpty())
-//        {
-//            RelativeLayout v = (RelativeLayout) activity.findViewById(R.id.poiPanel);
-//            v.removeView(activity.findViewById(R.id.my_recycler_view));
-//            Log.v("test");
-//        }
 
         replaceTitle(title);
         replaceDescription(description);

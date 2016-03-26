@@ -50,6 +50,7 @@ public class PoiPanelManager implements POIBeaconListener {
     }
 
 
+
     private void onStateChange() {
         panel.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
@@ -92,14 +93,6 @@ public class PoiPanelManager implements POIBeaconListener {
         String title = pointOfInterest.getLocaleDescription(activity.getApplicationContext()).getTitle();
         List<Image> images = pointOfInterest.getLocaleImages(activity.getApplicationContext());
         List<Video> videos = pointOfInterest.getLocaleVideos(activity.getApplicationContext());
-
-        //todo if no image, remove layout
-//       if (currentPointOfInterest.getLocaleImages(activity.getApplicationContext()).isEmpty())
-//        {
-//            RelativeLayout v = (RelativeLayout) activity.findViewById(R.id.poiPanel);
-//            v.removeView(activity.findViewById(R.id.my_recycler_view));
-//            Log.v("test");
-//        }
 
         replaceTitle(title);
         replaceDescription(description);
@@ -203,6 +196,7 @@ public class PoiPanelManager implements POIBeaconListener {
         panel.setTouchEnabled(false);
         replaceTitle("");
         navigationButton.setVisibility(View.INVISIBLE);
+        poiPanelLayout.setVisibility(View.INVISIBLE);
     }
 
     public void loadPanel() {
@@ -211,6 +205,7 @@ public class PoiPanelManager implements POIBeaconListener {
         if (activity.isFreeExploration()) {
             navigationButton.setVisibility(View.VISIBLE);
         }
+        poiPanelLayout.setVisibility(View.VISIBLE);
     }
 
     public boolean isInitialState() {

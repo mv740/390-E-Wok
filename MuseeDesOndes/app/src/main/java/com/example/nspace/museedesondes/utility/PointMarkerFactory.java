@@ -3,7 +3,6 @@ package com.example.nspace.museedesondes.utility;
 import android.util.Log;
 
 import com.example.nspace.museedesondes.R;
-import com.example.nspace.museedesondes.adapters.CoordinateAdapter;
 import com.example.nspace.museedesondes.model.LabelledPoint;
 import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,12 +22,10 @@ public class PointMarkerFactory {
      * @param pointOfInterest
      * @param googleMap MapPlan
      */
-    public static Marker singleInterestPointFactory(PointOfInterest pointOfInterest, GoogleMap googleMap, MapManager mapManager) {
-
-        CoordinateAdapter coordinateAdapter = new CoordinateAdapter(mapManager);
+    public static Marker singleInterestPointFactory(PointOfInterest pointOfInterest, GoogleMap googleMap) {
 
         MarkerOptions node = new MarkerOptions();
-        node.position(new LatLng(coordinateAdapter.convertY(pointOfInterest),coordinateAdapter.convertX(pointOfInterest))); //TODO: convert check getX, getY and coordinate adapter are mismatched
+        node.position(new LatLng(pointOfInterest.getY(),pointOfInterest.getX()));
         node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
 
         Marker createdMarker = googleMap.addMarker(node);
@@ -37,12 +34,11 @@ public class PointMarkerFactory {
         return createdMarker;
     }
 
-    public static Marker singleTransitionPointFactory(LabelledPoint labelledPoint, GoogleMap googleMap, MapManager mapManager) {
-        CoordinateAdapter coordinateAdapter = new CoordinateAdapter(mapManager);
+    public static Marker singleTransitionPointFactory(LabelledPoint labelledPoint, GoogleMap googleMap) {
 
         String title = labelledPoint.getLabel().name();
         MarkerOptions node = new MarkerOptions();
-        node.position(new LatLng(coordinateAdapter.convertY(labelledPoint), coordinateAdapter.convertX(labelledPoint)));  //TODO: convert check getX, getY and coordinate adapter are mismatched
+        node.position(new LatLng(labelledPoint.getY(),labelledPoint.getX()));
         node.title(title);
 
         switch (labelledPoint.getLabel()) {

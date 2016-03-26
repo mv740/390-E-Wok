@@ -86,7 +86,8 @@
 
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="7dp">
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp">
 
         <com.bluejamesbond.text.DocumentView
             android:id="@+id/poi_text"

@@ -119,6 +119,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
 
+
     //sets the storyline to the one selected in the StoryLineActivity
     private void getStoryLineSelected() {
         Intent mIntent = getIntent();
@@ -394,8 +395,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         if (panelManager.isInitialState()) {
             panelManager.loadPanel();
         }
-        selectedMarkerDisplay(marker);
         panelManager.update(pointOfInterest);
+
+        //remove selection
+        panelManager.initialState();
 
     }
 

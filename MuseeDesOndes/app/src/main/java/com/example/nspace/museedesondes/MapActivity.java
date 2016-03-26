@@ -289,13 +289,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
-    public void playVideo(View v) {
-        Intent intent = new Intent(this, VideoActivity.class);
-        String fileName = Integer.toString(R.raw.sample_video_1280x720_1mb);
-        intent.putExtra("File_Name", fileName);
-        startActivity(intent);
-    }
-
     public void getDirections(View v) {
 
         if (navigationMode) {

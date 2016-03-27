@@ -32,8 +32,6 @@ import java.util.UUID;
 
 public class StoryLineManager {
 
-    private static final String DEFAULT_MUSEUM_UUID = "b9407f30-f5f8-466e-aff9-25556b57fe6d";
-
     private StoryLine storyLine;
     private List<PointOfInterest> pointOfInterestList;
     private List<PointOfInterest> visitedPOIList;
@@ -71,7 +69,6 @@ public class StoryLineManager {
                             && (nearestBeacon.getMajor() == nextPOI.getBeaconInformation().getMajor())
                             && (nearestBeacon.getMinor() == nextPOI.getBeaconInformation().getMinor())
                             && ((Utils.computeProximity(nearestBeacon)) == Utils.Proximity.NEAR)) {
-
                         notifyObservers(nextPOI,storyLine);
                         visitedPOIList.add(nextPOI);
                         updateSegmentListColors();
@@ -107,7 +104,7 @@ public class StoryLineManager {
         if(pointOfInterestIndex < pointOfInterestList.size()){
             nextPOI = pointOfInterestList.get(pointOfInterestIndex);
         } else {
-            beaconManager.stopRanging(region);
+            beaconManager.disconnect();
             mapActivity.getNavigationManager().setEndTour();
         }
     }
@@ -193,7 +190,6 @@ public class StoryLineManager {
     }
 
     private void updateSegmentListColors(){
-
         //update color for new current segment
         if(pointOfInterestIndex < pointOfInterestList.size() - 1) {
             List<Polyline> currentSegment = segmentList.get(pointOfInterestIndex);

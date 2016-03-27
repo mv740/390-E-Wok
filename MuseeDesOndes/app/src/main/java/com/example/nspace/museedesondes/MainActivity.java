@@ -1,25 +1,23 @@
 package com.example.nspace.museedesondes;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
-
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
-import com.example.nspace.museedesondes.model.MuseumMap;
+import com.example.nspace.museedesondes.utility.DownloadResourcesManager;
 import com.example.nspace.museedesondes.utility.Preferences;
 
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     /**
      * Created by sebastian on 2/02/2016.
      */
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,18 +28,16 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SharedPreferences sharedPrefs = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
-        if (sharedPrefs.getBoolean("firstrun", true)) {
-            //sharedPrefs.edit().putBoolean("firstrun", false).commit();
-            loadReplaceMeWith(R.layout.welcome_language);
-        } else {
-            loadReplaceMeWith(R.layout.welcome_begin_tour);
-        }
+        loadReplaceMeWith(R.layout.downloading_resources);
 
-        MuseumMap.getInstance(getApplicationContext());
+        DownloadResourcesManager downloadResourcesManager = new DownloadResourcesManager(getApplicationContext(),this);
+        downloadResourcesManager.setResourceRootPath("http://michalwozniak.ca/map");
+        downloadResourcesManager.setDatabaseFilePath("map.json");
+        downloadResourcesManager.getMostRecentMapInformation();
+
     }
 
-    private void loadReplaceMeWith(int id){
+    private void loadReplaceMeWith(int id) {
         FrameLayout replaceMe = (FrameLayout) findViewById(R.id.welcome_replace_me);
         replaceMe.removeAllViews();
         LayoutInflater li = LayoutInflater.from(this.getBaseContext());
@@ -52,22 +48,23 @@ public class MainActivity extends AppCompatActivity{
 
     //HANDLERS ****************************************
 
-    public void changeLanguageOnClickFr(View view){
+    public void changeLanguageOnClickFr(View view) {
         changeLanguage("fr");
         loadReplaceMeWith(R.layout.welcome_begin_tour);
     }
-    public void changeLanguageOnClickEn(View view){
+
+    public void changeLanguageOnClickEn(View view) {
         changeLanguage("en_US");
         loadReplaceMeWith(R.layout.welcome_begin_tour);
     }
 
-    private void changeLanguage(String lang){
+    private void changeLanguage(String lang) {
         Preferences.setLocale(lang);
         Preferences.saveLanguagePreference(lang);
     }
 
     public void beginTourOnClick(View view) {
-        Intent  startStorylines = new Intent(MainActivity.this, StoryLineActivity.class);
+        Intent startStorylines = new Intent(MainActivity.this, StoryLineActivity.class);
         startActivity(startStorylines);
     }
 

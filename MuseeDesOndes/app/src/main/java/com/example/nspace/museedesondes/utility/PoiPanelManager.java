@@ -33,6 +33,7 @@ public class PoiPanelManager implements POIBeaconListener {
     private SlidingUpPanelLayout panel;
     private PointOfInterest currentPointOfInterest;
     private int selectedImageId;
+    private String selectedImageFilePath;
     private RelativeLayout poiPanelLayout;
     private boolean initialState;
     private FloatingActionButton navigationButton;
@@ -176,7 +177,8 @@ public class PoiPanelManager implements POIBeaconListener {
      */
     public void setSelectedImage(View v) {
         ImageView selectedImage = (ImageView) v.findViewById(R.id.poi_panel_pic_item_imageview);
-        selectedImageId = Integer.parseInt(selectedImage.getTag().toString());
+        //selectedImageId = Integer.parseInt(selectedImage.getTag().toString());
+        selectedImageFilePath = String.valueOf(selectedImage.getTag());
     }
 
     public int getSelectedImageId() {
@@ -219,4 +221,9 @@ public class PoiPanelManager implements POIBeaconListener {
     public MapActivity getActivity() {
         return activity;
     }
+
+    public String getSelectedImageFilePath() {
+        return selectedImageFilePath;
+    }
+
 }

@@ -94,7 +94,7 @@ public class StoryLineActivity extends AppCompatActivity {
                     .setTitleColor(Color.WHITE)
                     .setDescription(localeDescription.getDescription())
                     .setDescriptionColor(Color.DKGRAY)
-                    .setDrawable(Resource.getDrawableImageFromFileName(storyline, getApplicationContext()))
+                    .setDrawable(Resource.getDrawableFromFileAbsolutePath(storyline, getApplicationContext()))
                     .addAction(R.id.right_text_button, new TextViewAction(this)
                                     .setText(R.string.start_storyline)
                                     .setTextResourceColor(R.color.rca_primary)

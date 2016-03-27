@@ -138,15 +138,19 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             int floorId = currentP.getFloorID();
             BitmapFactory.Options options = Resource.getFloorImageDimensionOptions(floorId, information.getFloorPlans(), getApplicationContext());
 
-            int id = Resource.getFloorPlanResourceID(floorId, information.getFloorPlans(),this);
-            BitmapDescriptor imageFloor = BitmapDescriptorFactory.fromResource(id);
+            Log.e("Option", String.valueOf(options.outHeight));
+            //int id = Resource.getFloorPlanResourceID(floorId, information.getFloorPlans(), this);
+            FloorPlan floorPlan = Resource.searchFloorPlanById(floorId, information.getFloorPlans());
+            //BitmapDescriptor imageFloor = BitmapDescriptorFactory.fromResource(id);
+            String filelocation = Resource.getImageFloorFilePath(getApplicationContext(),floorPlan.getImagePath());
+            Log.e("fileLocation", filelocation);
+            BitmapDescriptor imageFloor = BitmapDescriptorFactory.fromPath(filelocation);
 
             GroundOverlayOptions customMap = new GroundOverlayOptions()
                     .image(imageFloor)
                     .position(new LatLng(0,0), options.outWidth*3, options.outHeight*3);
 
             GroundOverlay groundOverlayFloorMap = googleMap.addGroundOverlay(customMap);
-            FloorPlan floorPlan = Resource.searchFloorPlanById(floorId,information.getFloorPlans());
             CoordinateAdapter coordinateAdapter = new CoordinateAdapter(floorPlan, groundOverlayFloorMap.getBounds());
             currentP.setY(coordinateAdapter.convertY(currentP));
             currentP.setX(coordinateAdapter.convertX(currentP));
@@ -258,18 +262,19 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
-    public void poiPanelMediaOnClick(View v, ImageView MediaResource, int videoResourceID) {
+    public void poiPanelMediaOnClick(View v, ImageView MediaResource, int videoResourceID, String videoResourceFilePath) {
 
         Intent intent;
         if (MediaResource.getTag() == "VIDEO") {
             intent = new Intent(this, VideoActivity.class);
-            String fileName = String.valueOf(videoResourceID);
+            //String fileName = String.valueOf(videoResourceID);
+            String fileName = videoResourceFilePath;
             Log.e("name", fileName);
             intent.putExtra("File_Name", fileName);
         } else {
             panelManager.setSelectedImage(v);
             intent = new Intent(this, FullscreenImgActivity.class);
-            intent.putExtra("imageId", panelManager.getSelectedImageId());
+            intent.putExtra("imageId", panelManager.getSelectedImageFilePath());
         }
         startActivity(intent);
 
@@ -350,7 +355,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         String fileName = pointOfInterest.getLocaleAudios(getApplicationContext()).get(0).getPath();
 
         // gets the ID associated with the fileName.
-        int fileID = Resource.getVideoResourceID(fileName, getApplicationContext());
+        int fileID = Resource.getRawResourceID(fileName, getApplicationContext());
 
         // associates the ID to the media player of the media service
         mediaService.setAudio(fileID);

@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
 import com.example.nspace.museedesondes.model.FloorPlan;
 import com.example.nspace.museedesondes.model.StoryLine;
@@ -20,22 +21,29 @@ public class Resource {
 
     public static Drawable getDrawableImageFromFileName(StoryLine storyLine, Context context)
     {
-        final int resourceID = getResourceID(storyLine, context);
+        final int resourceID = getDrawableResourceID(storyLine, context);
 
         return ContextCompat.getDrawable(context, resourceID);
     }
 
+    public static Drawable getDrawableFromFileAbsolutePath(StoryLine storyLine, Context context)
+    {
+        String pathName = storyLine.getImagePath();
+        String absolutePath = context.getCacheDir().getAbsolutePath()+"/"+pathName+".jpg";
+        return Drawable.createFromPath(absolutePath);
+    }
 
-    public static int getResourceID(StoryLine storyLine, Context context) {
+
+    public static int getDrawableResourceID(StoryLine storyLine, Context context) {
         Resources resources = context.getResources();
         return resources.getIdentifier(storyLine.getImagePath(), "drawable", context.getPackageName());
     }
 
-    public static int getVideoResourceID(String path, Context mContext) {
+    public static int getRawResourceID(String path, Context mContext) {
         return mContext.getResources().getIdentifier(path, "raw", mContext.getPackageName());
     }
 
-    public static int getResourceIDFromPath(String path, Context mContext) {
+    public static int getDrawableResourceIDFromPath(String path, Context mContext) {
         return mContext.getResources().getIdentifier(path, "drawable", mContext.getPackageName());
     }
 
@@ -43,14 +51,17 @@ public class Resource {
     public static BitmapFactory.Options getFloorImageDimensionOptions(int floorId, List<FloorPlan> floorPlans, Context context) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
-        BitmapFactory.decodeResource(context.getResources(), getFloorPlanResourceID(floorId, floorPlans, context), options);
+        String filePath = getImageFloorFilePath(context,searchFloorPlanById(floorId,floorPlans).getImagePath());
+        Log.e("decode", filePath);
+        BitmapFactory.decodeFile(filePath,options);
+
         return options;
     }
 
     public static int getFloorPlanResourceID(int id, List<FloorPlan> floorPlans, Context context) {
 
         FloorPlan floorPlan = searchFloorPlanById(id, floorPlans);
-        return Resource.getResourceIDFromPath(floorPlan.getImagePath(),context);
+        return Resource.getDrawableResourceIDFromPath(floorPlan.getImagePath(), context);
     }
 
     /**
@@ -67,6 +78,21 @@ public class Resource {
             }
         }
         return null;
+    }
+
+    public static String getImageFloorFilePath(Context context, String fileName)
+    {
+        return context.getCacheDir().getAbsolutePath()+"/"+fileName+".png";
+    }
+
+    public static String getImageJPGFilePath(Context context, String fileName)
+    {
+        return context.getCacheDir().getAbsolutePath()+"/"+fileName+".jpg";
+    }
+
+    public static String getVideoFilePath(Context context, String fileName)
+    {
+        return context.getCacheDir().getAbsolutePath()+"/"+fileName+".mp4";
     }
 
 

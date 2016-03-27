@@ -7,6 +7,7 @@ import com.example.nspace.museedesondes.utility.JsonHelper;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,11 +43,12 @@ public class MuseumMap {
 
     public static MuseumMap getInstance(Context context) {
         if (instance == null) {
-            String mapSource = JsonHelper.loadJSON("map.json", context);
+            //String mapSource = JsonHelper.loadJSON("map.json", context);
+            FileInputStream test = JsonHelper.loadJsonFile("mapOnline.json", context);
             ObjectMapper mapper = new ObjectMapper();
 
             try {
-                instance = mapper.readValue(mapSource, MuseumMap.class);
+                instance = mapper.readValue(test, MuseumMap.class);
                 if (instance != null) {
                     initializeNodes();
                 }

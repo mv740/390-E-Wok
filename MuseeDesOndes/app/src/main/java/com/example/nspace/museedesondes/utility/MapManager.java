@@ -86,7 +86,8 @@ public class MapManager implements POIBeaconListener {
         BitmapFactory.Options options;
         if(defaultFloorExist())
         {
-            imageFloor = BitmapDescriptorFactory.fromResource(Resource.getFloorPlanResourceID(DEFAULT_FLOOR_ID, floorPlans, context));
+            //imageFloor = BitmapDescriptorFactory.fromResource(Resource.getFloorPlanResourceID(DEFAULT_FLOOR_ID, floorPlans, context));
+            imageFloor = BitmapDescriptorFactory.fromPath(Resource.getImageFloorFilePath(context, Resource.searchFloorPlanById(DEFAULT_FLOOR_ID, floorPlans).getImagePath()));
             options = Resource.getFloorImageDimensionOptions(DEFAULT_FLOOR_ID, floorPlans, context);
         }
         else
@@ -159,7 +160,8 @@ public class MapManager implements POIBeaconListener {
         updateFloorLinesAndMarkers(floorID);
 
         //http://stackoverflow.com/questions/16369814/how-to-access-the-drawable-resources-by-name-in-android
-        groundOverlayFloorMap.setImage(BitmapDescriptorFactory.fromResource(Resource.getFloorPlanResourceID(floorID, floorPlans, context)));
+        //groundOverlayFloorMap.setImage(BitmapDescriptorFactory.fromResource(Resource.getFloorPlanResourceID(floorID, floorPlans, context)));
+        groundOverlayFloorMap.setImage(BitmapDescriptorFactory.fromPath(Resource.getImageFloorFilePath(context, Resource.searchFloorPlanById(floorID, floorPlans).getImagePath())));
         BitmapFactory.Options  options = Resource.getFloorImageDimensionOptions(floorID, floorPlans, context);
         float width = scaleDimension(options.outWidth);
         float height = scaleDimension(options.outHeight);

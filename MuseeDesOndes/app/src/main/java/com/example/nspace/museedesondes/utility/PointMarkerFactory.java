@@ -2,6 +2,7 @@ package com.example.nspace.museedesondes.utility;
 
 import android.util.Log;
 
+import com.example.nspace.museedesondes.MapActivity;
 import com.example.nspace.museedesondes.R;
 import com.example.nspace.museedesondes.model.LabelledPoint;
 import com.example.nspace.museedesondes.model.PointOfInterest;
@@ -21,10 +22,12 @@ public class PointMarkerFactory {
      * Create a point of interest marker and drop it on the map on the specified coordinate
      * @param pointOfInterest
      * @param googleMap MapPlan
+     * @param context
      */
-    public static Marker singleInterestPointFactory(PointOfInterest pointOfInterest, GoogleMap googleMap) {
+    public static Marker singleInterestPointFactory(PointOfInterest pointOfInterest, GoogleMap googleMap, MapActivity context) {
 
         MarkerOptions node = new MarkerOptions();
+        node.title(pointOfInterest.getLocaleDescription(context).getTitle());
         node.position(new LatLng(pointOfInterest.getY(),pointOfInterest.getX()));
         node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
 

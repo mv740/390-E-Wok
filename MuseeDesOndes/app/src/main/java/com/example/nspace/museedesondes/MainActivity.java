@@ -1,6 +1,8 @@
 package com.example.nspace.museedesondes;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -28,12 +30,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        loadReplaceMeWith(R.layout.downloading_resources);
+        SharedPreferences sharedPrefs = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        if (sharedPrefs.getBoolean("firstrun", true)){
+            loadReplaceMeWith(R.layout.downloading_resources);
+            DownloadResourcesManager downloadResourcesManager = new DownloadResourcesManager(MainActivity.this);
+            downloadResourcesManager.setResourceRootPath("http://michalwozniak.ca/map");
+            downloadResourcesManager.setDatabaseFilePath("map.json");
+            downloadResourcesManager.getMostRecentMapInformation();
+        }else
+        {
+            loadReplaceMeWith(R.layout.welcome_begin_tour);
+        }
 
-        DownloadResourcesManager downloadResourcesManager = new DownloadResourcesManager(getApplicationContext(),this);
-        downloadResourcesManager.setResourceRootPath("http://michalwozniak.ca/map");
-        downloadResourcesManager.setDatabaseFilePath("map.json");
-        downloadResourcesManager.getMostRecentMapInformation();
 
     }
 

@@ -31,9 +31,15 @@ public class MainActivityTest {
     @Test
     public void selectEnglishLanguage() {
 
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         onView(withText("ENGLISH")).check(matches(isDisplayed()));
         onView(withText("ENGLISH")).perform(click());
-        onView(withId(R.id.begin_tour_button)).check(matches(isDisplayed()));
+        onView(withId(R.id.begin_tour_button)).check(matches(isDisplayed())).perform(click());
 
     }
 

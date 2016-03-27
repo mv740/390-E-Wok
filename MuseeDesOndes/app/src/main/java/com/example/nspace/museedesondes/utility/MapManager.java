@@ -193,7 +193,7 @@ public class MapManager implements POIBeaconListener {
     public void initFloorPOIMarkerMap(List<PointOfInterest> pointsOfInterestList, Map<Marker, PointOfInterest> markerPOIMap) {
         Marker marker;
         for(PointOfInterest pointOfInterest : pointsOfInterestList) {
-            marker = PointMarkerFactory.singleInterestPointFactory(pointOfInterest, mMap);
+            marker = PointMarkerFactory.singleInterestPointFactory(pointOfInterest, mMap, context);
             floorMarkerMap.get(pointOfInterest.getFloorID()).add(marker);
             markerPOIMap.put(marker, pointOfInterest);
 

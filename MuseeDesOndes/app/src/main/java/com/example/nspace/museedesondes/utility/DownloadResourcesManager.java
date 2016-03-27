@@ -1,8 +1,6 @@
 package com.example.nspace.museedesondes.utility;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,26 +29,22 @@ import java.util.Set;
 public class DownloadResourcesManager {
 
     private ThinDownloadManager downloadManager;
-    private Context context;
     private String databaseFilePath;
     private String resourceRootPath;
     private List<Integer> downloadList;
-    private boolean downloadDone = false;
     private Activity activity;
 
 
-    public DownloadResourcesManager(Context context, Activity activity) {
+    public DownloadResourcesManager(Activity activity) {
         this.downloadManager = new ThinDownloadManager();
-        this.context = context;
         this.activity = activity;
         downloadList = new ArrayList<>();
     }
 
     public void getMostRecentMapInformation() {
-        if(!databaseFilePath.isEmpty() || !resourceRootPath.isEmpty())
-        {
-            Uri downloadUri = Uri.parse(resourceRootPath+"/"+databaseFilePath);
-            Uri destination = Uri.parse(context.getCacheDir().toString() + "/mapOnline.json");
+        if (!databaseFilePath.isEmpty() || !resourceRootPath.isEmpty()) {
+            Uri downloadUri = Uri.parse(resourceRootPath + "/" + databaseFilePath);
+            Uri destination = Uri.parse(activity.getCacheDir().toString() + "/mapOnline.json");
             DownloadRequest downloadRequest = new DownloadRequest(downloadUri);
             downloadRequest.setDestinationURI(destination);
             downloadRequest.setStatusListener(new DownloadStatusListenerV1() {
@@ -74,8 +68,7 @@ public class DownloadResourcesManager {
             });
 
             downloadList.add(downloadManager.add(downloadRequest));
-        }else
-        {
+        } else {
             Log.e("DownloadRManager", "Please set all source");
         }
     }
@@ -83,7 +76,7 @@ public class DownloadResourcesManager {
     private void downloadResources() {
 
 
-        MuseumMap information = MuseumMap.getInstance(context);
+        MuseumMap information = MuseumMap.getInstance(activity);
         downloadFloorPlans(information);
 
         Set<String> prepareQueryImageList = new HashSet<>();
@@ -94,17 +87,14 @@ public class DownloadResourcesManager {
             getImagesURI(pointOfInterest, prepareQueryImageList);
             getVideosURI(pointOfInterest, prepareQueryVideoList);
         }
-        for (StoryLine storyLine : information.getStoryLines())
-        {
+        for (StoryLine storyLine : information.getStoryLines()) {
             prepareQueryImageList.add(storyLine.getImagePath());
         }
 
-        for(String filePath : prepareQueryImageList)
-        {
+        for (String filePath : prepareQueryImageList) {
             downloadImage(filePath);
         }
-        for (String filePath : prepareQueryVideoList)
-        {
+        for (String filePath : prepareQueryVideoList) {
             downloadVideo(filePath);
         }
 
@@ -112,7 +102,7 @@ public class DownloadResourcesManager {
 
     private void downloadVideo(String filePath) {
         Uri path = Uri.parse(resourceRootPath + "/video/" + filePath + ".mp4");
-        Uri destination = Uri.parse(context.getCacheDir().toString() + "/" + filePath + ".mp4");
+        Uri destination = Uri.parse(activity.getCacheDir().toString() + "/" + filePath + ".mp4");
         DownloadRequest downloadRequest = new DownloadRequest(path);
         downloadRequest.setDestinationURI(destination);
         downloadRequest.setStatusListener(new DownloadStatusListenerV1() {
@@ -138,7 +128,7 @@ public class DownloadResourcesManager {
 
     private void downloadImage(String filePath) {
         Uri path = Uri.parse(resourceRootPath + "/image/" + filePath + ".jpg");
-        Uri destination = Uri.parse(context.getCacheDir().toString() + "/" + filePath + ".jpg");
+        Uri destination = Uri.parse(activity.getCacheDir().toString() + "/" + filePath + ".jpg");
         DownloadRequest downloadRequest = new DownloadRequest(path);
         downloadRequest.setDestinationURI(destination);
         downloadRequest.setStatusListener(new DownloadStatusListenerV1() {
@@ -165,7 +155,7 @@ public class DownloadResourcesManager {
         for (FloorPlan floorPlan : information.getFloorPlans()) {
             Log.e("download", floorPlan.getImagePath());
             Uri path = Uri.parse(resourceRootPath + "/floors/" + floorPlan.getImagePath() + ".png");
-            Uri destination = Uri.parse(context.getCacheDir().toString() + "/" + floorPlan.getImagePath() + ".png");
+            Uri destination = Uri.parse(activity.getCacheDir().toString() + "/" + floorPlan.getImagePath() + ".png");
             DownloadRequest downloadRequest = new DownloadRequest(path);
             downloadRequest.setDestinationURI(destination);
             downloadRequest.setStatusListener(new DownloadStatusListenerV1() {
@@ -191,14 +181,14 @@ public class DownloadResourcesManager {
 
     private void getImagesURI(PointOfInterest pointOfInterest, Set<String> stringHashSet) {
 
-        for (Image image : pointOfInterest.getAllImages(context)) {
+        for (Image image : pointOfInterest.getAllImages(activity)) {
             stringHashSet.add(image.getPath());
         }
     }
 
     private void getVideosURI(PointOfInterest pointOfInterest, Set<String> prepareQueryVideoList) {
 
-        for (Video video : pointOfInterest.getAllVideos(context)) {
+        for (Video video : pointOfInterest.getAllVideos(activity)) {
             prepareQueryVideoList.add(video.getPath());
         }
     }
@@ -211,21 +201,12 @@ public class DownloadResourcesManager {
         this.databaseFilePath = databaseFilePath;
     }
 
-    public void isDone()
-    {
-        Log.e("list", String.valueOf(downloadList.size()==0));
-        if(downloadList.size()==0)
-        {
-            downloadDone = true;
-            SharedPreferences sharedPrefs = context.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
-            if (sharedPrefs.getBoolean("firstrun", true)) {
+    public void isDone() {
+        Log.e("list", String.valueOf(downloadList.size() == 0));
+        if (downloadList.size() == 0) {
 
-                loadReplaceMeWith(R.layout.welcome_language);
+            loadReplaceMeWith(R.layout.welcome_language);
 
-            } else {
-                loadReplaceMeWith(R.layout.welcome_begin_tour);
-
-            }
         }
     }
 

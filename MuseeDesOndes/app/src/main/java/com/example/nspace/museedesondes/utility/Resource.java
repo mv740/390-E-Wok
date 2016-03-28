@@ -81,12 +81,12 @@ public class Resource {
 
     public static String getImageFilePath(Context context, String fileName)
     {
-        return context.getCacheDir().getAbsolutePath()+"/"+fileName;
+        return context.getFilesDir()+"/"+fileName;
     }
 
     public static String getVideoFilePath(Context context, String fileName)
     {
-        return context.getCacheDir().getAbsolutePath()+"/"+fileName;
+        return context.getFilesDir()+"/"+fileName;
     }
 
     public static String getFilenameWithoutDirectories(String path)

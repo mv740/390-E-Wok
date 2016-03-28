@@ -105,7 +105,7 @@ public class DownloadResourcesManager {
 
     private void downloadVideo(String filePath) {
         Uri path = Uri.parse(resourceRootPath + filePath);
-        Uri destination = Uri.parse(activity.getCacheDir() +"/"+ Resource.getFilenameWithoutDirectories(filePath));
+        Uri destination = Uri.parse(activity.getFilesDir() +"/"+ Resource.getFilenameWithoutDirectories(filePath));
         DownloadRequest downloadRequest = new DownloadRequest(path);
         downloadRequest.setDestinationURI(destination);
         downloadRequest.setStatusListener(new DownloadStatusListenerV1() {
@@ -131,7 +131,7 @@ public class DownloadResourcesManager {
 
     private void downloadImage(String filePath) {
         Uri path = Uri.parse(resourceRootPath +  filePath);
-        Uri destination = Uri.parse(activity.getCacheDir() +"/"+  Resource.getFilenameWithoutDirectories(filePath));
+        Uri destination = Uri.parse(activity.getFilesDir() +"/"+  Resource.getFilenameWithoutDirectories(filePath));
         DownloadRequest downloadRequest = new DownloadRequest(path);
         downloadRequest.setDestinationURI(destination);
         downloadRequest.setStatusListener(new DownloadStatusListener());
@@ -143,7 +143,7 @@ public class DownloadResourcesManager {
             Uri path = Uri.parse(resourceRootPath + floorPlan.getImagePath());
             String filenameStriped = Resource.getFilenameWithoutDirectories(floorPlan.getImagePath());
             floorPlan.setImagePath(filenameStriped);
-            Uri destination = Uri.parse(activity.getCacheDir() +"/"+ filenameStriped);
+            Uri destination = Uri.parse(activity.getFilesDir() +"/"+ filenameStriped);
             DownloadRequest downloadRequest = new DownloadRequest(path);
             downloadRequest.setDestinationURI(destination);
             downloadRequest.setStatusListener(new DownloadStatusListener());

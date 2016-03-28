@@ -14,6 +14,7 @@ import com.example.nspace.museedesondes.model.MuseumMap;
 import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.example.nspace.museedesondes.model.StoryLine;
 import com.example.nspace.museedesondes.model.Video;
+import com.thin.downloadmanager.DefaultRetryPolicy;
 import com.thin.downloadmanager.DownloadRequest;
 import com.thin.downloadmanager.DownloadStatusListenerV1;
 import com.thin.downloadmanager.ThinDownloadManager;
@@ -44,9 +45,10 @@ public class DownloadResourcesManager {
     public void getMostRecentMapInformation() {
         if (!databaseFilePath.isEmpty() || !resourceRootPath.isEmpty()) {
             Uri downloadUri = Uri.parse(resourceRootPath + "/" + databaseFilePath);
-            Uri destination = Uri.parse(activity.getCacheDir().toString() + "/mapOnline.json");
+            Uri destination = Uri.parse(activity.getFilesDir() + "/mapOnline.json");
             DownloadRequest downloadRequest = new DownloadRequest(downloadUri);
             downloadRequest.setDestinationURI(destination);
+            downloadRequest.setRetryPolicy(new DefaultRetryPolicy());
             downloadRequest.setStatusListener(new DownloadStatusListenerV1() {
                 @Override
                 public void onDownloadComplete(DownloadRequest downloadRequest) {
@@ -89,6 +91,7 @@ public class DownloadResourcesManager {
         }
         for (StoryLine storyLine : information.getStoryLines()) {
             prepareQueryImageList.add(storyLine.getImagePath());
+            storyLine.setImagePath(Resource.getFilenameWithoutDirectories(storyLine.getImagePath()));
         }
 
         for (String filePath : prepareQueryImageList) {
@@ -101,8 +104,8 @@ public class DownloadResourcesManager {
     }
 
     private void downloadVideo(String filePath) {
-        Uri path = Uri.parse(resourceRootPath + "/video/" + filePath + ".mp4");
-        Uri destination = Uri.parse(activity.getCacheDir().toString() + "/" + filePath + ".mp4");
+        Uri path = Uri.parse(resourceRootPath + filePath);
+        Uri destination = Uri.parse(activity.getCacheDir() +"/"+ Resource.getFilenameWithoutDirectories(filePath));
         DownloadRequest downloadRequest = new DownloadRequest(path);
         downloadRequest.setDestinationURI(destination);
         downloadRequest.setStatusListener(new DownloadStatusListenerV1() {
@@ -127,54 +130,23 @@ public class DownloadResourcesManager {
     }
 
     private void downloadImage(String filePath) {
-        Uri path = Uri.parse(resourceRootPath + "/image/" + filePath + ".jpg");
-        Uri destination = Uri.parse(activity.getCacheDir().toString() + "/" + filePath + ".jpg");
+        Uri path = Uri.parse(resourceRootPath +  filePath);
+        Uri destination = Uri.parse(activity.getCacheDir() +"/"+  Resource.getFilenameWithoutDirectories(filePath));
         DownloadRequest downloadRequest = new DownloadRequest(path);
         downloadRequest.setDestinationURI(destination);
-        downloadRequest.setStatusListener(new DownloadStatusListenerV1() {
-            @Override
-            public void onDownloadComplete(DownloadRequest downloadRequest) {
-                Log.e("downloadC", "complete : " + downloadRequest.getUri());
-                downloadList.remove(Integer.valueOf(downloadRequest.getDownloadId()));
-            }
-
-            @Override
-            public void onDownloadFailed(DownloadRequest downloadRequest, int errorCode, String errorMessage) {
-                Log.e("download", "failed " + downloadRequest.getUri() + ": " + errorMessage);
-            }
-
-            @Override
-            public void onProgress(DownloadRequest downloadRequest, long totalBytes, long downloadedBytes, int progress) {
-                // Log.e("download", "in progress :" + downloadRequest.getUri());
-            }
-        });
+        downloadRequest.setStatusListener(new DownloadStatusListener());
         downloadList.add(downloadManager.add(downloadRequest));
     }
 
     private void downloadFloorPlans(MuseumMap information) {
         for (FloorPlan floorPlan : information.getFloorPlans()) {
-            Log.e("download", floorPlan.getImagePath());
-            Uri path = Uri.parse(resourceRootPath + "/floors/" + floorPlan.getImagePath() + ".png");
-            Uri destination = Uri.parse(activity.getCacheDir().toString() + "/" + floorPlan.getImagePath() + ".png");
+            Uri path = Uri.parse(resourceRootPath + floorPlan.getImagePath());
+            String filenameStriped = Resource.getFilenameWithoutDirectories(floorPlan.getImagePath());
+            floorPlan.setImagePath(filenameStriped);
+            Uri destination = Uri.parse(activity.getCacheDir() +"/"+ filenameStriped);
             DownloadRequest downloadRequest = new DownloadRequest(path);
             downloadRequest.setDestinationURI(destination);
-            downloadRequest.setStatusListener(new DownloadStatusListenerV1() {
-                @Override
-                public void onDownloadComplete(DownloadRequest downloadRequest) {
-                    Log.e("downloadC", "complete : " + downloadRequest.getUri());
-                    downloadList.remove(Integer.valueOf(downloadRequest.getDownloadId()));
-                }
-
-                @Override
-                public void onDownloadFailed(DownloadRequest downloadRequest, int errorCode, String errorMessage) {
-                    Log.e("download", "failed " + downloadRequest.getUri() + ": " + errorMessage);
-                }
-
-                @Override
-                public void onProgress(DownloadRequest downloadRequest, long totalBytes, long downloadedBytes, int progress) {
-                    // Log.e("download", "in progress :" + downloadRequest.getUri());
-                }
-            });
+            downloadRequest.setStatusListener(new DownloadStatusListener());
             downloadManager.add(downloadRequest);
         }
     }
@@ -183,6 +155,7 @@ public class DownloadResourcesManager {
 
         for (Image image : pointOfInterest.getAllImages(activity)) {
             stringHashSet.add(image.getPath());
+            image.setPath(Resource.getFilenameWithoutDirectories(image.getPath()));
         }
     }
 
@@ -190,6 +163,7 @@ public class DownloadResourcesManager {
 
         for (Video video : pointOfInterest.getAllVideos(activity)) {
             prepareQueryVideoList.add(video.getPath());
+            video.setPath(Resource.getFilenameWithoutDirectories(video.getPath()));
         }
     }
 
@@ -216,6 +190,25 @@ public class DownloadResourcesManager {
         LayoutInflater li = LayoutInflater.from(activity.getBaseContext());
         RelativeLayout replacer = (RelativeLayout) li.inflate(id, null);
         replaceMe.addView(replacer);
+    }
+
+    private class DownloadStatusListener implements DownloadStatusListenerV1 {
+
+        @Override
+        public void onDownloadComplete(DownloadRequest downloadRequest) {
+            Log.e("downloadC", "complete : " + downloadRequest.getUri());
+            downloadList.remove(Integer.valueOf(downloadRequest.getDownloadId()));
+        }
+
+        @Override
+        public void onDownloadFailed(DownloadRequest downloadRequest, int errorCode, String errorMessage) {
+            Log.e("download", "failed " + downloadRequest.getUri() + ": " + errorMessage);
+        }
+
+        @Override
+        public void onProgress(DownloadRequest downloadRequest, long totalBytes, long downloadedBytes, int progress) {
+            // Log.e("download", "in progress :" + downloadRequest.getUri());
+        }
     }
 
 }

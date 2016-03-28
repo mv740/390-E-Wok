@@ -21,4 +21,7 @@ public class Image extends Content {
         return path;
     }
 
+    public void setPath(String path) {
+        this.path = path;
+    }
 }

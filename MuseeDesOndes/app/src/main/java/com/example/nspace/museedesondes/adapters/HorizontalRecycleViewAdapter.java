@@ -56,7 +56,7 @@ public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter<Horizonta
         }
         if (contentItem instanceof Image) {
             int id = Resource.getDrawableResourceIDFromPath(((Image) contentItem).getPath(), mContext);
-            String filePath = Resource.getImageJPGFilePath(mContext, ((Image) contentItem).getPath());
+            String filePath = Resource.getImageFilePath(mContext, ((Image) contentItem).getPath());
             //holder.MediaResource.setImageResource(id);
             holder.MediaResource.setImageURI(Uri.parse(filePath));
             holder.MediaResource.setTag(filePath);

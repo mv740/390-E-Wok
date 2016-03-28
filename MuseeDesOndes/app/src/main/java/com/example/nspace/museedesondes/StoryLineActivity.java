@@ -60,12 +60,12 @@ public class StoryLineActivity extends AppCompatActivity {
 
             MaterialShowcaseView.Builder tutorial =  new MaterialShowcaseView.Builder(this)
                     .setTarget(findViewById(R.id.material_listview))
-                    .setTitleText("Tour selection")
+                    .setTitleText(R.string.tourTutorialTitle)
                     .withCircleShape()
                     .setShapePadding(-250)
                     .setDismissOnTouch(true)
                     .setMaskColour(Color.parseColor("#E6444444"))
-                    .setContentText("Please select a tour by clicking on start");
+                    .setContentText(R.string.tourTutorialMsg);
             tutorial.show();
 
         }

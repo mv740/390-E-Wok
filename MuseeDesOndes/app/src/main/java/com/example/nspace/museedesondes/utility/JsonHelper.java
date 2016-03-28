@@ -36,7 +36,7 @@ public class JsonHelper {
     {
         FileInputStream is = null;
         try {
-             is = new FileInputStream(new File(context.getCacheDir(),filename));
+             is = new FileInputStream(new File(context.getFilesDir(),filename));
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

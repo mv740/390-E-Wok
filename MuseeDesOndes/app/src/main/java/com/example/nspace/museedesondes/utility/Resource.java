@@ -11,6 +11,7 @@ import android.util.Log;
 import com.example.nspace.museedesondes.model.FloorPlan;
 import com.example.nspace.museedesondes.model.StoryLine;
 
+import java.io.File;
 import java.util.List;
 
 
@@ -28,9 +29,7 @@ public class Resource {
 
     public static Drawable getDrawableFromFileAbsolutePath(StoryLine storyLine, Context context)
     {
-        String pathName = storyLine.getImagePath();
-        String absolutePath = context.getCacheDir().getAbsolutePath()+"/"+pathName+".jpg";
-        return Drawable.createFromPath(absolutePath);
+        return Drawable.createFromPath(getImageFilePath(context,storyLine.getImagePath()));
     }
 
 
@@ -51,7 +50,7 @@ public class Resource {
     public static BitmapFactory.Options getFloorImageDimensionOptions(int floorId, List<FloorPlan> floorPlans, Context context) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
-        String filePath = getImageFloorFilePath(context,searchFloorPlanById(floorId,floorPlans).getImagePath());
+        String filePath = getImageFilePath(context, searchFloorPlanById(floorId, floorPlans).getImagePath());
         Log.e("decode", filePath);
         BitmapFactory.decodeFile(filePath,options);
 
@@ -80,19 +79,20 @@ public class Resource {
         return null;
     }
 
-    public static String getImageFloorFilePath(Context context, String fileName)
+    public static String getImageFilePath(Context context, String fileName)
     {
-        return context.getCacheDir().getAbsolutePath()+"/"+fileName+".png";
-    }
-
-    public static String getImageJPGFilePath(Context context, String fileName)
-    {
-        return context.getCacheDir().getAbsolutePath()+"/"+fileName+".jpg";
+        return context.getCacheDir().getAbsolutePath()+"/"+fileName;
     }
 
     public static String getVideoFilePath(Context context, String fileName)
     {
-        return context.getCacheDir().getAbsolutePath()+"/"+fileName+".mp4";
+        return context.getCacheDir().getAbsolutePath()+"/"+fileName;
+    }
+
+    public static String getFilenameWithoutDirectories(String path)
+    {
+        int index = path.lastIndexOf(File.separatorChar);
+        return path.substring(index+1);
     }
 
 

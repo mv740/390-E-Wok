@@ -33,4 +33,7 @@
     <string name="endOfTourMsg">Voulez vous trouver la sortie la plus proche ou est-ce que vous allez debuter une nouvelle visite?</string>
     <string name="endOfTourOption1">Trouver la sortie</string>
     <string name="endOfTourOption2">Nouvelle vistie</string>
+
+    <string name="tourTutorialTitle">Sélection de la visite</string>
+    <string name="tourTutorialMsg">Sélectionnez une visite en cliquant sur commencer</string>
 </resources>

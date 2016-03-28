@@ -8,6 +8,7 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import com.example.nspace.museedesondes.R;
+import com.example.nspace.museedesondes.model.Audio;
 import com.example.nspace.museedesondes.model.FloorPlan;
 import com.example.nspace.museedesondes.model.Image;
 import com.example.nspace.museedesondes.model.MuseumMap;
@@ -83,11 +84,13 @@ public class DownloadResourcesManager {
 
         Set<String> prepareQueryImageList = new HashSet<>();
         Set<String> prepareQueryVideoList = new HashSet<>();
+        Set<String> prepareQueryAudioList = new HashSet<>();
 
         for (PointOfInterest pointOfInterest : information.getPointOfInterests()) {
 
             getImagesURI(pointOfInterest, prepareQueryImageList);
             getVideosURI(pointOfInterest, prepareQueryVideoList);
+            getAudioURI(pointOfInterest,prepareQueryAudioList);
         }
         for (StoryLine storyLine : information.getStoryLines()) {
             prepareQueryImageList.add(storyLine.getImagePath());
@@ -95,13 +98,17 @@ public class DownloadResourcesManager {
         }
 
         for (String filePath : prepareQueryImageList) {
-            downloadImage(filePath);
+            downloadImageOrAudio(filePath);
+        }
+        for (String filePath : prepareQueryAudioList) {
+            downloadImageOrAudio(filePath);
         }
         for (String filePath : prepareQueryVideoList) {
             downloadVideo(filePath);
         }
-
     }
+
+
 
     private void downloadVideo(String filePath) {
         Uri path = Uri.parse(resourceRootPath + filePath);
@@ -129,7 +136,7 @@ public class DownloadResourcesManager {
         downloadList.add(downloadManager.add(downloadRequest));
     }
 
-    private void downloadImage(String filePath) {
+    private void downloadImageOrAudio(String filePath) {
         Uri path = Uri.parse(resourceRootPath +  filePath);
         Uri destination = Uri.parse(activity.getFilesDir() +"/"+  Resource.getFilenameWithoutDirectories(filePath));
         DownloadRequest downloadRequest = new DownloadRequest(path);
@@ -137,6 +144,7 @@ public class DownloadResourcesManager {
         downloadRequest.setStatusListener(new DownloadStatusListener());
         downloadList.add(downloadManager.add(downloadRequest));
     }
+
 
     private void downloadFloorPlans(MuseumMap information) {
         for (FloorPlan floorPlan : information.getFloorPlans()) {
@@ -164,6 +172,14 @@ public class DownloadResourcesManager {
         for (Video video : pointOfInterest.getAllVideos(activity)) {
             prepareQueryVideoList.add(video.getPath());
             video.setPath(Resource.getFilenameWithoutDirectories(video.getPath()));
+        }
+    }
+
+    private void getAudioURI(PointOfInterest pointOfInterest, Set<String> prepareQueryAudioList) {
+        for(Audio audio : pointOfInterest.getAllAudios(activity))
+        {
+            prepareQueryAudioList.add(audio.getPath());
+            audio.setPath(Resource.getFilenameWithoutDirectories(audio.getPath()));
         }
     }
 

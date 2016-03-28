@@ -142,7 +142,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             //int id = Resource.getFloorPlanResourceID(floorId, information.getFloorPlans(), this);
             FloorPlan floorPlan = Resource.searchFloorPlanById(floorId, information.getFloorPlans());
             //BitmapDescriptor imageFloor = BitmapDescriptorFactory.fromResource(id);
-            String filelocation = Resource.getImageFilePath(getApplicationContext(),floorPlan.getImagePath());
+            String filelocation = Resource.getAbsoluteFilePath(getApplicationContext(), floorPlan.getImagePath());
             Log.e("fileLocation", filelocation);
             BitmapDescriptor imageFloor = BitmapDescriptorFactory.fromPath(filelocation);
 
@@ -354,11 +354,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         // get the audio files associated with a point of interest.
         String fileName = pointOfInterest.getLocaleAudios(getApplicationContext()).get(0).getPath();
 
-        // gets the ID associated with the fileName.
-        int fileID = Resource.getRawResourceID(fileName, getApplicationContext());
-
         // associates the ID to the media player of the media service
-        mediaService.setAudio(fileID);
+        mediaService.setAudio(fileName);
 
         int audioDuration = mediaService.getAudioDuration();
         SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);

@@ -3,6 +3,7 @@ package com.example.nspace.museedesondes.services;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
@@ -11,7 +12,7 @@ import android.view.View;
 import android.widget.SeekBar;
 
 import com.example.nspace.museedesondes.R;
-import com.example.nspace.museedesondes.model.PointOfInterest;
+import com.example.nspace.museedesondes.utility.Resource;
 
 public class MediaService extends Service {
 
@@ -32,11 +33,12 @@ public class MediaService extends Service {
     }
 
     /**
-     * This method sets the audio in the raw folder according to the path provided.
+     * This method sets the audio  according to the path provided.
+     * @param filePath
      */
-    public void setAudio(int fileID) {
+    public void setAudio(String filePath) {
         if (mediaPlayer == null) {
-            mediaPlayer = MediaPlayer.create(getApplicationContext(), fileID);
+            mediaPlayer = MediaPlayer.create(getApplicationContext(), Uri.parse(Resource.getAbsoluteFilePath(getApplicationContext(), filePath)));
         }
     }
 

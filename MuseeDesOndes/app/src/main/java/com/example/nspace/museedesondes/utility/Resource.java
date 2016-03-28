@@ -29,7 +29,7 @@ public class Resource {
 
     public static Drawable getDrawableFromFileAbsolutePath(StoryLine storyLine, Context context)
     {
-        return Drawable.createFromPath(getImageFilePath(context,storyLine.getImagePath()));
+        return Drawable.createFromPath(getAbsoluteFilePath(context, storyLine.getImagePath()));
     }
 
 
@@ -46,11 +46,19 @@ public class Resource {
         return mContext.getResources().getIdentifier(path, "drawable", mContext.getPackageName());
     }
 
+    /**
+     * Get the width and height of a floorPlan's image
+     *
+     * @param floorId
+     * @param floorPlans
+     * @param context
+     * @return
+     */
     @NonNull
     public static BitmapFactory.Options getFloorImageDimensionOptions(int floorId, List<FloorPlan> floorPlans, Context context) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
-        String filePath = getImageFilePath(context, searchFloorPlanById(floorId, floorPlans).getImagePath());
+        String filePath = getAbsoluteFilePath(context, searchFloorPlanById(floorId, floorPlans).getImagePath());
         Log.e("decode", filePath);
         BitmapFactory.decodeFile(filePath,options);
 
@@ -79,12 +87,7 @@ public class Resource {
         return null;
     }
 
-    public static String getImageFilePath(Context context, String fileName)
-    {
-        return context.getFilesDir()+"/"+fileName;
-    }
-
-    public static String getVideoFilePath(Context context, String fileName)
+    public static String getAbsoluteFilePath(Context context, String fileName)
     {
         return context.getFilesDir()+"/"+fileName;
     }

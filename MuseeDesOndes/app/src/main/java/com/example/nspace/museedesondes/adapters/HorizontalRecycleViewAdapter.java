@@ -52,11 +52,11 @@ public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter<Horizonta
             holder.MediaResource.setTag("VIDEO");
             holder.MediaResource.setImageResource(R.drawable.videounlock_thumbnail_small);
             holder.VideoRessourceID = Resource.getRawResourceID(((Video) contentItem).getPath(), mContext);
-            holder.VideoResourceFilePath = Resource.getVideoFilePath(mContext,((Video) contentItem).getPath());
+            holder.VideoResourceFilePath = Resource.getAbsoluteFilePath(mContext, ((Video) contentItem).getPath());
         }
         if (contentItem instanceof Image) {
             int id = Resource.getDrawableResourceIDFromPath(((Image) contentItem).getPath(), mContext);
-            String filePath = Resource.getImageFilePath(mContext, ((Image) contentItem).getPath());
+            String filePath = Resource.getAbsoluteFilePath(mContext, ((Image) contentItem).getPath());
             //holder.MediaResource.setImageResource(id);
             holder.MediaResource.setImageURI(Uri.parse(filePath));
             holder.MediaResource.setTag(filePath);

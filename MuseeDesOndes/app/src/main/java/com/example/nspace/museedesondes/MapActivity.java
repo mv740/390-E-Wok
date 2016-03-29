@@ -77,11 +77,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private SeekBar seekBar;
     Handler audioHandler = new Handler();
     private Map<Marker, PointOfInterest> markerPointOfInterestMap;
-
-    public PoiPanelManager getPanel() {
-        return panelManager;
-    }
-
     private PoiPanelManager panelManager;
     private Marker selectedMarker;
 
@@ -142,9 +137,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             //int id = Resource.getFloorPlanResourceID(floorId, information.getFloorPlans(), this);
             FloorPlan floorPlan = Resource.searchFloorPlanById(floorId, information.getFloorPlans());
             //BitmapDescriptor imageFloor = BitmapDescriptorFactory.fromResource(id);
-            String filelocation = Resource.getAbsoluteFilePath(getApplicationContext(), floorPlan.getImagePath());
-            Log.e("fileLocation", filelocation);
-            BitmapDescriptor imageFloor = BitmapDescriptorFactory.fromPath(filelocation);
+            String fileLocation = Resource.getAbsoluteFilePath(getApplicationContext(), floorPlan.getImagePath());
+            Log.e("fileLocation", fileLocation);
+            BitmapDescriptor imageFloor = BitmapDescriptorFactory.fromPath(fileLocation);
 
             GroundOverlayOptions customMap = new GroundOverlayOptions()
                     .image(imageFloor)
@@ -162,13 +157,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     //sets the storyline to the one selected in the StoryLineActivity
     private void getStoryLineSelected() {
         Intent mIntent = getIntent();
-        int position = mIntent.getIntExtra("Story line list position", 0);
-        List<StoryLine> storyLineList = information.getStoryLines();
+        int id = mIntent.getIntExtra("Story line id", 0);
 
-        if (position == storyLineList.size()) {
+        if (id == -1) {
             freeExploration = true;
         } else {
-            storyLine = storyLineList.get(position);
+            storyLine = information.searchStorylineById(id);
             freeExploration = false;
         }
     }
@@ -638,5 +632,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     public Map<Marker, PointOfInterest> getMarkerPointOfInterestMap() {
         return markerPointOfInterestMap;
+    }
+    public PoiPanelManager getPanel() {
+        return panelManager;
     }
 }

@@ -106,6 +106,18 @@ public class MuseumMap {
         return null;
     }
 
+    public StoryLine searchStorylineById(int id)
+    {
+        for(StoryLine currentStoryline : storyLines)
+        {
+            if(currentStoryline.getId() == id)
+            {
+                return  currentStoryline;
+            }
+        }
+        return null;
+    }
+
     public List<Edge> getEdges() {
         return edges;
     }

@@ -149,12 +149,17 @@ public class StoryLineActivity extends AppCompatActivity {
         public void onItemClick(@NonNull Card card, int position) {
 
             final Intent startMap = new Intent(StoryLineActivity.this, MapActivity.class);
-            startMap.putExtra("Story line list position", position);
 
             String message = getResources().getString(R.string.dialogMsg);
 
             if (card.getTag() == "free_exploration") {
                 message = getResources().getString(R.string.dialogFree);
+                //-1 because it doesn't exist
+                startMap.putExtra("Story line id", -1);
+            }else
+            {
+                StoryLine cardStoryline = (StoryLine) card.getTag();
+                startMap.putExtra("Story line id", cardStoryline.getId());
             }
 
             AlertDialog.Builder builder = dialogBuilder.setTitle(card.getProvider().getTitle())

@@ -37,7 +37,8 @@ public class CoordinateAdapter {
         //todo test this
 
         //longitude : west-est
-         return node.getX();
+         //return node.getX();
+         return newX;
     }
     public double convertY(Node node)
     {
@@ -47,7 +48,8 @@ public class CoordinateAdapter {
         //todo test this
 
         //latitude : north-south
-        return node.getY();
+        //return node.getY();
+        return -newY;
     }
 
 }

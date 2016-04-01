@@ -114,7 +114,7 @@ public class MapManager implements POIBeaconListener {
 
         GroundOverlayOptions customMap = new GroundOverlayOptions()
                 .image(imageFloor)
-                .position(position, width, height).anchor(0, 1)
+                .position(position, width, height).anchor(0, 0)
                 .zIndex(0);
 
 

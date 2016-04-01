@@ -149,6 +149,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             CoordinateAdapter coordinateAdapter = new CoordinateAdapter(floorPlan, groundOverlayFloorMap.getBounds());
             currentP.setY(coordinateAdapter.convertY(currentP));
             currentP.setX(coordinateAdapter.convertX(currentP));
+            information.setCoordinateAlreadyConverted(true);
         }
     }
 
@@ -211,7 +212,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         information = MuseumMap.getInstance(getApplicationContext());
-        convertCoordinate(information, googleMap);
+        if(!information.isCoordinateAlreadyConverted())
+        {
+            convertCoordinate(information, googleMap);
+        }
 
         Map<Integer, List<Polyline>> floorLineMap = new HashMap<>();
 

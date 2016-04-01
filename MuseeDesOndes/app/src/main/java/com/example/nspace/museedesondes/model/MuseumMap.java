@@ -23,6 +23,7 @@ public class MuseumMap {
     private List<LabelledPoint> labelledPoints;
     private List<FloorPlan> floorPlans;
     private List<Point> point;
+    private boolean coordinateAlreadyConverted;
 
 
     private static MuseumMap instance = null;
@@ -39,6 +40,7 @@ public class MuseumMap {
         this.pointOfInterests = new ArrayList<>();
         this.labelledPoints = new ArrayList<>();
         this.nodes = new ArrayList<>();
+        this.coordinateAlreadyConverted = false;
     }
 
     public static MuseumMap getInstance(Context context) {
@@ -164,4 +166,11 @@ public class MuseumMap {
         return currentFloorList;
     }
 
+    public boolean isCoordinateAlreadyConverted() {
+        return coordinateAlreadyConverted;
+    }
+
+    public void setCoordinateAlreadyConverted(boolean coordinateAlreadyConverted) {
+        this.coordinateAlreadyConverted = coordinateAlreadyConverted;
+    }
 }

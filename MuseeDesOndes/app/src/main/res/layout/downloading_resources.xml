@@ -5,16 +5,28 @@
     android:orientation="vertical">
 
 
-    <com.github.ndczz.infinityloading.InfinityLoading
+    <!--<com.github.ndczz.infinityloading.InfinityLoading-->
+        <!--android:id="@+id/loading"-->
+        <!--android:layout_width="240dp"-->
+        <!--android:layout_height="120dp"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--app:infl_backColor="@color/rca_primary"-->
+        <!--app:infl_drawBack="true"-->
+        <!--app:infl_reverse="true"-->
+        <!--app:infl_progressColor="@color/colorPrimaryDark"-->
+        <!--app:infl_strokeWidth="10dp"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_centerHorizontal="true" />-->
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/loading"
-        android:layout_width="240dp"
-        android:layout_height="120dp"
-        android:layout_gravity="center_horizontal"
-        app:infl_backColor="@color/rca_primary"
-        app:infl_drawBack="true"
-        app:infl_reverse="true"
-        app:infl_progressColor="@color/colorPrimaryDark"
-        app:infl_strokeWidth="10dp"
+        style="@style/SpinKitView.Large.Wave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:SpinKit_Color="@color/rca_primary"
+        android:layout_marginTop="64dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
@@ -24,11 +36,11 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="UPDATING"
         android:id="@+id/textView"
-        android:layout_below="@+id/loading"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="57dp"
         android:textColor="@color/rca_primary"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_below="@+id/loading"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>

@@ -12,6 +12,8 @@ import android.widget.RelativeLayout;
 
 import com.example.nspace.museedesondes.utility.DownloadResourcesManager;
 import com.example.nspace.museedesondes.utility.Preferences;
+import com.github.ybq.android.spinkit.SpinKitView;
+import com.github.ybq.android.spinkit.style.Wave;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -32,7 +34,8 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPrefs = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         if (sharedPrefs.getBoolean("firstrun", true)){
-            loadReplaceMeWith(R.layout.downloading_resources);
+            loadingProgress();
+
             DownloadResourcesManager downloadResourcesManager = new DownloadResourcesManager(MainActivity.this);
             downloadResourcesManager.setResourceRootPath("http://michalwozniak.ca/map/demo");
             downloadResourcesManager.setDatabaseFilePath("Map.json");
@@ -43,6 +46,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+    }
+    //todo if team prefer this animation, need to remove     compile 'com.github.ndczz:infinity-loading:0.4' and commented code in ressource
+    private void loadingProgress() {
+        loadReplaceMeWith(R.layout.downloading_resources);
+        final SpinKitView spinKitView = (SpinKitView) findViewById(R.id.loading);
+        spinKitView.setIndeterminateDrawable(new Wave());
     }
 
     private void loadReplaceMeWith(int id) {

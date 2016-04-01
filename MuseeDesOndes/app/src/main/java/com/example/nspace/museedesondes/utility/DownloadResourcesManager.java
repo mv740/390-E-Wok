@@ -30,7 +30,7 @@ import java.util.Set;
  */
 public class DownloadResourcesManager {
 
-    public static final String URL_DASH = "/";
+    private static final String URL_DASH = "/";
     private ThinDownloadManager downloadManager;
     private String databaseFilePath;
     private String resourceRootPath;

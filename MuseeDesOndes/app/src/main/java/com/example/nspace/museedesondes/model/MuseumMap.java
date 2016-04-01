@@ -1,9 +1,11 @@
 package com.example.nspace.museedesondes.model;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.example.nspace.museedesondes.utility.JsonHelper;
+import com.example.nspace.museedesondes.utility.Resource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -53,6 +55,12 @@ public class MuseumMap {
                 instance = mapper.readValue(test, MuseumMap.class);
                 if (instance != null) {
                     initializeNodes();
+
+                    SharedPreferences sharedPrefs = context.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+                    if (!sharedPrefs.getBoolean("firstrun", true)){
+                        Log.e("Map", "sanitizePath");
+                        sanitizePath(context);
+                    }
                 }
 
             } catch (IOException e) {
@@ -61,6 +69,30 @@ public class MuseumMap {
 
         }
         return instance;
+    }
+
+    private static void sanitizePath(Context context) {
+        final String URL_DASH = "/";
+
+        for (StoryLine storyLine : instance.getStoryLines()) {
+            storyLine.setImagePath(Resource.getSanitizedFileNameWithoutDirectories(URL_DASH + storyLine.getImagePath()));
+        }
+        for (PointOfInterest pot : instance.getPointOfInterests()) {
+
+            for (Image image : pot.getAllImages(context)) {
+                image.setPath(Resource.getSanitizedFileNameWithoutDirectories(URL_DASH + image.getPath()));
+            }
+            for (Video video : pot.getAllVideos(context)) {
+                video.setPath(Resource.getSanitizedFileNameWithoutDirectories(URL_DASH + video.getPath()));
+            }
+            for (Audio audio : pot.getAllAudios(context)) {
+                audio.setPath(Resource.getSanitizedFileNameWithoutDirectories(URL_DASH + audio.getPath()));
+            }
+        }
+        for(FloorPlan floorPlan: instance.getFloorPlans())
+        {
+            floorPlan.setImagePath(Resource.getSanitizedFileNameWithoutDirectories(URL_DASH + floorPlan.getImagePath()));
+        }
     }
 
     private static void initializeNodes() {
@@ -108,13 +140,10 @@ public class MuseumMap {
         return null;
     }
 
-    public StoryLine searchStorylineById(int id)
-    {
-        for(StoryLine currentStoryline : storyLines)
-        {
-            if(currentStoryline.getId() == id)
-            {
-                return  currentStoryline;
+    public StoryLine searchStorylineById(int id) {
+        for (StoryLine currentStoryline : storyLines) {
+            if (currentStoryline.getId() == id) {
+                return currentStoryline;
             }
         }
         return null;

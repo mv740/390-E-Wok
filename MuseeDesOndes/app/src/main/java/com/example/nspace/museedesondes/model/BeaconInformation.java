@@ -13,7 +13,7 @@ public class BeaconInformation {
     private int major;
     private int minor;
 
-    public BeaconInformation(@JsonProperty("UUID") String UUID,
+    public BeaconInformation(@JsonProperty("uuid") String UUID,
                              @JsonProperty("major") int major,
                              @JsonProperty("minor") int minor) {
         this.UUID = UUID;

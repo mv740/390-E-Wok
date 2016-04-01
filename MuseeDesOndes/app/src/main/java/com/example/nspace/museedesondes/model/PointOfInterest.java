@@ -25,7 +25,7 @@ public class PointOfInterest extends Node {
                            @JsonProperty("floorID") int floorID,
                            @JsonProperty("x") double x,
                            @JsonProperty("y") double y,
-                           @JsonProperty("beaconInformation") BeaconInformation beaconInformation,
+                           @JsonProperty("ibeacon") BeaconInformation beaconInformation,
                            @JsonProperty("title") ArrayList<PointOfInterestDescription> descriptions,
                            @JsonProperty("media") Media media,
                            @JsonProperty("storyPoint") ArrayList<StoryPoint> storyPoints) {

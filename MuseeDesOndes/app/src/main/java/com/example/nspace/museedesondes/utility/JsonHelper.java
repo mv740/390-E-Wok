@@ -19,7 +19,7 @@ public class JsonHelper {
         try {
 
             //InputStream is = context.getAssets().open(filename);
-            FileInputStream is = new FileInputStream(new File(context.getCacheDir(),filename));
+            FileInputStream is = new FileInputStream(new File(context.getCacheDir(), filename));
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
@@ -32,11 +32,13 @@ public class JsonHelper {
         return json;
     }
 
-    public static FileInputStream loadJsonFile(String filename, Context context)
-    {
+    public static FileInputStream loadJsonFile(String filename, Context context) {
         FileInputStream is = null;
         try {
-             is = new FileInputStream(new File(context.getFilesDir(),filename));
+
+            File jsonFile = new File(context.getFilesDir(), filename);
+            Log.e("JSON", jsonFile.getAbsolutePath());
+            is = new FileInputStream(jsonFile);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

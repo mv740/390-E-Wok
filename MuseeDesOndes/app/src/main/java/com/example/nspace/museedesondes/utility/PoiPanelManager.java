@@ -34,7 +34,6 @@ public class PoiPanelManager implements POIBeaconListener {
     private PointOfInterest currentPointOfInterest;
     private int selectedImageId;
     private RelativeLayout poiPanelLayout;
-    private boolean initialState;
     private FloatingActionButton navigationButton;
 
     public PoiPanelManager(MapActivity activity) {
@@ -42,7 +41,6 @@ public class PoiPanelManager implements POIBeaconListener {
         this.panel = (SlidingUpPanelLayout) activity.findViewById(R.id.sliding_layout);
         this.poiPanelLayout = (RelativeLayout) activity.findViewById(R.id.poiPanel);
         this.navigationButton = (FloatingActionButton) activity.findViewById(R.id.get_directions_button);
-        initialState();
 
         onShadowClick();
         onStateChange();
@@ -121,9 +119,7 @@ public class PoiPanelManager implements POIBeaconListener {
 
         panel.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
 
-        if (isInitialState()) {
-            loadPanel();
-        }
+        setVisibility(View.VISIBLE);
     }
 
     private void replaceDescription(String description) {
@@ -191,26 +187,10 @@ public class PoiPanelManager implements POIBeaconListener {
         return poiPanelLayout;
     }
 
-    public void initialState() {
-        initialState = true;
-        panel.setTouchEnabled(false);
-        replaceTitle("");
-        navigationButton.setVisibility(View.INVISIBLE);
-        poiPanelLayout.setVisibility(View.INVISIBLE);
+    public void setVisibility(int visibility){
+        poiPanelLayout.setVisibility(visibility);
     }
 
-    public void loadPanel() {
-        initialState = false;
-        panel.setTouchEnabled(true);
-        if (activity.isFreeExploration()) {
-            navigationButton.setVisibility(View.VISIBLE);
-        }
-        poiPanelLayout.setVisibility(View.VISIBLE);
-    }
-
-    public boolean isInitialState() {
-        return initialState;
-    }
 
     public FloatingActionButton getNavigationButton() {
         return navigationButton;

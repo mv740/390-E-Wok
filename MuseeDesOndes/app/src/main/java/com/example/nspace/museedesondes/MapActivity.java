@@ -407,9 +407,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             } else {
 
-                if (panelManager.isInitialState()) {
-                    panelManager.loadPanel();
-                }
+                panelManager.setVisibility(View.VISIBLE);
                 selectedMarkerDisplay(marker);
                 //move camera to marker position
                 LatLng markerLocation = marker.getPosition();
@@ -428,13 +426,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         List<Marker> keys      = new ArrayList<Marker>(markerPointOfInterestMap.keySet());
         Marker marker = keys.get(random.nextInt(keys.size()) );
         PointOfInterest       pointOfInterest     = markerPointOfInterestMap.get(marker);
-        if (panelManager.isInitialState()) {
-            panelManager.loadPanel();
-        }
         panelManager.update(pointOfInterest);
 
-        //remove selection
-        panelManager.initialState();
+        panelManager.setVisibility(View.INVISIBLE);
 
     }
 

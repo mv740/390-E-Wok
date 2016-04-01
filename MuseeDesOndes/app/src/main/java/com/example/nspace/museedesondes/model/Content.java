@@ -18,9 +18,9 @@ public abstract class Content {
     private Language language;
 
     public Content(@JsonProperty("caption") String caption,
-                   @JsonProperty("language") Language language) {
+                   @JsonProperty("language") String language) {
         this.caption = caption;
-        this.language = language;
+        this.language = Language.getLanguage(language);
     }
 
     public String getCaption() {

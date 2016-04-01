@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
         if (sharedPrefs.getBoolean("firstrun", true)){
             loadReplaceMeWith(R.layout.downloading_resources);
             DownloadResourcesManager downloadResourcesManager = new DownloadResourcesManager(MainActivity.this);
-            downloadResourcesManager.setResourceRootPath("http://michalwozniak.ca/map");
-            downloadResourcesManager.setDatabaseFilePath("map.json");
+            downloadResourcesManager.setResourceRootPath("http://michalwozniak.ca/map/demo");
+            downloadResourcesManager.setDatabaseFilePath("Map.json");
             downloadResourcesManager.getMostRecentMapInformation();
         }else
         {

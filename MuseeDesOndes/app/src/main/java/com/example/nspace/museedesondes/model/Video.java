@@ -11,7 +11,7 @@ public class Video extends Content {
     private String path;
 
     public Video(@JsonProperty("caption") String caption,
-                 @JsonProperty("language")Language language,
+                 @JsonProperty("language")String language,
                  @JsonProperty("path")String path) {
         super(caption, language);
         this.path = path;

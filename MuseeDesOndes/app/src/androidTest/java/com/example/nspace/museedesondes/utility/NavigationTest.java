@@ -46,10 +46,10 @@ public class NavigationTest extends ActivityInstrumentationTestCase2<MainActivit
         information.getNodes().add(new PointOfInterest(3, 0, 0, 0, null, null, null, null));
         information.getNodes().add(new PointOfInterest(4, 0, 0, 0, null, null, null, null));
 
-        information.getEdges().add(new Edge(1, 2, 5, 0));
-        information.getEdges().add(new Edge(2, 4, 5, 0));
-        information.getEdges().add(new Edge(1, 3, 5, 0));
-        information.getEdges().add(new Edge(3, 4, 10, 0));
+        information.getEdges().add(new Edge(1, 2, 5));
+        information.getEdges().add(new Edge(2, 4, 5));
+        information.getEdges().add(new Edge(1, 3, 5));
+        information.getEdges().add(new Edge(3, 4, 10));
 
         NavigationManager navigation = new NavigationManager(information);
 
@@ -84,10 +84,10 @@ public class NavigationTest extends ActivityInstrumentationTestCase2<MainActivit
         information.getNodes().add(new PointOfInterest(4, 0, 0, 0, null, null, null, null));
         information.getNodes().add(new PointOfInterest(5, 0, 0, 0, null, null, null, null));
 
-        information.getEdges().add(new Edge(1, 2, 5, 0));
-        information.getEdges().add(new Edge(2, 4, 5, 0));
-        information.getEdges().add(new Edge(1, 3, 5, 0));
-        information.getEdges().add(new Edge(3, 4, 10, 0));
+        information.getEdges().add(new Edge(1, 2, 5));
+        information.getEdges().add(new Edge(2, 4, 5));
+        information.getEdges().add(new Edge(1, 3, 5));
+        information.getEdges().add(new Edge(3, 4, 10));
 
         NavigationManager navigation = new NavigationManager(information);
 
@@ -107,10 +107,10 @@ public class NavigationTest extends ActivityInstrumentationTestCase2<MainActivit
         information.getNodes().add(new PointOfInterest(4, 0, 0, 0, null, null, null, null));
         information.getNodes().add(new PointOfInterest(5, 0, 0, 0, null, null, null, null));
 
-        information.getEdges().add(new Edge(1, 2, 5, 0));
-        information.getEdges().add(new Edge(2, 4, 5, 0));
-        information.getEdges().add(new Edge(1, 3, 5, 0));
-        information.getEdges().add(new Edge(3, 4, 10, 0));
+        information.getEdges().add(new Edge(1, 2, 5));
+        information.getEdges().add(new Edge(2, 4, 5));
+        information.getEdges().add(new Edge(1, 3, 5));
+        information.getEdges().add(new Edge(3, 4, 10));
 
         NavigationManager navigation = new NavigationManager(information);
 
@@ -135,10 +135,10 @@ public class NavigationTest extends ActivityInstrumentationTestCase2<MainActivit
         information.getNodes().add(new PointOfInterest(4, 0, 0, 0, null, null, null, null));
         information.getNodes().add(new PointOfInterest(5, 0, 0, 0, null, null, null, null));
 
-        information.getEdges().add(new Edge(1, 2, 5, 0));
-        information.getEdges().add(new Edge(2, 4, 5, 0));
-        information.getEdges().add(new Edge(1, 3, 5, 0));
-        information.getEdges().add(new Edge(3, 4, 10, 0));
+        information.getEdges().add(new Edge(1, 2, 5));
+        information.getEdges().add(new Edge(2, 4, 5));
+        information.getEdges().add(new Edge(1, 3, 5));
+        information.getEdges().add(new Edge(3, 4, 10));
 
         NavigationManager navigation = new NavigationManager(information);
 
@@ -147,7 +147,6 @@ public class NavigationTest extends ActivityInstrumentationTestCase2<MainActivit
 
         assertEquals(2,edgeList.get(0).getStartID());
         assertEquals(4,edgeList.get(0).getEndID());
-        assertEquals(0,edgeList.get(0).getFloorNumber());
         assertEquals(1,edgeList.get(1).getStartID());
         assertEquals(2,edgeList.get(1).getEndID());
 

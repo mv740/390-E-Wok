@@ -30,6 +30,7 @@ import java.util.Set;
  */
 public class DownloadResourcesManager {
 
+    public static final String URL_DASH = "/";
     private ThinDownloadManager downloadManager;
     private String databaseFilePath;
     private String resourceRootPath;
@@ -45,7 +46,7 @@ public class DownloadResourcesManager {
 
     public void getMostRecentMapInformation() {
         if (!databaseFilePath.isEmpty() || !resourceRootPath.isEmpty()) {
-            Uri downloadUri = Uri.parse(resourceRootPath + "/" + databaseFilePath);
+            Uri downloadUri = Uri.parse(resourceRootPath + URL_DASH + databaseFilePath);
             Uri destination = Uri.parse(activity.getFilesDir() + "/mapOnline.json");
             DownloadRequest downloadRequest = new DownloadRequest(downloadUri);
             downloadRequest.setDestinationURI(destination);
@@ -93,8 +94,8 @@ public class DownloadResourcesManager {
             getAudioURI(pointOfInterest,prepareQueryAudioList);
         }
         for (StoryLine storyLine : information.getStoryLines()) {
-            prepareQueryImageList.add(storyLine.getImagePath());
-            storyLine.setImagePath(Resource.getFilenameWithoutDirectories(storyLine.getImagePath()));
+            prepareQueryImageList.add(URL_DASH +storyLine.getImagePath());
+            storyLine.setImagePath(Resource.getSanitizedFileNameWithoutDirectories(URL_DASH +storyLine.getImagePath()));
         }
 
         for (String filePath : prepareQueryImageList) {
@@ -112,9 +113,10 @@ public class DownloadResourcesManager {
 
     private void downloadVideo(String filePath) {
         Uri path = Uri.parse(resourceRootPath + filePath);
-        Uri destination = Uri.parse(activity.getFilesDir() +"/"+ Resource.getFilenameWithoutDirectories(filePath));
+        Uri destination = Uri.parse(activity.getFilesDir() +URL_DASH+ Resource.getFilenameWithoutDirectories(filePath));
         DownloadRequest downloadRequest = new DownloadRequest(path);
         downloadRequest.setDestinationURI(destination);
+        Log.e("destinationVideo", destination.toString());
         downloadRequest.setStatusListener(new DownloadStatusListenerV1() {
             @Override
             public void onDownloadComplete(DownloadRequest downloadRequest) {
@@ -137,8 +139,9 @@ public class DownloadResourcesManager {
     }
 
     private void downloadImageOrAudio(String filePath) {
-        Uri path = Uri.parse(resourceRootPath +  filePath);
-        Uri destination = Uri.parse(activity.getFilesDir() +"/"+  Resource.getFilenameWithoutDirectories(filePath));
+        Uri path = Uri.parse(resourceRootPath +filePath);
+        Uri destination = Uri.parse(activity.getFilesDir() +URL_DASH+  Resource.getFilenameWithoutDirectories(filePath));
+        Log.e("destinationImageAudio", destination.toString());
         DownloadRequest downloadRequest = new DownloadRequest(path);
         downloadRequest.setDestinationURI(destination);
         downloadRequest.setStatusListener(new DownloadStatusListener());
@@ -151,7 +154,8 @@ public class DownloadResourcesManager {
             Uri path = Uri.parse(resourceRootPath + floorPlan.getImagePath());
             String filenameStriped = Resource.getFilenameWithoutDirectories(floorPlan.getImagePath());
             floorPlan.setImagePath(filenameStriped);
-            Uri destination = Uri.parse(activity.getFilesDir() +"/"+ filenameStriped);
+            Uri destination = Uri.parse(activity.getFilesDir() +URL_DASH+ filenameStriped);
+            Log.e("destinationFloor", destination.toString());
             DownloadRequest downloadRequest = new DownloadRequest(path);
             downloadRequest.setDestinationURI(destination);
             downloadRequest.setStatusListener(new DownloadStatusListener());
@@ -162,24 +166,24 @@ public class DownloadResourcesManager {
     private void getImagesURI(PointOfInterest pointOfInterest, Set<String> stringHashSet) {
 
         for (Image image : pointOfInterest.getAllImages(activity)) {
-            stringHashSet.add(image.getPath());
-            image.setPath(Resource.getFilenameWithoutDirectories(image.getPath()));
+            stringHashSet.add(URL_DASH +image.getPath());
+            image.setPath(Resource.getSanitizedFileNameWithoutDirectories(URL_DASH +image.getPath()));
         }
     }
 
     private void getVideosURI(PointOfInterest pointOfInterest, Set<String> prepareQueryVideoList) {
 
         for (Video video : pointOfInterest.getAllVideos(activity)) {
-            prepareQueryVideoList.add(video.getPath());
-            video.setPath(Resource.getFilenameWithoutDirectories(video.getPath()));
+            prepareQueryVideoList.add(URL_DASH +video.getPath());
+            video.setPath(Resource.getSanitizedFileNameWithoutDirectories(URL_DASH +video.getPath()));
         }
     }
 
     private void getAudioURI(PointOfInterest pointOfInterest, Set<String> prepareQueryAudioList) {
         for(Audio audio : pointOfInterest.getAllAudios(activity))
         {
-            prepareQueryAudioList.add(audio.getPath());
-            audio.setPath(Resource.getFilenameWithoutDirectories(audio.getPath()));
+            prepareQueryAudioList.add(URL_DASH +audio.getPath());
+            audio.setPath(Resource.getSanitizedFileNameWithoutDirectories(URL_DASH +audio.getPath()));
         }
     }
 

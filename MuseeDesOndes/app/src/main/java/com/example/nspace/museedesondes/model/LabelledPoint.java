@@ -15,9 +15,9 @@ public class LabelledPoint extends Node {
                          @JsonProperty("floorID") int floorID,
                          @JsonProperty("x") double x,
                          @JsonProperty("y") double y,
-                         @JsonProperty("label") Label label) {
+                         @JsonProperty("label") String label) {
         super(id, floorID, x, y);
-        this.label = label;
+        this.label = Label.getLabel(label);
     }
     public Label getLabel() {
         return label;

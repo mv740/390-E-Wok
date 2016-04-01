@@ -52,7 +52,7 @@ public class MuseumMapTest extends ActivityInstrumentationTestCase2<MainActivity
         MuseumMap map = MuseumMap.getInstance(context);
         assertNotNull("error map is null", map);
 
-        Edge edge = new Edge(1234, 4567, 1234, 1);
+        Edge edge = new Edge(1234, 4567, 1234);
         map.getEdges().add(edge);
         int index = map.getEdges().size() - 1;
 
@@ -75,7 +75,7 @@ public class MuseumMapTest extends ActivityInstrumentationTestCase2<MainActivity
         MuseumMap map = MuseumMap.getInstance(context);
         assertNotNull("error map is null", map);
 
-        LabelledPoint labelledPoint = new LabelledPoint(1234, 1234, 1234, 1234, Label.ENTRANCE);
+        LabelledPoint labelledPoint = new LabelledPoint(1234, 1234, 1234, 1234, "ENTRANCE");
         map.getLabelledPoints().add(labelledPoint);
         int index = map.getLabelledPoints().size() - 1;
 
@@ -133,7 +133,7 @@ public class MuseumMapTest extends ActivityInstrumentationTestCase2<MainActivity
         MuseumMap map = MuseumMap.getInstance(context);
         assertNotNull("error map is null", map);
 
-        LabelledPoint labelledPointTest = new LabelledPoint(1234, 3333, 1234, 1234, Label.ENTRANCE);
+        LabelledPoint labelledPointTest = new LabelledPoint(1234, 3333, 1234, 1234, "ENTRANCE");
         map.getLabelledPoints().add(labelledPointTest);
 
         assertEquals(map.getLabelledPointsCurrentFloor(3333).size(), 1);

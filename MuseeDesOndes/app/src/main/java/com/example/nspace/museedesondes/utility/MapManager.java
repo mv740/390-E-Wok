@@ -69,7 +69,13 @@ public class MapManager implements POIBeaconListener {
         this.floorMarkerMap = new HashMap<>();
         this.freeExploration = freeExploration;
         this.floorPlans = floorPlans;
-        this.currentFloorID = DEFAULT_FLOOR_ID;
+        if(defaultFloorExist())
+        {
+            this.currentFloorID = DEFAULT_FLOOR_ID;
+        }else
+        {
+            this.currentFloorID = floorPlans.get(0).getId();
+        }
         createEmptyFloorLineAndMarkerMaps();
     }
 
@@ -81,7 +87,6 @@ public class MapManager implements POIBeaconListener {
     public void loadDefaultFloor(View view) {
         initializeFloatingButtonSettings(view);
 
-
         BitmapDescriptor imageFloor;
         BitmapFactory.Options options;
         if(defaultFloorExist())
@@ -92,7 +97,8 @@ public class MapManager implements POIBeaconListener {
         }
         else
         {
-            imageFloor = BitmapDescriptorFactory.fromResource(Resource.getFloorPlanResourceID(floorPlans.get(0).getId(), floorPlans, context));
+            Log.e("MapLoader", floorPlans.get(0).getImagePath());
+            imageFloor = BitmapDescriptorFactory.fromPath(Resource.getAbsoluteFilePath(context, Resource.searchFloorPlanById(floorPlans.get(0).getId(), floorPlans).getImagePath()));
             options = Resource.getFloorImageDimensionOptions(floorPlans.get(0).getId(), floorPlans, context);
         }
 
@@ -121,8 +127,13 @@ public class MapManager implements POIBeaconListener {
                 .position(groundOverlayFloorMapBound.getCenter(), WIDTH_WHITE_BACKGROUND, HEIGHT_WHITE_BACKGROUND)
                 .zIndex(-1);
         mMap.addGroundOverlay(mapBackground);
+        if(defaultFloorExist())
+        {
+            displayFloorLinesAndMarkers(DEFAULT_FLOOR_ID, true);
+        }else{
+            displayFloorLinesAndMarkers(floorPlans.get(0).getId(), true);
+        }
 
-        displayFloorLinesAndMarkers(DEFAULT_FLOOR_ID, true);
     }
 
     /**

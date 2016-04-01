@@ -29,7 +29,7 @@ public class MuseumMap {
 
     private MuseumMap(@JsonProperty("node") ArrayList<Point> point,
                       @JsonProperty("edge") ArrayList<Edge> edges,
-                      @JsonProperty("storyLine") ArrayList<StoryLine> storyLines,
+                      @JsonProperty("storyline") ArrayList<StoryLine> storyLines,
                       @JsonProperty("floorPlan") ArrayList<FloorPlan> floorPlans) {
 
         this.point = point;

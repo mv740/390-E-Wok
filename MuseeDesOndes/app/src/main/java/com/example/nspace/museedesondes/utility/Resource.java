@@ -92,10 +92,36 @@ public class Resource {
         return context.getFilesDir()+"/"+fileName;
     }
 
+    /**
+     * Remove all the path before the filename from the string
+     *
+     * @param path
+     * @return
+     */
     public static String getFilenameWithoutDirectories(String path)
     {
         int index = path.lastIndexOf(File.separatorChar);
         return path.substring(index+1);
+    }
+
+    /**
+     * http://stackoverflow.com/questions/1184176/how-can-i-safely-encode-a-string-in-java-to-use-as-a-filename
+     * @param inputName
+     * @return
+     */
+    private static String sanitizeFilename(String inputName) {
+        return inputName.replaceAll("^[a-zA-Z0-9-_\\.]", "_");
+    }
+
+
+    /**
+     *  sanitized fileName
+     * @param fileName
+     * @return
+     */
+    public static String getSanitizedFileNameWithoutDirectories(String fileName)
+    {
+        return getFilenameWithoutDirectories(sanitizeFilename(fileName));
     }
 
 

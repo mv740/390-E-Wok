@@ -12,15 +12,13 @@ public class Edge {
     private Node end;
     private int startID;
     private int endID;
-    private int floorNumber;
+
     public Edge(@JsonProperty("startNode") int startID,
                 @JsonProperty("endNode") int endID,
-                @JsonProperty("distance") int distance,
-                @JsonProperty("floorNumber") int floorNumber) {
+                @JsonProperty("distance") int distance) {
         this.startID = startID;
         this.endID = endID;
         this.distance = distance;
-        this.floorNumber = floorNumber;
     }
 
     public int getDistance() {
@@ -51,7 +49,4 @@ public class Edge {
         this.end = end;
     }
 
-    public int getFloorNumber() {
-        return floorNumber;
-    }
 }

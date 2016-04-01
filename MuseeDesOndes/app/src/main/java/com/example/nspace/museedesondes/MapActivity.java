@@ -66,7 +66,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private MuseumMap information;
     MediaService mediaService;
-    private int[] floorButtonIdList = {R.id.fab1, R.id.fab2, R.id.fab3, R.id.fab4, R.id.fab5};
     private StoryLineManager storyLineManager;
     private StoryLine storyLine;
     private boolean freeExploration;
@@ -79,6 +78,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private Map<Marker, PointOfInterest> markerPointOfInterestMap;
     private PoiPanelManager panelManager;
     private Marker selectedMarker;
+    private List<FloatingActionButton> floatingActionButtonList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,14 +122,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
 
-    private void convertCoordinate(MuseumMap information, GoogleMap googleMap)
-    {
+    private void convertCoordinate(MuseumMap information, GoogleMap googleMap) {
         List<Node> nodeList = new ArrayList<>();
         nodeList.addAll(information.getLabelledPoints());
         nodeList.addAll(information.getPointOfInterests());
 
-        for(Node currentP : nodeList)
-        {
+        for (Node currentP : nodeList) {
             int floorId = currentP.getFloorID();
             BitmapFactory.Options options = Resource.getFloorImageDimensionOptions(floorId, information.getFloorPlans(), getApplicationContext());
 
@@ -143,7 +141,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             GroundOverlayOptions customMap = new GroundOverlayOptions()
                     .image(imageFloor)
-                    .position(new LatLng(0,0), options.outWidth*3, options.outHeight*3);
+                    .position(new LatLng(0, 0), options.outWidth * 3, options.outHeight * 3);
 
             GroundOverlay groundOverlayFloorMap = googleMap.addGroundOverlay(customMap);
             CoordinateAdapter coordinateAdapter = new CoordinateAdapter(floorPlan, groundOverlayFloorMap.getBounds());
@@ -152,7 +150,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             information.setCoordinateAlreadyConverted(true);
         }
     }
-
 
 
     //sets the storyline to the one selected in the StoryLineActivity
@@ -181,6 +178,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         FloatingActionButton getDirections = (FloatingActionButton) findViewById(R.id.get_directions_button);
 
+        generateFloorButtons(floorMenu);
+
         ham.bringToFront();
         floorMenu.bringToFront();
         zoomIn.bringToFront();
@@ -193,6 +192,77 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             fitAllMarker.setVisibility(View.VISIBLE);
         }
 
+    }
+
+    /**
+     * create the require floor buttons
+     *
+     * @param floorMenu
+     */
+    private void generateFloorButtons(FloatingActionMenu floorMenu) {
+        boolean firstButtonDone = false;
+        this.floatingActionButtonList = new ArrayList<>();
+        for (FloorPlan currentFloor : MuseumMap.getInstance(MapActivity.this).getFloorPlans()) {
+            final FloatingActionButton floorButton = new FloatingActionButton(MapActivity.this);
+            switch (currentFloor.getId()) {
+                case 1:
+                    floorButton.setImageResource(R.drawable.floor1_icon);
+                    break;
+                case 2:
+                    floorButton.setImageResource(R.drawable.floor2_icon);
+                    break;
+                case 3:
+                    floorButton.setImageResource(R.drawable.floor3_icon);
+                    break;
+                case 4:
+                    floorButton.setImageResource(R.drawable.floor4_icon);
+                    break;
+                case 5:
+                    floorButton.setImageResource(R.drawable.floor5_icon);
+                    break;
+                default:
+                    Log.e("FloorIcon", "not found");
+            }
+            if (!firstButtonDone) {
+                floorButton.setColorNormal(ContextCompat.getColor(MapActivity.this, R.color.rca_primary));
+                firstButtonDone = true;
+            } else {
+                floorButton.setColorNormal(ContextCompat.getColor(MapActivity.this, R.color.rca_onclick));
+            }
+            floorButton.setColorPressed(ContextCompat.getColor(MapActivity.this, R.color.rca_primary));
+            floorButton.setColorRipple(ContextCompat.getColor(MapActivity.this, R.color.rca_onclick));
+            floorButton.setId(currentFloor.getId());
+            floorButton.setOnClickListener(new floorButtonOnCLick());
+            floorButton.setTag(currentFloor.getId());
+            floatingActionButtonList.add(floorButton);
+            floorMenu.addMenuButton(floorButton);
+        }
+    }
+
+    private class floorButtonOnCLick implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+
+            Log.e("floor", String.valueOf(v.getId()));
+            changeFloor(v.getId());
+
+            for(FloatingActionButton current : floatingActionButtonList)
+            {
+                if(current.getId()==v.getId())
+                {
+                    current.setColorNormal(ContextCompat.getColor(MapActivity.this, R.color.rca_primary));
+                }
+                else
+                {
+                    current.setColorNormal(ContextCompat.getColor(MapActivity.this, R.color.rca_onclick));
+                    current.setColorPressed(ContextCompat.getColor(MapActivity.this, R.color.rca_primary));
+                }
+            }
+
+
+
+        }
     }
 
     public void onHamClick(View v) {
@@ -212,8 +282,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         information = MuseumMap.getInstance(getApplicationContext());
-        if(!information.isCoordinateAlreadyConverted())
-        {
+        if (!information.isCoordinateAlreadyConverted()) {
             convertCoordinate(information, googleMap);
         }
 
@@ -278,46 +347,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
-    public void floorButtonOnClick(View v) {
-        //maps floor button id to floor id
-        View fitAllMarker = findViewById(R.id.zoomShowAllMarker);
-        fitAllMarker.setVisibility(View.INVISIBLE);
-
-
-        switch (v.getId()) {
-            case R.id.fab1:
-                changeFloor(1);
-                break;
-            case R.id.fab2:
-                changeFloor(2);
-                break;
-            case R.id.fab3:
-                changeFloor(3);
-                break;
-            case R.id.fab4:
-                changeFloor(4);
-                break;
-            case R.id.fab5:
-                changeFloor(5);
-                break;
-            default:
-                Log.e("MapActivity", "floor button view invalid " + v.getId());
-        }
-
-        FloatingActionButton floor;
-        for (int buttonId : floorButtonIdList) {
-            floor = (FloatingActionButton) this.findViewById(buttonId);
-            if (buttonId == v.getId()) {
-                floor.setColorNormal(ContextCompat.getColor(this, R.color.rca_primary));
-            } else {
-                floor.setColorNormal(ContextCompat.getColor(this, R.color.rca_onclick));
-            }
-        }
-        if (freeExploration) {
-            fitAllMarker.setVisibility(View.VISIBLE);
-        }
-    }
-
     public void changeFloor(int floor) {
         mapManager.switchFloor(floor);
         FloatingActionMenu floorButton = (FloatingActionMenu) findViewById(R.id.floor_button);
@@ -346,6 +375,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     /**
      * This method sets audio files associated with the current storyline (if applicable, default
      * otherwise), and plays them.
+     *
      * @param pointOfInterest
      */
     public void startAudio(PointOfInterest pointOfInterest) {
@@ -387,7 +417,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         if (markerPointOfInterestMap.containsKey(marker)) {
             PointOfInterest pointOfInterest = markerPointOfInterestMap.get(marker);
 
-            if(!freeExploration && !storyLineManager.hasVisitedPOI(pointOfInterest)) {
+            if (!freeExploration && !storyLineManager.hasVisitedPOI(pointOfInterest)) {
                 return true;
             }
 
@@ -422,12 +452,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return true;
     }
 
-    private void initPanel(){
+    private void initPanel() {
 //load random poi
-        Random random    = new Random();
-        List<Marker> keys      = new ArrayList<Marker>(markerPointOfInterestMap.keySet());
-        Marker marker = keys.get(random.nextInt(keys.size()) );
-        PointOfInterest       pointOfInterest     = markerPointOfInterestMap.get(marker);
+        Random random = new Random();
+        List<Marker> keys = new ArrayList<Marker>(markerPointOfInterestMap.keySet());
+        Marker marker = keys.get(random.nextInt(keys.size()));
+        PointOfInterest pointOfInterest = markerPointOfInterestMap.get(marker);
         if (panelManager.isInitialState()) {
             panelManager.loadPanel();
         }
@@ -444,7 +474,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      * @param marker The selected marker.
      */
     private void selectedMarkerDisplay(Marker marker) {
-        if(freeExploration) {
+        if (freeExploration) {
             if (selectedMarker != null) {
                 selectedMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
             }
@@ -637,6 +667,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public Map<Marker, PointOfInterest> getMarkerPointOfInterestMap() {
         return markerPointOfInterestMap;
     }
+
     public PoiPanelManager getPanel() {
         return panelManager;
     }

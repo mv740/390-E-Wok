@@ -15,7 +15,6 @@ import com.example.nspace.museedesondes.model.MuseumMap;
 import com.example.nspace.museedesondes.model.Node;
 import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.example.nspace.museedesondes.model.StoryLine;
-import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -147,16 +146,6 @@ public class MapManager implements POIBeaconListener {
 
         if (floorButton != null) {
             floorButton.setIconAnimated(false);
-            FloatingActionButton floorSelected = (FloatingActionButton) view.findViewById(R.id.fab1);
-            floorSelected.setColorNormal(ContextCompat.getColor(context, R.color.rca_primary));
-            FloatingActionButton floor5 = (FloatingActionButton) view.findViewById(R.id.fab5);
-            FloatingActionButton floor3 = (FloatingActionButton) view.findViewById(R.id.fab3);
-            FloatingActionButton floor4 = (FloatingActionButton) view.findViewById(R.id.fab4);
-            FloatingActionButton floor2 = (FloatingActionButton) view.findViewById(R.id.fab2);
-            floor5.setColorNormal(ContextCompat.getColor(context, R.color.rca_onclick));
-            floor2.setColorNormal(ContextCompat.getColor(context, R.color.rca_onclick));
-            floor3.setColorNormal(ContextCompat.getColor(context, R.color.rca_onclick));
-            floor4.setColorNormal(ContextCompat.getColor(context, R.color.rca_onclick));
         }
     }
 

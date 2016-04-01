@@ -91,7 +91,6 @@ public class MapManager implements POIBeaconListener {
         BitmapFactory.Options options;
         if(defaultFloorExist())
         {
-            //imageFloor = BitmapDescriptorFactory.fromResource(Resource.getFloorPlanResourceID(DEFAULT_FLOOR_ID, floorPlans, context));
             imageFloor = BitmapDescriptorFactory.fromPath(Resource.getAbsoluteFilePath(context, Resource.searchFloorPlanById(DEFAULT_FLOOR_ID, floorPlans).getImagePath()));
             options = Resource.getFloorImageDimensionOptions(DEFAULT_FLOOR_ID, floorPlans, context);
         }
@@ -171,7 +170,6 @@ public class MapManager implements POIBeaconListener {
         updateFloorLinesAndMarkers(floorID);
 
         //http://stackoverflow.com/questions/16369814/how-to-access-the-drawable-resources-by-name-in-android
-        //groundOverlayFloorMap.setImage(BitmapDescriptorFactory.fromResource(Resource.getFloorPlanResourceID(floorID, floorPlans, context)));
         groundOverlayFloorMap.setImage(BitmapDescriptorFactory.fromPath(Resource.getAbsoluteFilePath(context, Resource.searchFloorPlanById(floorID, floorPlans).getImagePath())));
         BitmapFactory.Options  options = Resource.getFloorImageDimensionOptions(floorID, floorPlans, context);
         float width = scaleDimension(options.outWidth);
@@ -375,7 +373,6 @@ public class MapManager implements POIBeaconListener {
         }
     }
 
-
     /**
      * zooms in on the map by moving the viewpoint's height closer
      */
@@ -410,11 +407,6 @@ public class MapManager implements POIBeaconListener {
 
     public void initialCameraPosition() {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(groundOverlayFloorMapBound.getCenter(), (float) ZOOM_MIN));
-    }
-
-
-    public LatLngBounds getGroundOverlayFloorMapBound() {
-        return groundOverlayFloorMapBound;
     }
 
     /**

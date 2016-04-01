@@ -10,7 +10,6 @@ import com.google.android.gms.maps.model.LatLngBounds;
  * Created by michal on 3/12/2016.
  *
  * adapt coordinate (x,y) from json to our google map latitude/longitude
- * TODO (x,y) value could be mapped to a smaller image, so we will need to compare x to the width of original plan and adapt it
  */
 public class CoordinateAdapter {
 
@@ -27,29 +26,32 @@ public class CoordinateAdapter {
         Log.e("CoordinateAdapter", "height: "+String.valueOf(height));
     }
 
+    /**
+     * longitude : west-est
+     * @param node
+     * @return
+     */
     public double convertX(Node node)
     {
 
         double ratio =   node.getX()/floorPlan.getImageWidth();
-        double newX = ratio*width;
+        return ratio*width;
 
-
-        //todo test this
-
-        //longitude : west-est
-         //return node.getX();
-         return newX;
     }
+
+    /**
+     * latitude : north-south
+     *
+     * value is negative because top left of the screen is (0,0)
+     * e
+     * @param node
+     * @return
+     */
     public double convertY(Node node)
     {
         double ratio = node.getY()/ floorPlan.getImageHeight();
-        double newY = ratio*height;
+        return -ratio*height;
 
-        //todo test this
-
-        //latitude : north-south
-        //return node.getY();
-        return -newY;
     }
 
 }

@@ -275,7 +275,7 @@ public class MapManager implements POIBeaconListener {
         }
     }
 
-    public void displayShortestPath(int startNodeID, Node destinationNode, boolean searchingExit) {
+    public void displayShortestPath(int startNodeID, int destinationNodeID, boolean searchingExit) {
         MuseumMap information = MuseumMap.getInstance(context);
         NavigationManager navigation = new NavigationManager(information);
         List<DefaultWeightedEdge> weightedEdgeList;
@@ -283,7 +283,6 @@ public class MapManager implements POIBeaconListener {
         if(searchingExit) {
             weightedEdgeList = navigation.getShortestExitPath(startNodeID);
         } else {
-            int destinationNodeID = destinationNode.getId();
             weightedEdgeList = navigation.findShortestPath(startNodeID, destinationNodeID);
         }
 

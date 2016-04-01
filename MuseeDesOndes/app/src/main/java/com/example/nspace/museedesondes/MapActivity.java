@@ -402,7 +402,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     navigationManager.selectedStart(marker);
 
                     PointOfInterest destinationNode = panelManager.getCurrentPointOfInterest();
-                    mapManager.displayShortestPath(pointOfInterest.getId(), destinationNode, searchingExit);
+                    mapManager.displayShortestPath(pointOfInterest.getId(), destinationNode.getId(), searchingExit);
                 }
 
             } else {

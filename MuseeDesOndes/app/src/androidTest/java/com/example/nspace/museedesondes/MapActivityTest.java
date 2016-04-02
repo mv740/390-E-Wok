@@ -147,16 +147,26 @@ public class MapActivityTest {
     public void testPlayAudioFile() throws Exception {
         freeExplorationMode();
         MapActivity mapActivity = (MapActivity) getActivityInstance();
-        String title = mapActivity.getInformation().getPointOfInterests().get(0).getLocaleDescription(mapActivity.getApplicationContext()).getTitle();
+        String title = mapActivity.getInformation().getPointOfInterests().get(1).getLocaleDescription(mapActivity.getApplicationContext()).getTitle();
 
         UiDevice device = UiDevice.getInstance(getInstrumentation());
         UiObject marker = device.findObject(new UiSelector().descriptionContains(title));
         marker.click();
 
         assertEquals(false, mapActivity.mediaService.isPlaying());
-        onView(withId(R.id.play_button)).check(matches(isDisplayed())).perform(click());
+        onView(withId(R.id.play_button)).perform(click());
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         assertEquals(true, mapActivity.mediaService.isPlaying());
-        onView(withId(R.id.play_button)).check(matches(isDisplayed())).perform(click());
+        onView(withId(R.id.play_button)).perform(click());
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         assertEquals(false, mapActivity.mediaService.isPlaying());
 
     }

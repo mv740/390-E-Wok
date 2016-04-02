@@ -131,11 +131,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             int floorId = currentP.getFloorID();
             BitmapFactory.Options options = Resource.getFloorImageDimensionOptions(floorId, information.getFloorPlans(), getApplicationContext());
 
-
-            Log.e("Option", String.valueOf(options.outHeight));
-            //int id = Resource.getFloorPlanResourceID(floorId, information.getFloorPlans(), this);
+            Log.d("Option", String.valueOf(options.outHeight));
             FloorPlan floorPlan = Resource.searchFloorPlanById(floorId, information.getFloorPlans());
-            //BitmapDescriptor imageFloor = BitmapDescriptorFactory.fromResource(id);
             String fileLocation = Resource.getAbsoluteFilePath(getApplicationContext(), floorPlan.getImagePath());
             Log.e("fileLocation", fileLocation);
             BitmapDescriptor imageFloor = BitmapDescriptorFactory.fromPath(fileLocation);

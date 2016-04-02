@@ -241,12 +241,12 @@ public class MapManager implements POIBeaconListener {
     }
 
     public void createEmptyFloorLineAndMarkerMaps() {
-        List<FloorPlan> floorPlans = MuseumMap.getInstance(context).getFloorPlans();
+        //List<FloorPlan> floorPlans = MuseumMap.getInstance(context).getFloorPlans();
         for(FloorPlan floorPlan : floorPlans) {
             List<Polyline> lineList = new ArrayList<>();
-            List<Marker> markerList = new ArrayList<>();
+            List<Marker> floorMarkerList = new ArrayList<>();
             floorLineMap.put(floorPlan.getId(), lineList);
-            floorMarkerMap.put(floorPlan.getId(), markerList);
+            floorMarkerMap.put(floorPlan.getId(), floorMarkerList);
         }
     }
 

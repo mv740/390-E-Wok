@@ -14,6 +14,11 @@ import java.util.Locale;
  */
 public class Preferences {
 
+    private Preferences()
+    {
+
+    }
+
     public final static String DEFAULT_LANG = "en_US";
 
     private static Context appContext = null;

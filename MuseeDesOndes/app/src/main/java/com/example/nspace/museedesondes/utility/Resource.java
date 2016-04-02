@@ -1,11 +1,9 @@
 package com.example.nspace.museedesondes.utility;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.example.nspace.museedesondes.model.FloorPlan;
@@ -20,31 +18,31 @@ import java.util.List;
  */
 public class Resource {
 
-    public static Drawable getDrawableImageFromFileName(StoryLine storyLine, Context context)
-    {
-        final int resourceID = getDrawableResourceID(storyLine, context);
 
-        return ContextCompat.getDrawable(context, resourceID);
-    }
-
+    /**
+     * get the absolute path of a drawable from the file 
+     *
+     * @param storyLine
+     * @param context
+     * @return
+     */
     public static Drawable getDrawableFromFileAbsolutePath(StoryLine storyLine, Context context)
     {
         return Drawable.createFromPath(getAbsoluteFilePath(context, storyLine.getImagePath()));
     }
 
 
-    public static int getDrawableResourceID(StoryLine storyLine, Context context) {
-        Resources resources = context.getResources();
-        return resources.getIdentifier(storyLine.getImagePath(), "drawable", context.getPackageName());
-    }
-
+    /**
+     * get the id of a resource in the raw folder
+     *
+     * @param path
+     * @param mContext
+     * @return
+     */
     public static int getRawResourceID(String path, Context mContext) {
         return mContext.getResources().getIdentifier(path, "raw", mContext.getPackageName());
     }
 
-    public static int getDrawableResourceIDFromPath(String path, Context mContext) {
-        return mContext.getResources().getIdentifier(path, "drawable", mContext.getPackageName());
-    }
 
     /**
      * Get the width and height of a floorPlan's image
@@ -63,12 +61,6 @@ public class Resource {
         BitmapFactory.decodeFile(filePath,options);
 
         return options;
-    }
-
-    public static int getFloorPlanResourceID(int id, List<FloorPlan> floorPlans, Context context) {
-
-        FloorPlan floorPlan = searchFloorPlanById(id, floorPlans);
-        return Resource.getDrawableResourceIDFromPath(floorPlan.getImagePath(), context);
     }
 
     /**

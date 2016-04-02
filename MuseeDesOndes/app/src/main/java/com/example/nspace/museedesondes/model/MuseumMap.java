@@ -30,10 +30,10 @@ public class MuseumMap {
 
     private static MuseumMap instance = null;
 
-    private MuseumMap(@JsonProperty("node") ArrayList<Point> point,
-                      @JsonProperty("edge") ArrayList<Edge> edges,
-                      @JsonProperty("storyline") ArrayList<StoryLine> storyLines,
-                      @JsonProperty("floorPlan") ArrayList<FloorPlan> floorPlans) {
+    private MuseumMap(@JsonProperty("node") List<Point> point,
+                      @JsonProperty("edge") List<Edge> edges,
+                      @JsonProperty("storyline") List<StoryLine> storyLines,
+                      @JsonProperty("floorPlan") List<FloorPlan> floorPlans) {
 
         this.point = point;
         this.edges = edges;
@@ -47,10 +47,8 @@ public class MuseumMap {
 
     public static MuseumMap getInstance(Context context) {
         if (instance == null) {
-            //String mapSource = JsonHelper.loadJSON("map.json", context);
             FileInputStream test = JsonHelper.loadJsonFile("mapOnline.json", context);
             ObjectMapper mapper = new ObjectMapper();
-
             try {
                 instance = mapper.readValue(test, MuseumMap.class);
                 if (instance != null) {

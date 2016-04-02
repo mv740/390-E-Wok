@@ -45,7 +45,6 @@ public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter<Horizonta
     @Override
     public void onBindViewHolder(SingleItemRowHolder holder, int i) {
 
-        //Image item = imageList.get(i);
         Content contentItem = contentList.get(i);
         if (contentItem instanceof Video) {
 
@@ -55,9 +54,7 @@ public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter<Horizonta
             holder.VideoResourceFilePath = Resource.getAbsoluteFilePath(mContext, ((Video) contentItem).getPath());
         }
         if (contentItem instanceof Image) {
-            int id = Resource.getDrawableResourceIDFromPath(((Image) contentItem).getPath(), mContext);
             String filePath = Resource.getAbsoluteFilePath(mContext, ((Image) contentItem).getPath());
-            //holder.MediaResource.setImageResource(id);
             holder.MediaResource.setImageURI(Uri.parse(filePath));
             holder.MediaResource.setTag(filePath);
         }

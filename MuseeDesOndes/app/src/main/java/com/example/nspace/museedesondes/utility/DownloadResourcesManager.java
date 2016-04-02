@@ -68,7 +68,6 @@ public class DownloadResourcesManager {
 
                 @Override
                 public void onProgress(DownloadRequest downloadRequest, long totalBytes, long downloadedBytes, int progress) {
-                    // Log.e("download", "in progress :" + downloadRequest.getUri());
                 }
             });
 
@@ -121,7 +120,7 @@ public class DownloadResourcesManager {
         downloadRequest.setStatusListener(new DownloadStatusListenerV1() {
             @Override
             public void onDownloadComplete(DownloadRequest downloadRequest) {
-                Log.e("downloadC", "complete : " + downloadRequest.getUri());
+                Log.d("downloadC", "complete : " + downloadRequest.getUri());
                 downloadList.remove(Integer.valueOf(downloadRequest.getDownloadId()));
                 isDone();
             }
@@ -133,7 +132,6 @@ public class DownloadResourcesManager {
 
             @Override
             public void onProgress(DownloadRequest downloadRequest, long totalBytes, long downloadedBytes, int progress) {
-                // Log.e("download", "in progress :" + downloadRequest.getUri());
             }
         });
         downloadList.add(downloadManager.add(downloadRequest));

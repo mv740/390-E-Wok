@@ -138,15 +138,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             int floorId = currentP.getFloorID();
             BitmapFactory.Options options = Resource.getFloorImageDimensionOptions(floorId, information.getFloorPlans(), getApplicationContext());
 
-            int id = Resource.getFloorPlanResourceID(floorId, information.getFloorPlans(),this);
+            int id = Resource.getFloorPlanResourceID(floorId, information.getFloorPlans(), this);
             BitmapDescriptor imageFloor = BitmapDescriptorFactory.fromResource(id);
 
             GroundOverlayOptions customMap = new GroundOverlayOptions()
                     .image(imageFloor)
-                    .position(new LatLng(0,0), options.outWidth*3, options.outHeight*3);
+                    .position(new LatLng(0, 0), options.outWidth * 3, options.outHeight * 3);
 
             GroundOverlay groundOverlayFloorMap = googleMap.addGroundOverlay(customMap);
-            FloorPlan floorPlan = Resource.searchFloorPlanById(floorId,information.getFloorPlans());
+            FloorPlan floorPlan = Resource.searchFloorPlanById(floorId, information.getFloorPlans());
             CoordinateAdapter coordinateAdapter = new CoordinateAdapter(floorPlan, groundOverlayFloorMap.getBounds());
             currentP.setY(coordinateAdapter.convertY(currentP));
             currentP.setX(coordinateAdapter.convertX(currentP));
@@ -533,6 +533,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
+    public MediaService getMediaService() {
+        return mediaService;
+    }
+
     public void zoomInButtonClick(View view) {
         mapManager.zoomIn();
     }
@@ -547,10 +551,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     public MuseumMap getInformation() {
         return information;
-    }
-
-    public GoogleMap getmMap() {
-        return mMap;
     }
 
     public MapManager getMapManager() {

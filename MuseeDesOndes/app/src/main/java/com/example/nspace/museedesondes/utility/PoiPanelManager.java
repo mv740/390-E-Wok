@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -63,6 +64,14 @@ public class PoiPanelManager implements POIBeaconListener {
                 if (newState == SlidingUpPanelLayout.PanelState.COLLAPSED) {
                     if (activity.getNavigationManager().isEndTour()) {
                         activity.getStoryLineManager().endOfTourDialog();
+                    }
+                    if (activity.getMediaService() != null) {
+                        if(activity.getMediaService().isPlaying())
+                        {
+                            activity.getMediaService().releaseAudio();
+                        }
+                        Button playAudio = (Button) activity.findViewById(R.id.play_button);
+                        playAudio.setBackgroundResource(R.drawable.ic_play_circle_filled_white_48dp);
                     }
                 }
             }

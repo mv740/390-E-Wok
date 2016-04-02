@@ -34,12 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPrefs = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         if (sharedPrefs.getBoolean("firstrun", true)){
-            loadingProgress();
-
-            DownloadResourcesManager downloadResourcesManager = new DownloadResourcesManager(MainActivity.this);
-            downloadResourcesManager.setResourceRootPath("http://michalwozniak.ca/map/demo");
-            downloadResourcesManager.setDatabaseFilePath("Map.json");
-            downloadResourcesManager.getMostRecentMapInformation();
+            downloadResources();
         }else
         {
             loadReplaceMeWith(R.layout.welcome_begin_tour);
@@ -47,6 +42,16 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    private void downloadResources() {
+        loadingProgress();
+
+        DownloadResourcesManager downloadResourcesManager = new DownloadResourcesManager(MainActivity.this);
+        downloadResourcesManager.setResourceRootPath("http://michalwozniak.ca/map/demo");
+        downloadResourcesManager.setDatabaseFilePath("Map.json");
+        downloadResourcesManager.getMostRecentMapInformation();
+    }
+
     //todo if team prefer this animation, need to remove     compile 'com.github.ndczz:infinity-loading:0.4' and commented code in ressource
     private void loadingProgress() {
         loadReplaceMeWith(R.layout.downloading_resources);
@@ -85,4 +90,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(startStorylines);
     }
 
+    public void downloadAgain(View view) {
+        downloadResources();
+    }
 }

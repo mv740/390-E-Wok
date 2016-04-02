@@ -250,19 +250,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             Log.e("floor", String.valueOf(v.getId()));
             changeFloor(v.getId());
 
-            for(FloatingActionButton current : floatingActionButtonList)
-            {
-                if(current.getId()==v.getId())
-                {
+            for (FloatingActionButton current : floatingActionButtonList) {
+                if (current.getId() == v.getId()) {
                     current.setColorNormal(ContextCompat.getColor(MapActivity.this, R.color.rca_primary));
-                }
-                else
-                {
+                } else {
                     current.setColorNormal(ContextCompat.getColor(MapActivity.this, R.color.rca_onclick));
                     current.setColorPressed(ContextCompat.getColor(MapActivity.this, R.color.rca_primary));
                 }
             }
-
 
 
         }
@@ -431,7 +426,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     toast.setGravity(Gravity.BOTTOM | Gravity.CENTER, 0, 250);
                     toast.show();
                 } else {
-                    navigationManager.setUserLocation(pointOfInterest.getId());
                     navigationManager.selectedStart(marker);
 
                     PointOfInterest destinationNode = panelManager.getCurrentPointOfInterest();
@@ -456,10 +450,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private void initPanel() {
 //load random poi
 
-        Random random    = new Random();
-        List<Marker> keys      = new ArrayList<Marker>(markerPointOfInterestMap.keySet());
-        Marker marker = keys.get(random.nextInt(keys.size()) );
-        PointOfInterest       pointOfInterest     = markerPointOfInterestMap.get(marker);
+        Random random = new Random();
+        List<Marker> keys = new ArrayList<Marker>(markerPointOfInterestMap.keySet());
+        Marker marker = keys.get(random.nextInt(keys.size()));
+        PointOfInterest pointOfInterest = markerPointOfInterestMap.get(marker);
 
         panelManager.update(pointOfInterest);
 

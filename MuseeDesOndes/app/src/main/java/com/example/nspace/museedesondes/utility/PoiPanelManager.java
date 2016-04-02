@@ -38,6 +38,7 @@ public class PoiPanelManager implements POIBeaconListener {
     private String selectedImageFilePath;
     private RelativeLayout poiPanelLayout;
     private FloatingActionButton navigationButton;
+    private boolean endTourDialogueShown;
 
     public PoiPanelManager(MapActivity activity) {
         this.activity = activity;
@@ -64,8 +65,9 @@ public class PoiPanelManager implements POIBeaconListener {
 
                 Log.e("Statechanged", "yes");
                 if (newState == SlidingUpPanelLayout.PanelState.COLLAPSED) {
-                    if (activity.getNavigationManager().isEndTour()) {
+                    if (activity.getNavigationManager().isEndTour() && !endTourDialogueShown) {
                         activity.getStoryLineManager().endOfTourDialog();
+                        endTourDialogueShown = true;
                     }
                     if (activity.getMediaService() != null) {
                         if(activity.getMediaService().isPlaying())
@@ -87,8 +89,9 @@ public class PoiPanelManager implements POIBeaconListener {
             @Override
             public void onClick(View view) {
                 panel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-                if (activity.getNavigationManager().isEndTour()) {
+                if (activity.getNavigationManager().isEndTour() && !endTourDialogueShown) {
                     activity.getStoryLineManager().endOfTourDialog();
+                    endTourDialogueShown = true;
                 }
             }
         });

@@ -43,6 +43,8 @@ public class StoryLineManager {
     private GoogleMap googleMap;
     private BeaconManager beaconManager;
     private Region region;
+    private boolean newTourSelected;
+    private boolean endTour;
 
     public StoryLineManager(StoryLine storyLine, MapActivity mapActivity) {
         this.storyLine = storyLine;
@@ -57,6 +59,8 @@ public class StoryLineManager {
         setBeaconRangeListener();
     }
 
+    //scans for beacon info of the next point of interest in chosen storyline and updates line and observers after discovery
+    //when user chooses to start a new tour the method scans for the initial node and when discovered returns to the storyline activity
     private void setBeaconRangeListener() {
         beaconManager.setRangingListener(new BeaconManager.RangingListener() {
             @Override
@@ -68,10 +72,14 @@ public class StoryLineManager {
                             && (nearestBeacon.getMajor() == nextPOI.getBeaconInformation().getMajor())
                             && (nearestBeacon.getMinor() == nextPOI.getBeaconInformation().getMinor())
                             && ((Utils.computeProximity(nearestBeacon)) == Utils.Proximity.NEAR)) {
-                        notifyObservers(nextPOI, storyLine);
-                        visitedPOIList.add(nextPOI);
-                        updateSegmentListColors();
-                        updateNextPOI();
+                        if (newTourSelected) {
+                            mapActivity.finish();
+                        } else if (!endTour){
+                            notifyObservers(nextPOI, storyLine);
+                            visitedPOIList.add(nextPOI);
+                            updateSegmentListColors();
+                            updateNextPOI();
+                        }
                     }
                 }
             }
@@ -103,8 +111,8 @@ public class StoryLineManager {
         if(pointOfInterestIndex < pointOfInterestList.size()){
             nextPOI = pointOfInterestList.get(pointOfInterestIndex);
         } else {
-            beaconManager.disconnect();
             mapActivity.getNavigationManager().setEndTour();
+            endTour = true;
         }
     }
 
@@ -116,17 +124,20 @@ public class StoryLineManager {
                 .setPositiveButton(R.string.endOfTourOption2, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Log.d("AlertDialog", "new tour");
+                        newTourSelected = true;
                         mapActivity.getMapManager().clearFloorLines();
                         if (!pointOfInterestList.isEmpty()) {
                             PointOfInterest startNode = pointOfInterestList.get(0);
                             PointOfInterest finalNode = pointOfInterestList.get(pointOfInterestList.size() - 1);
                             mapActivity.getMapManager().displayShortestPath(finalNode.getId(), startNode.getId(), false);
+                            nextPOI = pointOfInterestList.get(0);
                         }
                     }
                 })
                 .setNegativeButton(R.string.endOfTourOption1, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Log.d("AlertDialog", "exit");
+                        beaconManager.disconnect();
                         mapActivity.setSearchingExit(true);
                         mapActivity.setNavigationMode(true);
                         mapActivity.getNavigationManager().startNavigationMode(mapActivity.getPanelManager());

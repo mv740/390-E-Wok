@@ -63,6 +63,5 @@ dependencies {
     compile "org.jgrapht:jgrapht-core:$jgraphtVersion"
     compile 'com.github.deano2390:MaterialShowcaseView:1.1.0@aar'
     compile 'com.mani:ThinDownloadManager:1.2.4'
-    compile 'com.github.ndczz:infinity-loading:0.4'
     compile 'com.github.ybq:Android-SpinKit:1.0.1'
 }

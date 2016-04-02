@@ -14,6 +14,7 @@ import android.widget.SeekBar;
 import com.example.nspace.museedesondes.R;
 import com.example.nspace.museedesondes.utility.Resource;
 
+
 public class MediaService extends Service {
 
     private final IBinder audioBinder = new AudioBinder();
@@ -91,6 +92,7 @@ public class MediaService extends Service {
         }
     }
 
+
     public int getCurrentPosition(){
         if(mediaPlayer != null) {
             int currentTime = mediaPlayer.getCurrentPosition();
@@ -100,10 +102,14 @@ public class MediaService extends Service {
     }
 
     public void releaseAudio(){
-        if(isPlaying) {
-            mediaPlayer.stop();
-            mediaPlayer.release();
-            mediaPlayer=null;
+        if(mediaPlayer !=null)
+        {
+            if(isPlaying) {
+                mediaPlayer.pause();
+                mediaPlayer.stop();
+                mediaPlayer.release();
+                mediaPlayer=null;
+            }
         }
     }
 

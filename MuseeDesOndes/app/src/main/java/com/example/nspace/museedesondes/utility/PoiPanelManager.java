@@ -37,7 +37,6 @@ public class PoiPanelManager implements POIBeaconListener {
     private int selectedImageId;
     private String selectedImageFilePath;
     private RelativeLayout poiPanelLayout;
-    private boolean initialState;
     private FloatingActionButton navigationButton;
 
     public PoiPanelManager(MapActivity activity) {
@@ -45,7 +44,6 @@ public class PoiPanelManager implements POIBeaconListener {
         this.panel = (SlidingUpPanelLayout) activity.findViewById(R.id.sliding_layout);
         this.poiPanelLayout = (RelativeLayout) activity.findViewById(R.id.poiPanel);
         this.navigationButton = (FloatingActionButton) activity.findViewById(R.id.get_directions_button);
-        initialState();
 
         onShadowClick();
         onStateChange();
@@ -68,6 +66,14 @@ public class PoiPanelManager implements POIBeaconListener {
                 if (newState == SlidingUpPanelLayout.PanelState.COLLAPSED) {
                     if (activity.getNavigationManager().isEndTour()) {
                         activity.getStoryLineManager().endOfTourDialog();
+                    }
+                    if (activity.getMediaService() != null) {
+                        if(activity.getMediaService().isPlaying())
+                        {
+                            activity.getMediaService().releaseAudio();
+                        }
+                        Button playAudio = (Button) activity.findViewById(R.id.play_button);
+                        playAudio.setBackgroundResource(R.drawable.ic_play_circle_filled_white_48dp);
                     }
                 }
             }
@@ -145,9 +151,7 @@ public class PoiPanelManager implements POIBeaconListener {
 
         panel.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
 
-        if (isInitialState()) {
-            loadPanel();
-        }
+        setVisibility(View.VISIBLE);
     }
 
     private void replaceDescription(String description) {
@@ -216,26 +220,10 @@ public class PoiPanelManager implements POIBeaconListener {
         return poiPanelLayout;
     }
 
-    public void initialState() {
-        initialState = true;
-        panel.setTouchEnabled(false);
-        replaceTitle("");
-        navigationButton.setVisibility(View.INVISIBLE);
-        poiPanelLayout.setVisibility(View.INVISIBLE);
+    public void setVisibility(int visibility){
+        poiPanelLayout.setVisibility(visibility);
     }
 
-    public void loadPanel() {
-        initialState = false;
-        panel.setTouchEnabled(true);
-        if (activity.isFreeExploration()) {
-            navigationButton.setVisibility(View.VISIBLE);
-        }
-        poiPanelLayout.setVisibility(View.VISIBLE);
-    }
-
-    public boolean isInitialState() {
-        return initialState;
-    }
 
     public FloatingActionButton getNavigationButton() {
         return navigationButton;

@@ -69,7 +69,7 @@ public class StoryLineManager {
                             && (nearestBeacon.getMajor() == nextPOI.getBeaconInformation().getMajor())
                             && (nearestBeacon.getMinor() == nextPOI.getBeaconInformation().getMinor())
                             && ((Utils.computeProximity(nearestBeacon)) == Utils.Proximity.NEAR)) {
-                        notifyObservers(nextPOI,storyLine);
+                        notifyObservers(nextPOI, storyLine);
                         visitedPOIList.add(nextPOI);
                         updateSegmentListColors();
                         updateNextPOI();
@@ -117,6 +117,12 @@ public class StoryLineManager {
                 .setPositiveButton(R.string.endOfTourOption2, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Log.d("AlertDialog", "new tour");
+                        mapActivity.getMapManager().clearFloorLines();
+                        if (!pointOfInterestList.isEmpty()) {
+                            PointOfInterest startNode = pointOfInterestList.get(0);
+                            PointOfInterest finalNode = pointOfInterestList.get(pointOfInterestList.size() - 1);
+                            mapActivity.getMapManager().displayShortestPath(finalNode.getId(), startNode.getId(), false);
+                        }
                     }
                 })
                 .setNegativeButton(R.string.endOfTourOption1, new DialogInterface.OnClickListener() {

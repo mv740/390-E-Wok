@@ -131,6 +131,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             int floorId = currentP.getFloorID();
             BitmapFactory.Options options = Resource.getFloorImageDimensionOptions(floorId, information.getFloorPlans(), getApplicationContext());
 
+
             Log.e("Option", String.valueOf(options.outHeight));
             //int id = Resource.getFloorPlanResourceID(floorId, information.getFloorPlans(), this);
             FloorPlan floorPlan = Resource.searchFloorPlanById(floorId, information.getFloorPlans());
@@ -139,11 +140,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             Log.e("fileLocation", fileLocation);
             BitmapDescriptor imageFloor = BitmapDescriptorFactory.fromPath(fileLocation);
 
+
             GroundOverlayOptions customMap = new GroundOverlayOptions()
                     .image(imageFloor)
                     .position(new LatLng(0, 0), options.outWidth * 3, options.outHeight * 3);
 
             GroundOverlay groundOverlayFloorMap = googleMap.addGroundOverlay(customMap);
+
             CoordinateAdapter coordinateAdapter = new CoordinateAdapter(floorPlan, groundOverlayFloorMap.getBounds());
             currentP.setY(coordinateAdapter.convertY(currentP));
             currentP.setX(coordinateAdapter.convertX(currentP));
@@ -432,14 +435,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     navigationManager.selectedStart(marker);
 
                     PointOfInterest destinationNode = panelManager.getCurrentPointOfInterest();
-                    mapManager.displayShortestPath(pointOfInterest.getId(), destinationNode, searchingExit);
+                    mapManager.displayShortestPath(pointOfInterest.getId(), destinationNode.getId(), searchingExit);
                 }
 
             } else {
 
-                if (panelManager.isInitialState()) {
-                    panelManager.loadPanel();
-                }
+                panelManager.setVisibility(View.VISIBLE);
                 selectedMarkerDisplay(marker);
                 //move camera to marker position
                 LatLng markerLocation = marker.getPosition();
@@ -454,17 +455,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private void initPanel() {
 //load random poi
-        Random random = new Random();
-        List<Marker> keys = new ArrayList<Marker>(markerPointOfInterestMap.keySet());
-        Marker marker = keys.get(random.nextInt(keys.size()));
-        PointOfInterest pointOfInterest = markerPointOfInterestMap.get(marker);
-        if (panelManager.isInitialState()) {
-            panelManager.loadPanel();
-        }
+
+        Random random    = new Random();
+        List<Marker> keys      = new ArrayList<Marker>(markerPointOfInterestMap.keySet());
+        Marker marker = keys.get(random.nextInt(keys.size()) );
+        PointOfInterest       pointOfInterest     = markerPointOfInterestMap.get(marker);
+
         panelManager.update(pointOfInterest);
 
-        //remove selection
-        panelManager.initialState();
+        panelManager.setVisibility(View.INVISIBLE);
 
     }
 
@@ -569,6 +568,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
+    public MediaService getMediaService() {
+        return mediaService;
+    }
+
     public void zoomInButtonClick(View view) {
         mapManager.zoomIn();
     }
@@ -583,10 +586,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     public MuseumMap getInformation() {
         return information;
-    }
-
-    public GoogleMap getmMap() {
-        return mMap;
     }
 
     public MapManager getMapManager() {

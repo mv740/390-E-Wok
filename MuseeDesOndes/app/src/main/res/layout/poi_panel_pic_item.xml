@@ -1,30 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="170dp"
-    android:orientation="vertical">
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="170dp">
 
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/poi_panel_pic_item_imageview"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/poi_panel_pic_item_imageview"
-            android:layout_width="wrap_content"
-            android:layout_height="160dp"
-            android:layout_margin="5dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY" />
-
-        <TextView
-            android:id="@+id/poi_panel_pic_item_imageviewCaption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/poi_panel_pic_item_imageview"
-            android:layout_alignLeft="@+id/poi_panel_pic_item_imageview"
-            android:layout_alignRight="@+id/poi_panel_pic_item_imageview"
-            android:layout_margin="2dp"
-            android:gravity="center_horizontal"
-            android:text=""/>
-    </RelativeLayout>
+        android:layout_height="160dp"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        android:layout_margin="5dp"/>
 </LinearLayout>

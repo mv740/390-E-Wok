@@ -46,12 +46,10 @@ public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter<Horizonta
 
         Content contentItem = contentList.get(i);
         if (contentItem instanceof Video) {
-
             holder.MediaResource.setTag("VIDEO");
             holder.MediaResource.setImageResource(R.drawable.videounlock_thumbnail_small);
             holder.VideoRessourceID = Resource.getRawResourceID(((Video) contentItem).getPath(), mContext);
             holder.VideoResourceFilePath = Resource.getAbsoluteFilePath(mContext, ((Video) contentItem).getPath());
-            holder.caption.setText(contentItem.getCaption());
         }
         if (contentItem instanceof Image) {
             String filePath = Resource.getAbsoluteFilePath(mContext, ((Image) contentItem).getPath());
@@ -77,8 +75,6 @@ public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter<Horizonta
         public SingleItemRowHolder(View view) {
             super(view);
             this.MediaResource = (ImageView) view.findViewById(R.id.poi_panel_pic_item_imageview);
-            this.caption = (TextView) view.findViewById(R.id.poi_panel_pic_item_imageviewCaption);
-
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -88,5 +84,6 @@ public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter<Horizonta
             });
         }
     }
+
 }
 

@@ -149,7 +149,7 @@ public class DownloadResourcesManager {
 
     private void downloadFloorPlans(MuseumMap information) {
         for (FloorPlan floorPlan : information.getFloorPlans()) {
-            Uri path = Uri.parse(resourceRootPath + floorPlan.getImagePath());
+            Uri path = Uri.parse(resourceRootPath +URL_DASH+ floorPlan.getImagePath());
             String filenameStriped = Resource.getFilenameWithoutDirectories(floorPlan.getImagePath());
             floorPlan.setImagePath(filenameStriped);
             Uri destination = Uri.parse(activity.getFilesDir() +URL_DASH+ filenameStriped);

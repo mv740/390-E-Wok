@@ -1,12 +1,15 @@
 package com.example.nspace.museedesondes.model;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.example.nspace.museedesondes.utility.JsonHelper;
+import com.example.nspace.museedesondes.utility.Resource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,14 +25,15 @@ public class MuseumMap {
     private List<LabelledPoint> labelledPoints;
     private List<FloorPlan> floorPlans;
     private List<Point> point;
+    private boolean coordinateAlreadyConverted;
 
 
     private static MuseumMap instance = null;
 
-    private MuseumMap(@JsonProperty("node") ArrayList<Point> point,
-                      @JsonProperty("edge") ArrayList<Edge> edges,
-                      @JsonProperty("storyLine") ArrayList<StoryLine> storyLines,
-                      @JsonProperty("floorPlan") ArrayList<FloorPlan> floorPlans) {
+    private MuseumMap(@JsonProperty("node") List<Point> point,
+                      @JsonProperty("edge") List<Edge> edges,
+                      @JsonProperty("storyline") List<StoryLine> storyLines,
+                      @JsonProperty("floorPlan") List<FloorPlan> floorPlans) {
 
         this.point = point;
         this.edges = edges;
@@ -38,17 +42,23 @@ public class MuseumMap {
         this.pointOfInterests = new ArrayList<>();
         this.labelledPoints = new ArrayList<>();
         this.nodes = new ArrayList<>();
+        this.coordinateAlreadyConverted = false;
     }
 
     public static MuseumMap getInstance(Context context) {
         if (instance == null) {
-            String mapSource = JsonHelper.loadJSON("map.json", context);
+            FileInputStream test = JsonHelper.loadJsonFile("mapOnline.json", context);
             ObjectMapper mapper = new ObjectMapper();
-
             try {
-                instance = mapper.readValue(mapSource, MuseumMap.class);
+                instance = mapper.readValue(test, MuseumMap.class);
                 if (instance != null) {
                     initializeNodes();
+
+                    SharedPreferences sharedPrefs = context.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+                    if (!sharedPrefs.getBoolean("firstrun", true)){
+                        Log.e("Map", "sanitizePath");
+                        sanitizePath(context);
+                    }
                 }
 
             } catch (IOException e) {
@@ -57,6 +67,30 @@ public class MuseumMap {
 
         }
         return instance;
+    }
+
+    private static void sanitizePath(Context context) {
+        final String URL_DASH = "/";
+
+        for (StoryLine storyLine : instance.getStoryLines()) {
+            storyLine.setImagePath(Resource.getSanitizedFileNameWithoutDirectories(URL_DASH + storyLine.getImagePath()));
+        }
+        for (PointOfInterest pot : instance.getPointOfInterests()) {
+
+            for (Image image : pot.getAllImages(context)) {
+                image.setPath(Resource.getSanitizedFileNameWithoutDirectories(URL_DASH + image.getPath()));
+            }
+            for (Video video : pot.getAllVideos(context)) {
+                video.setPath(Resource.getSanitizedFileNameWithoutDirectories(URL_DASH + video.getPath()));
+            }
+            for (Audio audio : pot.getAllAudios(context)) {
+                audio.setPath(Resource.getSanitizedFileNameWithoutDirectories(URL_DASH + audio.getPath()));
+            }
+        }
+        for(FloorPlan floorPlan: instance.getFloorPlans())
+        {
+            floorPlan.setImagePath(Resource.getSanitizedFileNameWithoutDirectories(URL_DASH + floorPlan.getImagePath()));
+        }
     }
 
     private static void initializeNodes() {
@@ -99,6 +133,15 @@ public class MuseumMap {
         for (Node node : nodes) {
             if (node.getId() == id) {
                 return node;
+            }
+        }
+        return null;
+    }
+
+    public StoryLine searchStorylineById(int id) {
+        for (StoryLine currentStoryline : storyLines) {
+            if (currentStoryline.getId() == id) {
+                return currentStoryline;
             }
         }
         return null;
@@ -150,4 +193,11 @@ public class MuseumMap {
         return currentFloorList;
     }
 
+    public boolean isCoordinateAlreadyConverted() {
+        return coordinateAlreadyConverted;
+    }
+
+    public void setCoordinateAlreadyConverted(boolean coordinateAlreadyConverted) {
+        this.coordinateAlreadyConverted = coordinateAlreadyConverted;
+    }
 }

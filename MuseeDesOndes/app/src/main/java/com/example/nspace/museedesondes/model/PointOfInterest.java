@@ -25,7 +25,7 @@ public class PointOfInterest extends Node {
                            @JsonProperty("floorID") int floorID,
                            @JsonProperty("x") double x,
                            @JsonProperty("y") double y,
-                           @JsonProperty("beaconInformation") BeaconInformation beaconInformation,
+                           @JsonProperty("ibeacon") BeaconInformation beaconInformation,
                            @JsonProperty("title") ArrayList<PointOfInterestDescription> descriptions,
                            @JsonProperty("media") Media media,
                            @JsonProperty("storyPoint") ArrayList<StoryPoint> storyPoints) {
@@ -75,6 +75,22 @@ public class PointOfInterest extends Node {
     }
 
     /**
+     * @param context
+     * @return
+     */
+    public List<Image> getAllImages(Context context) {
+        List<Image> images = new ArrayList<>();
+        for (Image image : media.getImages()) {
+                images.add(image);
+        }
+        for (Image image : storyPoints.get(0).getImages())
+        {
+            images.add(image);
+        }
+        return images;
+    }
+
+    /**
      * Get every Audio in the language that was saved in your profile.
      *
      * @param context current activity context
@@ -86,6 +102,18 @@ public class PointOfInterest extends Node {
             if (context.getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(audio.getLanguage().name())) {
                 audios.add(audio);
             }
+        }
+        return audios;
+    }
+
+    public List<Audio> getAllAudios(Context context) {
+        List<Audio> audios = new ArrayList<>();
+        for (Audio audio : media.getAudios()) {
+                audios.add(audio);
+        }
+        for (Audio audio : storyPoints.get(0).getAudios())
+        {
+            audios.add(audio);
         }
         return audios;
     }
@@ -102,6 +130,19 @@ public class PointOfInterest extends Node {
             if (context.getResources().getConfiguration().locale.getLanguage().equalsIgnoreCase(video.getLanguage().name())) {
                 videos.add(video);
             }
+        }
+        return videos;
+    }
+
+    public List<Video> getAllVideos(Context context) {
+        List<Video> videos = new ArrayList<>();
+        for (Video video : media.getVideos()) {
+                videos.add(video);
+
+        }
+        for (Video video : storyPoints.get(0).getVideos())
+        {
+            videos.add(video);
         }
         return videos;
     }

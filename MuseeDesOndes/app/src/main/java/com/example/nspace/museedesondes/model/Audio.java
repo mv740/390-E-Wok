@@ -11,7 +11,7 @@ public class Audio extends Content {
     private String path;
 
     public Audio(@JsonProperty("caption") String caption,
-                 @JsonProperty("language")Language language,
+                 @JsonProperty("language")String language,
                  @JsonProperty("path")String path) {
         super(caption, language);
         this.path = path;
@@ -19,5 +19,9 @@ public class Audio extends Content {
 
     public String getPath() {
         return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }

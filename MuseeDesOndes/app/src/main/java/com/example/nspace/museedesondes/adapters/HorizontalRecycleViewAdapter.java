@@ -1,5 +1,6 @@
 package com.example.nspace.museedesondes.adapters;
 
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,6 @@ import com.example.nspace.museedesondes.MapActivity;
 import com.example.nspace.museedesondes.R;
 import com.example.nspace.museedesondes.model.Content;
 import com.example.nspace.museedesondes.model.Image;
-import com.example.nspace.museedesondes.model.Language;
 import com.example.nspace.museedesondes.model.Video;
 import com.example.nspace.museedesondes.utility.Resource;
 
@@ -37,26 +37,24 @@ public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter<Horizonta
     @Override
     public SingleItemRowHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.poi_panel_pic_item, null);
-        SingleItemRowHolder mh = new SingleItemRowHolder(v);
-        return mh;
+        return new SingleItemRowHolder(v);
     }
 
 
     @Override
     public void onBindViewHolder(SingleItemRowHolder holder, int i) {
 
-        //Image item = imageList.get(i);
         Content contentItem = contentList.get(i);
         if (contentItem instanceof Video) {
-
             holder.MediaResource.setTag("VIDEO");
             holder.MediaResource.setImageResource(R.drawable.videounlock_thumbnail_small);
-            holder.VideoRessourceID = Resource.getVideoResourceID(((Video) contentItem).getPath(), mContext);
+            holder.VideoRessourceID = Resource.getRawResourceID(((Video) contentItem).getPath(), mContext);
+            holder.VideoResourceFilePath = Resource.getAbsoluteFilePath(mContext, ((Video) contentItem).getPath());
         }
         if (contentItem instanceof Image) {
-            int id = Resource.getResourceIDFromPath(((Image) contentItem).getPath(), mContext);
-            holder.MediaResource.setImageResource(id);
-            holder.MediaResource.setTag(id);
+            String filePath = Resource.getAbsoluteFilePath(mContext, ((Image) contentItem).getPath());
+            holder.MediaResource.setImageURI(Uri.parse(filePath));
+            holder.MediaResource.setTag(filePath);
         }
 
     }
@@ -69,9 +67,10 @@ public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter<Horizonta
 
     public class SingleItemRowHolder extends RecyclerView.ViewHolder {
 
-        protected TextView title;
         protected ImageView MediaResource;
         protected int VideoRessourceID;
+        protected String VideoResourceFilePath;
+        protected TextView caption;
 
         public SingleItemRowHolder(View view) {
             super(view);
@@ -80,10 +79,11 @@ public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter<Horizonta
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mContext.poiPanelMediaOnClick(v, MediaResource, VideoRessourceID);
+                    mContext.poiPanelMediaOnClick(v, MediaResource, VideoRessourceID, VideoResourceFilePath);
                 }
             });
         }
     }
+
 }
 

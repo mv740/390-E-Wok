@@ -60,12 +60,12 @@ public class StoryLineActivity extends AppCompatActivity {
 
             MaterialShowcaseView.Builder tutorial =  new MaterialShowcaseView.Builder(this)
                     .setTarget(findViewById(R.id.material_listview))
-                    .setTitleText("Tour selection")
+                    .setTitleText(R.string.tourTutorialTitle)
                     .withCircleShape()
                     .setShapePadding(-250)
                     .setDismissOnTouch(true)
                     .setMaskColour(Color.parseColor("#E6444444"))
-                    .setContentText("Please select a tour by clicking on start");
+                    .setContentText(R.string.tourTutorialMsg);
             tutorial.show();
 
         }
@@ -94,7 +94,7 @@ public class StoryLineActivity extends AppCompatActivity {
                     .setTitleColor(Color.WHITE)
                     .setDescription(localeDescription.getDescription())
                     .setDescriptionColor(Color.DKGRAY)
-                    .setDrawable(Resource.getDrawableImageFromFileName(storyline, getApplicationContext()))
+                    .setDrawable(Resource.getDrawableFromFileAbsolutePath(storyline, getApplicationContext()))
                     .addAction(R.id.right_text_button, new TextViewAction(this)
                                     .setText(R.string.start_storyline)
                                     .setTextResourceColor(R.color.rca_primary)
@@ -149,12 +149,17 @@ public class StoryLineActivity extends AppCompatActivity {
         public void onItemClick(@NonNull Card card, int position) {
 
             final Intent startMap = new Intent(StoryLineActivity.this, MapActivity.class);
-            startMap.putExtra("Story line list position", position);
 
             String message = getResources().getString(R.string.dialogMsg);
 
             if (card.getTag() == "free_exploration") {
                 message = getResources().getString(R.string.dialogFree);
+                //-1 because it doesn't exist
+                startMap.putExtra("Story line id", -1);
+            }else
+            {
+                StoryLine cardStoryline = (StoryLine) card.getTag();
+                startMap.putExtra("Story line id", cardStoryline.getId());
             }
 
             AlertDialog.Builder builder = dialogBuilder.setTitle(card.getProvider().getTitle())

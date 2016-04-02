@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.bluejamesbond.text.DocumentView;
@@ -34,6 +35,7 @@ public class PoiPanelManager implements POIBeaconListener {
     private SlidingUpPanelLayout panel;
     private PointOfInterest currentPointOfInterest;
     private int selectedImageId;
+    private String selectedImageFilePath;
     private RelativeLayout poiPanelLayout;
     private FloatingActionButton navigationButton;
     private boolean endTourDialogueShown;
@@ -104,11 +106,29 @@ public class PoiPanelManager implements POIBeaconListener {
         List<Image> images = pointOfInterest.getLocaleImages(activity.getApplicationContext());
         List<Video> videos = pointOfInterest.getLocaleVideos(activity.getApplicationContext());
 
+        doesAudioExist(pointOfInterest);
+
+
         replaceTitle(title);
         replaceDescription(description);
         updateMedia(images, videos);
 
 
+    }
+
+    private boolean doesAudioExist(PointOfInterest pointOfInterest) {
+        Button play = (Button) activity.findViewById(R.id.play_button);
+        SeekBar progressBar = (SeekBar) activity.findViewById(R.id.seekBar);
+        if(pointOfInterest.getLocaleAudios(activity.getApplication()).size() ==0)
+        {
+            play.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
+            return false;
+        }else {
+            play.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
+            return true;
+        }
     }
 
     public void slideUp(){
@@ -126,7 +146,10 @@ public class PoiPanelManager implements POIBeaconListener {
         replaceTitle(title);
         replaceDescription(description);
         updateMedia(images, videos);
-        activity.startAudio(currentPointOfInterest);
+        if(doesAudioExist(pointOfInterest))
+        {
+            activity.startAudio(currentPointOfInterest);
+        }
 
 
         panel.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
@@ -184,7 +207,8 @@ public class PoiPanelManager implements POIBeaconListener {
      */
     public void setSelectedImage(View v) {
         ImageView selectedImage = (ImageView) v.findViewById(R.id.poi_panel_pic_item_imageview);
-        selectedImageId = Integer.parseInt(selectedImage.getTag().toString());
+        //selectedImageId = Integer.parseInt(selectedImage.getTag().toString());
+        selectedImageFilePath = String.valueOf(selectedImage.getTag());
     }
 
     public int getSelectedImageId() {
@@ -211,4 +235,9 @@ public class PoiPanelManager implements POIBeaconListener {
     public MapActivity getActivity() {
         return activity;
     }
+
+    public String getSelectedImageFilePath() {
+        return selectedImageFilePath;
+    }
+
 }

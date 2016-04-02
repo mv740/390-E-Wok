@@ -38,4 +38,8 @@ public class FloorPlan {
     public int getImageHeight() {
         return imageHeight;
     }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
 }

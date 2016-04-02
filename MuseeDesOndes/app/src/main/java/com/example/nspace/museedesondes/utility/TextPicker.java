@@ -1,13 +1,14 @@
 package com.example.nspace.museedesondes.utility;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.EditText;
 
 /**
  * Created by michal on 3/18/2016.
+ *
+ * custom with bigger text size
  */
 public class TextPicker extends android.widget.NumberPicker {
 
@@ -36,7 +37,6 @@ public class TextPicker extends android.widget.NumberPicker {
     private void updateView(View view) {
         if(view instanceof EditText){
             ((EditText) view).setTextSize(25);
-            //((EditText) view).setTextColor(Color.parseColor("#333333"));
         }
     }
 

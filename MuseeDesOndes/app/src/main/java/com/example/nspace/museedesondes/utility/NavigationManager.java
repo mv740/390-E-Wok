@@ -31,7 +31,6 @@ public class NavigationManager {
     public static final String NAVIGATIONLOG = "NavigationManager";
     private SimpleWeightedGraph<Integer, DefaultWeightedEdge> graph;
     private MuseumMap map;
-    private int userLocation;
     private Marker selectedStartMarker;
     private String panelTitle;
     private PoiPanelManager currentPanelManager;
@@ -124,13 +123,6 @@ public class NavigationManager {
         return list != null;
     }
 
-    public void setUserLocation(int userLocation) {
-        this.userLocation = userLocation;
-    }
-
-    public int getUserLocation() {
-        return userLocation;
-    }
 
     public List<DefaultWeightedEdge> getShortestExitPath(int startNodeID) {
         List<DefaultWeightedEdge> currentWeightedEdgeList;
@@ -199,7 +191,7 @@ public class NavigationManager {
         }
 
         currentPanelManager.getNavigationButton().setColorNormal(ContextCompat.getColor(currentPanelManager.getActivity(), R.color.rca_primary));
-        currentPanelManager.getNavigationButton().setImageResource(R.drawable.ic_exit_to_app_white_24dp);
+        currentPanelManager.getNavigationButton().setImageResource(R.drawable.ic_clear_white_48dp);
     }
 
     public void stopNavigationMode() {

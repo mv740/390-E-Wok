@@ -46,6 +46,7 @@ public class MapManager implements POIBeaconListener {
     private static final int DEFAULT_FLOOR_ID = 1;
     private static final float WIDTH_WHITE_BACKGROUND = 20520f;
     private static final float HEIGHT_WHITE_BACKGROUND = 25704f;
+    public static final String PINCH = "pinch";
     private GoogleMap mMap;
     private MapActivity context;
     private LatLngBounds groundOverlayFloorMapBound;
@@ -234,6 +235,11 @@ public class MapManager implements POIBeaconListener {
         
     }
 
+    /**
+     * display the appropriate lines and marker for only the current floor
+     *
+     * @param newFloorID
+     */
     private void updateFloorLinesAndMarkers(int newFloorID) {
         displayFloorLinesAndMarkers(currentFloorID, false);
         displayFloorLinesAndMarkers(newFloorID, true);
@@ -241,7 +247,6 @@ public class MapManager implements POIBeaconListener {
     }
 
     public void createEmptyFloorLineAndMarkerMaps() {
-        //List<FloorPlan> floorPlans = MuseumMap.getInstance(context).getFloorPlans();
         for(FloorPlan floorPlan : floorPlans) {
             List<Polyline> lineList = new ArrayList<>();
             List<Marker> floorMarkerList = new ArrayList<>();
@@ -380,7 +385,7 @@ public class MapManager implements POIBeaconListener {
      * zooms out on the map by moving the viewpoint's height farther away
      */
     public void zoomOut() {
-        Log.v("pinch", "floor" + zoomLevel);
+        Log.v(PINCH, "floor" + zoomLevel);
         if (zoomToFitUsed || pinchZoomUsed) {
             float zoomValue = mMap.getCameraPosition().zoom;
             zoomFitToZoomLevel(zoomValue);
@@ -454,10 +459,6 @@ public class MapManager implements POIBeaconListener {
 
     }
 
-    public GroundOverlay getGroundOverlayFloorMap() {
-        return groundOverlayFloorMap;
-    }
-
     public int getZoomLevel() {
         return zoomLevel;
     }
@@ -470,7 +471,7 @@ public class MapManager implements POIBeaconListener {
      */
     public void detectingPinchZoom(CameraPosition cameraPosition) {
 
-        Log.v("pinch", String.valueOf(cameraPosition.zoom));
+        Log.v(PINCH, String.valueOf(cameraPosition.zoom));
         pinchZoomUsed = false;
         if (cameraPosition.zoom == 13.f) {
             zoomLevel = 1;
@@ -484,12 +485,8 @@ public class MapManager implements POIBeaconListener {
             zoomLevel = 5;
         } else {
             pinchZoomUsed = true;
-            Log.v("pinch", "detected");
+            Log.v(PINCH, "detected");
         }
-    }
-
-    public void setMarkerList(List<Marker> markerList) {
-        this.markerList = markerList;
     }
 
     /**

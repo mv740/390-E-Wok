@@ -19,7 +19,7 @@ public class Preferences {
 
     }
 
-    public final static String DEFAULT_LANG = "en_US";
+    public static final  String DEFAULT_LANG = "en_US";
 
     private static Context appContext = null;
     private static String savedLang = null;

@@ -37,8 +37,7 @@ public class HorizontalRecycleViewAdapter extends RecyclerView.Adapter<Horizonta
     @Override
     public SingleItemRowHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.poi_panel_pic_item, null);
-        SingleItemRowHolder mh = new SingleItemRowHolder(v);
-        return mh;
+        return new SingleItemRowHolder(v);
     }
 
 

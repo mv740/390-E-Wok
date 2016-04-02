@@ -30,6 +30,7 @@ import java.util.Set;
  */
 public class DownloadResourcesManager {
 
+    public static final String DOWNLOAD = "download";
     private static final String URL_DASH = "/";
     private ThinDownloadManager downloadManager;
     private String databaseFilePath;
@@ -62,7 +63,7 @@ public class DownloadResourcesManager {
 
                 @Override
                 public void onDownloadFailed(DownloadRequest downloadRequest, int errorCode, String errorMessage) {
-                    Log.e("download", "failed " + downloadRequest.getUri() + ": " + errorMessage);
+                    Log.e(DOWNLOAD, "failed " + downloadRequest.getUri() + ": " + errorMessage);
                     loadReplaceMeWith(R.layout.download_error);
                 }
 
@@ -109,8 +110,6 @@ public class DownloadResourcesManager {
         }
     }
 
-
-
     private void downloadVideo(String filePath) {
         Uri path = Uri.parse(resourceRootPath + filePath);
         Uri destination = Uri.parse(activity.getFilesDir() +URL_DASH+ Resource.getFilenameWithoutDirectories(filePath));
@@ -120,14 +119,14 @@ public class DownloadResourcesManager {
         downloadRequest.setStatusListener(new DownloadStatusListenerV1() {
             @Override
             public void onDownloadComplete(DownloadRequest downloadRequest) {
-                Log.d("downloadC", "complete : " + downloadRequest.getUri());
+                Log.d(DOWNLOAD, "complete : " + downloadRequest.getUri());
                 downloadList.remove(Integer.valueOf(downloadRequest.getDownloadId()));
                 isDone();
             }
 
             @Override
             public void onDownloadFailed(DownloadRequest downloadRequest, int errorCode, String errorMessage) {
-                Log.e("download", "failed " + downloadRequest.getUri() + ": " + errorMessage);
+                Log.e(DOWNLOAD, "failed " + downloadRequest.getUri() + ": " + errorMessage);
             }
 
             @Override
@@ -221,7 +220,7 @@ public class DownloadResourcesManager {
 
         @Override
         public void onDownloadFailed(DownloadRequest downloadRequest, int errorCode, String errorMessage) {
-            Log.e("download", "failed " + downloadRequest.getUri() + ": " + errorMessage);
+            Log.e(DOWNLOAD, "failed " + downloadRequest.getUri() + ": " + errorMessage);
         }
 
         @Override

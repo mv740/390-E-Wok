@@ -18,16 +18,18 @@ import java.util.List;
  */
 public class Resource {
 
+    private Resource() {
+
+    }
 
     /**
-     * get the absolute path of a drawable from the file 
+     * get the absolute path of a drawable from the file
      *
      * @param storyLine
      * @param context
      * @return
      */
-    public static Drawable getDrawableFromFileAbsolutePath(StoryLine storyLine, Context context)
-    {
+    public static Drawable getDrawableFromFileAbsolutePath(StoryLine storyLine, Context context) {
         return Drawable.createFromPath(getAbsoluteFilePath(context, storyLine.getImagePath()));
     }
 
@@ -58,7 +60,7 @@ public class Resource {
         options.inJustDecodeBounds = true;
         String filePath = getAbsoluteFilePath(context, searchFloorPlanById(floorId, floorPlans).getImagePath());
         Log.e("decode", filePath);
-        BitmapFactory.decodeFile(filePath,options);
+        BitmapFactory.decodeFile(filePath, options);
 
         return options;
     }
@@ -79,9 +81,8 @@ public class Resource {
         return null;
     }
 
-    public static String getAbsoluteFilePath(Context context, String fileName)
-    {
-        return context.getFilesDir()+"/"+fileName;
+    public static String getAbsoluteFilePath(Context context, String fileName) {
+        return context.getFilesDir() + "/" + fileName;
     }
 
     /**
@@ -90,14 +91,14 @@ public class Resource {
      * @param path
      * @return
      */
-    public static String getFilenameWithoutDirectories(String path)
-    {
+    public static String getFilenameWithoutDirectories(String path) {
         int index = path.lastIndexOf(File.separatorChar);
-        return path.substring(index+1);
+        return path.substring(index + 1);
     }
 
     /**
      * http://stackoverflow.com/questions/1184176/how-can-i-safely-encode-a-string-in-java-to-use-as-a-filename
+     *
      * @param inputName
      * @return
      */
@@ -107,12 +108,12 @@ public class Resource {
 
 
     /**
-     *  sanitized fileName
+     * sanitized fileName
+     *
      * @param fileName
      * @return
      */
-    public static String getSanitizedFileNameWithoutDirectories(String fileName)
-    {
+    public static String getSanitizedFileNameWithoutDirectories(String fileName) {
         return getFilenameWithoutDirectories(sanitizeFilename(fileName));
     }
 

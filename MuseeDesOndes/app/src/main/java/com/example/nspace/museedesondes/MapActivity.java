@@ -232,14 +232,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             floorButton.setColorPressed(ContextCompat.getColor(MapActivity.this, R.color.rca_primary));
             floorButton.setColorRipple(ContextCompat.getColor(MapActivity.this, R.color.rca_onclick));
             floorButton.setId(currentFloor.getId());
-            floorButton.setOnClickListener(new floorButtonOnCLick());
+            floorButton.setOnClickListener(new FloorButtonOnClickListener());
             floorButton.setTag(currentFloor.getId());
             floatingActionButtonList.add(floorButton);
             floorMenu.addMenuButton(floorButton);
         }
     }
 
-    private class floorButtonOnCLick implements View.OnClickListener {
+    private class FloorButtonOnClickListener implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
@@ -601,6 +601,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      */
     private class OnCameraChangeListener implements GoogleMap.OnCameraChangeListener {
 
+        public static final String ON_CAMERA_CHANGE = "onCameraChange";
+
         @Override
         public void onCameraChange(CameraPosition cameraPosition) {
             VisibleRegion vr = mMap.getProjection().getVisibleRegion();
@@ -609,10 +611,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             double right = vr.latLngBounds.northeast.longitude;
             double bottom = vr.latLngBounds.southwest.latitude;
 
-            Log.v("onCameraChange", "left :" + left);
-            Log.v("onCameraChange", "top :" + top);
-            Log.v("onCameraChange", "right :" + right);
-            Log.v("onCameraChange", "bottom :" + bottom);
+            Log.d(ON_CAMERA_CHANGE, "left :" + left);
+            Log.d(ON_CAMERA_CHANGE, "top :" + top);
+            Log.d(ON_CAMERA_CHANGE, "right :" + right);
+            Log.d(ON_CAMERA_CHANGE, "bottom :" + bottom);
 
             mapManager.detectingPinchZoom(cameraPosition);
             mapManager.zoomLimit(cameraPosition);

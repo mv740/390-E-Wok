@@ -9,7 +9,7 @@
         android:layout_height="70dp"
         android:text="retry"
         android:id="@+id/button3"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="39dp"
         android:onClick="downloadAgain"
         android:textSize="25dp"
         android:layout_alignParentTop="true"
@@ -20,12 +20,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/textView2"
+        android:id="@+id/download_error_msg"
         android:text="Error! please try again"
         android:textColor="@color/rca_primary"
         android:textStyle="bold"
         android:layout_below="@+id/button3"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="57dp" />
+        android:layout_marginTop="41dp" />
 
 </RelativeLayout>

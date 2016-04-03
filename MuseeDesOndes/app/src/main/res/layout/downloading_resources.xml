@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         app:SpinKit_Color="@color/rca_primary"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="39dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
@@ -22,7 +22,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="UPDATING"
         android:id="@+id/textView"
-        android:layout_marginTop="57dp"
+        android:layout_marginTop="41dp"
         android:textColor="@color/rca_primary"
         android:textStyle="bold"
         android:layout_below="@+id/loading"

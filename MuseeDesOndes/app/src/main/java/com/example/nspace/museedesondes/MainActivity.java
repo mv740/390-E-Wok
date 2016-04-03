@@ -9,8 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.nspace.museedesondes.utility.DownloadResourcesManager;
+import com.example.nspace.museedesondes.utility.NetworkConnection;
 import com.example.nspace.museedesondes.utility.Preferences;
 import com.github.ybq.android.spinkit.SpinKitView;
 import com.github.ybq.android.spinkit.style.Wave;
@@ -22,9 +24,12 @@ public class MainActivity extends AppCompatActivity {
      * Created by sebastian on 2/02/2016.
      */
 
+    private NetworkConnection networkConnection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        networkConnection = new NetworkConnection(getApplicationContext());
 
         Preferences.setAppContext(this.getApplicationContext());
         Preferences.loadLanguagePreference();
@@ -34,13 +39,22 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPrefs = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         if (sharedPrefs.getBoolean("firstrun", true)){
-            downloadResources();
+            downloadProcess();
         }else
         {
             loadReplaceMeWith(R.layout.welcome_begin_tour);
         }
+    }
 
-
+    private void downloadProcess() {
+        if(networkConnection.isConnectingToInternet())
+        {
+            downloadResources();
+        }else
+        {
+            loadReplaceMeWith(R.layout.download_error);
+            noInternetErrorMessage();
+        }
     }
 
     private void downloadResources() {
@@ -50,6 +64,15 @@ public class MainActivity extends AppCompatActivity {
         downloadResourcesManager.setResourceRootPath("http://michalwozniak.ca/map/demo");
         downloadResourcesManager.setDatabaseFilePath("Map.json");
         downloadResourcesManager.getMostRecentMapInformation();
+    }
+
+    public void downloadAgain(View view) {
+        downloadProcess();
+    }
+
+    private void noInternetErrorMessage() {
+        TextView textView = (TextView) findViewById(R.id.download_error_msg);
+        textView.setText("Please connect to the internet! \n then try again");
     }
 
     //todo if team prefer this animation, need to remove     compile 'com.github.ndczz:infinity-loading:0.4' and commented code in ressource
@@ -90,7 +113,4 @@ public class MainActivity extends AppCompatActivity {
         startActivity(startStorylines);
     }
 
-    public void downloadAgain(View view) {
-        downloadResources();
-    }
 }

@@ -193,7 +193,7 @@ public class DownloadResourcesManager {
         this.databaseFilePath = databaseFilePath;
     }
 
-    public void isDone() {
+    private void isDone() {
         Log.e("list", String.valueOf(downloadList.size() == 0));
         if (downloadList.size() == 0) {
 

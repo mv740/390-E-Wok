@@ -12,7 +12,7 @@ public class Image extends Content {
     private String path;
 
     public Image(@JsonProperty("caption") String title,
-                 @JsonProperty("language")Language language,
+                 @JsonProperty("language")String language,
                  @JsonProperty("path")String filePath) {
         super(title, language);
         this.path = filePath;
@@ -21,4 +21,7 @@ public class Image extends Content {
         return path;
     }
 
+    public void setPath(String path) {
+        this.path = path;
+    }
 }

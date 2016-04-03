@@ -1,15 +1,14 @@
 package com.example.nspace.museedesondes.utility;
 
-import android.content.Context;
 import android.util.Log;
 
-import com.example.nspace.museedesondes.adapters.CoordinateAdapter;
+import com.example.nspace.museedesondes.MapActivity;
+import com.example.nspace.museedesondes.R;
 import com.example.nspace.museedesondes.model.LabelledPoint;
 import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -18,92 +17,66 @@ import com.google.android.gms.maps.model.MarkerOptions;
  */
 public class PointMarkerFactory {
 
+    private PointMarkerFactory() {
+
+    }
 
     /**
      * Create a point of interest marker and drop it on the map on the specified coordinate
+     *
      * @param pointOfInterest
+     * @param googleMap       MapPlan
      * @param context
-     * @param googleMap MapPlan
-     * @param groundOverlayFloorMapBound
      */
-    public static Marker singleInterestPointFactory(PointOfInterest pointOfInterest, Context context, GoogleMap googleMap, LatLngBounds groundOverlayFloorMapBound) {
-
-        String title = "error";
-        title = pointOfInterest.getLocaleDescription(context).getTitle();
-        CoordinateAdapter coordinateAdapter = new CoordinateAdapter(groundOverlayFloorMapBound);
+    public static Marker singleInterestPointFactory(PointOfInterest pointOfInterest, GoogleMap googleMap, MapActivity context) {
 
         MarkerOptions node = new MarkerOptions();
-        node.position(new LatLng(coordinateAdapter.convertY(pointOfInterest.getX()),coordinateAdapter.convertX(pointOfInterest.getY())));
-        node.title(title);
+        node.title(pointOfInterest.getLocaleDescription(context).getTitle());
+        node.position(new LatLng(pointOfInterest.getY(), pointOfInterest.getX()));
         node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
 
-        //storing information in marker snippet
-        String floorID = String.valueOf(pointOfInterest.getFloorID());
-        String nodeID = String.valueOf(pointOfInterest.getId());
-        String data = floorID+"/"+nodeID;
-        node.snippet(data);
-
         Marker createdMarker = googleMap.addMarker(node);
+        createdMarker.setVisible(false);
 
         return createdMarker;
     }
 
-    // used to easily extract information from a string
-    public static class Information{
-        private int floorID;
-        private int nodeID;
+    public static Marker singleTransitionPointFactory(LabelledPoint labelledPoint, GoogleMap googleMap) {
 
-        public Information(String data)
-        {
-            String[] tokens = data.split("/");
-            floorID = Integer.parseInt(tokens[0]);
-            nodeID = Integer.parseInt(tokens[1]);
-        }
-
-        public int getFloorID() {
-            return floorID;
-        }
-
-        public int getNodeID() {
-            return nodeID;
-        }
-    }
-
-    public static void singleTransitionPointFactory(LabelledPoint labelledPoint, GoogleMap googleMap) {
         String title = labelledPoint.getLabel().name();
         MarkerOptions node = new MarkerOptions();
-        node.position(new LatLng(labelledPoint.getX(), labelledPoint.getY()));
+        node.position(new LatLng(labelledPoint.getY(), labelledPoint.getX()));
         node.title(title);
 
         switch (labelledPoint.getLabel()) {
-            case NONE:
-                // hide point of transition that are between node of interest
-                node.visible(false);
-                break;
             case EMERGENCY_EXIT:
-                node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                node.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_emergency_exit));
                 break;
             case ENTRANCE:
-                node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                node.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_entrance));
                 break;
             case EXIT:
-                node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+                node.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_exit));
                 break;
             case ELEVATOR:
-                node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                node.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_elevator));
                 break;
             case RAMP:
-                node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+                node.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_disability));
                 break;
             case STAIRS:
-                node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+                node.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_stairs));
                 break;
             case WASHROOM:
-                node.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+                node.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_toilets));
                 break;
             default:
                 Log.e("PointMarkerFactory", "label invalid " + labelledPoint.getLabel());
         }
-        googleMap.addMarker(node);
+
+        Marker createdMarker = googleMap.addMarker(node);
+        createdMarker.setVisible(false);
+
+        return createdMarker;
     }
 }

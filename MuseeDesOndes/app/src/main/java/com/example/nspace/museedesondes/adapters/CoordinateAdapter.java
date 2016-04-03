@@ -1,32 +1,48 @@
 package com.example.nspace.museedesondes.adapters;
 
+import com.example.nspace.museedesondes.model.FloorPlan;
+import com.example.nspace.museedesondes.model.Node;
 import com.google.android.gms.maps.model.LatLngBounds;
 
 /**
  * Created by michal on 3/12/2016.
- *
+ * <p/>
  * adapt coordinate (x,y) from json to our google map latitude/longitude
- * TODO (x,y) value could be mapped to a smaller image, so we will need to compare x to the width of original plan and adapt it
  */
 public class CoordinateAdapter {
 
-    private LatLngBounds floorPlanBounds;
+    private double width;
+    private double height;
+    private FloorPlan floorPlan;
 
-    public CoordinateAdapter(LatLngBounds floorPlanBounds)
-    {
-        this.floorPlanBounds = floorPlanBounds;
+    public CoordinateAdapter(FloorPlan floorPlan, LatLngBounds bounds) {
+        this.width = Math.abs(bounds.southwest.latitude - bounds.northeast.latitude);
+        this.height = Math.abs(bounds.southwest.longitude - bounds.northeast.longitude);
+        this.floorPlan = floorPlan;
     }
 
-    public double convertX(double x)
-    {
-
-        //longitude : west-est
-         return x;
+    /**
+     * longitude : west-est
+     *
+     * @param node
+     * @return
+     */
+    public double convertX(Node node) {
+        double ratio = node.getX() / floorPlan.getImageWidth();
+        return ratio * width;
     }
-    public double convertY(double y)
-    {
-        //latitude : north-south
-        return y;
-    }
 
+    /**
+     * latitude : north-south
+     * <p/>
+     * value is negative because top left of the screen is (0,0)
+     * e
+     *
+     * @param node
+     * @return
+     */
+    public double convertY(Node node) {
+        double ratio = node.getY() / floorPlan.getImageHeight();
+        return -ratio * height;
+    }
 }

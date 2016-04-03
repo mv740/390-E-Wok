@@ -1,11 +1,14 @@
 package com.example.nspace.museedesondes.utility;
 
-import android.graphics.Bitmap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.bluejamesbond.text.DocumentView;
@@ -16,7 +19,7 @@ import com.example.nspace.museedesondes.model.Image;
 import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.example.nspace.museedesondes.model.StoryLine;
 import com.example.nspace.museedesondes.model.Video;
-import com.google.android.gms.maps.model.Marker;
+import com.github.clans.fab.FloatingActionButton;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.List;
@@ -32,13 +35,52 @@ public class PoiPanelManager implements POIBeaconListener {
     private SlidingUpPanelLayout panel;
     private PointOfInterest currentPointOfInterest;
     private int selectedImageId;
-    private Bitmap Thumbnails;
+    private String selectedImageFilePath;
+    private RelativeLayout poiPanelLayout;
+    private FloatingActionButton navigationButton;
+    private boolean endTourDialogueShown;
 
     public PoiPanelManager(MapActivity activity) {
         this.activity = activity;
         this.panel = (SlidingUpPanelLayout) activity.findViewById(R.id.sliding_layout);
+        this.poiPanelLayout = (RelativeLayout) activity.findViewById(R.id.poiPanel);
+        this.navigationButton = (FloatingActionButton) activity.findViewById(R.id.get_directions_button);
 
         onShadowClick();
+        onStateChange();
+
+    }
+
+
+
+    private void onStateChange() {
+        panel.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+
+            }
+
+            @Override
+            public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
+
+                Log.e("Statechanged", "yes");
+                if (newState == SlidingUpPanelLayout.PanelState.COLLAPSED) {
+                    if (activity.getNavigationManager().isEndTour() && !endTourDialogueShown) {
+                        activity.getStoryLineManager().endOfTourDialog();
+                        endTourDialogueShown = true;
+                    }
+                    if (activity.getMediaService() != null) {
+                        if(activity.getMediaService().isPlaying())
+                        {
+                            activity.getMediaService().releaseAudio();
+                        }
+                        Button playAudio = (Button) activity.findViewById(R.id.play_button);
+                        playAudio.setBackgroundResource(R.drawable.ic_play_circle_filled_white_48dp);
+                    }
+                }
+            }
+        });
+
 
     }
 
@@ -47,83 +89,114 @@ public class PoiPanelManager implements POIBeaconListener {
             @Override
             public void onClick(View view) {
                 panel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                if (activity.getNavigationManager().isEndTour() && !endTourDialogueShown) {
+                    activity.getStoryLineManager().endOfTourDialog();
+                    endTourDialogueShown = true;
+                }
             }
         });
     }
 
-    public void update(Marker marker){
+    public void update(PointOfInterest pointOfInterest) {
 
-        PointMarkerFactory.Information pMarkerInfo = new PointMarkerFactory.Information(marker.getSnippet());
-
-        PointOfInterest pointOfInterest = activity.getInformation().searchPoiById(pMarkerInfo.getNodeID());
         this.currentPointOfInterest = pointOfInterest;
-        Log.v("test",activity.getResources().getConfiguration().locale.getLanguage());
+        Log.v("test", activity.getResources().getConfiguration().locale.getLanguage());
         String description = pointOfInterest.getLocaleDescription(activity.getApplicationContext()).getDescription();
         String title = pointOfInterest.getLocaleDescription(activity.getApplicationContext()).getTitle();
         List<Image> images = pointOfInterest.getLocaleImages(activity.getApplicationContext());
         List<Video> videos = pointOfInterest.getLocaleVideos(activity.getApplicationContext());
 
-        //todo if no image, remove layout
-//       if (currentPointOfInterest.getLocaleImages(activity.getApplicationContext()).isEmpty())
-//        {
-//            RelativeLayout v = (RelativeLayout) activity.findViewById(R.id.poiPanel);
-//            v.removeView(activity.findViewById(R.id.my_recycler_view));
-//            Log.v("test");
-//        }
+        doesAudioExist(pointOfInterest);
+
 
         replaceTitle(title);
         replaceDescription(description);
         updateMedia(images, videos);
 
+
+    }
+
+    private boolean doesAudioExist(PointOfInterest pointOfInterest) {
+        Button play = (Button) activity.findViewById(R.id.play_button);
+        SeekBar progressBar = (SeekBar) activity.findViewById(R.id.seekBar);
+        if(pointOfInterest.getLocaleAudios(activity.getApplication()).size() ==0)
+        {
+            play.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
+            return false;
+        }else {
+            play.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
+            return true;
+        }
+    }
+
+    public void slideUp(){
         panel.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
     }
 
-    public void onPOIBeaconDiscovered(PointOfInterest pointOfInterest, StoryLine storyLine){
+    public void onPOIBeaconDiscovered(PointOfInterest pointOfInterest, StoryLine storyLine) {
 
         this.currentPointOfInterest = pointOfInterest;
         String description = pointOfInterest.getStoryRelatedDescription(storyLine.getId(), activity.getApplicationContext()).getDescription();
         String title = pointOfInterest.getStoryRelatedDescription(storyLine.getId(), activity.getApplicationContext()).getTitle();
         List<Image> images = pointOfInterest.getStoryRelatedImages(storyLine.getId(), activity.getApplicationContext());
-        List<Video> videos = pointOfInterest.getStoryRelatedVideos(storyLine.getId(),activity.getApplicationContext());
+        List<Video> videos = pointOfInterest.getStoryRelatedVideos(storyLine.getId(), activity.getApplicationContext());
 
         replaceTitle(title);
         replaceDescription(description);
         updateMedia(images, videos);
-        activity.startAudio(currentPointOfInterest);
+        if(doesAudioExist(pointOfInterest))
+        {
+            activity.startAudio(currentPointOfInterest);
+        }
 
 
         panel.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+
+        setVisibility(View.VISIBLE);
     }
 
-    private void replaceDescription(String description){
+    private void replaceDescription(String description) {
         DocumentView docView = (DocumentView) panel.findViewById(R.id.poi_text);
-        docView.setText(description);
+        docView.setText(Html.fromHtml(description));
     }
 
-    private void replaceTitle(String title){
+    public void replaceTitle(String title) {
         TextView docView = (TextView) panel.findViewById(poi_title);
-        docView.setText(title);
+        docView.setText(Html.fromHtml(title));
     }
 
-    private void updateMedia(List<Image> images, List<Video> videos){
+    public String getTitle() {
+        TextView docView = (TextView) panel.findViewById(poi_title);
+        return docView.getText().toString();
+    }
+
+    private void updateMedia(List<Image> images, List<Video> videos) {
         RecyclerView recyclerView = (RecyclerView) activity.findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
-        HorizontalRecycleViewAdapter adapter = new HorizontalRecycleViewAdapter(activity, images, videos);
-        recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
-        recyclerView.setNestedScrollingEnabled(false);
-        recyclerView.setAdapter(adapter);
+
+        if (images.size() + videos.size() == 0){
+            recyclerView.setVisibility(View.GONE);
+        }
+        else {
+            recyclerView.setVisibility(View.VISIBLE);
+            HorizontalRecycleViewAdapter adapter = new HorizontalRecycleViewAdapter(activity, images, videos);
+            recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
+            recyclerView.setNestedScrollingEnabled(false);
+            recyclerView.setAdapter(adapter);
+        }
     }
 
     public PointOfInterest getCurrentPointOfInterest() {
         return currentPointOfInterest;
     }
 
-    public boolean isOpen()
-    {
+    public boolean isOpen() {
         return panel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED;
     }
-    public  void close()
-    {
+
+    public void close() {
         panel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
     }
 
@@ -132,21 +205,39 @@ public class PoiPanelManager implements POIBeaconListener {
      *
      * @param v
      */
-    public void setSelectedImage(View v)
-    {
+    public void setSelectedImage(View v) {
         ImageView selectedImage = (ImageView) v.findViewById(R.id.poi_panel_pic_item_imageview);
-        selectedImageId = Integer.parseInt(selectedImage.getTag().toString());
+        //selectedImageId = Integer.parseInt(selectedImage.getTag().toString());
+        selectedImageFilePath = String.valueOf(selectedImage.getTag());
     }
 
     public int getSelectedImageId() {
         return selectedImageId;
     }
 
-    public void setThumbnails(Bitmap thumbnails) {
-        Thumbnails = thumbnails;
+    public SlidingUpPanelLayout getPanel() {
+        return panel;
     }
 
-    public Bitmap getThumbnails() {
-        return Thumbnails;
+    public RelativeLayout getPoiPanelLayout() {
+        return poiPanelLayout;
     }
+
+    public void setVisibility(int visibility){
+        poiPanelLayout.setVisibility(visibility);
+    }
+
+
+    public FloatingActionButton getNavigationButton() {
+        return navigationButton;
+    }
+
+    public MapActivity getActivity() {
+        return activity;
+    }
+
+    public String getSelectedImageFilePath() {
+        return selectedImageFilePath;
+    }
+
 }

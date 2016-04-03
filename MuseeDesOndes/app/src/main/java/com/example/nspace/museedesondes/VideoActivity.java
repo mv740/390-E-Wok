@@ -33,9 +33,8 @@ public class VideoActivity extends AppCompatActivity {
         fileName = getIntent().getExtras().getString("File_Name");
         Log.v("videoPos",fileName);
 
-
         //Gets the path for the video
-        videoView.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" + fileName));
+        videoView.setVideoURI(Uri.parse(fileName));
 
         if(savedInstanceState != null){
             videoPosition = savedInstanceState.getInt(VIDEO_KEY);
@@ -52,7 +51,6 @@ public class VideoActivity extends AppCompatActivity {
                 videoView.start();
             }
         });
-
     }
 
     @Override

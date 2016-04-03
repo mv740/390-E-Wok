@@ -17,9 +17,10 @@ public class FullscreenImgActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fullscreen_imgview);
         ImageView imgView = (ImageView) findViewById(R.id.fullscreen_imgview);
-        int imageRef = getIntent().getIntExtra("imageId", 0);
+        String imageRef = getIntent().getStringExtra("imageId");
 
-        Bitmap image = BitmapFactory.decodeResource(getApplicationContext().getResources(), imageRef);
+        //Bitmap image = BitmapFactory.decodeResource(getApplicationContext().getResources(), imageRef);
+        Bitmap image = BitmapFactory.decodeFile(imageRef);
         imgView.setImageBitmap(image);
         setProperOrientation(image);
 

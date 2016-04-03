@@ -1,7 +1,9 @@
 package com.example.nspace.museedesondes;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,7 +18,7 @@ import com.dexafree.materialList.card.action.TextViewAction;
 import com.dexafree.materialList.card.provider.ListCardProvider;
 import com.dexafree.materialList.listeners.RecyclerItemClickListener;
 import com.dexafree.materialList.view.MaterialListView;
-import com.example.nspace.museedesondes.model.Map;
+import com.example.nspace.museedesondes.model.MuseumMap;
 import com.example.nspace.museedesondes.model.StoryLine;
 import com.example.nspace.museedesondes.model.StoryLineDescription;
 import com.example.nspace.museedesondes.utility.Resource;
@@ -25,13 +27,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
+
 /**
  * Created by sebastian on 2016-02-08.
  */
 
 public class StoryLineActivity extends AppCompatActivity {
 
-    Map information;
+    MuseumMap information;
     String storyLineActivityLang;
     int cardsNumbers;
 
@@ -40,7 +44,7 @@ public class StoryLineActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_storyline);
 
-        information = Map.getInstance(getApplicationContext());
+        information = MuseumMap.getInstance(getApplicationContext());
 
         Locale currentLocale = getResources().getConfiguration().locale;
         storyLineActivityLang = currentLocale.getLanguage();
@@ -48,6 +52,24 @@ public class StoryLineActivity extends AppCompatActivity {
         List<StoryLine> storyLineList = information.getStoryLines();
 
         buildStorylineList(storyLineList);
+
+
+        SharedPreferences sharedPrefs = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        if (sharedPrefs.getBoolean("firstrun", true)) {
+            sharedPrefs.edit().putBoolean("firstrun", false).commit();
+
+            MaterialShowcaseView.Builder tutorial =  new MaterialShowcaseView.Builder(this)
+                    .setTarget(findViewById(R.id.material_listview))
+                    .setTitleText(R.string.tourTutorialTitle)
+                    .withCircleShape()
+                    .setShapePadding(-250)
+                    .setDismissOnTouch(true)
+                    .setMaskColour(Color.parseColor("#E6444444"))
+                    .setContentText(R.string.tourTutorialMsg);
+            tutorial.show();
+
+        }
+
     }
 
     /**
@@ -72,7 +94,7 @@ public class StoryLineActivity extends AppCompatActivity {
                     .setTitleColor(Color.WHITE)
                     .setDescription(localeDescription.getDescription())
                     .setDescriptionColor(Color.DKGRAY)
-                    .setDrawable(Resource.getDrawableImageFromFileName(storyline, getApplicationContext()))
+                    .setDrawable(Resource.getDrawableFromFileAbsolutePath(storyline, getApplicationContext()))
                     .addAction(R.id.right_text_button, new TextViewAction(this)
                                     .setText(R.string.start_storyline)
                                     .setTextResourceColor(R.color.rca_primary)
@@ -127,12 +149,17 @@ public class StoryLineActivity extends AppCompatActivity {
         public void onItemClick(@NonNull Card card, int position) {
 
             final Intent startMap = new Intent(StoryLineActivity.this, MapActivity.class);
-            startMap.putExtra("Story line list position", position);
 
             String message = getResources().getString(R.string.dialogMsg);
 
             if (card.getTag() == "free_exploration") {
                 message = getResources().getString(R.string.dialogFree);
+                //-1 because it doesn't exist
+                startMap.putExtra("Story line id", -1);
+            }else
+            {
+                StoryLine cardStoryline = (StoryLine) card.getTag();
+                startMap.putExtra("Story line id", cardStoryline.getId());
             }
 
             AlertDialog.Builder builder = dialogBuilder.setTitle(card.getProvider().getTitle())

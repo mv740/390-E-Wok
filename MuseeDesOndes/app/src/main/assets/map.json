@@ -5,7 +5,7 @@
         {
           "id": 1,
           "beaconInformation": {
-            "UUID": "test_uuid",
+            "UUID": "b9407f30-f5f8-466e-aff9-25556b57fe6d",
             "major": 61111,
             "minor": 23409
           },
@@ -34,24 +34,24 @@
               {
                 "caption": "video_titre",
                 "language": "fr",
-                "path": "video/FR/test.mp4"
+                "path": "moeb_introduction_small"
               },
               {
                 "caption": "video_title",
                 "language": "en_US",
-                "path": "video/EN/test.mp4"
+                "path": "moeb_introduction_small"
               }
             ],
             "audio": [
               {
                 "caption": "audio_titre",
                 "language": "fr",
-                "path": "audio/FR/test_1.mp3"
+                "path": "sampleaudio"
               },
               {
                 "caption": "audio_title",
                 "language": "en_US",
-                "path": "audio/EN/test_1.mp3"
+                "path": "sampleaudio"
               }
             ],
             "image": [
@@ -88,45 +88,46 @@
             ]
           },
           "floorID": 1,
-          "x": 0.01,
-          "y": 0.04,
+          "x": 0.04,
+          "y": 0.01,
           "storyPoint": [
             {
               "storylineID": 2,
               "title": [
                 {
                   "language": "fr",
-                  "title": "<title>"
+                  "title": "mega_test_title"
+                },
+                {
+                  "language": "en_US",
+                  "title": "mega_test_title"
                 }
               ],
               "description": [
                 {
                   "language": "fr",
-                  "description": "<description>"
+                  "description": "such description"
+                },
+                {
+                  "language": "en_US",
+                  "description": "such description"
                 }
               ],
               "media": {
-                "image": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ],
+                "image": [],
                 "video": [
                   {
-                    "path": "<URL>",
+                    "path": "moeb_point_4_small",
                     "language": "fr",
-                    "caption": "<caption>"
+                    "caption": "bruh"
+                  },
+                  {
+                    "path": "moeb_point_4_small",
+                    "language": "en_US",
+                    "caption": "bruh"
                   }
                 ],
-                "audio": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ]
+                "audio": []
               }
             }
           ]
@@ -134,7 +135,7 @@
         {
           "id": 2,
           "beaconInformation": {
-            "UUID": "test_uuid",
+            "UUID": "b9407f30-f5f8-466e-aff9-25556b57fe6d",
             "major": 61111,
             "minor": 23409
           },
@@ -163,24 +164,24 @@
               {
                 "caption": "video_titre",
                 "language": "fr",
-                "path": "video/FR/test.mp4"
+                "path": "moeb_point_1_small"
               },
               {
                 "caption": "video_title",
                 "language": "en_US",
-                "path": "video/EN/test.mp4"
+                "path": "moeb_point_1_small"
               }
             ],
             "audio": [
               {
                 "caption": "audio_titre",
                 "language": "fr",
-                "path": "audio/FR/test_1.mp3"
+                "path": "sampleaudio"
               },
               {
                 "caption": "audio_title",
                 "language": "en_US",
-                "path": "audio/EN/test_1.mp3"
+                "path": "sampleaudio"
               }
             ],
             "image": [
@@ -222,40 +223,12 @@
           "storyPoint": [
             {
               "storylineID": 1,
-              "title": [
-                {
-                  "language": "fr",
-                  "title": "<title>"
-                }
-              ],
-              "description": [
-                {
-                  "language": "fr",
-                  "description": "<description>"
-                }
-              ],
+              "title": [],
+              "description": [],
               "media": {
-                "image": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ],
-                "video": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ],
-                "audio": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ]
+                "image": [],
+                "video": [],
+                "audio": []
               }
             }
           ]
@@ -263,7 +236,7 @@
         {
           "id": 3,
           "beaconInformation": {
-            "UUID": "test_uuid",
+            "UUID": "b9407f30-f5f8-466e-aff9-25556b57fe6d",
             "major": 61111,
             "minor": 23409
           },
@@ -292,24 +265,24 @@
               {
                 "caption": "video_titre",
                 "language": "fr",
-                "path": "video/FR/test.mp4"
+                "path": "moeb_point_2_small"
               },
               {
                 "caption": "video_title",
                 "language": "en_US",
-                "path": "video/EN/test.mp4"
+                "path": "moeb_point_2_small"
               }
             ],
             "audio": [
               {
                 "caption": "audio_titre",
                 "language": "fr",
-                "path": "audio/FR/test_1.mp3"
+                "path": "sampleaudio"
               },
               {
                 "caption": "audio_title",
                 "language": "en_US",
-                "path": "audio/EN/test_1.mp3"
+                "path": "sampleaudio"
               }
             ],
             "image": [
@@ -346,45 +319,17 @@
             ]
           },
           "floorID": 1,
-          "x": 0.05,
-          "y": 0.01,
+          "x": 0.01,
+          "y": 0.05,
           "storyPoint": [
             {
               "storylineID": 1,
-              "title": [
-                {
-                  "language": "fr",
-                  "title": "<title>"
-                }
-              ],
-              "description": [
-                {
-                  "language": "fr",
-                  "description": "<description>"
-                }
-              ],
+              "title": [],
+              "description": [],
               "media": {
-                "image": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ],
-                "video": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ],
-                "audio": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ]
+                "image": [],
+                "video": [],
+                "audio": []
               }
             }
           ]
@@ -392,18 +337,18 @@
         {
           "id": 4,
           "beaconInformation": {
-            "UUID": "test_uuid",
-            "major": 1111,
-            "minor": 2222
+            "UUID": "b9407f30-f5f8-466e-aff9-25556b57fe6d",
+            "major": 61111,
+            "minor": 23409
           },
           "title": [
             {
               "language": "fr",
-              "title": "test_titre3"
+              "title": "test_titre4"
             },
             {
               "language": "en_US",
-              "title": "test_title3"
+              "title": "test_title4"
             }
           ],
           "description": [
@@ -421,24 +366,24 @@
               {
                 "caption": "video_titre",
                 "language": "fr",
-                "path": "video/FR/test.mp4"
+                "path": "moeb_point_3_small"
               },
               {
                 "caption": "video_title",
                 "language": "en_US",
-                "path": "video/EN/test.mp4"
+                "path": "moeb_point_3_small"
               }
             ],
             "audio": [
               {
                 "caption": "audio_titre",
                 "language": "fr",
-                "path": "audio/FR/test_1.mp3"
+                "path": "sampleaudio"
               },
               {
                 "caption": "audio_title",
                 "language": "en_US",
-                "path": "audio/EN/test_1.mp3"
+                "path": "sampleaudio"
               }
             ],
             "image": [
@@ -475,45 +420,17 @@
             ]
           },
           "floorID": 2,
-          "x": 0.035,
-          "y": 0.025,
+          "x": 0.025,
+          "y": 0.035,
           "storyPoint": [
             {
               "storylineID": 1,
-              "title": [
-                {
-                  "language": "fr",
-                  "title": "<title>"
-                }
-              ],
-              "description": [
-                {
-                  "language": "fr",
-                  "description": "<description>"
-                }
-              ],
+              "title": [],
+              "description": [],
               "media": {
-                "image": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ],
-                "video": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ],
-                "audio": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ]
+                "image": [],
+                "video": [],
+                "audio": []
               }
             }
           ]
@@ -521,7 +438,7 @@
         {
           "id": 5,
           "beaconInformation": {
-            "UUID": "test_uuid",
+            "UUID": "b9407f30-f5f8-466e-aff9-25556b57fe6d",
             "major": 61111,
             "minor": 23409
           },
@@ -550,24 +467,24 @@
               {
                 "caption": "video_titre",
                 "language": "fr",
-                "path": "video/FR/test.mp4"
+                "path": "moeb_point_4_small"
               },
               {
                 "caption": "video_title",
                 "language": "en_US",
-                "path": "video/EN/test.mp4"
+                "path": "moeb_point_4_small"
               }
             ],
             "audio": [
               {
                 "caption": "audio_titre",
                 "language": "fr",
-                "path": "audio/FR/test_1.mp3"
+                "path": "sampleaudio"
               },
               {
                 "caption": "audio_title",
                 "language": "en_US",
-                "path": "audio/EN/test_1.mp3"
+                "path": "sampleaudio"
               }
             ],
             "image": [
@@ -604,53 +521,17 @@
             ]
           },
           "floorID": 3,
-          "x": 0.065,
-          "y": 0.04,
+          "x": 0.04,
+          "y": 0.065,
           "storyPoint": [
             {
               "storylineID": 66,
-              "title": [
-                {
-                  "language": "fr",
-                  "title": "FR STORY POINT TITLE!"
-                },
-                {
-                  "language": "en_US",
-                  "title": "EN STORY POINT TITLE!"
-                }
-              ],
-              "description": [
-                {
-                  "language": "fr",
-                  "description": "FR STORY POINT DESC!"
-                },
-                {
-                  "language": "en_US",
-                  "description": "EN STORY POINT DESC!"
-                }
-              ],
+              "title": [],
+              "description": [],
               "media": {
-                "image": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ],
-                "video": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ],
-                "audio": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ]
+                "image": [],
+                "video": [],
+                "audio": []
               }
             }
           ]
@@ -658,9 +539,9 @@
         {
           "id": 6,
           "beaconInformation": {
-            "UUID": "test_uuid",
-            "major": 11111,
-            "minor": 22222
+            "UUID": "b9407f30-f5f8-466e-aff9-25556b57fe6d",
+            "major": 61111,
+            "minor": 23409
           },
           "title": [
             {
@@ -687,24 +568,24 @@
               {
                 "caption": "video_titre",
                 "language": "fr",
-                "path": "video/FR/test.mp4"
+                "path": "moeb_point_4_small"
               },
               {
                 "caption": "video_title",
                 "language": "en_US",
-                "path": "video/EN/test.mp4"
+                "path": "moeb_point_4_small"
               }
             ],
             "audio": [
               {
                 "caption": "audio_titre",
                 "language": "fr",
-                "path": "audio/FR/test_1.mp3"
+                "path": "sampleaudio"
               },
               {
                 "caption": "audio_title",
                 "language": "en_US",
-                "path": "audio/EN/test_1.mp3"
+                "path": "sampleaudio"
               }
             ],
             "image": [
@@ -741,45 +622,17 @@
             ]
           },
           "floorID": 1,
-          "x": 0.025,
-          "y": 0.0155,
+          "x": 0.0155,
+          "y": 0.025,
           "storyPoint": [
             {
               "storylineID": 2,
-              "title": [
-                {
-                  "language": "fr",
-                  "title": "<title>"
-                }
-              ],
-              "description": [
-                {
-                  "language": "fr",
-                  "description": "<description>"
-                }
-              ],
+              "title": [],
+              "description": [],
               "media": {
-                "image": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ],
-                "video": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ],
-                "audio": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ]
+                "image": [],
+                "video": [],
+                "audio": []
               }
             }
           ]
@@ -787,9 +640,9 @@
         {
           "id": 7,
           "beaconInformation": {
-            "UUID": "test_uuid",
-            "major": 11111,
-            "minor": 22222
+            "UUID": "b9407f30-f5f8-466e-aff9-25556b57fe6d",
+            "major": 61111,
+            "minor": 23409
           },
           "title": [
             {
@@ -816,79 +669,172 @@
               {
                 "caption": "video_titre",
                 "language": "fr",
-                "path": "video/FR/test.mp4"
+                "path": "moeb_point_4_small"
               },
               {
                 "caption": "video_title",
                 "language": "en_US",
-                "path": "video/EN/test.mp4"
+                "path": "moeb_point_4_small"
               }
             ],
             "audio": [
               {
                 "caption": "audio_titre",
                 "language": "fr",
-                "path": "audio/FR/test_1.mp3"
+                "path": "sampleaudio"
               },
               {
                 "caption": "audio_title",
                 "language": "en_US",
-                "path": "audio/EN/test_1.mp3"
+                "path": "sampleaudio"
               }
             ],
             "image": [
               {
                 "caption": "test_title",
                 "language": "en_US",
-                "path": "picture/test_image1.png"
+                "path": "museum_ex_1"
               },
               {
                 "caption": "test_titre",
                 "language": "fr",
-                "path": "picture/test_image2.png"
+                "path": "museum_ex_1"
+              },
+              {
+                "caption": "test_title",
+                "language": "en_US",
+                "path": "museum_ex_2"
+              },
+              {
+                "caption": "test_titre",
+                "language": "fr",
+                "path": "museum_ex_2"
+              },
+              {
+                "caption": "test_title",
+                "language": "en_US",
+                "path": "museum_ex_3"
+              },
+              {
+                "caption": "test_titre",
+                "language": "fr",
+                "path": "museum_ex_3"
               }
             ]
           },
           "floorID": 3,
-          "x": 0.048,
-          "y": 0.0365,
+          "x": 0.0365,
+          "y": 0.048,
           "storyPoint": [
             {
               "storylineID": 2,
-              "title": [
-                {
-                  "language": "fr",
-                  "title": "<title>"
-                }
-              ],
-              "description": [
-                {
-                  "language": "fr",
-                  "description": "<description>"
-                }
-              ],
+              "title": [],
+              "description": [],
               "media": {
-                "image": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ],
-                "video": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ],
-                "audio": [
-                  {
-                    "path": "<URL>",
-                    "language": "fr",
-                    "caption": "<caption>"
-                  }
-                ]
+                "image": [],
+                "video": [],
+                "audio": []
+              }
+            }
+          ]
+        },
+        {
+          "id": 8,
+          "beaconInformation": {
+            "UUID": "b9407f30-f5f8-466e-aff9-25556b57fe6d",
+            "major": 61111,
+            "minor": 23409
+          },
+          "title": [
+            {
+              "language": "fr",
+              "title": "test_titre8"
+            },
+            {
+              "language": "en_US",
+              "title": "test_title8"
+            }
+          ],
+          "description": [
+            {
+              "language": "fr",
+              "description": "Veuillez lire cette description3"
+            },
+            {
+              "language": "en_US",
+              "description": "Please read this description3"
+            }
+          ],
+          "media" : {
+            "video": [
+              {
+                "caption": "video_titre",
+                "language": "fr",
+                "path": "moeb_point_4_small"
+              },
+              {
+                "caption": "video_title",
+                "language": "en_US",
+                "path": "moeb_point_4_small"
+              }
+            ],
+            "audio": [
+              {
+                "caption": "audio_titre",
+                "language": "fr",
+                "path": "sampleaudio"
+              },
+              {
+                "caption": "audio_title",
+                "language": "en_US",
+                "path": "sampleaudio"
+              }
+            ],
+            "image": [
+              {
+                "caption": "test_title",
+                "language": "en_US",
+                "path": "museum_ex_1"
+              },
+              {
+                "caption": "test_titre",
+                "language": "fr",
+                "path": "museum_ex_1"
+              },
+              {
+                "caption": "test_title",
+                "language": "en_US",
+                "path": "museum_ex_2"
+              },
+              {
+                "caption": "test_titre",
+                "language": "fr",
+                "path": "museum_ex_2"
+              },
+              {
+                "caption": "test_title",
+                "language": "en_US",
+                "path": "museum_ex_3"
+              },
+              {
+                "caption": "test_titre",
+                "language": "fr",
+                "path": "museum_ex_3"
+              }
+            ]
+          },
+          "floorID": 1,
+          "x": 0.025,
+          "y": 0.035,
+          "storyPoint": [
+            {
+              "storylineID": 1,
+              "title": [],
+              "description": [],
+              "media": {
+                "image": [],
+                "video": [],
+                "audio": []
               }
             }
           ]
@@ -898,36 +844,36 @@
         {
           "id": 50,
           "floorID": 1,
-          "x": 0.02,
-          "y": 0.035,
+          "x": 0.035,
+          "y": 0.02,
           "label": "NONE"
         },
         {
           "id": 51,
           "floorID": 1,
-          "x": 0.01,
-          "y": 0.035,
+          "x": 0.035,
+          "y": 0.01,
           "label": "NONE"
         },
         {
           "id": 52,
           "floorID": 1,
-          "x": 0.0185,
-          "y": 0.015,
+          "x": 0.015,
+          "y": 0.0185,
           "label": "NONE"
         },
         {
           "id": 53,
           "floorID": 1,
-          "x": 0.061,
-          "y": 0.013,
+          "x": 0.013,
+          "y": 0.061,
           "label": "STAIRS"
         },
         {
           "id": 54,
           "floorID": 2,
-          "x": 0.061,
-          "y": 0.013,
+          "x": 0.013,
+          "y": 0.061,
           "label": "STAIRS"
         },
         {
@@ -940,117 +886,150 @@
         {
           "id": 56,
           "floorID": 2,
-          "x": 0.01,
-          "y": 0.033,
+          "x": 0.033,
+          "y": 0.01,
           "label": "STAIRS"
         },
         {
           "id": 57,
           "floorID": 3,
-          "x": 0.01,
-          "y": 0.033,
+          "x": 0.033,
+          "y": 0.01,
           "label": "STAIRS"
         },
         {
           "label": "NONE",
           "id": 58,
           "floorID": 3,
-          "x": 0.02,
-          "y": 0.035
+          "x": 0.035,
+          "y": 0.02
         },
         {
           "id": 59,
           "floorID": 2,
-          "x": 0.035,
-          "y": 0.013,
+          "x": 0.013,
+          "y": 0.035,
           "label": "NONE"
         },
         {
           "id": 60,
           "floorID": 1,
-          "x": 0.02,
-          "y": 0.04,
+          "x": 0.04,
+          "y": 0.02,
           "label": "NONE"
         },
         {
           "id": 61,
           "floorID": 2,
-          "x": 0.041,
-          "y": 0.019,
+          "x": 0.019,
+          "y": 0.041,
           "label": "NONE"
         },
         {
           "id": 62,
           "floorID": 2,
-          "x": 0.035,
-          "y": 0.019,
+          "x": 0.019,
+          "y": 0.035,
           "label": "NONE"
         },
         {
           "id": 63,
           "floorID": 2,
-          "x": 0.035,
-          "y": 0.027,
+          "x": 0.027,
+          "y": 0.035,
           "label": "NONE"
         },
         {
           "id": 64,
           "floorID": 2,
-          "x": 0.0405,
-          "y": 0.027,
+          "x": 0.027,
+          "y": 0.0405,
           "label": "NONE"
         },
         {
           "id": 65,
           "floorID": 2,
-          "x": 0.0405,
-          "y": 0.037,
+          "x": 0.037,
+          "y": 0.0405,
           "label": "NONE"
         },
         {
           "id": 67,
           "floorID": 1,
-          "x": 0.025,
-          "y": 0.01,
+          "x": 0.01,
+          "y": 0.025,
           "label": "NONE"
         },
         {
           "id": 68,
           "floorID": 1,
-          "x": 0.05,
-          "y": 0.013,
+          "x": 0.013,
+          "y": 0.05,
           "label": "NONE"
         },
         {
           "id": 69,
           "floorID": 3,
-          "x": 0.039,
-          "y": 0.037,
+          "x": 0.037,
+          "y": 0.039,
           "label": "NONE"
         },
         {
           "id": 70,
           "floorID": 3,
-          "x": 0.041,
-          "y": 0.039,
+          "x": 0.039,
+          "y": 0.041,
           "label": "NONE"
         },
         {
           "id": 71,
           "floorID": 3,
-          "x": 0.048,
-          "y": 0.039,
+          "x": 0.039,
+          "y": 0.048,
           "label": "NONE"
         },
         {
           "id": 72,
           "floorID": 3,
-          "x": 0.065,
-          "y": 0.038,
+          "x": 0.038,
+          "y": 0.065,
           "label": "NONE"
+        },
+        {
+          "id": 73,
+          "floorID": 1,
+          "x": 0.038,
+          "y": 0.065,
+          "label": "EXIT"
+        },
+        {
+          "id": 74,
+          "floorID": 1,
+          "x": 0.04,
+          "y": 0.04,
+          "label": "WASHROOM"
+        },
+        {
+          "id": 75,
+          "floorID": 3,
+          "x": 0.025,
+          "y": 0.02,
+          "label": "WASHROOM"
+        },
+        {
+          "id": 76,
+          "floorID": 3,
+          "x": 0.025,
+          "y": 0.02,
+          "label": "EMERGENCY_EXIT"
+        },
+        {
+          "id": 77,
+          "floorID": 4,
+          "x": 0.04,
+          "y": 0.04,
+          "label": "ELEVATOR"
         }
-
-
       ]
     }
   ],
@@ -1063,19 +1042,25 @@
     },
     {
       "startNode": 2,
-      "endNode": 4,
+      "endNode": 3,
       "floorNumber": 1,
       "distance": 10
     },
     {
       "startNode": 1,
+      "endNode": 8,
+      "floorNumber": 1,
+      "distance": 5
+    },
+    {
+      "startNode": 8,
       "endNode": 3,
       "floorNumber": 1,
-      "distance": 1
+      "distance": 20
     },
     {
       "startNode": 3,
-      "endNode": 4,
+      "endNode": 73,
       "floorNumber": 1,
       "distance": 20
     }

@@ -1,6 +1,9 @@
 package com.example.nspace.museedesondes.utility;
 
+import android.content.DialogInterface;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
@@ -8,8 +11,6 @@ import com.estimote.sdk.Region;
 import com.estimote.sdk.Utils;
 import com.example.nspace.museedesondes.MapActivity;
 import com.example.nspace.museedesondes.R;
-import com.example.nspace.museedesondes.model.FloorPlan;
-import com.example.nspace.museedesondes.model.Map;
 import com.example.nspace.museedesondes.model.Node;
 import com.example.nspace.museedesondes.model.PointOfInterest;
 import com.example.nspace.museedesondes.model.StoryLine;
@@ -20,7 +21,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+import java.util.Map;
 
 /**
  * Created by sebastian on 2016-02-24.
@@ -30,12 +31,11 @@ import java.util.UUID;
 
 public class StoryLineManager {
 
-    private static final String DEFAULT_MUSEUM_UUID = "b9407f30-f5f8-466e-aff9-25556b57fe6d";
-
     private StoryLine storyLine;
     private List<PointOfInterest> pointOfInterestList;
+    private List<PointOfInterest> visitedPOIList;
     private List<List<Polyline>> segmentList;
-    private java.util.Map<Integer, List<Polyline>> floorLineMap;
+    private Map<Integer, List<Polyline>> floorLineMap;
     private List<POIBeaconListener> poiBeaconListeners;
     private int pointOfInterestIndex;
     private PointOfInterest nextPOI;
@@ -43,33 +43,43 @@ public class StoryLineManager {
     private GoogleMap googleMap;
     private BeaconManager beaconManager;
     private Region region;
+    private boolean newTourSelected;
+    private boolean endTour;
 
     public StoryLineManager(StoryLine storyLine, MapActivity mapActivity) {
         this.storyLine = storyLine;
+        this.visitedPOIList = new ArrayList<>();
         initPOIList();
         this.pointOfInterestIndex = 0;
         nextPOI = pointOfInterestList.get(pointOfInterestIndex);
         this.mapActivity = mapActivity;
         this.poiBeaconListeners= new ArrayList<>();
-        region = new Region("ranged region", UUID.fromString(DEFAULT_MUSEUM_UUID), null, null);
+        region = new Region("ranged region", null, null, null);
         beaconManager = new BeaconManager(mapActivity);
         setBeaconRangeListener();
     }
 
+    //scans for beacon info of the next point of interest in chosen storyline and updates line and observers after discovery
+    //when user chooses to start a new tour the method scans for the initial node and when discovered returns to the storyline activity
     private void setBeaconRangeListener() {
         beaconManager.setRangingListener(new BeaconManager.RangingListener() {
             @Override
             public void onBeaconsDiscovered(Region region, List<Beacon> list) {
                 if (!list.isEmpty()) {
                     Beacon nearestBeacon = list.get(0);
-                    if ((nearestBeacon.getMajor() == nextPOI.getBeaconInformation().getMajor())
+                    String beaconUUID = nearestBeacon.getProximityUUID().toString();
+                    if (beaconUUID.equalsIgnoreCase(nextPOI.getBeaconInformation().getUUID())
+                            && (nearestBeacon.getMajor() == nextPOI.getBeaconInformation().getMajor())
                             && (nearestBeacon.getMinor() == nextPOI.getBeaconInformation().getMinor())
                             && ((Utils.computeProximity(nearestBeacon)) == Utils.Proximity.NEAR)) {
-
-                        notifyObservers(nextPOI,storyLine);
-                        // TODO: update UI with temp man marker
-                        updateSegmentListColors();
-                        updateNextPOI();
+                        if (newTourSelected) {
+                            mapActivity.finish();
+                        } else if (!endTour){
+                            notifyObservers(nextPOI, storyLine);
+                            visitedPOIList.add(nextPOI);
+                            updateSegmentListColors();
+                            updateNextPOI();
+                        }
                     }
                 }
             }
@@ -95,18 +105,46 @@ public class StoryLineManager {
         }
     }
 
-    private void updateManMarker() {
-
-    }
-
     //updates the next point of interest beacon to listen for, stops listening after the last beacon is discovered
     private void updateNextPOI() {
         pointOfInterestIndex++;
         if(pointOfInterestIndex < pointOfInterestList.size()){
             nextPOI = pointOfInterestList.get(pointOfInterestIndex);
         } else {
-            beaconManager.stopRanging(region);
+            mapActivity.getNavigationManager().setEndTour();
+            endTour = true;
         }
+    }
+
+    public void endOfTourDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(mapActivity, R.style.AppCompatAlertDialogStyle)
+                .setTitle(R.string.endOfTourTitle)
+                .setMessage(R.string.endOfTourMsg)
+                .setPositiveButton(R.string.endOfTourOption2, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.d("AlertDialog", "new tour");
+                        newTourSelected = true;
+                        mapActivity.getMapManager().clearFloorLines();
+                        if (!pointOfInterestList.isEmpty()) {
+                            PointOfInterest startNode = pointOfInterestList.get(0);
+                            PointOfInterest finalNode = pointOfInterestList.get(pointOfInterestList.size() - 1);
+                            mapActivity.getMapManager().displayShortestPath(finalNode.getId(), startNode.getId(), false);
+                            nextPOI = pointOfInterestList.get(0);
+                        }
+                    }
+                })
+                .setNegativeButton(R.string.endOfTourOption1, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.d("AlertDialog", "exit");
+                        beaconManager.disconnect();
+                        mapActivity.setSearchingExit(true);
+                        mapActivity.setNavigationMode(true);
+                        mapActivity.getNavigationManager().startNavigationMode(mapActivity.getPanelManager());
+
+                    }
+                });
+        builder.show();
     }
 
     public BeaconManager getBeaconManager() {
@@ -133,10 +171,12 @@ public class StoryLineManager {
      ***/
 
     private Polyline getLineFromNodes(Node node1, Node node2) {
+
+
         Polyline line = googleMap.addPolyline(new PolylineOptions()
-                .add(new LatLng(node1.getX(), node1.getY()), new LatLng(node2.getX(), node2.getY()))
-                .color(ContextCompat.getColor(mapActivity, R.color.rca_unexplored_segment))
-                .width(10));
+                .add(new LatLng(node1.getY(),node1.getX() ), new LatLng(node2.getY(),node2.getX()))
+                        .color(ContextCompat.getColor(mapActivity, R.color.rca_unexplored_segment))
+                        .width(10));
         line.setVisible(false);
         return line;
     }
@@ -165,16 +205,7 @@ public class StoryLineManager {
         this.floorLineMap = floorLineMap;
     }
 
-    public void createEmptyFloorLineMap() {
-        List<FloorPlan> floorPlans = Map.getInstance(mapActivity).getFloorPlans();
-        for(FloorPlan floorPlan : floorPlans) {
-            List<Polyline> lineList = new ArrayList<>();
-            floorLineMap.put(floorPlan.getId(),lineList);
-        }
-    }
-
     private void updateSegmentListColors(){
-
         //update color for new current segment
         if(pointOfInterestIndex < pointOfInterestList.size() - 1) {
             List<Polyline> currentSegment = segmentList.get(pointOfInterestIndex);
@@ -190,5 +221,9 @@ public class StoryLineManager {
                 line.setColor(ContextCompat.getColor(mapActivity, R.color.rca_explored_segment));
             }
         }
+    }
+
+    public boolean hasVisitedPOI(PointOfInterest pointOfInterest) {
+        return visitedPOIList.contains(pointOfInterest);
     }
 }

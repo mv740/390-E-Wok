@@ -3,29 +3,31 @@ package com.example.nspace.museedesondes.utility;
 import android.content.Context;
 import android.util.Log;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 /**
  * Created by michal on 1/29/2016.
  */
 public class JsonHelper {
 
-    //based on source https://gist.github.com/nisrulz/47bd5c44a05db54e3628
-    public static String loadJSON(String filename, Context context) {
-        String json;
-        try {
+    private JsonHelper(){
 
-            InputStream is = context.getAssets().open(filename);
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
-            Log.d("JsonHelper", Log.getStackTraceString(ex));
-            return null;
+    }
+
+    //based on source https://gist.github.com/nisrulz/47bd5c44a05db54e3628
+    public static FileInputStream loadJsonFile(String filename, Context context) {
+        FileInputStream is = null;
+        try {
+            File jsonFile = new File(context.getFilesDir(), filename);
+            Log.d("JsonHelper Path", jsonFile.getAbsolutePath());
+            is = new FileInputStream(jsonFile);
+
+        } catch (FileNotFoundException e) {
+            Log.d("JsonHelper", Log.getStackTraceString(e));
         }
-        return json;
+
+        return is;
     }
 }

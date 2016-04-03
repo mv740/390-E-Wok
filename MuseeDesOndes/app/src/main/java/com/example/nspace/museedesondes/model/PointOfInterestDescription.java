@@ -12,12 +12,12 @@ public class PointOfInterestDescription {
     private String description;
     private Language language;
 
-    public PointOfInterestDescription(@JsonProperty("language") Language language,
+    public PointOfInterestDescription(@JsonProperty("language") String language,
                                       @JsonProperty("description") String description,
                                       @JsonProperty("title") String title) {
         this.title = title;
         this.description = description;
-        this.language = language;
+        this.language = Language.getLanguage(language);
     }
 
     public String getTitle() {

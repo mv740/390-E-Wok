@@ -96,4 +96,8 @@ public class StoryLine {
         }
         return null;
     }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
 }

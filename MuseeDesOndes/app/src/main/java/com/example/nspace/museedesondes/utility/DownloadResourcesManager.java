@@ -119,7 +119,7 @@ public class DownloadResourcesManager {
         downloadRequest.setStatusListener(new DownloadStatusListenerV1() {
             @Override
             public void onDownloadComplete(DownloadRequest downloadRequest) {
-                Log.d(DOWNLOAD, "complete : " + downloadRequest.getUri());
+                Log.e(DOWNLOAD, "complete : " + downloadRequest.getUri());
                 downloadList.remove(Integer.valueOf(downloadRequest.getDownloadId()));
                 isDone();
             }

@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
@@ -67,6 +68,8 @@ public class VideoActivity extends AppCompatActivity {
         videoView.seekTo(videoPosition);
     }
 
-
+    public void exitVideoOnClick(View v) {
+        finish();
+    }
 
 }

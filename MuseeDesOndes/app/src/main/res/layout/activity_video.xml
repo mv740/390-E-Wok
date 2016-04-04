@@ -11,5 +11,13 @@
         android:id="@+id/videoView"
         android:layout_centerInParent="true"/>
 
+    <Button
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/ic_action_ic_close_circle_filled"
+        android:id="@+id/exitVideoButton"
+        android:onClick="exitVideoOnClick"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

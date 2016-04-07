@@ -49,31 +49,68 @@
         android:layout_below="@+id/poi_title"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:scrollbars="none" />
+        android:scrollbars="none"
+        android:layout_marginBottom="5dp" />
 
-    <Button
-        android:id="@+id/play_button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/my_recycler_view"
-        android:layout_marginLeft="6dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/ic_play_circle_filled_white_48dp"
-        android:longClickable="true"
-        android:onClick="playAudioFile"
-        android:textColor="#000000" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/audioPlayer"
+        android:layout_below="@+id/my_recycler_view">
+        <Button
+            android:id="@+id/play_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/ic_play_circle_filled_white_48dp"
+            android:longClickable="true"
+            android:onClick="playAudioFile"
+            android:textColor="#000000" />
 
-    <SeekBar
-        android:id="@+id/seekBar"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@+id/my_recycler_view"
-        android:layout_marginLeft="60dp"
-        android:layout_marginTop="10dp"
-        android:maxHeight="100dp"
-        android:minHeight="100dp"
-        android:scrollbarSize="50dp" />
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="10dp"
+            android:maxHeight="100dp"
+            android:minHeight="100dp"
+            android:scrollbarSize="50dp"
+            android:layout_marginRight="60dp" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/audioPlayerName"
+            android:text="not found"
+            android:textAlignment="center"
+            android:editable="false"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/seekBar"
+            android:layout_alignEnd="@+id/seekBar"
+            android:background="@android:color/transparent"/>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/audioSelection"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="6dp"
+            android:src="@drawable/ic_queue_music_white_48dp"
+            android:longClickable="true"
+            android:onClick="selectAudioFile"
+            android:textColor="#000000"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="false"
+            fab:fab_colorNormal="#FFE33C3C"
+            fab:fab_colorPressed="#FFFE7070"
+            fab:fab_colorRipple="#FFFE7070"
+            android:enabled="false"
+            fab:fab_showShadow="false"
+            />
+    </RelativeLayout>
 
 
     <ScrollView
@@ -82,7 +119,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/play_button"
+        android:layout_below="@+id/audioPlayer"
 
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"

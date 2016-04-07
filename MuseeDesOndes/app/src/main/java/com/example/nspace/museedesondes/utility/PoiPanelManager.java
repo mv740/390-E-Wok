@@ -6,6 +6,7 @@ import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -122,6 +123,8 @@ public class PoiPanelManager implements POIBeaconListener {
             progressBar.setVisibility(View.GONE);
             return false;
         } else {
+            EditText audioName = (EditText) activity.findViewById(R.id.audioPlayerName);
+            audioName.setText(Resource.getFileNameWithoutExtension(pointOfInterest.getLocaleAudios(activity.getApplicationContext()).get(0).getPath()));
             play.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.VISIBLE);
             return true;

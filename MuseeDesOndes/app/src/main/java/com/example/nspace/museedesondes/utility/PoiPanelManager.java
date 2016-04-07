@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.bluejamesbond.text.DocumentView;
@@ -35,7 +34,6 @@ public class PoiPanelManager implements POIBeaconListener {
     private MapActivity activity;
     private SlidingUpPanelLayout panel;
     private PointOfInterest currentPointOfInterest;
-    private int selectedImageId;
     private String selectedImageFilePath;
     private RelativeLayout poiPanelLayout;
     private FloatingActionButton navigationButton;
@@ -116,17 +114,14 @@ public class PoiPanelManager implements POIBeaconListener {
     }
 
     private boolean doesAudioExist(PointOfInterest pointOfInterest) {
-        Button play = (Button) activity.findViewById(R.id.play_button);
-        SeekBar progressBar = (SeekBar) activity.findViewById(R.id.seekBar);
+        RelativeLayout audioLayout = (RelativeLayout) activity.findViewById(R.id.audioPlayer);
         if (pointOfInterest.getLocaleAudios(activity.getApplication()).size() == 0) {
-            play.setVisibility(View.GONE);
-            progressBar.setVisibility(View.GONE);
+            audioLayout.setVisibility(View.GONE);
             return false;
         } else {
             EditText audioName = (EditText) activity.findViewById(R.id.audioPlayerName);
             audioName.setText(Resource.getFileNameWithoutExtension(pointOfInterest.getLocaleAudios(activity.getApplicationContext()).get(0).getPath()));
-            play.setVisibility(View.VISIBLE);
-            progressBar.setVisibility(View.VISIBLE);
+            audioLayout.setVisibility(View.VISIBLE);
             return true;
         }
     }
@@ -209,9 +204,6 @@ public class PoiPanelManager implements POIBeaconListener {
         selectedImageFilePath = String.valueOf(selectedImage.getTag());
     }
 
-    public int getSelectedImageId() {
-        return selectedImageId;
-    }
 
     public SlidingUpPanelLayout getPanel() {
         return panel;

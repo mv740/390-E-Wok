@@ -116,23 +116,7 @@ public class DownloadResourcesManager {
         DownloadRequest downloadRequest = new DownloadRequest(path);
         downloadRequest.setDestinationURI(destination);
         Log.e("destinationVideo", destination.toString());
-        downloadRequest.setStatusListener(new DownloadStatusListenerV1() {
-            @Override
-            public void onDownloadComplete(DownloadRequest downloadRequest) {
-                Log.e(DOWNLOAD, "complete : " + downloadRequest.getUri());
-                downloadList.remove(Integer.valueOf(downloadRequest.getDownloadId()));
-                isDone();
-            }
-
-            @Override
-            public void onDownloadFailed(DownloadRequest downloadRequest, int errorCode, String errorMessage) {
-                Log.e(DOWNLOAD, "failed " + downloadRequest.getUri() + ": " + errorMessage);
-            }
-
-            @Override
-            public void onProgress(DownloadRequest downloadRequest, long totalBytes, long downloadedBytes, int progress) {
-            }
-        });
+        downloadRequest.setStatusListener(new DownloadStatusListener());
         downloadList.add(downloadManager.add(downloadRequest));
     }
 
@@ -216,6 +200,7 @@ public class DownloadResourcesManager {
         public void onDownloadComplete(DownloadRequest downloadRequest) {
             Log.e("downloadC", "complete : " + downloadRequest.getUri());
             downloadList.remove(Integer.valueOf(downloadRequest.getDownloadId()));
+            isDone();
         }
 
         @Override

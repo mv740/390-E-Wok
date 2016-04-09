@@ -323,8 +323,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
         mMap.setOnCameraChangeListener(new OnCameraChangeListener());
-//preloading the panel with a random point of interest avoid a bug where the rest of the screen is grey when displaying panel with setting to match_content
-        initPanel();
     }
 
     @Override
@@ -490,32 +488,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             } else {
 
-                panelManager.setVisibility(View.VISIBLE);
                 selectedMarkerDisplay(marker);
                 //move camera to marker position
                 LatLng markerLocation = marker.getPosition();
 
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(markerLocation));
                 panelManager.update(pointOfInterest);
-                panelManager.slideUp();
             }
         }
         return true;
     }
 
-    private void initPanel() {
-//load random poi
-
-        Random random = new Random();
-        List<Marker> keys = new ArrayList<Marker>(markerPointOfInterestMap.keySet());
-        Marker marker = keys.get(random.nextInt(keys.size()));
-        PointOfInterest pointOfInterest = markerPointOfInterestMap.get(marker);
-
-        panelManager.update(pointOfInterest);
-
-        panelManager.setVisibility(View.INVISIBLE);
-
-    }
 
     /**
      * Change point of interest marker color to red when selected.

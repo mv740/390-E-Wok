@@ -48,7 +48,9 @@ public class PoiPanelManager implements POIBeaconListener {
         onShadowClick();
         onStateChange();
 
-        setVisibility(View.INVISIBLE);
+        //hide panel
+        panel.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+        activity.findViewById(R.id.get_directions_button).setVisibility(View.INVISIBLE);
     }
 
 
@@ -62,8 +64,12 @@ public class PoiPanelManager implements POIBeaconListener {
             @Override
             public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
 
-                Log.e("Statechanged", "yes");
+                //after first point of interest, always display 
+                if (previousState == SlidingUpPanelLayout.PanelState.HIDDEN)
+                    activity.findViewById(R.id.get_directions_button).setVisibility(View.VISIBLE);
+
                 if (newState == SlidingUpPanelLayout.PanelState.COLLAPSED) {
+
                     if (activity.getNavigationManager().isEndTour() && !endTourDialogueShown) {
                         activity.getStoryLineManager().endOfTourDialog();
                         endTourDialogueShown = true;
@@ -75,6 +81,7 @@ public class PoiPanelManager implements POIBeaconListener {
                         Button playAudio = (Button) activity.findViewById(R.id.play_button);
                         playAudio.setBackgroundResource(R.drawable.ic_play_circle_filled_white_48dp);
                     }
+
                 }
             }
         });
@@ -96,7 +103,7 @@ public class PoiPanelManager implements POIBeaconListener {
     }
 
     public void update(PointOfInterest pointOfInterest) {
-        
+
         this.currentPointOfInterest = pointOfInterest;
         Log.v("test", activity.getResources().getConfiguration().locale.getLanguage());
         String description = pointOfInterest.getLocaleDescription(activity.getApplicationContext()).getDescription();
@@ -110,6 +117,7 @@ public class PoiPanelManager implements POIBeaconListener {
         replaceTitle(title);
         replaceDescription(description);
         updateMedia(images, videos);
+        slideUp();
     }
 
     private boolean doesAudioExist(PointOfInterest pointOfInterest) {
@@ -145,9 +153,7 @@ public class PoiPanelManager implements POIBeaconListener {
         }
 
 
-        panel.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
-
-        setVisibility(View.VISIBLE);
+        slideUp();
     }
 
     private void replaceDescription(String description) {

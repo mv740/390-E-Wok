@@ -48,6 +48,7 @@ public class PoiPanelManager implements POIBeaconListener {
         onShadowClick();
         onStateChange();
 
+        setVisibility(View.INVISIBLE);
     }
 
 
@@ -95,7 +96,7 @@ public class PoiPanelManager implements POIBeaconListener {
     }
 
     public void update(PointOfInterest pointOfInterest) {
-
+        
         this.currentPointOfInterest = pointOfInterest;
         Log.v("test", activity.getResources().getConfiguration().locale.getLanguage());
         String description = pointOfInterest.getLocaleDescription(activity.getApplicationContext()).getDescription();
@@ -109,8 +110,6 @@ public class PoiPanelManager implements POIBeaconListener {
         replaceTitle(title);
         replaceDescription(description);
         updateMedia(images, videos);
-
-
     }
 
     private boolean doesAudioExist(PointOfInterest pointOfInterest) {

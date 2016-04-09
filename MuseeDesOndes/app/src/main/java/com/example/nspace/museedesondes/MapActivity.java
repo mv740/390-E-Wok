@@ -404,15 +404,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      */
     public void selectAudioFile(View button) {
         Context wrapper = new ContextThemeWrapper(getApplicationContext(), R.style.AppCompatAlertDialogStyle);
-        PopupMenu popup = new PopupMenu(wrapper, button);
+        final PopupMenu popup = new PopupMenu(wrapper, button);
+
         List<Audio> audioList = panelManager.getCurrentPointOfInterest().getLocaleAudios(getApplicationContext());
         TextView textFileName = (TextView) findViewById(R.id.audioPlayerName);
-        String currentAudioName =  textFileName.getText().toString();
+        String currentAudioName = textFileName.getText().toString();
         for (int i = 0; i < audioList.size(); i++) {
             String current = Resource.getFileNameWithoutExtension(audioList.get(i).getPath());
             MenuItem item = popup.getMenu().add(Menu.NONE, i, Menu.NONE, current);
-            if (current.equalsIgnoreCase(currentAudioName))
-            {
+            if (current.equalsIgnoreCase(currentAudioName)) {
                 item.setCheckable(true);
                 item.setChecked(true);
             }
@@ -420,7 +420,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
-                setupSelectedAudio(item.getItemId());
+                setupSelectedAudio(item.getItemId(), popup);
                 return true;
             }
         });
@@ -432,17 +432,20 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      * Reset audio service and set it with new selected one
      *
      * @param audioID
+     * @param popup
      */
-    public void setupSelectedAudio(int audioID) {
-        getMediaService().releaseAudio();
-        Button playAudio = (Button) findViewById(R.id.play_button);
-        playAudio.setBackgroundResource(R.drawable.ic_play_circle_filled_white_48dp);
+    public void setupSelectedAudio(int audioID, PopupMenu popup) {
+        if (!popup.getMenu().getItem(audioID).isChecked()) {
+            getMediaService().releaseAudio();
+            Button playAudio = (Button) findViewById(R.id.play_button);
+            playAudio.setBackgroundResource(R.drawable.ic_play_circle_filled_white_48dp);
 
-        mediaService.setAudio(panelManager.getCurrentPointOfInterest().getLocaleAudios(getApplicationContext()).get(audioID).getPath());
+            mediaService.setAudio(panelManager.getCurrentPointOfInterest().getLocaleAudios(getApplicationContext()).get(audioID).getPath());
 
-        int audioDuration = mediaService.getAudioDuration();
-        SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);
-        seekBar.setMax(audioDuration / 1000);
+            int audioDuration = mediaService.getAudioDuration();
+            SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);
+            seekBar.setMax(audioDuration / 1000);
+        }
     }
 
     /**

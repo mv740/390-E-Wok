@@ -1,5 +1,7 @@
 package com.example.nspace.museedesondes.utility;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -64,9 +66,12 @@ public class PoiPanelManager implements POIBeaconListener {
             @Override
             public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
 
-                //after first point of interest, always display 
+                //after first point of interest, always display
                 if (previousState == SlidingUpPanelLayout.PanelState.HIDDEN)
-                    activity.findViewById(R.id.get_directions_button).setVisibility(View.VISIBLE);
+                    if(activity.isFreeExploration())
+                    {
+                        activity.findViewById(R.id.get_directions_button).setVisibility(View.VISIBLE);
+                    }
 
                 if (newState == SlidingUpPanelLayout.PanelState.COLLAPSED) {
 
@@ -111,13 +116,19 @@ public class PoiPanelManager implements POIBeaconListener {
         List<Image> images = pointOfInterest.getLocaleImages(activity.getApplicationContext());
         List<Video> videos = pointOfInterest.getLocaleVideos(activity.getApplicationContext());
 
-        doesAudioExist(pointOfInterest);
-
-
         replaceTitle(title);
         replaceDescription(description);
         updateMedia(images, videos);
         slideUp();
+    }
+
+    private void startVideo(final RecyclerView view) {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                view.getChildAt(0).callOnClick();
+            }
+        }, 500);
     }
 
     private boolean doesAudioExist(PointOfInterest pointOfInterest) {
@@ -145,15 +156,20 @@ public class PoiPanelManager implements POIBeaconListener {
         List<Image> images = pointOfInterest.getStoryRelatedImages(storyLine.getId(), activity.getApplicationContext());
         List<Video> videos = pointOfInterest.getStoryRelatedVideos(storyLine.getId(), activity.getApplicationContext());
 
+        boolean audioExist =  doesAudioExist(currentPointOfInterest);
+
         replaceTitle(title);
         replaceDescription(description);
-        updateMedia(images, videos);
-        if (doesAudioExist(pointOfInterest)) {
+        final RecyclerView view = updateMedia(images, videos);
+        slideUp();
+
+        if(videos.size()>0)
+        {
+            startVideo(view);
+        } else if (audioExist) {
             activity.startAudio(currentPointOfInterest);
         }
 
-
-        slideUp();
     }
 
     private void replaceDescription(String description) {
@@ -171,7 +187,7 @@ public class PoiPanelManager implements POIBeaconListener {
         return docView.getText().toString();
     }
 
-    private void updateMedia(List<Image> images, List<Video> videos) {
+    private RecyclerView updateMedia(List<Image> images, List<Video> videos) {
         RecyclerView recyclerView = (RecyclerView) activity.findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
 
@@ -183,7 +199,10 @@ public class PoiPanelManager implements POIBeaconListener {
             recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
             recyclerView.setNestedScrollingEnabled(false);
             recyclerView.setAdapter(adapter);
+
+            return recyclerView;
         }
+        return null;
     }
 
     public PointOfInterest getCurrentPointOfInterest() {

@@ -53,6 +53,8 @@ public class PoiPanelManager implements POIBeaconListener {
         //hide panel
         panel.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
         activity.findViewById(R.id.get_directions_button).setVisibility(View.INVISIBLE);
+        activity.findViewById(R.id.audioPlayer).setVisibility(View.GONE);
+        activity.findViewById(R.id.my_recycler_view).setVisibility(View.GONE);
     }
 
 
@@ -68,8 +70,7 @@ public class PoiPanelManager implements POIBeaconListener {
 
                 //after first point of interest, always display
                 if (previousState == SlidingUpPanelLayout.PanelState.HIDDEN)
-                    if(activity.isFreeExploration())
-                    {
+                    if (activity.isFreeExploration()) {
                         activity.findViewById(R.id.get_directions_button).setVisibility(View.VISIBLE);
                     }
 
@@ -116,9 +117,15 @@ public class PoiPanelManager implements POIBeaconListener {
         List<Image> images = pointOfInterest.getLocaleImages(activity.getApplicationContext());
         List<Video> videos = pointOfInterest.getLocaleVideos(activity.getApplicationContext());
 
+        if (doesMediaExist(videos, images)) {
+            Log.e("exist","yes");
+            activity.findViewById(R.id.my_recycler_view).setVisibility(View.VISIBLE);
+        }
+
         replaceTitle(title);
         replaceDescription(description);
         updateMedia(images, videos);
+        doesAudioExist(currentPointOfInterest);
         slideUp();
     }
 
@@ -156,20 +163,27 @@ public class PoiPanelManager implements POIBeaconListener {
         List<Image> images = pointOfInterest.getStoryRelatedImages(storyLine.getId(), activity.getApplicationContext());
         List<Video> videos = pointOfInterest.getStoryRelatedVideos(storyLine.getId(), activity.getApplicationContext());
 
-        boolean audioExist =  doesAudioExist(currentPointOfInterest);
-
+        if (doesMediaExist(videos, images)) {
+            activity.findViewById(R.id.my_recycler_view).setVisibility(View.VISIBLE);
+        }
+        boolean audioExist = doesAudioExist(currentPointOfInterest);
         replaceTitle(title);
         replaceDescription(description);
         final RecyclerView view = updateMedia(images, videos);
         slideUp();
 
-        if(videos.size()>0)
-        {
+        if (videos.size() > 0) {
             startVideo(view);
         } else if (audioExist) {
             activity.startAudio(currentPointOfInterest);
         }
 
+    }
+
+    private boolean doesMediaExist(List<Video> videoList, List<Image> imageList) {
+        boolean exist = videoList.size() > 0 || imageList.size() > 0;
+        Log.e("exist", String.valueOf(exist));
+        return exist;
     }
 
     private void replaceDescription(String description) {

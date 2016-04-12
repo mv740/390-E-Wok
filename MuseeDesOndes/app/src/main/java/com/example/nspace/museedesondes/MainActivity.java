@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
         DownloadResourcesManager downloadResourcesManager = new DownloadResourcesManager(MainActivity.this);
         downloadResourcesManager.setResourceRootPath("http://michalwozniak.ca/map/finalDemo");
-        downloadResourcesManager.setDatabaseFilePath("mapData.json");
+        downloadResourcesManager.setDatabaseFilePath("mapDataTest.json");
         downloadResourcesManager.getMostRecentMapInformation();
     }
 

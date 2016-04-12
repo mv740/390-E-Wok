@@ -118,10 +118,11 @@ public class PoiPanelManager implements POIBeaconListener {
         List<Video> videos = pointOfInterest.getLocaleVideos(activity.getApplicationContext());
 
         if (doesMediaExist(videos, images)) {
-            Log.e("exist","yes");
+            Log.e("exist", "yes");
             activity.findViewById(R.id.my_recycler_view).setVisibility(View.VISIBLE);
+        } else {
+            activity.findViewById(R.id.my_recycler_view).setVisibility(View.GONE);
         }
-
         replaceTitle(title);
         replaceDescription(description);
         updateMedia(images, videos);

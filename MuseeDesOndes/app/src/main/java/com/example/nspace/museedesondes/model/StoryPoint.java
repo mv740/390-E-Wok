@@ -1,5 +1,6 @@
 package com.example.nspace.museedesondes.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -10,6 +11,7 @@ import java.util.List;
 /**
  * Created by michal on 2/19/2016.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonTypeName("StoryPoint")
 public class StoryPoint {
     private  int storylineID;

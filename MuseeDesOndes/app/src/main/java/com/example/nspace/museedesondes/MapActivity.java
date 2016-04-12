@@ -64,7 +64,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, NavigationDrawerFragment.NavigationDrawerCallbacks, GoogleMap.OnMarkerClickListener {
@@ -138,7 +137,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             int floorId = currentP.getFloorID();
             BitmapFactory.Options options = Resource.getFloorImageDimensionOptions(floorId, information.getFloorPlans(), getApplicationContext());
 
-            Log.d("Option", String.valueOf(options.outHeight));
+            Log.e("Option", String.valueOf(options.outHeight));
             FloorPlan floorPlan = Resource.searchFloorPlanById(floorId, information.getFloorPlans());
             String fileLocation = Resource.getAbsoluteFilePath(getApplicationContext(), floorPlan.getImagePath());
             Log.e("fileLocation", fileLocation);

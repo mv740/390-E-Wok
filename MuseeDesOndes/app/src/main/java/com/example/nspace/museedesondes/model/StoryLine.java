@@ -16,7 +16,7 @@ public class StoryLine {
     private int id;
     private String imagePath;
     private int walkingTimeInMinutes;
-    private int floorsCovered;
+    private ArrayList floorsCovered;
     private List<Integer> path; // used only to get reference node
     private List<Node> nodes;
     private List<StoryLineDescription> descriptions;
@@ -25,7 +25,7 @@ public class StoryLine {
                      @JsonProperty("thumbnail") String imagePath,
                      @JsonProperty("title") ArrayList<StoryLineDescription> descriptions,
                      @JsonProperty("walkingTimeInMinutes") int walkingTimeInMinutes,
-                     @JsonProperty("floorsCovered") int floorsCovered,
+                     @JsonProperty("floorsCovered") ArrayList floorsCovered,
                      @JsonProperty("path") ArrayList<Integer> path) {
         this.id = id;
         this.walkingTimeInMinutes = walkingTimeInMinutes;
@@ -45,7 +45,7 @@ public class StoryLine {
         return walkingTimeInMinutes;
     }
 
-    public int getFloorsCovered() {
+    public ArrayList getFloorsCovered() {
         return floorsCovered;
     }
 

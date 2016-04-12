@@ -213,7 +213,7 @@ public class StoryLineManager {
                 line.setColor(ContextCompat.getColor(mapActivity, R.color.rca_explored_segment));
             }
         }
-        
+
         //update color for new current segment
         if(pointOfInterestIndex < pointOfInterestList.size() - 1) {
             List<Polyline> currentSegment = segmentList.get(pointOfInterestIndex);

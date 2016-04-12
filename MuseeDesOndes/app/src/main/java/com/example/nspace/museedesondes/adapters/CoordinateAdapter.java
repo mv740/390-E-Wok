@@ -16,8 +16,8 @@ public class CoordinateAdapter {
     private FloorPlan floorPlan;
 
     public CoordinateAdapter(FloorPlan floorPlan, LatLngBounds bounds) {
-        this.width = Math.abs(bounds.southwest.latitude - bounds.northeast.latitude);
-        this.height = Math.abs(bounds.southwest.longitude - bounds.northeast.longitude);
+        this.width = Math.abs(bounds.northeast.longitude - bounds.southwest.longitude);
+        this.height = Math.abs(bounds.southwest.latitude - bounds.northeast.latitude);
         this.floorPlan = floorPlan;
     }
 

@@ -206,19 +206,19 @@ public class StoryLineManager {
     }
 
     private void updateSegmentListColors(){
-        //update color for new current segment
-        if(pointOfInterestIndex < pointOfInterestList.size() - 1) {
-            List<Polyline> currentSegment = segmentList.get(pointOfInterestIndex);
-            for(Polyline line : currentSegment) {
-                line.setColor(ContextCompat.getColor(mapActivity, R.color.rca_current_segment));
-            }
-        }
-
         //update previous current segment color to the explored color
         if(pointOfInterestIndex - 1 >= 0) {
             List<Polyline> exploredSegment = segmentList.get(pointOfInterestIndex - 1);
             for(Polyline line : exploredSegment) {
                 line.setColor(ContextCompat.getColor(mapActivity, R.color.rca_explored_segment));
+            }
+        }
+        
+        //update color for new current segment
+        if(pointOfInterestIndex < pointOfInterestList.size() - 1) {
+            List<Polyline> currentSegment = segmentList.get(pointOfInterestIndex);
+            for(Polyline line : currentSegment) {
+                line.setColor(ContextCompat.getColor(mapActivity, R.color.rca_current_segment));
             }
         }
     }

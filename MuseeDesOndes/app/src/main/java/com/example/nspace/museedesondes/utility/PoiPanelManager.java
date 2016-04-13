@@ -121,20 +121,48 @@ public class PoiPanelManager implements POIBeaconListener {
             Log.e("exist", "yes");
             activity.findViewById(R.id.my_recycler_view).setVisibility(View.VISIBLE);
         } else {
-            activity.findViewById(R.id.my_recycler_view).setVisibility(View.GONE);
+            activity.findViewById(R.id.my_recycler_view).setVisibility(View.INVISIBLE);
         }
         replaceTitle(title);
         replaceDescription(description);
         updateMedia(images, videos);
         doesAudioExist(currentPointOfInterest);
-        slideUp();
-    }
 
+        delaySlideUp();
+    }
+    
     private void startVideo(final RecyclerView view) {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
                 view.getChildAt(0).callOnClick();
+            }
+        }, 500);
+    }
+
+    private void delaySlideUp() {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                slideUp();
+            }
+        }, 250);
+    }
+
+    private void delayedAStartAudio(final PointOfInterest currentPointOfInterest) {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                activity.startAudio(currentPointOfInterest);
+            }
+        }, 500);
+    }
+
+    private void delayedAStartVideo(final RecyclerView view) {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startVideo(view);
             }
         }, 500);
     }
@@ -171,12 +199,12 @@ public class PoiPanelManager implements POIBeaconListener {
         replaceTitle(title);
         replaceDescription(description);
         final RecyclerView view = updateMedia(images, videos);
-        slideUp();
+        delaySlideUp();
 
         if (videos.size() > 0) {
-            startVideo(view);
+            delayedAStartVideo(view);
         } else if (audioExist) {
-            activity.startAudio(currentPointOfInterest);
+            delayedAStartAudio(currentPointOfInterest);
         }
 
     }

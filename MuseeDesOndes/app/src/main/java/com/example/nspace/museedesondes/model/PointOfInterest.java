@@ -83,9 +83,12 @@ public class PointOfInterest extends Node {
         for (Image image : media.getImages()) {
                 images.add(image);
         }
-        for (Image image : storyPoints.get(0).getImages())
+        for(StoryPoint storyPointCurrent: storyPoints)
         {
-            images.add(image);
+            for (Image image : storyPointCurrent.getImages())
+            {
+                images.add(image);
+            }
         }
         return images;
     }
@@ -111,9 +114,12 @@ public class PointOfInterest extends Node {
         for (Audio audio : media.getAudios()) {
                 audios.add(audio);
         }
-        for (Audio audio : storyPoints.get(0).getAudios())
+        for(StoryPoint storyPointCurrent: storyPoints)
         {
-            audios.add(audio);
+            for (Audio audio : storyPointCurrent.getAudios())
+            {
+                audios.add(audio);
+            }
         }
         return audios;
     }
@@ -138,11 +144,13 @@ public class PointOfInterest extends Node {
         List<Video> videos = new ArrayList<>();
         for (Video video : media.getVideos()) {
                 videos.add(video);
-
         }
-        for (Video video : storyPoints.get(0).getVideos())
+        for(StoryPoint storyPointCurrent: storyPoints)
         {
-            videos.add(video);
+            for (Video video : storyPointCurrent.getVideos())
+            {
+                videos.add(video);
+            }
         }
         return videos;
     }

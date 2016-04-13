@@ -63,7 +63,7 @@ public class DownloadResourcesManager {
 
                 @Override
                 public void onDownloadFailed(DownloadRequest downloadRequest, int errorCode, String errorMessage) {
-                    Log.e(DOWNLOAD, "failed " + downloadRequest.getUri() + ": " + errorMessage);
+                    Log.e(DOWNLOAD, "failed " + downloadRequest.getUri() + ": " + errorMessage + "errorCode :" +errorCode);
                     loadReplaceMeWith(R.layout.download_error);
                 }
 

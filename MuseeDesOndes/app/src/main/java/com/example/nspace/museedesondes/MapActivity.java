@@ -380,7 +380,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      */
     public void startAudio(PointOfInterest pointOfInterest) {
         // get the audio files associated with a point of interest.
-        String fileName = pointOfInterest.getLocaleAudios(getApplicationContext()).get(0).getPath();
+        String fileName = "";
+        if(!freeExploration)
+        {
+            fileName = pointOfInterest.getStoryRelatedAudios(storyLine.getId(),getApplicationContext()).get(0).getPath();
+        }else
+        {
+           fileName= pointOfInterest.getLocaleAudios(getApplicationContext()).get(0).getPath();
+        }
+
 
         // associates the ID to the media player of the media service
         mediaService.setAudio(fileName);
@@ -703,5 +711,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     public PoiPanelManager getPanel() {
         return panelManager;
+    }
+
+    public StoryLine getStoryLine() {
+        return storyLine;
     }
 }

@@ -115,10 +115,28 @@ public class PoiPanelManager implements POIBeaconListener {
 
         this.currentPointOfInterest = pointOfInterest;
         Log.v("test", activity.getResources().getConfiguration().locale.getLanguage());
-        String description = pointOfInterest.getLocaleDescription(activity.getApplicationContext()).getDescription();
-        String title = pointOfInterest.getLocaleDescription(activity.getApplicationContext()).getTitle();
-        List<Image> images = pointOfInterest.getLocaleImages(activity.getApplicationContext());
-        List<Video> videos = pointOfInterest.getLocaleVideos(activity.getApplicationContext());
+
+        String description = "";
+        String title = "";
+        List<Image> images = null;
+        List<Video> videos = null;
+        if(activity.isFreeExploration())
+        {
+
+            description = pointOfInterest.getLocaleDescription(activity.getApplicationContext()).getDescription();
+            title = pointOfInterest.getLocaleDescription(activity.getApplicationContext()).getTitle();
+            images = pointOfInterest.getLocaleImages(activity.getApplicationContext());
+            videos = pointOfInterest.getLocaleVideos(activity.getApplicationContext());
+
+        }else
+        {
+            StoryLine storyLine = activity.getStoryLine();
+            description = pointOfInterest.getStoryRelatedDescription(storyLine.getId(), activity.getApplicationContext()).getDescription();
+            title = pointOfInterest.getStoryRelatedDescription(storyLine.getId(), activity.getApplicationContext()).getTitle();
+            images = pointOfInterest.getStoryRelatedImages(storyLine.getId(), activity.getApplicationContext());
+            videos = pointOfInterest.getStoryRelatedVideos(storyLine.getId(), activity.getApplicationContext());
+        }
+
 
         if (doesMediaExist(videos, images)) {
             Log.e("exist", "yes");
@@ -129,11 +147,17 @@ public class PoiPanelManager implements POIBeaconListener {
         replaceTitle(title);
         replaceDescription(description);
         updateMedia(images, videos);
-        doesAudioExist(currentPointOfInterest);
+        if(activity.isFreeExploration())
+        {
+            doesAudioExist(currentPointOfInterest);
+        }else
+        {
+            doesAudioStoryExist(currentPointOfInterest,activity.getStoryLine());
+        }
 
         delaySlideUp();
     }
-    
+
     private void startVideo(final RecyclerView view) {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
@@ -183,6 +207,19 @@ public class PoiPanelManager implements POIBeaconListener {
         }
     }
 
+    private boolean doesAudioStoryExist(PointOfInterest pointOfInterest, StoryLine storyLine) {
+        RelativeLayout audioLayout = (RelativeLayout) activity.findViewById(R.id.audioPlayer);
+        if (pointOfInterest.getStoryRelatedAudios(storyLine.getId(),activity.getApplication()).size() == 0) {
+            audioLayout.setVisibility(View.GONE);
+            return false;
+        } else {
+            EditText audioName = (EditText) activity.findViewById(R.id.audioPlayerName);
+            audioName.setText(Resource.getFileNameWithoutExtension(pointOfInterest.getStoryRelatedAudios(activity.getStoryLine().getId(),activity.getApplicationContext()).get(0).getPath()));
+            audioLayout.setVisibility(View.VISIBLE);
+            return true;
+        }
+    }
+
     public void slideUp() {
         panel.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
     }
@@ -205,8 +242,10 @@ public class PoiPanelManager implements POIBeaconListener {
 
         if (doesMediaExist(videos, images)) {
             activity.findViewById(R.id.my_recycler_view).setVisibility(View.VISIBLE);
+        } else {
+            activity.findViewById(R.id.my_recycler_view).setVisibility(View.INVISIBLE);
         }
-        boolean audioExist = doesAudioExist(currentPointOfInterest);
+        boolean audioExist = doesAudioStoryExist(currentPointOfInterest,storyLine);
         replaceTitle(title);
         replaceDescription(description);
         final RecyclerView view = updateMedia(images, videos);
@@ -221,7 +260,15 @@ public class PoiPanelManager implements POIBeaconListener {
     }
 
     private boolean doesMediaExist(List<Video> videoList, List<Image> imageList) {
-        boolean exist = videoList.size() > 0 || imageList.size() > 0;
+        boolean exist = false;
+        if(videoList != null)
+        {
+           exist =  videoList.size() > 0;
+        }
+        if(imageList !=null && exist == false)
+        {
+            exist = imageList.size()>0;
+        }
         Log.e("exist", String.valueOf(exist));
         return exist;
     }

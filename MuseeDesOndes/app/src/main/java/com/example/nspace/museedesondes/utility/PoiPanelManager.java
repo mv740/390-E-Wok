@@ -1,5 +1,8 @@
 package com.example.nspace.museedesondes.utility;
 
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.widget.LinearLayoutManager;
@@ -185,6 +188,14 @@ public class PoiPanelManager implements POIBeaconListener {
     }
 
     public void onPOIBeaconDiscovered(PointOfInterest pointOfInterest, StoryLine storyLine) {
+
+        try {
+            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            Ringtone r = RingtoneManager.getRingtone(activity.getApplicationContext(), notification);
+            r.play();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         this.currentPointOfInterest = pointOfInterest;
         String description = pointOfInterest.getStoryRelatedDescription(storyLine.getId(), activity.getApplicationContext()).getDescription();

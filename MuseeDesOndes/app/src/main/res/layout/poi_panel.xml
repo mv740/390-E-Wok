@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/tools"
     xmlns:ext="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
-    xmlns:app="http://schemas.android.com/tools"
+    android:id="@+id/poiPanel"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/poiPanel"
-    android:background="#FFE33C3C"
     android:layout_alignParentBottom="true"
     android:layout_gravity="bottom"
-    android:gravity="bottom"
-    android:textSize="10dp"
+    android:background="#FFE33C3C"
+    android:clipChildren="false"
     android:clipToPadding="false"
-    android:clipChildren="false">
+    android:gravity="bottom"
+    android:textSize="10dp">
 
     <TextView
         android:id="@+id/poi_title"
@@ -30,73 +30,116 @@
         android:id="@+id/get_directions_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="bottom|right"
         android:layout_marginRight="6dp"
         android:layout_marginTop="-35dp"
-        android:layout_gravity="bottom|right"
+        android:onClick="getDirections"
         android:src="@drawable/location_icon"
+        app:fab_shadowColor="#000000"
         fab:fab_colorNormal="#FFFFFFFF"
         fab:fab_colorPressed="#FFFE7070"
-        fab:fab_colorRipple="#FFFE7070"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        app:fab_shadowColor="#000000"
-        android:onClick="getDirections"/>
+        fab:fab_colorRipple="#FFFE7070" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/my_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:layout_below="@+id/poi_title"
+        android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:scrollbars="none" />
 
-    <Button
-        android:id="@+id/play_button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/my_recycler_view"
-        android:layout_marginLeft="6dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/ic_play_circle_filled_white_48dp"
-        android:longClickable="true"
-        android:onClick="playAudioFile"
-        android:textColor="#000000" />
-
-    <SeekBar
-        android:id="@+id/seekBar"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@+id/my_recycler_view"
-        android:layout_marginLeft="60dp"
-        android:layout_marginTop="10dp"
-        android:maxHeight="100dp"
-        android:minHeight="100dp"
-        android:scrollbarSize="50dp" />
-
-
-    <ScrollView
-        android:id="@+id/scrollView"
+    <RelativeLayout
+        android:id="@+id/audioPlayer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/my_recycler_view">
+
+        <Button
+            android:id="@+id/play_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/ic_play_circle_filled_white_48dp"
+            android:longClickable="true"
+            android:onClick="playAudioFile"
+            android:textColor="#000000" />
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
+            android:layout_marginTop="10dp"
+            android:maxHeight="100dp"
+            android:minHeight="100dp"
+            android:scrollbarSize="50dp" />
+
+        <EditText
+            android:id="@+id/audioPlayerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/seekBar"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/seekBar"
+            android:background="@android:color/transparent"
+            android:editable="false"
+            android:text="not found"
+            android:textAlignment="center" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/audioSelection"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="false"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="6dp"
+            android:enabled="false"
+            android:longClickable="true"
+            android:onClick="selectAudioFile"
+            android:src="@drawable/ic_queue_music_white_48dp"
+            android:textColor="#000000"
+            fab:fab_colorNormal="#FFE33C3C"
+            fab:fab_colorPressed="#FFFE7070"
+            fab:fab_colorRipple="#FFFE7070"
+            fab:fab_showShadow="false" />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="175dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/play_button"
+        android:layout_below="@+id/audioPlayer"
+        android:id="@+id/textScrollingContainer">
 
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="7dp"
-        android:layout_marginBottom="7dp">
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="7dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="7dp"
+            >
 
-        <com.bluejamesbond.text.DocumentView
-            android:id="@+id/poi_text"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            ext:documentView_text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sit amet ipsum ultrices, elementum tellus non, sagittis dolor. Ut odio sem, venenatis non varius non, vulputate ut tortor. Nulla ullamcorper nulla sed magna gravida, sit amet varius ipsum malesuada. Cras consectetur, mi vitae maximus efficitur, erat mi viverra mi, tristique pretium est lorem vel ipsum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Integer eu efficitur arcu. Donec ultricies feugiat libero, vel egestas ex. Suspendisse at Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sit amet ipsum ultrices, elementum tellus non, sagittis dolor. Ut odio sem, venenatis non varius non, vulputate ut tortor. Nulla ullamcorper nulla sed magna gravida, sit amet varius "
-            ext:documentView_textAlignment="justified"
-            ext:documentView_textColor="@android:color/white"
-            ext:documentView_textSize="20dp"></com.bluejamesbond.text.DocumentView>
-    </ScrollView>
+            <com.bluejamesbond.text.DocumentView
+                android:id="@+id/poi_text"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                ext:documentView_text=", sit iat lionsectentun varius"
+                ext:documentView_textAlignment="justified"
+                ext:documentView_textColor="@android:color/white"
+                ext:documentView_textSize="20dp" />
+        </ScrollView>
+    </LinearLayout>
 
 </RelativeLayout>

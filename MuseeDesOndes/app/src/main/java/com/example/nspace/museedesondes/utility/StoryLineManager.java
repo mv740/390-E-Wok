@@ -45,6 +45,8 @@ public class StoryLineManager {
     private Region region;
     private boolean newTourSelected;
     private boolean endTour;
+    private static final int DEFAULT_ZINDEX = 0;
+    private static final int PRIORITY_ZINDEX = 1;
 
     public StoryLineManager(StoryLine storyLine, MapActivity mapActivity) {
         this.storyLine = storyLine;
@@ -59,8 +61,12 @@ public class StoryLineManager {
         setBeaconRangeListener();
     }
 
-    //scans for beacon info of the next point of interest in chosen storyline and updates line and observers after discovery
-    //when user chooses to start a new tour the method scans for the initial node and when discovered returns to the storyline activity
+    /**
+     * scans for beacon info of the next point of interest in chosen storyline
+     * and updates line and observers after discovery. also when user chooses to start
+     * a new tour the method scans for the initial node and when discovered returns
+     * to the storyline activity
+     */
     private void setBeaconRangeListener() {
         beaconManager.setRangingListener(new BeaconManager.RangingListener() {
             @Override
@@ -206,19 +212,28 @@ public class StoryLineManager {
     }
 
     private void updateSegmentListColors(){
-        //update color for new current segment
-        if(pointOfInterestIndex < pointOfInterestList.size() - 1) {
-            List<Polyline> currentSegment = segmentList.get(pointOfInterestIndex);
-            for(Polyline line : currentSegment) {
-                line.setColor(ContextCompat.getColor(mapActivity, R.color.rca_current_segment));
-            }
-        }
-
-        //update previous current segment color to the explored color
+        /**
+         * update previous current segment color to the explored color of transparent red and
+         * resets the zIndex to the default height to remove any priority over the others
+         */
         if(pointOfInterestIndex - 1 >= 0) {
             List<Polyline> exploredSegment = segmentList.get(pointOfInterestIndex - 1);
             for(Polyline line : exploredSegment) {
                 line.setColor(ContextCompat.getColor(mapActivity, R.color.rca_explored_segment));
+                line.setZIndex(DEFAULT_ZINDEX);
+            }
+        }
+
+        /**
+         * update color for new current segment to dark red, also sets it to be displayed
+         * above any unexplored or explored segments in cases where the same path is reused.
+         * this is done using a greater polyline zIndex to give priority over the others
+         */
+        if(pointOfInterestIndex < pointOfInterestList.size() - 1) {
+            List<Polyline> currentSegment = segmentList.get(pointOfInterestIndex);
+            for(Polyline line : currentSegment) {
+                line.setColor(ContextCompat.getColor(mapActivity, R.color.rca_current_segment));
+                line.setZIndex(PRIORITY_ZINDEX);
             }
         }
     }

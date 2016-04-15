@@ -1,14 +1,19 @@
 package com.example.nspace.museedesondes.utility;
 
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.bluejamesbond.text.DocumentView;
@@ -34,7 +39,6 @@ public class PoiPanelManager implements POIBeaconListener {
     private MapActivity activity;
     private SlidingUpPanelLayout panel;
     private PointOfInterest currentPointOfInterest;
-    private int selectedImageId;
     private String selectedImageFilePath;
     private RelativeLayout poiPanelLayout;
     private FloatingActionButton navigationButton;
@@ -49,8 +53,12 @@ public class PoiPanelManager implements POIBeaconListener {
         onShadowClick();
         onStateChange();
 
+        //hide panel
+        panel.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+        activity.findViewById(R.id.get_directions_button).setVisibility(View.INVISIBLE);
+        activity.findViewById(R.id.audioPlayer).setVisibility(View.GONE);
+        activity.findViewById(R.id.my_recycler_view).setVisibility(View.GONE);
     }
-
 
 
     private void onStateChange() {
@@ -63,20 +71,26 @@ public class PoiPanelManager implements POIBeaconListener {
             @Override
             public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
 
-                Log.e("Statechanged", "yes");
+                //after first point of interest, always display
+                if (previousState == SlidingUpPanelLayout.PanelState.HIDDEN)
+                    if (activity.isFreeExploration()) {
+                        activity.findViewById(R.id.get_directions_button).setVisibility(View.VISIBLE);
+                    }
+
                 if (newState == SlidingUpPanelLayout.PanelState.COLLAPSED) {
+
                     if (activity.getNavigationManager().isEndTour() && !endTourDialogueShown) {
                         activity.getStoryLineManager().endOfTourDialog();
                         endTourDialogueShown = true;
                     }
                     if (activity.getMediaService() != null) {
-                        if(activity.getMediaService().isPlaying())
-                        {
-                            activity.getMediaService().releaseAudio();
-                        }
+
+                        activity.getMediaService().releaseAudio();
+
                         Button playAudio = (Button) activity.findViewById(R.id.play_button);
                         playAudio.setBackgroundResource(R.drawable.ic_play_circle_filled_white_48dp);
                     }
+
                 }
             }
         });
@@ -101,41 +115,124 @@ public class PoiPanelManager implements POIBeaconListener {
 
         this.currentPointOfInterest = pointOfInterest;
         Log.v("test", activity.getResources().getConfiguration().locale.getLanguage());
-        String description = pointOfInterest.getLocaleDescription(activity.getApplicationContext()).getDescription();
-        String title = pointOfInterest.getLocaleDescription(activity.getApplicationContext()).getTitle();
-        List<Image> images = pointOfInterest.getLocaleImages(activity.getApplicationContext());
-        List<Video> videos = pointOfInterest.getLocaleVideos(activity.getApplicationContext());
 
-        doesAudioExist(pointOfInterest);
+        String description = "";
+        String title = "";
+        List<Image> images = null;
+        List<Video> videos = null;
+        if(activity.isFreeExploration())
+        {
+
+            description = pointOfInterest.getLocaleDescription(activity.getApplicationContext()).getDescription();
+            title = pointOfInterest.getLocaleDescription(activity.getApplicationContext()).getTitle();
+            images = pointOfInterest.getLocaleImages(activity.getApplicationContext());
+            videos = pointOfInterest.getLocaleVideos(activity.getApplicationContext());
+
+        }else
+        {
+            StoryLine storyLine = activity.getStoryLine();
+            description = pointOfInterest.getStoryRelatedDescription(storyLine.getId(), activity.getApplicationContext()).getDescription();
+            title = pointOfInterest.getStoryRelatedDescription(storyLine.getId(), activity.getApplicationContext()).getTitle();
+            images = pointOfInterest.getStoryRelatedImages(storyLine.getId(), activity.getApplicationContext());
+            videos = pointOfInterest.getStoryRelatedVideos(storyLine.getId(), activity.getApplicationContext());
+        }
 
 
+        if (doesMediaExist(videos, images)) {
+            Log.e("exist", "yes");
+            activity.findViewById(R.id.my_recycler_view).setVisibility(View.VISIBLE);
+        } else {
+            activity.findViewById(R.id.my_recycler_view).setVisibility(View.INVISIBLE);
+        }
         replaceTitle(title);
         replaceDescription(description);
         updateMedia(images, videos);
+        if(activity.isFreeExploration())
+        {
+            doesAudioExist(currentPointOfInterest);
+        }else
+        {
+            doesAudioStoryExist(currentPointOfInterest,activity.getStoryLine());
+        }
 
+        delaySlideUp();
+    }
 
+    private void startVideo(final RecyclerView view) {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                view.getChildAt(0).callOnClick();
+            }
+        }, 500);
+    }
+
+    private void delaySlideUp() {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                slideUp();
+            }
+        }, 250);
+    }
+
+    private void delayedAStartAudio(final PointOfInterest currentPointOfInterest) {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                activity.startAudio(currentPointOfInterest);
+            }
+        }, 500);
+    }
+
+    private void delayedAStartVideo(final RecyclerView view) {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startVideo(view);
+            }
+        }, 500);
     }
 
     private boolean doesAudioExist(PointOfInterest pointOfInterest) {
-        Button play = (Button) activity.findViewById(R.id.play_button);
-        SeekBar progressBar = (SeekBar) activity.findViewById(R.id.seekBar);
-        if(pointOfInterest.getLocaleAudios(activity.getApplication()).size() ==0)
-        {
-            play.setVisibility(View.GONE);
-            progressBar.setVisibility(View.GONE);
+        RelativeLayout audioLayout = (RelativeLayout) activity.findViewById(R.id.audioPlayer);
+        if (pointOfInterest.getLocaleAudios(activity.getApplication()).size() == 0) {
+            audioLayout.setVisibility(View.GONE);
             return false;
-        }else {
-            play.setVisibility(View.VISIBLE);
-            progressBar.setVisibility(View.VISIBLE);
+        } else {
+            EditText audioName = (EditText) activity.findViewById(R.id.audioPlayerName);
+            audioName.setText(Resource.getFileNameWithoutExtension(pointOfInterest.getLocaleAudios(activity.getApplicationContext()).get(0).getPath()));
+            audioLayout.setVisibility(View.VISIBLE);
             return true;
         }
     }
 
-    public void slideUp(){
+    private boolean doesAudioStoryExist(PointOfInterest pointOfInterest, StoryLine storyLine) {
+        RelativeLayout audioLayout = (RelativeLayout) activity.findViewById(R.id.audioPlayer);
+        if (pointOfInterest.getStoryRelatedAudios(storyLine.getId(),activity.getApplication()).size() == 0) {
+            audioLayout.setVisibility(View.GONE);
+            return false;
+        } else {
+            EditText audioName = (EditText) activity.findViewById(R.id.audioPlayerName);
+            audioName.setText(Resource.getFileNameWithoutExtension(pointOfInterest.getStoryRelatedAudios(activity.getStoryLine().getId(),activity.getApplicationContext()).get(0).getPath()));
+            audioLayout.setVisibility(View.VISIBLE);
+            return true;
+        }
+    }
+
+    public void slideUp() {
         panel.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
     }
 
     public void onPOIBeaconDiscovered(PointOfInterest pointOfInterest, StoryLine storyLine) {
+
+        try {
+            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            Ringtone r = RingtoneManager.getRingtone(activity.getApplicationContext(), notification);
+            r.play();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         this.currentPointOfInterest = pointOfInterest;
         String description = pointOfInterest.getStoryRelatedDescription(storyLine.getId(), activity.getApplicationContext()).getDescription();
@@ -143,18 +240,37 @@ public class PoiPanelManager implements POIBeaconListener {
         List<Image> images = pointOfInterest.getStoryRelatedImages(storyLine.getId(), activity.getApplicationContext());
         List<Video> videos = pointOfInterest.getStoryRelatedVideos(storyLine.getId(), activity.getApplicationContext());
 
+        if (doesMediaExist(videos, images)) {
+            activity.findViewById(R.id.my_recycler_view).setVisibility(View.VISIBLE);
+        } else {
+            activity.findViewById(R.id.my_recycler_view).setVisibility(View.INVISIBLE);
+        }
+        boolean audioExist = doesAudioStoryExist(currentPointOfInterest,storyLine);
         replaceTitle(title);
         replaceDescription(description);
-        updateMedia(images, videos);
-        if(doesAudioExist(pointOfInterest))
-        {
-            activity.startAudio(currentPointOfInterest);
+        final RecyclerView view = updateMedia(images, videos);
+        delaySlideUp();
+
+        if (videos.size() > 0) {
+            delayedAStartVideo(view);
+        } else if (audioExist) {
+            delayedAStartAudio(currentPointOfInterest);
         }
 
+    }
 
-        panel.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
-
-        setVisibility(View.VISIBLE);
+    private boolean doesMediaExist(List<Video> videoList, List<Image> imageList) {
+        boolean exist = false;
+        if(videoList != null)
+        {
+           exist =  videoList.size() > 0;
+        }
+        if(imageList !=null && exist == false)
+        {
+            exist = imageList.size()>0;
+        }
+        Log.e("exist", String.valueOf(exist));
+        return exist;
     }
 
     private void replaceDescription(String description) {
@@ -172,20 +288,22 @@ public class PoiPanelManager implements POIBeaconListener {
         return docView.getText().toString();
     }
 
-    private void updateMedia(List<Image> images, List<Video> videos) {
+    private RecyclerView updateMedia(List<Image> images, List<Video> videos) {
         RecyclerView recyclerView = (RecyclerView) activity.findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
 
-        if (images.size() + videos.size() == 0){
+        if (images.size() + videos.size() == 0) {
             recyclerView.setVisibility(View.GONE);
-        }
-        else {
+        } else {
             recyclerView.setVisibility(View.VISIBLE);
             HorizontalRecycleViewAdapter adapter = new HorizontalRecycleViewAdapter(activity, images, videos);
             recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
             recyclerView.setNestedScrollingEnabled(false);
             recyclerView.setAdapter(adapter);
+
+            return recyclerView;
         }
+        return null;
     }
 
     public PointOfInterest getCurrentPointOfInterest() {
@@ -211,9 +329,6 @@ public class PoiPanelManager implements POIBeaconListener {
         selectedImageFilePath = String.valueOf(selectedImage.getTag());
     }
 
-    public int getSelectedImageId() {
-        return selectedImageId;
-    }
 
     public SlidingUpPanelLayout getPanel() {
         return panel;
@@ -223,7 +338,7 @@ public class PoiPanelManager implements POIBeaconListener {
         return poiPanelLayout;
     }
 
-    public void setVisibility(int visibility){
+    public void setVisibility(int visibility) {
         poiPanelLayout.setVisibility(visibility);
     }
 

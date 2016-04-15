@@ -24,13 +24,13 @@ public class MuseumMap {
     private List<PointOfInterest> pointOfInterests;
     private List<LabelledPoint> labelledPoints;
     private List<FloorPlan> floorPlans;
-    private List<Point> point;
+    private Point point;
     private boolean coordinateAlreadyConverted;
 
 
     private static MuseumMap instance = null;
 
-    private MuseumMap(@JsonProperty("node") List<Point> point,
+    private MuseumMap(@JsonProperty("node") Point point,
                       @JsonProperty("edge") List<Edge> edges,
                       @JsonProperty("storyline") List<StoryLine> storyLines,
                       @JsonProperty("floorPlan") List<FloorPlan> floorPlans) {
@@ -94,8 +94,8 @@ public class MuseumMap {
     }
 
     private static void initializeNodes() {
-        instance.pointOfInterests = instance.point.get(0).getPoi();
-        instance.labelledPoints = instance.point.get(0).getPot();
+        instance.pointOfInterests = instance.point.getPoi();
+        instance.labelledPoints = instance.point.getPot();
         instance.nodes.addAll(instance.pointOfInterests);
         instance.nodes.addAll(instance.labelledPoints);
         setNodesReferenceForEdges();

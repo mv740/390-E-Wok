@@ -102,8 +102,11 @@ public class MediaService extends Service {
     }
 
     public void releaseAudio(){
-        if (mediaPlayer != null && isPlaying) {
-            mediaPlayer.pause();
+        if (mediaPlayer != null) {
+            if(mediaPlayer.isPlaying())
+            {
+                mediaPlayer.pause();
+            }
             mediaPlayer.stop();
             mediaPlayer.release();
             mediaPlayer = null;

@@ -117,5 +117,14 @@ public class Resource {
         return getFilenameWithoutDirectories(sanitizeFilename(fileName));
     }
 
+    public static String getFileNameWithoutExtension(String fileNameWithExt)
+    {
+        int pos = fileNameWithExt.lastIndexOf(".");
+        if (pos > 0) {
+            return fileNameWithExt.substring(0, pos);
+        }
+        return null;
+    }
+
 
 }

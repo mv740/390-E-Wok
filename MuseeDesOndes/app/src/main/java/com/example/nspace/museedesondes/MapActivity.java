@@ -12,17 +12,24 @@ import android.os.IBinder;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ContextThemeWrapper;
+import android.support.v7.widget.PopupMenu;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.SystemRequirementsChecker;
 import com.example.nspace.museedesondes.adapters.CoordinateAdapter;
 import com.example.nspace.museedesondes.fragments.NavigationDrawerFragment;
+import com.example.nspace.museedesondes.model.Audio;
 import com.example.nspace.museedesondes.model.FloorPlan;
 import com.example.nspace.museedesondes.model.MuseumMap;
 import com.example.nspace.museedesondes.model.Node;
@@ -57,7 +64,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, NavigationDrawerFragment.NavigationDrawerCallbacks, GoogleMap.OnMarkerClickListener {
@@ -131,7 +137,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             int floorId = currentP.getFloorID();
             BitmapFactory.Options options = Resource.getFloorImageDimensionOptions(floorId, information.getFloorPlans(), getApplicationContext());
 
-            Log.d("Option", String.valueOf(options.outHeight));
+            Log.e("Option", String.valueOf(options.outHeight));
             FloorPlan floorPlan = Resource.searchFloorPlanById(floorId, information.getFloorPlans());
             String fileLocation = Resource.getAbsoluteFilePath(getApplicationContext(), floorPlan.getImagePath());
             Log.e("fileLocation", fileLocation);
@@ -239,6 +245,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
+
     private class FloorButtonOnClickListener implements View.OnClickListener {
 
         @Override
@@ -315,8 +322,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
         mMap.setOnCameraChangeListener(new OnCameraChangeListener());
-//preloading the panel with a random point of interest avoid a bug where the rest of the screen is grey when displaying panel with setting to match_content
-        initPanel();
     }
 
     @Override
@@ -375,7 +380,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
      */
     public void startAudio(PointOfInterest pointOfInterest) {
         // get the audio files associated with a point of interest.
-        String fileName = pointOfInterest.getLocaleAudios(getApplicationContext()).get(0).getPath();
+        String fileName = "";
+        if(!freeExploration)
+        {
+            fileName = pointOfInterest.getStoryRelatedAudios(storyLine.getId(),getApplicationContext()).get(0).getPath();
+        }else
+        {
+           fileName= pointOfInterest.getLocaleAudios(getApplicationContext()).get(0).getPath();
+        }
+
 
         // associates the ID to the media player of the media service
         mediaService.setAudio(fileName);
@@ -387,6 +400,57 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         View view = findViewById(R.id.play_button);
         mediaService.toggleAudioOnOff(view);
+    }
+
+    /**
+     * On select click, set audio service to new audio
+     *
+     * @param button
+     */
+    public void selectAudioFile(View button) {
+        Context wrapper = new ContextThemeWrapper(getApplicationContext(), R.style.AppCompatAlertDialogStyle);
+        final PopupMenu popup = new PopupMenu(wrapper, button);
+
+        List<Audio> audioList = panelManager.getCurrentPointOfInterest().getLocaleAudios(getApplicationContext());
+        TextView textFileName = (TextView) findViewById(R.id.audioPlayerName);
+        String currentAudioName = textFileName.getText().toString();
+        for (int i = 0; i < audioList.size(); i++) {
+            String current = Resource.getFileNameWithoutExtension(audioList.get(i).getPath());
+            MenuItem item = popup.getMenu().add(Menu.NONE, i, Menu.NONE, current);
+            if (current.equalsIgnoreCase(currentAudioName)) {
+                item.setCheckable(true);
+                item.setChecked(true);
+            }
+        }
+
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                setupSelectedAudio(item.getItemId(), popup);
+                return true;
+            }
+        });
+
+        popup.show();
+    }
+
+    /**
+     * Reset audio service and set it with new selected one
+     *
+     * @param audioID
+     * @param popup
+     */
+    public void setupSelectedAudio(int audioID, PopupMenu popup) {
+        if (!popup.getMenu().getItem(audioID).isChecked()) {
+            getMediaService().releaseAudio();
+            Button playAudio = (Button) findViewById(R.id.play_button);
+            playAudio.setBackgroundResource(R.drawable.ic_play_circle_filled_white_48dp);
+
+            mediaService.setAudio(panelManager.getCurrentPointOfInterest().getLocaleAudios(getApplicationContext()).get(audioID).getPath());
+
+            int audioDuration = mediaService.getAudioDuration();
+            SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);
+            seekBar.setMax(audioDuration / 1000);
+        }
     }
 
     /**
@@ -431,32 +495,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             } else {
 
-                panelManager.setVisibility(View.VISIBLE);
                 selectedMarkerDisplay(marker);
                 //move camera to marker position
                 LatLng markerLocation = marker.getPosition();
 
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(markerLocation));
                 panelManager.update(pointOfInterest);
-                panelManager.slideUp();
             }
         }
         return true;
     }
 
-    private void initPanel() {
-//load random poi
-
-        Random random = new Random();
-        List<Marker> keys = new ArrayList<Marker>(markerPointOfInterestMap.keySet());
-        Marker marker = keys.get(random.nextInt(keys.size()));
-        PointOfInterest pointOfInterest = markerPointOfInterestMap.get(marker);
-
-        panelManager.update(pointOfInterest);
-
-        panelManager.setVisibility(View.INVISIBLE);
-
-    }
 
     /**
      * Change point of interest marker color to red when selected.
@@ -662,5 +711,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     public PoiPanelManager getPanel() {
         return panelManager;
+    }
+
+    public StoryLine getStoryLine() {
+        return storyLine;
     }
 }

@@ -102,7 +102,7 @@ public class DownloadResourcesManager {
             }
         }
 
-        if(prepareQueryImageList.isEmpty())
+        if(!prepareQueryImageList.isEmpty())
         {
             for (String filePath : prepareQueryImageList) {
                 downloadImageOrAudio(filePath);

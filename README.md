@@ -33,3 +33,5 @@ Android application that help user explores the museum's exhibition.
 <img src="https://github.com/mv740/390-E-Wok/blob/develop/screenshot/navigation.png"  width="200" height="400" />
 <img src="https://github.com/mv740/390-E-Wok/blob/develop/screenshot/sideMenu.png"  width="200" height="400" />
 <img src="https://github.com/mv740/390-E-Wok/blob/develop/screenshot/language.png"  width="200" height="400" />
+
+more in the scheenshots folder

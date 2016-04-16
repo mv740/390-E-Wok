@@ -26,9 +26,10 @@ Android application that help user explores the museum's exhibition.
 ##ScreenShots
 
 <img src="https://github.com/mv740/390-E-Wok/blob/develop/screenshot/downloadLoading.png"  width="200" height="400" />
+<img src="https://github.com/mv740/390-E-Wok/blob/develop/screenshot/map.png"  width="200" height="400" />
 <img src="https://github.com/mv740/390-E-Wok/blob/develop/screenshot/tourSelection.png"  width="200" height="400" />
 <img src="https://github.com/mv740/390-E-Wok/blob/develop/screenshot/Panel_info.png"  width="200" height="400" />
-<img src="https://github.com/mv740/390-E-Wok/blob/develop/screenshot/navigation.png"  width="200" height="400" />
 <img src="https://github.com/mv740/390-E-Wok/blob/develop/screenshot/navigationTutorial.png"  width="200" height="400" />
+<img src="https://github.com/mv740/390-E-Wok/blob/develop/screenshot/navigation.png"  width="200" height="400" />
 <img src="https://github.com/mv740/390-E-Wok/blob/develop/screenshot/sideMenu.png"  width="200" height="400" />
 <img src="https://github.com/mv740/390-E-Wok/blob/develop/screenshot/language.png"  width="200" height="400" />

@@ -8,19 +8,21 @@ Soen 390 project
 - Harrison Ianatchkov (26607403)
 - Simon Monière (26648568)
 
-## Museum App 
+## Virtual Museum Guide App 
 
-Android application that help user explores the museum's exhibition.
+Android application that helps users explore the museum's and its exhibitions.
 
 ### Features : 
-- Indoor Offline Maps. 
-- Display multiple points of interest on multiple floors
-- Each museum tour contains a list of point of interest that will be visited in a particular order.
+- Indoor offline map with support for multiple floor selection.
+- Markers for different points of interest in the museum including exhibitions, washrooms, stairs, exits etc...
+- Storyline tour which displays a path to guide visitors through various points of interest in the museum.
+- Paths and markers which change color to reflect the users current location and immediate route to take.
 - Exploration mode, where the user can freely explore the museum. 
-- Navigation mode permits user to get the shortest path to their chosen point of interest. 
-- Each point of interest can have images, audios, video, and  text description.  
-- Using Estimote beacon technology, the user will get a notification when he reached a point of interest.
-- Application fetched new updates from a web host server on a fresh install. 
+- Navigation mode which permits user to get the shortest path to their chosen point of interest or find the closest exit. 
+- Each point of interest can have images, audio, video, and  text descriptions.  
+- Using Estimote beacon technology, new content will automatically be presented to visitors when approaching points of interest.
+- Application fetches customizable content from a web host server on fresh install.
+- English and French language support.
 
 
 ##ScreenShots

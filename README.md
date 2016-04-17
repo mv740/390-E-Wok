@@ -10,7 +10,7 @@ Soen 390 project
 
 ## Virtual Museum Guide App 
 
-Android application that helps users explore the museum's and its exhibitions.
+Android application that helps users explore the museum and its exhibitions.
 
 ### Features : 
 - Indoor offline map with support for multiple floor selection.
